@@ -1,0 +1,16 @@
+Package: ggmosaic
+Title: Mosaicplots in the ggplot2 Framework
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre"),
+    person("Heike", "Hofmann", email = "hofmann@iastate.edu", role = "aut"),
+    person("Di", "Cook", email = "dicook@monash.edu", role = "aut"))
+Description: Mosaicplots in the ggplot2 framework. Mosaicplot functionality is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
+Depends: 
+    R (>= 3.3.0),
+    ggplot2 (>= 1.0.1.9003)
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+
+
