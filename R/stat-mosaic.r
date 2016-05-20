@@ -27,17 +27,23 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 }
 
 #' @export
+scale_type.formula <- function(x) "formula"
+
+#' @export
 StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
-#  required_aes = c("x", "y"),
+#  required_aes = c("formula"),
 #  non_missing_aes = "weight",
 
   setup_params = function(data, params) {
     cat("setup_params from StatMosaic\n")
+#    browser()
+
     params
   },
 
   compute_group = function(data, scales) {
     cat("compute_groups from StatMosaic\n")
+#    browser()
 
 #    df  is data frame with data that has xmin, xmax, ymin, ymax
     data
