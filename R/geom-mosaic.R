@@ -27,7 +27,10 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
 }
 
 #' @importFrom grid grobTree
-GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
+GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::GeomRect,
+                               default_aes = aes(colour = NA, fill = "grey35", size = 0.5, linetype = 1,
+                                                 alpha = NA),
+
                                setup_data = function(data, params) {
                                  cat("setup_data in GeomMosaic\n")
                                  #    data$x <- 1
@@ -61,10 +64,10 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
                                      GeomPolygon$draw_panel(cbind(poly, aes), panel_scales, coord)
                                    })
 
-                                   ggplot2::ggname("bar", do.call("grobTree", polys))
+                                   ggplot2:::ggname("bar", do.call("grobTree", polys))
                                  } else {
                                    coords <- coord$transform(data, panel_scales)
-                                   ggplot2::ggname("geom_rect", rectGrob(
+                                   ggplot2:::ggname("geom_rect", rectGrob(
                                      coords$xmin, coords$ymax,
                                      width = coords$xmax - coords$xmin,
                                      height = coords$ymax - coords$ymin,
@@ -84,3 +87,10 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
 
                                draw_key = ggplot2::draw_key_rect
 )
+
+rect_to_poly <- function(xmin, xmax, ymin, ymax) {
+  data.frame(
+    y = c(ymax, ymax, ymin, ymin, ymax),
+    x = c(xmin, xmax, xmax, xmin, xmin)
+  )
+}
