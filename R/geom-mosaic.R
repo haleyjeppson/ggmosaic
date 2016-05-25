@@ -35,6 +35,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::GeomRect,
                                  cat("setup_data in GeomMosaic\n")
                                  #    data$x <- 1
                                  #    data$y <- 1
+                                 browser()
                                  data
                                },
                                required_aes = c("xmin", "xmax", "ymin", "ymax"),
@@ -42,7 +43,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::GeomRect,
                                draw_group = function(data, panel_scales, coord) {
                                  cat("draw_group in GeomMosaic\n")
 
-                                # browser()
+                                 browser()
                                  #     ggplot2:::ggname("geom_lvplot", grobTree(
                                  #       outliers_grob,
                                  #       GeomRect$draw_panel(box, panel_scales, coord),
@@ -51,6 +52,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::GeomRect,
                                },
 
                                draw_panel = function(self, data, panel_scales, coord) {
+                                 browser()
                                  if (!coord$is_linear()) {
                                    aesthetics <- setdiff(
                                      names(data), c("x", "y", "xmin", "xmax", "ymin", "ymax")
@@ -66,7 +68,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::GeomRect,
 
                                    ggplot2:::ggname("bar", do.call("grobTree", polys))
                                  } else {
-                                   coords <- coord$transform(data, panel_scales)
+                                   coords <- data #coord$transform(data, panel_scales)
                                    ggplot2:::ggname("geom_rect", rectGrob(
                                      coords$xmin, coords$ymax,
                                      width = coords$xmax - coords$xmin,
