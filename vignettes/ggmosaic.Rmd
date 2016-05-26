@@ -1,0 +1,12 @@
+---
+title: "ggmosaic: mosaicplots in the ggplot2 framework"
+author: "Haley Jeppson, Heike Hofmann, Di Cook"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ggmosaic: mosaicplots in the ggplot2 framework}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
