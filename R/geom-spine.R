@@ -29,7 +29,7 @@ geom_spine <- function(mapping = NULL, data = NULL, stat = "spine",
 #' @importFrom grid grobTree
 GeomSpine <- ggplot2::ggproto("GeomSpine", ggplot2::GeomRect,
                                default_aes = aes(colour = NA, fill = "grey35", size = 0.5, linetype = 1,
-                                                 alpha = .8),
+                                                 alpha = .4),
 
                                setup_data = function(data, params) {
                                  cat("setup_data in GeomSpine\n")
@@ -52,11 +52,12 @@ GeomSpine <- ggplot2::ggproto("GeomSpine", ggplot2::GeomRect,
                                },
 
                                draw_panel = function(self, data, panel_scales, coord) {
+                                 browser()
 
-                                 panel_scales$x.major <- (data$xmax+data$xmin)/2
-                                 panel_scales$x.major_source <- (data$xmax+data$xmin)/2
+                               #  panel_scales$x.major <- (data$xmax+data$xmin)/2
+                                # panel_scales$x.major_source <- (data$xmax+data$xmin)/2
 
-                                # panel_scales$x.range <- range(c(min(data$xmin), max(data$xmax)))
+                               # panel_scales$x.range <- range(c(min(data$xmin), max(data$xmax)))
 
                                  browser()
 
