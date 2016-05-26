@@ -1,0 +1,12 @@
+"resultset_hash","context","desc","type","width","height","dpi","err","hash","order","expr","errmsg"
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","titanic: class and survived","pdf",4,4,NA,"ok","cb350433dc06f3d2762a52f4b7f7a379",1,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","titanic: class and survived with age colored","pdf",4,4,NA,"ok","02eaed3a5126ae5cf1ea42bf57dd0dbb",2,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","titanic: class and survived conditioned on age","pdf",4,4,NA,"ok","c01d45f8838863461fd85b4947161c67",3,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","titanic: class conditioned on age and survived colored","pdf",4,4,NA,"ok","e83b6aef6424848d06ccbaefe802ff5e",4,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: happy with no weight provided","pdf",4,4,NA,"ok","cc7b1f33b2fd2c834a0872f0880e793a",5,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: happy","pdf",4,4,NA,"ok","cdeb1c5792a121e2c12a44cdd586dca5",6,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: health with happiness colored","pdf",4,4,NA,"ok","f6e0dc16eaf29bc415dd7781fa62461f",7,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: health with happiness colored and NAs removed","pdf",4,4,NA,"ok","9c9162b4cb5c27b40cef272488141d11",8,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: age with happiness colored","pdf",4,4,NA,"ok","6f0cbdee8e5265658a6aa881fbc3469c",9,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"ok","e516481b046cef2e7ca387ba5f039d41",10,NA,NA
+"548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"ok","9b21b759c88dcd51462fd4af170202d4",11,NA,NA
