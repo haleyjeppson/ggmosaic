@@ -83,9 +83,10 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                     divider = productplots::mosaic(), cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
-
+ browser()
 #    df  is data frame with data that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
+    # get variables from data into res
     res$group <- unique(data$group)
     res$PANEL <- unique(data$PANEL)
     res
