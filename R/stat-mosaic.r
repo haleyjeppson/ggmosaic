@@ -64,29 +64,36 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
 
     vars <- expand_variable(data, "vars")
 #    data <- dplyr::select(data, -vars)
-    data <- data.frame(data, vars)
+#    data <- data.frame(data, vars)
 
     conds <- expand_variable(data, "conds")
-    if (! is.null(conds)) {
-      data <- data.frame(data, conds)
-    }
-    if (!in_data(data, "weight")) {
-      data$weight <- 1
-    }
 
-    formula <- paste("weight~", paste(names(vars), collapse="+"))
+
+    formula <-  paste(names(vars), collapse="+")
+    if (in_data(data, "fill")) formula <- paste("fill+",formula)
+    formula <- paste("weight~", formula)
+
     if (! is.null(conds)) {
       formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
     }
+    df <- data.frame(data, vars)
+    if (! is.null(conds)) df <- data.frame(df, conds)
+    if (!in_data(df, "weight")) {
+      df$weight <- 1
+    }
 
-    res <- productplots::prodcalc(data, formula=as.formula(formula),
+
+    res <- productplots::prodcalc(df, formula=as.formula(formula),
                     divider = productplots::mosaic(), cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
  browser()
-#    df  is data frame with data that has xmin, xmax, ymin, ymax
+#   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
-    # get variables from data into res
+    # only consider the deepest level of the mosaic
+#    res <- subset(res, level == max(res$level))
+
+    # merge res with data:
     res$group <- unique(data$group)
     res$PANEL <- unique(data$PANEL)
     res

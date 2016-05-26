@@ -7,6 +7,10 @@
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
+#' # doing the right thing, but we need labelling to make it less confusing
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), conds = Age, group=1))
+#'
 #' df <- read.csv("inst/mosaic-rects.csv")
 #' ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 
@@ -39,7 +43,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
   },
   required_aes = c("xmin", "xmax", "ymin", "ymax"),
   default_aes = ggplot2::aes(width = 0.75, linetype = "solid", fontsize=5,
-                           shape = 19, colour = "grey90",
+                           shape = 19, colour = NA,
                            size = 1, fill = "grey30", alpha = .8, stroke = 0.5,
                            linewidth=.25),
 
