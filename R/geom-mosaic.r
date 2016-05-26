@@ -10,7 +10,13 @@
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
 #' # doing the right thing, but we need labelling to make it less confusing
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), conds = Age, group=1))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=Class, group=1, conds=Age, fill=Survived))
 #'
+#' data(happy, package="productplots")
+#' ggplot(data = happy) + geom_mosaic(aes(vars=c(happy), group=1))
+#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(happy), group=1))
+#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1))
+#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1), na.rm=TRUE)
 #' df <- read.csv("inst/mosaic-rects.csv")
 #' ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 
