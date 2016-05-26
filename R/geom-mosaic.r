@@ -64,7 +64,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
   draw_group = function(data, panel_scales, coord) {
     cat("draw_group in GeomMosaic\n")
 
-    browser()
+#    browser()
 #     ggplot2:::ggname("geom_lvplot", grobTree(
 #       outliers_grob,
 #       GeomRect$draw_panel(box, panel_scales, coord),
@@ -80,7 +80,7 @@ check_aesthetics = function(x, n) {
   if (all(good)) {
     return()
   }
-  browser()
+ # browser()
   stop(
     "Aesthetics must be either length 1 or the same as the data (", n, "): ",
     paste(names(!good), collapse = ", "),

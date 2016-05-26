@@ -87,7 +87,7 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                     divider = productplots::mosaic(), cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
- browser()
+# browser()
 #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
     # only consider the deepest level of the mosaic
