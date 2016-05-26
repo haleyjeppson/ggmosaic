@@ -3,6 +3,7 @@
 export(StatMosaic)
 export(StatSpine)
 export(check_aesthetics)
+export(geom_mosaic)
 export(scale_type.quoted)
 export(stat_mosaic)
 export(stat_spine)

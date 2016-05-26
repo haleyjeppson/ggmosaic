@@ -1,5 +1,6 @@
 #' Mosaic plots.
 #'
+#' @export
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)

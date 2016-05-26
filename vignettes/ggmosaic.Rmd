@@ -1,0 +1,34 @@
+---
+title: "Mosaic plots with `ggplot2`"
+author: "Haley Jeppson and Heike Hofmann"
+date: "`r Sys.Date()`"
+output: 
+    rmarkdown::html_vignette:
+        toc: true
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, echo=FALSE}
+
+knitr::opts_chunk$set(fig.width = 6,
+                      fig.height = 4,
+                      fig.align='center',
+                      dev = "png")
+
+```
+
+# Introduction
+
+# Example Data 
+
+## Survival on the Titanic
+```{r titanic-1}
+titanic <- as.data.frame(Titanic)
+
+library(ggmosaic)
+ggplot(data = titanic) + 
+  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1))
+```
