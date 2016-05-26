@@ -39,9 +39,9 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
   },
   required_aes = c("xmin", "xmax", "ymin", "ymax"),
   default_aes = ggplot2::aes(width = 0.75, linetype = "solid", fontsize=5,
-                           shape = 19, colour = "grey40", arrowsize = 1,
-                           size = 4, fill = NA, alpha = NA, stroke = 0.5,
-                           linewidth=1),
+                           shape = 19, colour = "grey90",
+                           size = 1, fill = "grey30", alpha = .8, stroke = 0.5,
+                           linewidth=.25),
 
   draw_group = function(data, panel_scales, coord) {
     cat("draw_group in GeomMosaic\n")
@@ -52,11 +52,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
 #       GeomRect$draw_panel(box, panel_scales, coord),
 #       GeomSegment$draw_panel(medians, panel_scales, coord)
 #     ))
-    data$lwd <- 1
-    ggplot2:::ggname("geom_mosaic", grid::grobTree(
-             GeomRect$draw_panel(data, panel_scales, coord)
-           ))
-
+    GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
   },
 
 check_aesthetics = function(x, n) {
