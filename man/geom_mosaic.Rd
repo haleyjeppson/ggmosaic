@@ -29,18 +29,18 @@ ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Surv
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=Class, group=1, conds=Age, fill=Survived))
 
 data(happy, package="productplots")
-ggplot(data = happy) + geom_mosaic(aes(vars=c(happy), group=1))
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(happy), group=1))
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1))
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1), na.rm=TRUE)
+ggplot(data = happy) + geom_mosaic(aes(vars=happy, group=1))
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=happy, group=1))
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=health, fill=happy, group=1))
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=health, fill=happy, group=1), na.rm=TRUE)
 
 # here is where a bit more control over the spacing of the bars would be helpful:
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE)
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, conds = sex, group=1), na.rm=TRUE)
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=age, fill=happy, group=1), na.rm=TRUE)
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=age, fill=happy, conds = sex, group=1), na.rm=TRUE)
 # facetting works!!!!
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE) + facet_grid(sex~.)
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=age, fill=happy, group=1), na.rm=TRUE) + facet_grid(sex~.)
 
-df <- read.csv("inst/mosaic-rects.csv")
-ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
+#df <- read.csv("inst/mosaic-rects.csv")
+#ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 }
 
