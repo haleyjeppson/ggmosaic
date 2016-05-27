@@ -1,13 +1,15 @@
 #' Mosaic plots.
 #'
+#' @export
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
 #' # library(plyr)
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived), group=1))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), group=1, fill=Age))
 #' # doing the right thing, but we need labelling to make it less confusing
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), conds = Age, group=1))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=Class, group=1, conds=Age, fill=Survived))
@@ -29,7 +31,7 @@
 
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
-  position = "identity", na.rm = FALSE,
+  position = "identity", na.rm = FALSE,  divider = productplots::mosaic(),
   show.legend = NA, inherit.aes = FALSE, ...)
 {
   ggplot2::layer(
@@ -42,6 +44,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      divider = divider,
       ...
     )
   )
@@ -70,14 +73,9 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
 #       GeomRect$draw_panel(box, panel_scales, coord),
 #       GeomSegment$draw_panel(medians, panel_scales, coord)
 #     ))
-    browser()
-    #df <- list(data = data, formula = as.formula(data$formula[[1]]), divider = unlist(data$divider[[1]]))
-    xscale <- data$xscale[[1]]
-    yscale <- data$yscale[[1]]
+#    browser()
 
-    panel_scales$x.labels <- xscale$labels
-    panel_scales$x.major <- xscale$breaks
-
+    if (all(is.na(data$colour))) data$colour <- data$fill
     GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
   },
 

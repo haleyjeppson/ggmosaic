@@ -1,8 +1,18 @@
 #' @export
-scale_type.quoted <- function(x) {
-  "quoted"
+scale_type.product <- function(x) {
+  cat("checking for type product\n")
+  "product"
 }
 
+
+
+
+#' @export
+product <- function(x, ...) {
+  prod <- interaction(x, ...)
+  class(prod) <- c("product", "factor")
+  prod
+}
 
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
@@ -26,8 +36,8 @@ expand_variable <- function(data, variable) {
 #' @rdname geom_mosaic
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
-  position = "identity", na.rm = TRUE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "identity", na.rm = TRUE,  divider = productplots::mosaic(),
+  show.legend = NA, inherit.aes = TRUE, ...)
 {
   ggplot2::layer(
     data = data,
@@ -39,6 +49,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
     inherit.aes = inherit.aes,
     params = list(
       na.rm = na.rm,
+      divider = divider,
       ...
     )
   )
@@ -57,8 +68,10 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
     params
   },
 
-  compute_group = function(data, scales, na.rm=FALSE) {
+  compute_group = function(data, scales, na.rm=FALSE, divider) {
     cat("compute_groups from StatMosaic\n")
+    cat("na.rm = ")
+    cat(na.rm)
   #  browser()
 
 
@@ -84,17 +97,12 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
 
 
     res <- productplots::prodcalc(df, formula=as.formula(formula),
-                    divider = productplots::mosaic(), cascade=0, scale_max = TRUE,
+                    divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
-  browser()
+#  browser()
  #res$divider <- list()
  #res$formula <- list(formula)
- df <- list(data = res, formula = as.formula(formula), divider = productplots::mosaic()(max(res$level)))
- xscale <- scale_x_product(df)
- yscale <- scale_x_product(df)
- res$xscale <- list(xscale)
- res$yscale <- list(yscale)
 
 #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
