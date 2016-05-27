@@ -21,3 +21,14 @@
 "eee5031a537a884251d43be7b27ac4cb","mosaic","happy: age with happiness colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",9,NA,NA
 "eee5031a537a884251d43be7b27ac4cb","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",10,NA,NA
 "eee5031a537a884251d43be7b27ac4cb","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"warn","471a4b3865d74301ca8ef1b88f766539",11,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","titanic: class and survived","pdf",4,4,NA,"ok","58c75bf680a52b1734ce0021bda3e5bb",1,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","titanic: class and survived with age colored","pdf",4,4,NA,"ok","cbf03d5fad61e15bc4ba01b012544191",2,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","titanic: class and survived conditioned on age","pdf",4,4,NA,"ok","17a7eaa4f756e02f936fc60ef3eb4578",3,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","titanic: class conditioned on age and survived colored","pdf",4,4,NA,"ok","7feb9fb7e641e13f9095f9dadfe5c4c8",4,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: happy with no weight provided","pdf",4,4,NA,"ok","e7d9f3e6a34fc5b5abf0bd9b85f35738",5,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: happy","pdf",4,4,NA,"ok","64b2d57087f5a8b7da00dab7430b12e5",6,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: health with happiness colored","pdf",4,4,NA,"ok","cce2ba3b1e0a6b7ce5572e35a0c03602",7,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: health with happiness colored and NAs removed","pdf",4,4,NA,"ok","4933c10725c91c8120e5450fc9ce5c87",8,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: age with happiness colored","pdf",4,4,NA,"ok","a4b770f840dfb01893fa4ea7c1b96a06",9,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"ok","2ff8c4b15ed0105d31036a68a80787e5",10,NA,NA
+"d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"ok","094afa8dacaad823c258bd1ed3e5ef22",11,NA,NA
