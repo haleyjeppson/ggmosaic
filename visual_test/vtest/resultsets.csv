@@ -10,3 +10,14 @@
 "548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: age with happiness colored","pdf",4,4,NA,"ok","6f0cbdee8e5265658a6aa881fbc3469c",9,NA,NA
 "548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"ok","e516481b046cef2e7ca387ba5f039d41",10,NA,NA
 "548ab978efdca8adf3c8ea150bb548d9","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"ok","9b21b759c88dcd51462fd4af170202d4",11,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","titanic: class and survived","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",1,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","titanic: class and survived with age colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",2,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","titanic: class and survived conditioned on age","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",3,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","titanic: class conditioned on age and survived colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",4,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: happy with no weight provided","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",5,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: happy","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",6,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: health with happiness colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",7,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: health with happiness colored and NAs removed","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",8,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: age with happiness colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",9,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"warn","48fb3c93a3f89f4bc3b42202cb301f05",10,NA,NA
+"eee5031a537a884251d43be7b27ac4cb","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"warn","471a4b3865d74301ca8ef1b88f766539",11,NA,NA
