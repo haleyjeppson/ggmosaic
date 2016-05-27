@@ -75,7 +75,8 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
 #     ))
 #    browser()
 
-    if (all(is.na(data$colour))) data$colour <- data$fill
+    if (all(is.na(data$colour))) data$colour <- alpha(data$fill, data$alpha)
+
     GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
   },
 
