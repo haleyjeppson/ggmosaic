@@ -6,12 +6,12 @@
 \title{Mosaic plots.}
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
-  position = "identity", na.rm = FALSE, show.legend = NA,
-  inherit.aes = FALSE, ...)
+  position = "identity", na.rm = FALSE, divider = productplots::mosaic(),
+  show.legend = NA, inherit.aes = FALSE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
-  position = "identity", na.rm = TRUE, show.legend = NA,
-  inherit.aes = TRUE, ...)
+  position = "identity", na.rm = TRUE, divider = productplots::mosaic(),
+  show.legend = NA, inherit.aes = TRUE, ...)
 }
 \description{
 Mosaic plots.
@@ -24,6 +24,7 @@ titanic <- as.data.frame(Titanic)
 # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived), group=1))
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
+ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), group=1, fill=Age))
 # doing the right thing, but we need labelling to make it less confusing
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), conds = Age, group=1))
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=Class, group=1, conds=Age, fill=Survived))

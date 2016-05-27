@@ -15,7 +15,8 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 URL: http://github.com/haleyjeppson/ggmosaic
-RoxygenNote: 5.0.1
-Suggests: knitr,
+RoxygenNote: 5.0.1.9000
+Suggests:
+    knitr,
     rmarkdown
 VignetteBuilder: knitr
