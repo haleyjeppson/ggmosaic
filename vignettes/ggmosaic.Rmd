@@ -1,5 +1,5 @@
 ---
-  title: "Mosaic plots with `ggplot2`"
+title: "Mosaic plots with `ggplot2`"
 author: "Haley Jeppson and Heike Hofmann"
 date: "`r Sys.Date()`"
 output:
@@ -7,7 +7,7 @@ output:
   toc: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-\usepackage[utf8]{inputenc}
+  \usepackage[utf8]{inputenc}
 ---
 
 
