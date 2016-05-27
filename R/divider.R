@@ -45,7 +45,7 @@ hspine <- function(data, bounds, offset = 0.01, max = NULL) {
     b = 0,
     t = 1
   )
-  squeeze(locations, bounds)
+  productplots:::squeeze(locations, bounds)
 }
 
 #' Vertical spine partition: width constant, height varies.
@@ -84,7 +84,7 @@ hbar <- function(data, bounds, offset = 0.02, max = NULL) {
     b = 0,
     t = heights
   )
-  squeeze(locations, bounds)
+  productplots:::squeeze(locations, bounds)
 }
 
 #' Vertical bar partition: height constant, width varies.
