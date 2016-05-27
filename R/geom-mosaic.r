@@ -70,6 +70,14 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
 #       GeomRect$draw_panel(box, panel_scales, coord),
 #       GeomSegment$draw_panel(medians, panel_scales, coord)
 #     ))
+    browser()
+    #df <- list(data = data, formula = as.formula(data$formula[[1]]), divider = unlist(data$divider[[1]]))
+    xscale <- data$xscale[[1]]
+    yscale <- data$yscale[[1]]
+
+    panel_scales$x.labels <- xscale$labels
+    panel_scales$x.major <- xscale$breaks
+
     GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
   },
 

@@ -87,7 +87,15 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                     divider = productplots::mosaic(), cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
-# browser()
+  browser()
+ #res$divider <- list()
+ #res$formula <- list(formula)
+ df <- list(data = res, formula = as.formula(formula), divider = productplots::mosaic()(max(res$level)))
+ xscale <- scale_x_product(df)
+ yscale <- scale_x_product(df)
+ res$xscale <- list(xscale)
+ res$yscale <- list(yscale)
+
 #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
     # only consider the deepest level of the mosaic
