@@ -7,6 +7,9 @@ titanic <- as.data.frame(Titanic)
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1))
 save_vtest("titanic: class and survived")
 
+ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1), divider=c("hspine", "vspine"))
+save_vtest("titanic: class and survivied with dividers defined manually")
+
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
 save_vtest("titanic: class and survived with age colored")
 
@@ -43,6 +46,7 @@ save_vtest("happy: age conditioned on sex with happiness colored")
 # facetting works!!!!
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE) + facet_grid(sex~.)
 save_vtest("happy: age with happiness colored and facetting for sex")
+
 
 
 
