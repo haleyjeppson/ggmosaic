@@ -147,7 +147,7 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                     divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
-  browser()
+#  browser()
 
 #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)

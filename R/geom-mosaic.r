@@ -61,7 +61,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
   required_aes = c("xmin", "xmax", "ymin", "ymax"),
   default_aes = ggplot2::aes(width = 0.75, linetype = "solid", fontsize=5,
                            shape = 19, colour = NA,
-                           size = 1, fill = "grey30", alpha = .8, stroke = 0.1,
+                           size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
                            linewidth=.1),
 
   draw_group = function(data, panel_scales, coord) {
