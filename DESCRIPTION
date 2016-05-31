@@ -11,11 +11,12 @@ Depends:
     R (>= 3.2.0),
     ggplot2 (>= 1.0.1.9003),
     productplots
-License: What license is it under?
-Encoding: UTF-8
-LazyData: true
+License: GPL (>= 2)
+URL: http://github.com/sctyner/geomnet
+BugReports: https://github.com/sctyner/geomnet/issues
+LazyData: TRUE
 URL: http://github.com/haleyjeppson/ggmosaic
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1
 Suggests:
     knitr,
     rmarkdown

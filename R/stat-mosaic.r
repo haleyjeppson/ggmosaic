@@ -1,18 +1,68 @@
 #' @export
-scale_type.product <- function(x) {
-  cat("checking for type product\n")
-  "product"
-}
-
-
-
-
-#' @export
 product <- function(x, ...) {
   prod <- interaction(x, ...)
-  class(prod) <- c("product", "factor")
+  class(prod) <- "product"
   prod
 }
+
+#' @export
+is.product <- function(x) {
+   "product" %in% class(x)
+}
+
+#' @method as.data.frame product
+#' @export
+as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., nm = paste(deparse(substitute(x),
+                                                                                                  width.cutoff = 500L), collapse = " "))
+{
+  force(nm)
+  nrows <- length(x)
+  if (!(is.null(row.names) || (is.character(row.names) && length(row.names) ==
+                               nrows))) {
+    warning(gettextf("'row.names' is not a character vector of length %d -- omitting it. Will be an error!",
+                     nrows), domain = NA)
+    row.names <- NULL
+  }
+  if (is.null(row.names)) {
+    if (nrows == 0L)
+      row.names <- character()
+    else if (length(row.names <- names(x)) != nrows || anyDuplicated(row.names))
+      row.names <- .set_row_names(nrows)
+  }
+  if (!is.null(names(x)))
+    names(x) <- NULL
+  levels <- attr(x, "levels")
+  value <- list(levels[x])
+
+  if (!optional)
+    names(value) <- nm
+  df <- structure(value, row.names = row.names, class = "data.frame")
+  class(df[,1]) <- "product"
+  df
+}
+
+
+# new.nms <- !missing(col.names)
+# if (cut.names) {
+#   maxL <- if (is.logical(cut.names))
+#     256L
+#   else as.integer(cut.names)
+#   if (any(long <- nchar(col.names, "bytes", keepNA = FALSE) >
+#           maxL))
+#     col.names[long] <- paste(substr(col.names[long],
+#                                     1L, maxL - 6L), "...")
+#   else cut.names <- FALSE
+# }
+# m <- match(names(formals(data.frame))[-1L], col.names, 0L)
+# if (any.m <- any(m))
+#   col.names[m] <- paste0("..adfl.", col.names[m])
+# if (new.nms || any.m || cut.names)
+#   names(x) <- col.names
+# if (is.null(check.n <- list(...)$check.names))
+#   check.n <- !optional
+# alis <- c(list(check.names = check.n, fix.empty.names = fix.empty.names,
+#                stringsAsFactors = stringsAsFactors), if (!is.null(row.names)) list(row.names = row.names))
+# x <- do.call(data.frame, c(x, alis))
 
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
@@ -70,9 +120,6 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
 
   compute_group = function(data, scales, na.rm=FALSE, divider) {
     cat("compute_groups from StatMosaic\n")
-    cat("na.rm = ")
-    cat(na.rm)
-  #  browser()
 
 
     vars <- expand_variable(data, "vars")
@@ -100,9 +147,7 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                     divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
-#  browser()
- #res$divider <- list()
- #res$formula <- list(formula)
+  browser()
 
 #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
