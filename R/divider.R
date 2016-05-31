@@ -1,5 +1,5 @@
 rotate <- function(data) {
-  rename(data, c("l" = "b", "r" = "t", "b" = "l", "t" = "r"))
+  plyr::rename(data, c("l" = "b", "r" = "t", "b" = "l", "t" = "r"))
 }
 
 #' Spine partition: divide longest dimesion.

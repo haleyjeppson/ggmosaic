@@ -10,6 +10,7 @@ Description: Mosaicplots in the ggplot2 framework. Mosaicplot functionality is
 Depends:
     R (>= 3.2.0),
     ggplot2 (>= 1.0.1.9003),
+    dplyr,
     productplots
 License: GPL (>= 2)
 URL: http://github.com/sctyner/geomnet
