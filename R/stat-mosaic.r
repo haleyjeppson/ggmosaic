@@ -122,7 +122,7 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
   compute_group = function(data, scales, na.rm=FALSE, divider) {
     cat("compute_groups from StatMosaic\n")
 
-    browser()
+#    browser()
 
     vars <- expand_variable(data, "vars")
 #    data <- dplyr::select(data, -vars)
