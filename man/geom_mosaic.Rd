@@ -34,6 +34,8 @@ ggplot(data = happy) + geom_mosaic(aes(vars=c(happy), group=1))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(happy), group=1))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1), na.rm=TRUE)
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=interaction(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
+ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=product(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
 
 # here is where a bit more control over the spacing of the bars would be helpful:
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE)

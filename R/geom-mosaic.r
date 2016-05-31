@@ -69,6 +69,7 @@ GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
                                draw_group = function(data, panel_scales, coord) {
                                  cat("draw_group in GeomMosaic\n")
 
+
                                  #     ggplot2:::ggname("geom_lvplot", grobTree(
                                  #       outliers_grob,
                                  #       GeomRect$draw_panel(box, panel_scales, coord),
