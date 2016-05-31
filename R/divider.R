@@ -9,7 +9,7 @@ rotate <- function(data) {
 #' @param offset space between spines
 #' @param max maximum value
 #' @export
-spine <- function(data, bounds, offset = 0.01, max = NULL) {
+spine <- function(data, bounds, offset = 0.005, max = NULL) {
   w <- bounds$r - bounds$l
   h <- bounds$t - bounds$b
 
@@ -28,7 +28,7 @@ spine <- function(data, bounds, offset = 0.01, max = NULL) {
 #' @param offset space between spines
 #' @param max maximum value
 #' @export
-hspine <- function(data, bounds, offset = 0.01, max = NULL) {
+hspine <- function(data, bounds, offset = 0.005, max = NULL) {
   n <- length(data)
   # n + 1 offsets
   offsets <- c(0, rep(1, n - 1), 0) * offset
@@ -55,7 +55,7 @@ hspine <- function(data, bounds, offset = 0.01, max = NULL) {
 #' @param offset space between spines
 #' @param max maximum value
 #' @export
-vspine <- function(data, bounds, offset = 0.01, max = NULL) {
+vspine <- function(data, bounds, offset = 0.005, max = NULL) {
   rotate(hspine(data, rotate(bounds), offset, max = max))
 }
 

@@ -37,8 +37,10 @@ as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., n
   if (!optional)
     names(value) <- nm
   df <- structure(value, row.names = row.names, class = "data.frame")
-  browser()
-  class(df[,1]) <- "product"
+
+#browser()
+    class(df[,1]) <- "product"
+
   df
 }
 
@@ -122,7 +124,6 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                                compute_group = function(data, scales, na.rm=FALSE, divider) {
                                  cat("compute_groups from StatMosaic\n")
 
-                                 #    browser()
 
                                  vars <- expand_variable(data, "vars")
                                  #    data <- dplyr::select(data, -vars)
