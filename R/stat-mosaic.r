@@ -1,6 +1,6 @@
 #' @export
 product <- function(x, ...) {
-  prod <- interaction(x, ...)
+  prod <- factor(paste(x, ..., sep=".")) # interaction doesn't deal with missing values correctly
   class(prod) <- "product"
   prod
 }
@@ -37,7 +37,8 @@ as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., n
   if (!optional)
     names(value) <- nm
   df <- structure(value, row.names = row.names, class = "data.frame")
-  class(df[,1]) <- "product"
+browser()
+    class(df[,1]) <- "product"
   df
 }
 
@@ -121,6 +122,7 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
   compute_group = function(data, scales, na.rm=FALSE, divider) {
     cat("compute_groups from StatMosaic\n")
 
+    browser()
 
     vars <- expand_variable(data, "vars")
 #    data <- dplyr::select(data, -vars)
@@ -147,7 +149,6 @@ StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
                     divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm)
 
-#  browser()
 
 #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)

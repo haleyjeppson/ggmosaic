@@ -4,7 +4,7 @@
 \alias{hspine}
 \title{Horizontal spine partition: height constant, width varies.}
 \usage{
-hspine(data, bounds, offset = 0.01, max = NULL)
+hspine(data, bounds, offset = 0.005, max = NULL)
 }
 \arguments{
 \item{data}{bounds data frame}
