@@ -19,6 +19,8 @@
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(happy), group=1))
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1))
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1), na.rm=TRUE)
+#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=interaction(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
+#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=product(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
 #'
 #' # here is where a bit more control over the spacing of the bars would be helpful:
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE)
@@ -31,8 +33,8 @@
 
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
-  position = "identity", na.rm = FALSE,  divider = productplots::mosaic(),
-  show.legend = NA, inherit.aes = FALSE, ...)
+                        position = "identity", na.rm = FALSE,  divider = productplots::mosaic(),
+                        show.legend = NA, inherit.aes = FALSE, ...)
 {
   ggplot2::layer(
     data = data,
@@ -52,47 +54,47 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
 
 #' @importFrom grid grobTree
 GeomMosaic <- ggplot2::ggproto("GeomMosaic", ggplot2::Geom,
-  setup_data = function(data, params) {
-    cat("setup_data in GeomMosaic\n")
-#    data$x <- 1
-#    data$y <- 1
-    data
-  },
-  required_aes = c("xmin", "xmax", "ymin", "ymax"),
-  default_aes = ggplot2::aes(width = 0.75, linetype = "solid", fontsize=5,
-                           shape = 19, colour = NA,
-                           size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
-                           linewidth=.1),
+                               setup_data = function(data, params) {
+                                 cat("setup_data in GeomMosaic\n")
+                                 #    data$x <- 1
+                                 #    data$y <- 1
+                                 data
+                               },
+                               required_aes = c("xmin", "xmax", "ymin", "ymax"),
+                               default_aes = ggplot2::aes(width = 0.75, linetype = "solid", fontsize=5,
+                                                          shape = 19, colour = NA,
+                                                          size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
+                                                          linewidth=.1),
 
-  draw_group = function(data, panel_scales, coord) {
-    cat("draw_group in GeomMosaic\n")
+                               draw_group = function(data, panel_scales, coord) {
+                                 cat("draw_group in GeomMosaic\n")
 
-#     ggplot2:::ggname("geom_lvplot", grobTree(
-#       outliers_grob,
-#       GeomRect$draw_panel(box, panel_scales, coord),
-#       GeomSegment$draw_panel(medians, panel_scales, coord)
-#     ))
-#    browser()
+                                 #     ggplot2:::ggname("geom_lvplot", grobTree(
+                                 #       outliers_grob,
+                                 #       GeomRect$draw_panel(box, panel_scales, coord),
+                                 #       GeomSegment$draw_panel(medians, panel_scales, coord)
+                                 #     ))
+                                 #    browser()
 
-    if (all(is.na(data$colour))) data$colour <- alpha(data$fill, data$alpha)
+                                 if (all(is.na(data$colour))) data$colour <- alpha(data$fill, data$alpha)
 
-    GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
-  },
+                                 GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
+                               },
 
-check_aesthetics = function(x, n) {
-  ns <- vapply(x, length, numeric(1))
-  good <- ns == 1L | ns == n
+                               check_aesthetics = function(x, n) {
+                                 ns <- vapply(x, length, numeric(1))
+                                 good <- ns == 1L | ns == n
 
-  if (all(good)) {
-    return()
-  }
- # browser()
-  stop(
-    "Aesthetics must be either length 1 or the same as the data (", n, "): ",
-    paste(names(!good), collapse = ", "),
-    call. = FALSE
-  )
-},
+                                 if (all(good)) {
+                                   return()
+                                 }
+                                 # browser()
+                                 stop(
+                                   "Aesthetics must be either length 1 or the same as the data (", n, "): ",
+                                   paste(names(!good), collapse = ", "),
+                                   call. = FALSE
+                                 )
+                               },
 
-  draw_key = ggplot2::draw_key_rect
+                               draw_key = ggplot2::draw_key_rect
 )

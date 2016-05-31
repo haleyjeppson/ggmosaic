@@ -19,16 +19,18 @@ knitr::opts_chunk$set(fig.width = 6,
                       dev = "png")
 
 ```
-
+```{r echo=FALSE, message=FALSE}
+library(ggmosaic)
+titanic <- as.data.frame(Titanic)
+```
 # Introduction
+
+A mosaic plot is a convenient graphical summary of the conditional distributions in the contingency table. The area of the graphical element is propotional to the underlying probability, so we are easily able to visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions which allows us to see any association that may be occuring between the variables. Because the plot is built hierarchically, the ordering of the variables is very important.  
 
 # Example Data
 
 ## Survival on the Titanic
 ```{r titanic-1}
-titanic <- as.data.frame(Titanic)
-
-library(ggmosaic)
 ggplot(data = titanic) +
   geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1))
 ```
