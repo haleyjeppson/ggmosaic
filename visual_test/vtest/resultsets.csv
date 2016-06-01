@@ -32,3 +32,15 @@
 "d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: age with happiness colored","pdf",4,4,NA,"ok","a4b770f840dfb01893fa4ea7c1b96a06",9,NA,NA
 "d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"ok","2ff8c4b15ed0105d31036a68a80787e5",10,NA,NA
 "d34e3793ab0b0c7afdc9fea4bc8ef62c","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"ok","094afa8dacaad823c258bd1ed3e5ef22",11,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","titanic: class and survived","pdf",4,4,NA,"ok","81832b2222171322881ee02a28180f70",1,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","titanic: class and survivied with dividers defined manually","pdf",4,4,NA,"ok","51c9bcfe92c2f75bb90f49d5dbd4d14b",2,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","titanic: class and survived with age colored","pdf",4,4,NA,"ok","c54667193f0b7a14c372cd586e4c32af",3,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","titanic: class and survived conditioned on age","pdf",4,4,NA,"ok","e7f0adf6f9ded90570df6e35eb6a5b35",4,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","titanic: class conditioned on age and survived colored","pdf",4,4,NA,"ok","3a8f07d98562a0f7bc9bb2d9f5f267f9",5,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: happy with no weight provided","pdf",4,4,NA,"ok","3adc4789e80b95771a40ec6dedd658c2",6,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: happy","pdf",4,4,NA,"ok","8e8577b0e1ebb4c9a138957b7933db03",7,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: health with happiness colored","pdf",4,4,NA,"ok","1da6326ad3a32abf4ffdcf36c7a80f29",8,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: health with happiness colored and NAs removed","pdf",4,4,NA,"ok","3faeed33c692c2c25d9339521186b905",9,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: age with happiness colored","pdf",4,4,NA,"ok","94162f1a5238d329d105852b1b64f8d7",10,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: age conditioned on sex with happiness colored","pdf",4,4,NA,"ok","4e819ac108b5382bd277bbae5346f81d",11,NA,NA
+"a56813fe52547be2077b4bd1edf21de1","mosaic","happy: age with happiness colored and facetting for sex","pdf",4,4,NA,"ok","0110c01a4da4e7674a117d792a60464d",12,NA,NA
