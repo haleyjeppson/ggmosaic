@@ -31,7 +31,9 @@ spine <- function(data, bounds, offset = 0.005, max = NULL) {
 hspine <- function(data, bounds, offset = 0.005, max = NULL) {
   n <- length(data)
   # n + 1 offsets
-  offsets <- c(0, rep(1, n - 1), 0) * offset
+
+  if (ncol(bounds)>4)  offsets <- (c(0, rep(1, n - 1), 0) * offset)/(bounds$level + 1)
+  else offsets <- (c(0, rep(1, n - 1), 0) * offset)
 
   data <- data * (1 - sum(offsets))
 

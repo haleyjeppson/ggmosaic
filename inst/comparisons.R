@@ -22,11 +22,11 @@ multiplot(a.4, b.4,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 
 a.5 <- prodplot(happy, ~ happy + finrela + health, mosaic())
-b.5 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, sex), group = 1))
+b.5 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1))
 multiplot(a.5, b.5, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 a.6 <- prodplot(happy, ~ happy + marital + health, mosaic())
-b.6 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, marital, sex), group = 1))
+b.6 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, marital, health), group = 1))
 multiplot(a.6, b.6, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 
