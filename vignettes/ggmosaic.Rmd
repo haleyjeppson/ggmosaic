@@ -19,6 +19,7 @@ knitr::opts_chunk$set(fig.width = 6,
                       dev = "png")
 
 ```
+
 ```{r echo=FALSE, message=FALSE}
 library(ggmosaic)
 titanic <- as.data.frame(Titanic)
@@ -27,23 +28,38 @@ titanic <- as.data.frame(Titanic)
 
 `ggmosiac` produces a mosaic plot as a convenient graphical summary of the conditional distributions in a contingency table. The area of the graphical element is propotional to the underlying probability, so we are easily able to visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions which allows us to see any association that may be occuring between the variables. Because the plot is built hierarchically, the ordering of the variables is very important.  
 
-# Example Data
+# Example
+
+There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”).
+
+```{r titanic, echo=FALSE, message=FALSE, fig.width = 2, fig.height = 1.5}
+ggplot(data = titanic) +
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1))
+ggplot(data = titanic) +
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1), divider = "hspine")
+ggplot(data = titanic) +
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1), divider = "hbar")
+ggplot(data = titanic) +
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1), divider = "vbar")
+```
+
+
+# Example 2
 
 To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with a one-dimensional data set and is gradually built up to a higher-dimensional data set. 
+
+
 
 ### One-dimensional example
 ```{r titanic-1, echo=FALSE, message=FALSE}
 ggplot(data = titanic) +
   geom_mosaic(aes(weight = Freq, vars = interaction(Sex), group = 1))
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Sex), group = 1), divider = "hspine")
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Sex), group = 1), divider = "hbar")
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Sex), group = 1), divider = "vbar")
 ```
 
-There are four main ways to display the dirtribution of one variable in `ggmosaic`. The default setting is `vspine`, and the other three options include `hspine`, `hbar`, and `vbar`. Each can be used to answer questions such as, "what proportion of the passagers were female?"
+To begin, to plot is divded into two vertical spines - one representing the proportion of passengers that were female, the other representing the proportion of passengers that were male. 
+Can be used to answer questions such as, "what proportion of the passagers were female?"  
+  
+*f(sex)*
 
 ### Two-dimensional example
 ```{r titanic-2}
@@ -51,12 +67,17 @@ ggplot(data = titanic) +
   geom_mosaic(aes(weight = Freq, vars = interaction(Class, Sex), group = 1))
 ```
 
-This example took the first plot in which the plot was divided into vertical spines representing the different sexes of passengers and then split each spine into horizontal spines representing the four different classes of the passengers. This plot can be used to answer questions such as "what proportion of females were 1st class?"
+This example took the first plot in which the plot was divided into vertical spines representing the different sexes of passengers and then split each spine into horizontal spines representing the four different classes of the passengers. This plot can be used to answer questions such as "what proportion of females were 1st class?"  
+  
+  *f(Class, sex) = f(Class| sex)f(sex)*
 
 ### Three-dimensional example
 ```{r titanic-3}
 ggplot(data = titanic) +
   geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1))
+
+ggplot(data = titanic) +
+  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1), divider = c("hspine", "vspine", "hspine"))
 ```
 
 What proportion of the females in 1st class survived?
