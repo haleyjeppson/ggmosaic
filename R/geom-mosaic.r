@@ -8,7 +8,7 @@
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived), group=1))
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Age), group=1, fill=Survived))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
 #' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), group=1, fill=Age))
 #' gg
 #' gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
