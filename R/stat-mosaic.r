@@ -94,7 +94,7 @@ expand_variable <- function(data, variable) {
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "position", na.rm = TRUE,  divider = mosaic(),
-                        show.legend = NA, inherit.aes = TRUE, ...)
+                        show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 {
   ggplot2::layer(
     data = data,
@@ -107,6 +107,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
     params = list(
       na.rm = na.rm,
       divider = divider,
+      offset = offset,
       ...
     )
   )
@@ -126,7 +127,7 @@ StatMosaic <- ggplot2::ggproto(
     params
   },
 
-  compute_group = function(data, scales, na.rm=FALSE, divider) {
+  compute_group = function(data, scales, na.rm=FALSE, divider, offset) {
     cat("compute_groups from StatMosaic\n")
  browser()
 
@@ -151,9 +152,9 @@ StatMosaic <- ggplot2::ggproto(
     }
 
 
-    res <- productplots::prodcalc(df, formula=as.formula(formula),
+    res <- prodcalc(df, formula=as.formula(formula),
                                   divider = divider, cascade=0, scale_max = TRUE,
-                                  na.rm = na.rm)
+                                  na.rm = na.rm, offset = offset)
 
 
     #   res is data frame that has xmin, xmax, ymin, ymax

@@ -31,12 +31,16 @@
 #' # facetting works!!!!
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE) + facet_grid(sex~.)
 #'
+#'# set the offet
+#'ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1))
+#'ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1), offset=.005)
+#'
 #' df <- read.csv("inst/mosaic-rects.csv")
 #' ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
-                        position = "identity", na.rm = FALSE,  divider = productplots::mosaic(),
+                        position = "identity", na.rm = FALSE,  divider = productplots::mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
 {
   ggplot2::layer(
@@ -50,6 +54,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     params = list(
       na.rm = na.rm,
       divider = divider,
+      offset = offset,
       ...
     )
   )
