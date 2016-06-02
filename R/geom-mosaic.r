@@ -74,14 +74,6 @@ GeomMosaic <- ggplot2::ggproto(
   draw_group = function(data, panel_scales, coord) {
     cat("draw_group in GeomMosaic\n")
 
-
-    #     ggplot2:::ggname("geom_lvplot", grobTree(
-    #       outliers_grob,
-    #       GeomRect$draw_panel(box, panel_scales, coord),
-    #       GeomSegment$draw_panel(medians, panel_scales, coord)
-    #     ))
-    #    browser()
-
     if (all(is.na(data$colour))) data$colour <- alpha(data$fill, data$alpha)
 
     GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
