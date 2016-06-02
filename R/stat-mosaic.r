@@ -4,11 +4,14 @@ product <- function(x, ...) {
   vars <- t(plyr::laply(vars, function(y) {
     x <- factor(y)
     paste(as.numeric(y), as.character(y), sep="-")   # keep order of variables the same
-  }))
+  }, .drop = FALSE))
 #  browser()
-  prod <- plyr::laply(1:length(x), function(i) {
-    paste(vars[i,], sep=".", collapse=".")
-  })
+  if (ncol(vars) == 1) prod <- vars
+  else {
+    prod <- plyr::laply(1:length(x), function(i) {
+      paste(vars[i,], sep=".", collapse=".")
+    })
+  }
   prod <- factor(prod) # interaction doesn't deal with missing values correctly
   class(prod) <- "product"
   prod
@@ -72,10 +75,13 @@ expand_variable <- function(data, variable) {
     split_this <- as.character(x)
     parts <- plyr::ldply(strsplit(split_this, split="-", fixed=TRUE), function(x) x)
     #x <- factor(parts[,2])
+    if (ncol(parts) == 2) {
     xorder <- suppressWarnings({as.numeric(parts[,1])})
     if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
     x <- reorder(factor(parts[,2]), xorder)
-    x
+    return(x)
+    }
+    parts
   })
   df <- data.frame(df)
 
@@ -87,7 +93,7 @@ expand_variable <- function(data, variable) {
 #' @rdname geom_mosaic
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
-                        position = "identity", na.rm = TRUE,  divider = productplots::mosaic(),
+                        position = "position", na.rm = TRUE,  divider = mosaic(),
                         show.legend = NA, inherit.aes = TRUE, ...)
 {
   ggplot2::layer(
