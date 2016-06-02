@@ -10,6 +10,7 @@ is.product <- function(x) {
   "product" %in% class(x)
 }
 
+
 #' @method as.data.frame product
 #' @export
 as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., nm = paste(deparse(substitute(x),
@@ -39,33 +40,10 @@ as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., n
   df <- structure(value, row.names = row.names, class = "data.frame")
 
 #browser()
-    class(df[,1]) <- "product"
 
   df
 }
 
-
-# new.nms <- !missing(col.names)
-# if (cut.names) {
-#   maxL <- if (is.logical(cut.names))
-#     256L
-#   else as.integer(cut.names)
-#   if (any(long <- nchar(col.names, "bytes", keepNA = FALSE) >
-#           maxL))
-#     col.names[long] <- paste(substr(col.names[long],
-#                                     1L, maxL - 6L), "...")
-#   else cut.names <- FALSE
-# }
-# m <- match(names(formals(data.frame))[-1L], col.names, 0L)
-# if (any.m <- any(m))
-#   col.names[m] <- paste0("..adfl.", col.names[m])
-# if (new.nms || any.m || cut.names)
-#   names(x) <- col.names
-# if (is.null(check.n <- list(...)$check.names))
-#   check.n <- !optional
-# alis <- c(list(check.names = check.n, fix.empty.names = fix.empty.names,
-#                stringsAsFactors = stringsAsFactors), if (!is.null(row.names)) list(row.names = row.names))
-# x <- do.call(data.frame, c(x, alis))
 
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
@@ -110,57 +88,58 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 
 
 #' @export
-StatMosaic <- ggplot2::ggproto("StatMosaic", ggplot2::Stat,
-                               #  required_aes = c("vars"),
-                               #  non_missing_aes = "weight",
+StatMosaic <- ggplot2::ggproto(
+  "StatMosaic", ggplot2::Stat,
+  #  required_aes = c("vars"),
+  #  non_missing_aes = "weight",
 
-                               setup_params = function(data, params) {
-                                 cat("setup_params from StatMosaic\n")
-                                 # browser()
+  setup_params = function(data, params) {
+    cat("setup_params from StatMosaic\n")
+    # browser()
 
-                                 params
-                               },
+    params
+  },
 
-                               compute_group = function(data, scales, na.rm=FALSE, divider) {
-                                 cat("compute_groups from StatMosaic\n")
+  compute_group = function(data, scales, na.rm=FALSE, divider) {
+    cat("compute_groups from StatMosaic\n")
+browser()
 
+    vars <- expand_variable(data, "vars")
+    #    data <- dplyr::select(data, -vars)
+    #    data <- data.frame(data, vars)
 
-                                 vars <- expand_variable(data, "vars")
-                                 #    data <- dplyr::select(data, -vars)
-                                 #    data <- data.frame(data, vars)
-
-                                 conds <- expand_variable(data, "conds")
-
-
-                                 formula <-  paste(names(vars), collapse="+")
-                                 if (in_data(data, "fill")) formula <- paste("fill+",formula)
-                                 formula <- paste("weight~", formula)
-
-                                 if (! is.null(conds)) {
-                                   formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
-                                 }
-                                 df <- data.frame(data, vars)
-                                 if (! is.null(conds)) df <- data.frame(df, conds)
-                                 if (!in_data(df, "weight")) {
-                                   df$weight <- 1
-                                 }
+    conds <- expand_variable(data, "conds")
 
 
-                                 res <- productplots::prodcalc(df, formula=as.formula(formula),
-                                                               divider = divider, cascade=0, scale_max = TRUE,
-                                                               na.rm = na.rm)
+    formula <-  paste(names(vars), collapse="+")
+    if (in_data(data, "fill")) formula <- paste("fill+",formula)
+    formula <- paste("weight~", formula)
+
+    if (! is.null(conds)) {
+      formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
+    }
+    df <- data.frame(data, vars)
+    if (! is.null(conds)) df <- data.frame(df, conds)
+    if (!in_data(df, "weight")) {
+      df$weight <- 1
+    }
 
 
-                                 #   res is data frame that has xmin, xmax, ymin, ymax
-                                 res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
-                                 # only consider the deepest level of the mosaic
-                                 #    res <- subset(res, level == max(res$level))
+    res <- productplots::prodcalc(df, formula=as.formula(formula),
+                                  divider = divider, cascade=0, scale_max = TRUE,
+                                  na.rm = na.rm)
 
-                                 # merge res with data:
-                                 res$group <- unique(data$group)
-                                 res$PANEL <- unique(data$PANEL)
-                                 res
-                               }
+
+    #   res is data frame that has xmin, xmax, ymin, ymax
+    res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
+    # only consider the deepest level of the mosaic
+    #    res <- subset(res, level == max(res$level))
+
+    # merge res with data:
+    res$group <- unique(data$group)
+    res$PANEL <- unique(data$PANEL)
+    res
+  }
 )
 
 #' might need to overwrite check_aesthetics in geom - at the moment this function gets ignored
