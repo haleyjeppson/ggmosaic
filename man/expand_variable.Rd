@@ -2,11 +2,11 @@
 % Please edit documentation in R/stat-mosaic.r
 \name{expand_variable}
 \alias{expand_variable}
-\title{better leave this an interval helper function}
+\title{better leave this an internal helper function}
 \usage{
 expand_variable(data, variable)
 }
 \description{
-better leave this an interval helper function
+better leave this an internal helper function
 }
 

@@ -1,6 +1,15 @@
 #' @export
 product <- function(x, ...) {
-  prod <- factor(paste(x, ..., sep=".")) # interaction doesn't deal with missing values correctly
+  vars <- list(x, ...)
+  vars <- t(plyr::laply(vars, function(y) {
+    x <- factor(y)
+    paste(as.numeric(y), as.character(y), sep="-")   # keep order of variables the same
+  }))
+#  browser()
+  prod <- plyr::laply(1:length(x), function(i) {
+    paste(vars[i,], sep=".", collapse=".")
+  })
+  prod <- factor(prod) # interaction doesn't deal with missing values correctly
   class(prod) <- "product"
   prod
 }
@@ -53,12 +62,23 @@ in_data <- function(data, variable) {
   length(intersect(names(data), variable)) > 0
 }
 
-#' better leave this an interval helper function
+#' better leave this an internal helper function
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
 
   split_this <- as.character(data[,variable])
   df <-   plyr::ldply(strsplit(split_this, split=".", fixed=TRUE), function(x) x)
+  df <- plyr::llply(df, function(x) {
+    split_this <- as.character(x)
+    parts <- plyr::ldply(strsplit(split_this, split="-", fixed=TRUE), function(x) x)
+    #x <- factor(parts[,2])
+    xorder <- suppressWarnings({as.numeric(parts[,1])})
+    if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
+    x <- reorder(factor(parts[,2]), xorder)
+    x
+  })
+  df <- data.frame(df)
+
   names(df) <- paste(variable, 1:ncol(df), sep="")
   df
 }

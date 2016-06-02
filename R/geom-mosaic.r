@@ -8,8 +8,7 @@
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
 #' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived), group=1))
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product2(Class, Survived), group=1))
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Age), group=1, fill=Survived))
 #' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), group=1, fill=Age))
 #' gg
 #' gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
@@ -74,7 +73,8 @@ GeomMosaic <- ggplot2::ggproto(
   draw_group = function(data, panel_scales, coord) {
     cat("draw_group in GeomMosaic\n")
 
-    if (all(is.na(data$colour))) data$colour <- alpha(data$fill, data$alpha)
+    if (all(is.na(data$colour)))
+      data$colour <- alpha(data$fill, data$alpha) # regard alpha in colour determination
 
     GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
   },
