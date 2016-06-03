@@ -1,12 +1,16 @@
 #' Spine plots.
 #'
 #' @export
+#'
+#' @inheritParams ggplot2::layer
+#' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
+#' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
 #' # ggplot(data=titanic) + geom_spine()
-#' df <- read.csv("inst/mosaic-rects.csv")
-#' ggplot() + geom_spine(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
+#' #df <- read.csv("inst/mosaic-rects.csv")
+#' #ggplot() + geom_spine(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 
 geom_spine <- function(mapping = NULL, data = NULL, stat = "spine",
                         position = "identity", na.rm = FALSE,

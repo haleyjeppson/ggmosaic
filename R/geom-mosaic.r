@@ -1,6 +1,22 @@
 #' Mosaic plots.
 #'
 #' @export
+#'
+#' @description
+#' A mosaic plot is a convenient graphical summary of the conditional ditributions
+#' in a contingency table and is composed of spines in alternating directions.
+#'
+#' @inheritParams ggplot2::layer
+#' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partioning:
+#' \itemize{
+#' \item \code{vspine} Vertical spine partition: width constant, height varies.
+#' \item \code{hspine}  Horizontal spine partition: height constant, width varies.
+#' \item \code{vbar} Vertical bar partition: height constant, width varies.
+#' \item \code{hbar}  Horizontal bar partition: width constant, height varies.
+#' }
+#' @param offset Set the space between the first spine
+#' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
+#' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
@@ -22,7 +38,7 @@
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(happy), group=1))
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1))
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1), na.rm=TRUE)
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=interaction(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
+#' # ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=interaction(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=product(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
 #'
 #' # here is where a bit more control over the spacing of the bars would be helpful:
@@ -35,12 +51,10 @@
 #'ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1))
 #'ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1), offset=.005)
 #'
-#' df <- read.csv("inst/mosaic-rects.csv")
-#' ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
-                        position = "identity", na.rm = FALSE,  divider = productplots::mosaic(), offset = 0.01,
+                        position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
 {
   ggplot2::layer(

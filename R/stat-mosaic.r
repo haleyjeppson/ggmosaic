@@ -91,6 +91,14 @@ expand_variable <- function(data, variable) {
 
 
 #' @rdname geom_mosaic
+#' @inheritParams ggplot2::stat_identity
+#' @section Computed variables:
+#' \describe{
+#' \item{xmin}{location of bottom left corner}
+#' \item{xmax}{location of bottom right corner}
+#' \item{ymin}{location of top left corner}
+#' \item{ymax}{location of top right corner}
+#' }
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "position", na.rm = TRUE,  divider = mosaic(),
@@ -114,6 +122,11 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 }
 
 
+#' Geom proto
+#'
+#' @format NULL
+#' @usage NULL
+#'
 #' @export
 StatMosaic <- ggplot2::ggproto(
   "StatMosaic", ggplot2::Stat,

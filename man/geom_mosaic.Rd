@@ -6,15 +6,76 @@
 \title{Mosaic plots.}
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
-  position = "identity", na.rm = FALSE, divider = productplots::mosaic(),
+  position = "identity", na.rm = FALSE, divider = mosaic(),
   offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
   position = "position", na.rm = TRUE, divider = mosaic(),
   show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 }
+\arguments{
+\item{mapping}{Set of aesthetic mappings created by \code{\link{aes}} or
+\code{\link{aes_}}. If specified and \code{inherit.aes = TRUE} (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply \code{mapping} if there is no plot mapping.}
+
+\item{data}{The data to be displayed in this layer. There are three
+   options:
+
+   If \code{NULL}, the default, the data is inherited from the plot
+   data as specified in the call to \code{\link{ggplot}}.
+
+   A \code{data.frame}, or other object, will override the plot
+   data. All objects will be fortified to produce a data frame. See
+   \code{\link{fortify}} for which variables will be created.
+
+   A \code{function} will be called with a single argument,
+   the plot data. The return value must be a \code{data.frame.}, and
+   will be used as the layer data.}
+
+\item{stat}{The statistical transformation to use on the data for this
+layer, as a string.}
+
+\item{position}{Position adjustment, either as a string, or the result of
+a call to a position adjustment function.}
+
+\item{na.rm}{If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.}
+
+\item{divider}{Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partioning:
+\itemize{
+\item \code{vspine} Vertical spine partition: width constant, height varies.
+\item \code{hspine}  Horizontal spine partition: height constant, width varies.
+\item \code{vbar} Vertical bar partition: height constant, width varies.
+\item \code{hbar}  Horizontal bar partition: width constant, height varies.
+}}
+
+\item{offset}{Set the space between the first spine}
+
+\item{show.legend}{logical. Should this layer be included in the legends?
+\code{NA}, the default, includes if any aesthetics are mapped.
+\code{FALSE} never includes, and \code{TRUE} always includes.}
+
+\item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. \code{\link{borders}}.}
+
+\item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
+
+\item{geom}{The geometric object to use display the data}
+}
 \description{
-Mosaic plots.
+A mosaic plot is a convenient graphical summary of the conditional ditributions
+in a contingency table and is composed of spines in alternating directions.
+}
+\section{Computed variables}{
+
+\describe{
+\item{xmin}{location of bottom left corner}
+\item{xmax}{location of bottom right corner}
+\item{ymin}{location of top left corner}
+\item{ymax}{location of top right corner}
+}
 }
 \examples{
 data(Titanic)
@@ -37,7 +98,7 @@ ggplot(data = happy) + geom_mosaic(aes(vars=c(happy), group=1))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(happy), group=1))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(health), fill=happy, group=1), na.rm=TRUE)
-ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=interaction(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
+# ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=interaction(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=product(health, sex, degree), fill=happy, group=1), na.rm=TRUE)
 
 # here is where a bit more control over the spacing of the bars would be helpful:
@@ -50,7 +111,5 @@ ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, 
 ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1))
 ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1), offset=.005)
 
-df <- read.csv("inst/mosaic-rects.csv")
-ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 }
 

@@ -12,8 +12,8 @@
 #' @keywords internal
 #' @export
 #' @examples
-#' prodcalc(happy, ~ happy, "hbar")
-#' prodcalc(happy, ~ happy, "hspine")
+#' prodcalc(happy, ~ happy, "hbar", offset = 0.005)
+#' prodcalc(happy, ~ happy, "hspine", offset = 0.01)
 prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = offset) {
   vars <- productplots:::parse_product_formula(as.formula(formula))
 #browser()

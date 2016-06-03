@@ -1,7 +1,7 @@
 #' @export
 scale_type.product <- function(x) {
   cat("checking for type product\n")
-  browser()
+  #browser()
   "product"
 }
 

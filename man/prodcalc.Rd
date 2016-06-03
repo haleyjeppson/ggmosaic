@@ -27,8 +27,8 @@ silently removed?}
 Calculate frequencies.
 }
 \examples{
-prodcalc(happy, ~ happy, "hbar")
-prodcalc(happy, ~ happy, "hspine")
+prodcalc(happy, ~ happy, "hbar", offset = 0.005)
+prodcalc(happy, ~ happy, "hspine", offset = 0.01)
 }
 \keyword{internal}
 

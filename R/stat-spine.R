@@ -28,6 +28,11 @@ stat_spine <- function(mapping = NULL, data = NULL, geom = "rect",
 #' @export
 # scale_type.formula <- function(x) "formula"
 
+#' @rdname StatMosaic
+#'
+#' @format NULL
+#' @usage NULL
+#'
 #' @export
 StatSpine <- ggplot2::ggproto("StatSpine", ggplot2::Stat,
                                 required_aes = c("z"),
