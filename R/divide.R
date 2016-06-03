@@ -19,8 +19,8 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
     max_wt <- max(productplots:::margin(data, d + 1, seq_len(d))$.wt, na.rm = TRUE)
   }
 
-  pieces <- as.list(dlply(data, seq_len(d)))
-  children <- ldply(seq_along(pieces), function(i) {
+  pieces <- as.list(plyr::dlply(data, seq_len(d)))
+  children <- plyr::ldply(seq_along(pieces), function(i) {
     piece <- pieces[[i]]
     partition <- divide(piece[, -seq_len(d)], parentc[i, ], divider[-1],
                         level = level + 1, cascade = cascade, max = max_wt, offset = offset)

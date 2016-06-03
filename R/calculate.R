@@ -16,7 +16,7 @@
 #' prodcalc(happy, ~ happy, "hspine")
 prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = offset) {
   vars <- productplots:::parse_product_formula(as.formula(formula))
-browser()
+#browser()
   if (length(vars$wt) == 1) {
     data$.wt <- data[[vars$wt]]
   } else {
@@ -29,7 +29,7 @@ browser()
   }
 
   if (is.function(divider)) divider <- divider(ncol(wt) - 1)
-  if (is.character(divider)) divider <- llply(divider, match.fun)
+  if (is.character(divider)) divider <- plyr::llply(divider, match.fun)
 
   max_wt <- if (scale_max) NULL else 1
 

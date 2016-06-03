@@ -4,7 +4,7 @@
 \alias{spine}
 \title{Spine partition: divide longest dimesion.}
 \usage{
-spine(data, bounds, offset = 0.005, max = NULL)
+spine(data, bounds, offset = offset, max = NULL)
 }
 \arguments{
 \item{data}{bounds data frame}

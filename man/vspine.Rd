@@ -4,7 +4,7 @@
 \alias{vspine}
 \title{Vertical spine partition: width constant, height varies.}
 \usage{
-vspine(data, bounds, offset = 0.005, max = NULL)
+vspine(data, bounds, offset = offset, max = NULL)
 }
 \arguments{
 \item{data}{bounds data frame}

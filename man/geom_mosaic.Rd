@@ -7,11 +7,11 @@
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
   position = "identity", na.rm = FALSE, divider = productplots::mosaic(),
-  show.legend = NA, inherit.aes = FALSE, ...)
+  offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
-  position = "identity", na.rm = TRUE, divider = productplots::mosaic(),
-  show.legend = NA, inherit.aes = TRUE, ...)
+  position = "position", na.rm = TRUE, divider = mosaic(),
+  show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 }
 \description{
 Mosaic plots.
@@ -23,7 +23,7 @@ titanic <- as.data.frame(Titanic)
 # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
 # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived), group=1))
-ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Age), group=1, fill=Survived))
+ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), group=1, fill=Age))
 gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), group=1, fill=Age))
 gg
 gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
@@ -45,6 +45,10 @@ ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, 
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, conds = sex, group=1), na.rm=TRUE)
 # facetting works!!!!
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, vars=c(age), fill=happy, group=1), na.rm=TRUE) + facet_grid(sex~.)
+
+# set the offet
+ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1))
+ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1), offset=.005)
 
 df <- read.csv("inst/mosaic-rects.csv")
 ggplot() + geom_mosaic(aes(x = xmin, xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
