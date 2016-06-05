@@ -1,9 +1,10 @@
 #' @export
 product <- function(x, ...) {
   vars <- list(x, ...)
-  vars <- t(plyr::laply(vars, function(y) {
-    x <- factor(y)
-    paste(as.numeric(y), as.character(y), sep="-")   # keep order of variables the same
+  varNames <- as.character(match.call()[-1])
+  vars <- t(plyr::laply(1:length(vars), function(y) {
+    x <- factor(vars[[y]])
+    paste(as.numeric(vars[[y]]), paste0(varNames[y],":",as.character(vars[[y]])), sep="-")   # keep order of variables the same
   }, .drop = FALSE))
 #  browser()
   if (ncol(vars) == 1) prod <- vars
@@ -50,8 +51,7 @@ as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., n
   if (!optional)
     names(value) <- nm
   df <- structure(value, row.names = row.names, class = "data.frame")
-
-#browser()
+# browser()
 
   df
 }
@@ -68,7 +68,7 @@ in_data <- function(data, variable) {
 #' better leave this an internal helper function
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
-
+# browser()
   split_this <- as.character(data[,variable])
   df <-   plyr::ldply(strsplit(split_this, split=".", fixed=TRUE), function(x) x)
   df <- plyr::llply(df, function(x) {
@@ -174,6 +174,10 @@ StatMosaic <- ggplot2::ggproto(
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
     # only consider the deepest level of the mosaic
     #    res <- subset(res, level == max(res$level))
+# browser()
+    # need to set x and y variable - that determines the range of the scales.
+#    res$x <- res$vars1
+#    res$y <- res$vars2
 
     # merge res with data:
     res$group <- unique(data$group)

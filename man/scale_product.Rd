@@ -2,12 +2,12 @@
 % Please edit documentation in R/scale-product.R
 \docType{data}
 \name{scale_product}
-\alias{ScaleContinuousProduct}
+\alias{ScaleDiscreteProduct}
 \alias{scale_product}
 \alias{scale_x_product}
 \alias{scale_y_product}
 \title{Position scale for product variables}
-\format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuous}, \code{Scale}, \code{ggproto}) of length 2.}
+\format{An object of class \code{ScaleDiscreteProduct} (inherits from \code{ScaleDiscrete}, \code{Scale}, \code{ggproto}) of length 2.}
 \usage{
 scale_x_product(name = waiver(), breaks = waiver(), labels = waiver(),
   minor_breaks = waiver(), limits = NULL, expand = waiver())
@@ -15,7 +15,7 @@ scale_x_product(name = waiver(), breaks = waiver(), labels = waiver(),
 scale_y_product(name = waiver(), breaks = waiver(), labels = waiver(),
   minor_breaks = waiver(), limits = NULL, expand = waiver())
 
-ScaleContinuousProduct
+ScaleDiscreteProduct
 }
 \arguments{
 \item{name}{The name of the scale. Used as axis or legend title. If

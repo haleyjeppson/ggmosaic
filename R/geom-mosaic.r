@@ -81,6 +81,8 @@ GeomMosaic <- ggplot2::ggproto(
     cat("setup_data in GeomMosaic\n")
     #    data$x <- 1
     #    data$y <- 1
+
+    browser()
     data
   },
   required_aes = c("xmin", "xmax", "ymin", "ymax"),
@@ -91,7 +93,7 @@ GeomMosaic <- ggplot2::ggproto(
 
   draw_group = function(data, panel_scales, coord) {
     cat("draw_group in GeomMosaic\n")
-
+browser()
     if (all(is.na(data$colour)))
       data$colour <- alpha(data$fill, data$alpha) # regard alpha in colour determination
 

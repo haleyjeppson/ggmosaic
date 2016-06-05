@@ -64,10 +64,10 @@ scale_y_product <- function(name = waiver(),
 
 #' @rdname scale_product
 #' @export
-ScaleContinuousProduct <- ggproto(
-  "ScaleContinuousProduct", ScaleContinuous,
+ScaleDiscreteProduct <- ggproto(
+  "ScaleDiscreteProduct", ScaleDiscrete,
   map = function(self, x, limits = self$get_limits()) {
-    cat("in map of ScaleContinuousProduct\n")
+    cat("in map of ScaleDiscreteProduct\n")
     self$oob(x, limits)
   }
 )

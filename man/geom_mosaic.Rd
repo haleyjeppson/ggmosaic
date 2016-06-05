@@ -6,7 +6,11 @@
 \title{Mosaic plots.}
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
+<<<<<<< HEAD
   position = "identity", na.rm = FALSE, divider = mosaic(),
+=======
+  position = "mosaic", na.rm = FALSE, divider = productplots::mosaic(),
+>>>>>>> fiddling with the scales
   offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
