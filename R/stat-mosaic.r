@@ -140,16 +140,12 @@ StatMosaic <- ggplot2::ggproto(
     params
   },
 
-  compute_group = function(data, scales, na.rm=FALSE, divider, offset) {
-    cat("compute_groups from StatMosaic\n")
-# browser()
+  compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
+    cat("compute_panel from StatMosaic\n")
+ # browser()
 
     vars <- expand_variable(data, "vars")
-    #    data <- dplyr::select(data, -vars)
-    #    data <- data.frame(data, vars)
-
     conds <- expand_variable(data, "conds")
-
 
     formula <-  paste(names(vars), collapse="+")
     if (in_data(data, "fill")) formula <- paste("fill+",formula)
@@ -180,7 +176,7 @@ StatMosaic <- ggplot2::ggproto(
 #    res$y <- res$vars2
 
     # merge res with data:
-    res$group <- unique(data$group)
+    res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
     res
   }

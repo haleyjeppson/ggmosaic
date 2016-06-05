@@ -91,8 +91,8 @@ GeomMosaic <- ggplot2::ggproto(
                              size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
                              linewidth=.1),
 
-  draw_group = function(data, panel_scales, coord) {
-    cat("draw_group in GeomMosaic\n")
+  draw_panel = function(data, panel_scales, coord) {
+    cat("draw_panel in GeomMosaic\n")
 browser()
     if (all(is.na(data$colour)))
       data$colour <- alpha(data$fill, data$alpha) # regard alpha in colour determination
