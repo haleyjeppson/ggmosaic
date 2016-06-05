@@ -10,12 +10,13 @@
 #' @param na.rm Logical vector of length 1 - should missing levels be
 #'   silently removed?
 #' @keywords internal
+#' @importFrom productplots parse_product_formula
 #' @export
 #' @examples
 #' prodcalc(happy, ~ happy, "hbar", offset = 0.005)
 #' prodcalc(happy, ~ happy, "hspine", offset = 0.01)
 prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = offset) {
-  vars <- productplots:::parse_product_formula(as.formula(formula))
+  vars <- parse_product_formula(stat::as.formula(formula))
 #browser()
   if (length(vars$wt) == 1) {
     data$.wt <- data[[vars$wt]]
@@ -25,7 +26,7 @@ prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max =
 
   wt <- productplots:::margin(data, vars$marg, vars$cond)
   if (na.rm) {
-    wt <- wt[complete.cases(wt), ]
+    wt <- wt[stats::complete.cases(wt), ]
   }
 
   if (is.function(divider)) divider <- divider(ncol(wt) - 1)

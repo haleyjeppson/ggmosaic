@@ -23,12 +23,12 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
   children <- plyr::ldply(seq_along(pieces), function(i) {
     piece <- pieces[[i]]
     partition <- divide(piece[, -seq_len(d)], parentc[i, ], divider[-1],
-                        level = level + 1, cascade = cascade, max = max_wt, offset = offset)
+                        level = level + 1, cascade = cascade, max_wt = max_wt, offset = offset)
 
     labels <- piece[rep(1, nrow(partition)), 1:d, drop = FALSE]
     cbind(labels, partition)
   })
-  rbind.fill(parent, children)
+  plyr::rbind.fill(parent, children)
 }
 
 # @param data data frame giving partitioning variables and weights.  Final

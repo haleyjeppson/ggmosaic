@@ -78,7 +78,7 @@ expand_variable <- function(data, variable) {
     if (ncol(parts) == 2) {
     xorder <- suppressWarnings({as.numeric(parts[,1])})
     if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
-    x <- reorder(factor(parts[,2]), xorder)
+    x <- stats::reorder(factor(parts[,2]), xorder)
     return(x)
     }
     parts
