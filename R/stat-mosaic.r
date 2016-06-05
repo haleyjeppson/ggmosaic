@@ -142,19 +142,21 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
     cat("compute_panel from StatMosaic\n")
- # browser()
+  browser()
 
     vars <- expand_variable(data, "vars")
     conds <- expand_variable(data, "conds")
 
-    formula <-  paste(names(vars), collapse="+")
+    if (is.null(vars)) formula <- "1"
+    else formula <-  paste(names(vars), collapse="+")
     if (in_data(data, "fill")) formula <- paste("fill+",formula)
     formula <- paste("weight~", formula)
 
     if (! is.null(conds)) {
       formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
     }
-    df <- data.frame(data, vars)
+    df <- data
+    if (! is.null(vars)) df <- data.frame(df, vars)
     if (! is.null(conds)) df <- data.frame(df, conds)
     if (!in_data(df, "weight")) {
       df$weight <- 1

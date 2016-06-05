@@ -34,13 +34,13 @@ There are two main ways to partition the area - into bars or into spines. When t
 
 ```{r titanic, echo=FALSE, message=FALSE, fig.width = 2, fig.height = 1.5}
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1))
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class)))
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1), divider = "hspine")
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class)), divider = "hspine")
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1), divider = "hbar")
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class)), divider = "hbar")
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Class), group = 1), divider = "vbar")
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class)), divider = "vbar")
 ```
 
 
@@ -53,7 +53,7 @@ To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of
 ### One-dimensional example
 ```{r titanic-1, echo=FALSE, message=FALSE}
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Sex), group = 1))
+  geom_mosaic(aes(weight = Freq, vars = interaction(Sex)))
 ```
 
 To begin, to plot is divded into two vertical spines - one representing the proportion of passengers that were female, the other representing the proportion of passengers that were male. 
@@ -64,7 +64,7 @@ Can be used to answer questions such as, "what proportion of the passagers were 
 ### Two-dimensional example
 ```{r titanic-2}
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, vars = interaction(Class, Sex), group = 1))
+  geom_mosaic(aes(weight = Freq, vars = interaction(Class, Sex)))
 ```
 
 This example took the first plot in which the plot was divided into vertical spines representing the different sexes of passengers and then split each spine into horizontal spines representing the four different classes of the passengers. This plot can be used to answer questions such as "what proportion of females were 1st class?"  
@@ -74,10 +74,10 @@ This example took the first plot in which the plot was divided into vertical spi
 ### Three-dimensional example
 ```{r titanic-3}
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1))
+  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex)))
 
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1), divider = c("hspine", "vspine", "hspine"))
+  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex)), divider = c("hspine", "vspine", "hspine"))
 ```
 
 What proportion of the females in 1st class survived?
@@ -87,5 +87,5 @@ What proportion of the females in 1st class survived?
 ## Survival on the Titanic
 ```{r titanic-a}
 ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex), group = 1))
+  geom_mosaic(aes(weight = Freq, fill = Survived, vars = interaction(Class, Sex)))
 ```
