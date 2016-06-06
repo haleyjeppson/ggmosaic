@@ -1,7 +1,9 @@
 #' @export
 product <- function(x, ...) {
+  # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
+
   vars <- t(plyr::laply(1:length(vars), function(y) {
     x <- factor(vars[[y]])
     paste(as.numeric(vars[[y]]), paste0(varNames[y],":",as.character(vars[[y]])), sep="-")   # keep order of variables the same
@@ -13,7 +15,7 @@ product <- function(x, ...) {
       paste(vars[i,], sep=".", collapse=".")
     })
   }
-  prod <- factor(prod) # interaction doesn't deal with missing values correctly
+  prod <- factor(prod)
   class(prod) <- "product"
   prod
 }
@@ -142,9 +144,13 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
     cat("compute_panel from StatMosaic\n")
-#  browser()
 
-    vars <- expand_variable(data, "vars")
+    # rename vars to x
+#    if (!is.null(scales$x)) {
+#      data$vars <- scales$x$range$range[data$x]
+#    }
+
+    vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")
 
     if (is.null(vars)) formula <- "1"
@@ -168,17 +174,29 @@ StatMosaic <- ggplot2::ggproto(
                                   na.rm = na.rm, offset = offset)
 
 
+  #  browser()
+    # need to set x variable - I'd rather set the scales here.
+    prs <- productplots::parse_product_formula(as.formula(formula))
+    p <- length(c(prs$marg, prs$cond))
+    if (is.function(divider)) divider <- divider(p)
+
+    dflist <- list(data=res, formula=as.formula(formula), divider=divider)
+    scx <- productplots::scale_x_product(dflist)
+    scy <- productplots::scale_y_product(dflist)
+
     #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
     # only consider the deepest level of the mosaic
     #    res <- subset(res, level == max(res$level))
-# browser()
-    # need to set x and y variable - that determines the range of the scales.
-#    res$x <- res$vars1
-#    res$y <- res$vars2
+    res$x <- list(scale=scx)
+    if (!is.null(scales$y)) {
+      res$y <- list(scale=scy)
+    }
+#    res$y <- list(scale=scy)
+#    res$x[res$ymin != 0] <- NA
 
-    # merge res with data:
-    res$group <- 1 # unique(data$group) # ignore group variable
+  # get data pieces into res:
+    res$group <- 1 # ignore group variable
     res$PANEL <- unique(data$PANEL)
     res
   }

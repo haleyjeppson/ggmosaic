@@ -20,12 +20,9 @@
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
-#' # library(plyr)
-#' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
-#' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived)))
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), fill=Age))
-#' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), fill=Age))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived), fill=Age))
+#' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Survived, Class), fill=Age))
 #' gg
 #' gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
 #' label=paste(paste0("Survived: ",vars1),paste0("Class: ",vars2), sep="\n")), data=subset(ggplot_build(gg)$data[[1]], level==2))
@@ -82,7 +79,7 @@ GeomMosaic <- ggplot2::ggproto(
     #    data$x <- 1
     #    data$y <- 1
 
- #   browser()
+  #  browser()
     data
   },
   required_aes = c("xmin", "xmax", "ymin", "ymax"),
