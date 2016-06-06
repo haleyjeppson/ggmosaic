@@ -1,166 +1,116 @@
-#' @rdname scale_product
+product_breaks <- function() {
+    function(x) {
+      cat(" in product_breaks\n")
+    #  browser()
+      unique(x)
+    }
+}
+
+product_labels <- function() {
+  function(x) {
+    cat(" in product_labels\n")
+  #  browser()
+    unique(x)
+  }
+}
+
+
 #' @export
-#'
-#' @param x an `R` object
 scale_type.product <- function(x) {
   cat("checking for type product\n")
-  browser()
+  #browser()
   "product"
 }
 
-#' Position scale for product variables
+#' Product scales for mosaic plots
 #'
-#' Use \code{scale_*_product} with \code{product} variables.
-#' Even though the breaks might suggest a discrete variable
-#' it is probably easier to think of this scale as continuous.
-#'
+#' product scales are especially introduced for use with mosaic plots: they are a hybrid of
+#' continuous and discrete scales.
 #' @name scale_product
-#' @inheritParams ggplot2::continuous_scale
-#' @seealso \code{\link{scale_continuous}} for continuous position scales.
-#' @examples
-#' last_month <- Sys.Date() - 0:29
-#' df <- data.frame(
-#'   date = last_month,
-#'   price = runif(30)
-#' )
-#' base <- ggplot(df, aes(date, price)) +
-#'   geom_line()
-#'
 NULL
 
-
-
 #' @rdname scale_product
 #' @export
-scale_x_product <- function(name = waiver(),
-                         breaks = waiver(),
-                         labels = waiver(),
-                         minor_breaks = waiver(),
-                         limits = NULL, expand = waiver()) {
-browser()
-  scale_product(c("x", "xmin", "xmax", "xend"), "product",
-                 name = name,
-                 breaks = breaks,
-                 labels = labels,
-                 minor_breaks = minor_breaks,
-                 limits = limits, expand = expand
+scale_x_product <- function(name = waiver(), breaks = product_breaks(),
+                               minor_breaks = NULL, labels = product_labels(),
+                               limits = NULL, expand = waiver(), oob = scales:::censor,
+                               na.value = NA_real_, trans = "identity") {
+#  browser()
+  sc <- continuous_scale(
+    c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
+    "position_c", identity, name = name, breaks = breaks,
+    minor_breaks = minor_breaks, labels = labels, limits = limits,
+    expand = expand, oob = oob, na.value = na.value, trans = trans,
+    guide = "none"
   )
+
+  # TODO: Fix this hack. We're reassigning the parent ggproto object, but this
+  # object should in the first place be created with the correct parent.
+  sc$super <- ScaleContinuousProduct
+  class(sc) <- class(ScaleContinuousProduct)
+
+  sc
 }
 
 #' @rdname scale_product
 #' @export
-scale_y_product <- function(name = waiver(),
-                            breaks = waiver(),
-                            labels = waiver(),
-                            minor_breaks = waiver(),
-                            limits = NULL, expand = waiver()) {
-
-  scale_product(c("y", "ymin", "ymax", "yend"), "product",
-                name = name,
-                breaks = breaks,
-                labels = labels,
-                minor_breaks = minor_breaks,
-                limits = limits, expand = expand
+scale_y_product <- function(name = waiver(), breaks = waiver(),
+                               minor_breaks = waiver(), labels = waiver(),
+                               limits = NULL, expand = waiver(), oob = scales:::censor,
+                               na.value = NA_real_, trans = "identity") {
+  sc <- continuous_scale(
+    c("y", "ymin", "ymax", "yend", "yintercept", "ymin_final", "ymax_final", "lower", "middle", "upper"),
+    "position_c", identity, name = name, breaks = breaks,
+    minor_breaks = minor_breaks, labels = labels, limits = limits,
+    expand = expand, oob = oob, na.value = na.value, trans = trans,
+    guide = "none"
   )
+
+  # TODO: Fix this hack. We're reassigning the parent ggproto object, but this
+  # object should in the first place be created with the correct parent.
+  sc$super <- ScaleContinuousProduct
+  class(sc) <- class(ScaleContinuousProduct)
+
+  sc
 }
 
 
-#' @rdname scale_product
 #' @export
-ScaleDiscreteProduct <- ggproto(
-  "ScaleDiscreteProduct", ScaleDiscrete,
+ScaleContinuousProduct <- ggproto(
+  "ScaleContinuousProduct", ScaleContinuous,
+  # Position aesthetics don't map, because the coordinate system takes
+  # care of it. But they do need to be made in to doubles, so stat methods
+  # can tell the difference between continuous and discrete data.
+  train =function(self, x) {
+    cat("train in ScaleContinuousProduct\n")
+    if (is.list(x)) {
+      x <- x[[1]]
+      if ("Scale" %in% class(x)) {
+        # re-assign the scale values now that we have the information
+        self$breaks <- x$breaks
+        self$labels <- x$labels
+        # there are some duplicates and NAs that should be removed
+        browser()
+        return()
+      }
+    }
+    if (is.discrete(x)) {
+      self$range$train(x=c(0,1))
+      return()
+    }
+    self$range$train(x)
+  },
   map = function(self, x, limits = self$get_limits()) {
-    cat("in map of ScaleDiscreteProduct\n")
-    self$oob(x, limits)
+    cat("map in ScaleContinuousProduct\n")
+  #  browser()
+    if (is.discrete(x)) return(x)
+    if (is.list(x)) return(0) # need a number
+    scaled <- as.numeric(self$oob(x, limits))
+    ifelse(!is.na(scaled), scaled, self$na.value)
+  },
+  dimension = function(self, expand = c(0, 0)) {
+    cat("dimension in ScaleContinuousProduct\n")
+    c(-0.05,1.05)
   }
 )
 
-
-# base class for scale_{xy}_product
-scale_product <- function(aesthetics, expand = waiver(), breaks = pretty_breaks(),
-                       minor_breaks = waiver(), ...) {
-
-  if (is.character(breaks)) {
-    breaks_str <- breaks
-    breaks <- breaks_str
-  }
-
-  if (is.character(minor_breaks)) {
-    mbreaks_str <- minor_breaks
-    minor_breaks <- mbreaks_str
-  }
-browser()
-  continuous_scale(aesthetics, "product", identity, breaks = breaks,
-                   minor_breaks = minor_breaks, guide = "none", expand = expand,
-                   trans = "identity", ...)
-}
-
-
-# The discrete position scale maintains two separate ranges - one for
-# continuous data and one for discrete data.  This complicates training and
-# mapping, but makes it possible to place objects at non-integer positions,
-# as is necessary for jittering etc.
-
-#' #' @rdname ggplot2-ggproto
-#' #' @format NULL
-#' #' @usage NULL
-#' #' @export
-#' ScaleDiscretePosition <- ggproto(
-#'   "ScaleDiscretePosition", ScaleDiscrete,
-#'
-#'                                  train = function(self, x) {
-#'                                    if (is.discrete(x)) {
-#'                                      self$range$train(x, drop = self$drop)
-#'                                    } else {
-#'                                      self$range_c$train(x)
-#'                                    }
-#'                                  },
-#'
-#'                                  get_limits = function(self) {
-#'                                    if (self$is_empty()) return(c(0, 1))
-#'                                    self$limits %||% self$range$range %||% integer()
-#'                                  },
-#'
-#'                                  is_empty = function(self) {
-#'                                    is.null(self$range$range) && is.null(self$limits) && is.null(self$range_c$range)
-#'                                  },
-#'
-#'                                  reset = function(self) {
-#'                                    # Can't reset discrete scale because no way to recover values
-#'                                    self$range_c$reset()
-#'                                  },
-#'
-#'                                  map = function(self, x, limits = self$get_limits()) {
-#'                                    if (is.discrete(x)) {
-#'                                      seq_along(limits)[match(as.character(x), limits)]
-#'                                    } else {
-#'                                      x
-#'                                    }
-#'                                  },
-#'
-#'                                  dimension = function(self, expand = c(0, 0)) {
-#'                                    c_range <- self$range_c$range
-#'                                    d_range <- self$range$range
-#'
-#'                                    if (self$is_empty()) {
-#'                                      c(0, 1)
-#'                                    } else if (is.null(d_range)) { # only continuous
-#'                                      expand_range(c_range, expand[1], 0 , 1)
-#'                                    } else if (is.null(c_range)) { # only discrete
-#'                                      expand_range(c(1, length(d_range)), 0, expand[2], 1)
-#'                                    } else { # both
-#'                                      range(
-#'                                        expand_range(c_range, expand[1], 0 , 1),
-#'                                        expand_range(c(1, length(d_range)), 0, expand[2], 1)
-#'                                      )
-#'                                    }
-#'                                  },
-#'
-#'                                  clone = function(self) {
-#'                                    new <- ggproto(NULL, self)
-#'                                    new$range <- discrete_range()
-#'                                    new$range_c <- continuous_range()
-#'                                    new
-#'                                  }
-#' )
-#'
