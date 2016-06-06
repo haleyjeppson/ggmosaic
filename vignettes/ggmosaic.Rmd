@@ -6,6 +6,7 @@ output:
   rmarkdown::html_vignette:
   toc: true
 vignette: >
+  %\VignetteIndexEntry{Mosaic plots with `ggplot2`}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

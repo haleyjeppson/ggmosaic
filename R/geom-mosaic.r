@@ -20,9 +20,7 @@
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
-#' # library(plyr)
-#' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq))
-#' # ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=list(Class, Survived))) # only works with modified check_aesthetics
+#'
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived)))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), fill=Age))
 #' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), fill=Age))

@@ -1,5 +1,13 @@
+#' Product
+#'
 #' @export
+#'
+#' @param x variable
+#' @param ... other arguments passed on
+#'
+#'
 product <- function(x, ...) {
+  browser()
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
   vars <- t(plyr::laply(1:length(vars), function(y) {
@@ -18,7 +26,15 @@ product <- function(x, ...) {
   prod
 }
 
+
+#' Is an Object of Type Product?
+#'
+#' Checks whether its argument is a product.
+#'
 #' @export
+#'
+#' @param x an `R` object
+#'
 is.product <- function(x) {
   "product" %in% class(x)
 }
@@ -65,7 +81,7 @@ in_data <- function(data, variable) {
   length(intersect(names(data), variable)) > 0
 }
 
-#' better leave this an internal helper function
+# better leave this an internal helper function
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
 # browser()
@@ -184,8 +200,9 @@ StatMosaic <- ggplot2::ggproto(
   }
 )
 
-#' might need to overwrite check_aesthetics in geom - at the moment this function gets ignored
-#' @export
+# #' might need to overwrite check_aesthetics in geom - at the moment this function gets ignored
+# #' @export
+
 check_aesthetics <- function (x, n)
 {
   #  do a recursive check on the length of aesthetics - this will allow a specification of
