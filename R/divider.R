@@ -135,5 +135,5 @@ ddecker <- function(direction = "h") {
     splits <- c("vspine", "hspine")
   }
 
-  function(n) c(rep(splits[1], length = n - 1), splits[2])
+  function(n) c(splits[2], rep(splits[1], length = n - 1))
 }
