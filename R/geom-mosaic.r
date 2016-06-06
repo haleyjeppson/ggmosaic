@@ -20,7 +20,7 @@
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
-#'
+#' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=product(Class, Survived)))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Class, Survived), fill=Age))
 #' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, vars=interaction(Survived, Class), fill=Age))
