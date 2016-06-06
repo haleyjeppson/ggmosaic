@@ -7,7 +7,7 @@
 #'
 #'
 product <- function(x, ...) {
-  browser()
+#  browser()
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
   vars <- t(plyr::laply(1:length(vars), function(y) {

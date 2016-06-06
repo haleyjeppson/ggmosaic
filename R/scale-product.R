@@ -90,7 +90,7 @@ ScaleContinuousProduct <- ggproto(
         self$breaks <- x$breaks
         self$labels <- x$labels
         # there are some duplicates and NAs that should be removed
-        browser()
+     #   browser()
         return()
       }
     }
