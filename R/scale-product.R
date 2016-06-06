@@ -1,7 +1,7 @@
 #' @rdname scale_product
 #' @export
 #'
-#' @param x variable
+#' @param x an `R` object
 scale_type.product <- function(x) {
   cat("checking for type product\n")
   browser()
