@@ -25,8 +25,9 @@
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Survived), fill=Age))
 #' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #' gg
-#' gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
-#' label=paste(paste0("Survived: ",x1),paste0("Class: ",x2), sep="\n")), data=subset(ggplot_build(gg)$data[[1]], level==2))
+#'
+#' # gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
+#' # label=paste(paste0("Survived: ",x1),paste0("Class: ",x2), sep="\n")), data=subset(ggplot_build(gg)$data[[1]], level==2))
 #' # doing the right thing, but we need labelling to make it less confusing
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Survived), conds = Age))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class), conds=Age, fill=Survived))

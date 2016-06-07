@@ -2,31 +2,30 @@
 
 library(productplots)
 
-one.a <- prodplot(happy, ~ happy, "hbar")
-one.b <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = happy, group = 1), divider="hbar")
-multiplot(one.a, one.b,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
+a.1 <- productplots::prodplot(happy, ~ happy, "hbar")
+b.1 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy)), divider="hbar")
+multiplot(a.1, b.1,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
-
-two.a <- prodplot(happy, ~ happy, "hspine")
-two.b <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = happy, group = 1), divider="hspine")
+a.2 <- productplots::prodplot(happy, ~ happy, "hspine")
+b.2 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy)), divider="hspine")
 multiplot(two.a, two.b,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 a.3 <- prodplot(happy, ~ sex + happy, c("vspine", "hbar"))
-b.3 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(sex, happy), group = 1), divider=c("vspine", "hbar"))
+b.3 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(sex, happy)), divider=c("vspine", "hbar"))
 multiplot(a.3, b.3,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 
 a.4 <- prodplot(happy, ~ happy + sex, mosaic())
-b.4 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, sex), group = 1))
+b.4 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy, sex)))
 multiplot(a.4, b.4,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 
 a.5 <- prodplot(happy, ~ happy + finrela + health, mosaic())
-b.5 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, finrela, health), group = 1))
+b.5 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)))
 multiplot(a.5, b.5, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 a.6 <- prodplot(happy, ~ happy + marital + health, mosaic())
-b.6 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, vars = product(happy, marital, health), group = 1))
+b.6 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy, marital, health)))
 multiplot(a.6, b.6, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 
