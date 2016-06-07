@@ -146,7 +146,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 #' @export
 StatMosaic <- ggplot2::ggproto(
   "StatMosaic", ggplot2::Stat,
-  required_aes = c("x"),
+#  required_aes = c("x"),
   non_missing_aes = "weight",
 
   setup_params = function(data, params) {
