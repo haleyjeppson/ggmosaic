@@ -1,11 +1,16 @@
+partd <- function(x) {
+  d <- attr(x, "d")
+  if (!is.null(d)) d else 1
+}
+
 divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), level = 1, cascade = 0, max_wt = NULL, offset = offset) {
-  d <- productplots:::partd(divider[[1]])
+  d <- partd(divider[[1]])
   if (ncol(data) == d + 1) {
     return(divide_once(data, bounds, divider[[1]], level, max_wt, offset))
   }
   # In divide we work with the opposite order of variables to margin -
   # so we flip and then flip back
-  parent_data <- productplots:::margin(data, rev(seq_len(d)))
+  parent_data <- margin(data, rev(seq_len(d)))
   parent_data <- parent_data[, c(rev(seq_len(d)), d + 1)]
 
   parent <- divide_once(parent_data, bounds, divider[[1]], level, max_wt, offset)
@@ -16,7 +21,7 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
   parentc$t <- parent$t + cascade
 
   if (is.null(max_wt)) {
-    max_wt <- max(productplots:::margin(data, d + 1, seq_len(d))$.wt, na.rm = TRUE)
+    max_wt <- max(margin(data, d + 1, seq_len(d))$.wt, na.rm = TRUE)
   }
 
   pieces <- as.list(plyr::dlply(data, seq_len(d)))
@@ -34,7 +39,7 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
 # @param data data frame giving partitioning variables and weights.  Final
 #   column should be called .wt and contain weights
 divide_once <- function(data, bounds, divider, level = 1, max_wt = NULL, offset) {
-  d <- productplots:::partd(divider)
+  d <- partd(divider)
   # Convert into vector/matrix/array for input to divider function
   if (d > 1) {
     data[-ncol(data)] <- lapply(data[-ncol(data)], addNA, ifany = TRUE)
@@ -45,7 +50,7 @@ divide_once <- function(data, bounds, divider, level = 1, max_wt = NULL, offset)
     wt <- data$.wt
   }
 
-  wt <- productplots:::prop(wt)
+  wt <- wt / sum(wt, na.rm = TRUE)
   if (is.null(max_wt)) max_wt <- max(wt, na.rm = TRUE)
 
   partition <- divider(wt, bounds, offset, max = max_wt)

@@ -24,7 +24,7 @@ prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max =
     data$.wt <- 1
   }
 
-  wt <- productplots:::margin(data, vars$marg, vars$cond)
+  wt <- margin(data, vars$marg, vars$cond)
   if (na.rm) {
     wt <- wt[stats::complete.cases(wt), ]
   }

@@ -21,37 +21,60 @@
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
 #' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Survived)))
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Survived), fill=Age))
-#' gg <- ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
+#' ggplot(data=titanic) +
+#'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived)))
+#' ggplot(data=titanic) +
+#'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived), fill=Age))
+#' gg <- ggplot(data=titanic) +
+#'         geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #' gg
 #'
 #' # gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
-#' # label=paste(paste0("Survived: ",x1),paste0("Class: ",x2), sep="\n")), data=subset(ggplot_build(gg)$data[[1]], level==2))
+#' # label=paste(paste0("Survived: ",x1),paste0("Class: ",x2), sep="\n")),
+#' #    data=subset(ggplot_build(gg)$data[[1]], level==2))
 #' # doing the right thing, but we need labelling to make it less confusing
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Survived), conds = Age))
+#' ggplot(data=titanic) +
+#'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived),
+#'                   conds = Age))
+#' # labelling goes wrong here
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class), conds=Age, fill=Survived))
 #'
 #' data(happy, package="productplots")
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(happy)))
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy))
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy), na.rm=TRUE)
-#' # ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health, sex, degree), fill=happy), na.rm=TRUE)
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health, sex, degree), fill=happy), na.rm=TRUE)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy), na.rm=TRUE)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(health, sex, degree), fill=happy),
+#'   na.rm=TRUE)
 #'
 #' # here is where a bit more control over the spacing of the bars is helpful:
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0)
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex), na.rm=TRUE)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex), na.rm=TRUE)
 #' # facetting works!!!!
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE) + facet_grid(sex~.)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE) + facet_grid(sex~.)
 #'
 #'# set the offet
-#'ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health), group = 1))
-#'ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health), group = 1), offset=.005)
+#'ggplot(data = happy) +
+#'  geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health), group = 1))
+#'ggplot(data = happy) +
+#'  geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health),
+#'                  group = 1), offset=.005)
 #'
-
-
+#' data(rochdale)
+#' ggplot(data=rochdale) +
+#'   geom_mosaic(aes(x=product(Husband.sEduc, Child), fill=Household),
+#'               divider=ddecker(), na.rm=FALSE) + coord_flip()
+#' ggplot(data=rochdale) +
+#'   geom_mosaic(aes(x=product(Wife.sEduc, Child), fill=Household),
+#'               divider=ddecker(), na.rm=FALSE) + coord_flip()
+#' ggplot(data=rochdale) +
+#'   geom_mosaic(aes(x=product(Wife.sEduc,Husband.sEduc, Child), fill=Household),
+#'               divider=ddecker(), na.rm=FALSE) + coord_flip()
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
