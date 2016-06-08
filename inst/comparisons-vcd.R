@@ -44,9 +44,12 @@ vcd::mosaic(Employment,
 employment <- as.data.frame(Employment)
 # ggplot(data=employment)+geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
 ## doesn't work because of hyphenated dates
-employment$EmploymentLength <- gsub("-", "x", employment$EmploymentLength)
+employment$EmploymentLength <- gsub("-", "to", employment$EmploymentLength)
 
-ggplot(data=employment)+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus), fill=LayoffCause), offset=0.02) +labs(x="Employment Length", y="Employment Status")
+ggplot(data=employment)+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus),
+                                        x=product(EmploymentLength, EmploymentStatus), fill=LayoffCause),
+                                    offset=0.02) +labs(x="Employment Length", y="Employment Status")+
+  theme(axis.text.x=element_text(angle=-35, hjust=-.1))
 
 
 
@@ -56,7 +59,8 @@ ggplot(data=employment[employment$LayoffCause=="Closure",])+geom_mosaic(aes(weig
 
 
 vcd::mosaic(Employment[,,2], main = "Layoff: Replaced")
-ggplot(data=employment[employment$LayoffCause=="Replaced",])+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus)), offset=0.02) + labs(x="Employment Status", y="Employment Length")+coord_flip()
+ggplot(data=employment[employment$LayoffCause=="Replaced",])+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus)), offset=0.02) + labs(x="Employment Status", y="Employment Length")+coord_flip()+
+  theme(axis.text.x=element_text(angle=35, hjust=1))
 
 ##################################################
 data("Hospital")
@@ -91,7 +95,8 @@ vcd::mosaic(~ PremaritalSex + ExtramaritalSex | Gender + MaritalStatus,
        data = PreSex, labeling = labeling_conditional)
 
 presex <- as.data.frame(PreSex)
-ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(PremaritalSex, ExtramaritalSex), y=product(Gender), conds=product(Gender, MaritalStatus)), offset = 0.03)
+ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(PremaritalSex, ExtramaritalSex), y=product(Gender), conds=product(Gender, MaritalStatus)), offset = 0.03)+
+  theme(axis.text.x=element_text(angle=-15, hjust=-.1))
 
 
 ########################################################
@@ -194,8 +199,12 @@ vcd::mosaic(RepVict[-c(4,7),-c(4,7)], gp = shading_max,
 repvict <- as.data.frame(RepVict[-c(4,7),-c(4,7)])
 
 ####
-## doesn't work and I'm not sure why
-ggplot(data = repvict) + geom_mosaic(aes(weight=Freq, x=product(First.Victimization, Second.Victimization)), divider=c("hspine", "vspine"))
-                                        +  labs(x="First.Victimization", y="First.Victimization")+
-  theme(axis.text.x=element_text(angle=-25, hjust=-.1))
+## doesn't work initially
+names(repvict) <- c("FirstVictimization", "SecondVictimization", "Freq")
+punish$age <- gsub("-", "to", punish$age)
+
+
+ggplot(data = repvict) + geom_mosaic(aes(weight=Freq, x=product(SecondVictimization, FirstVictimization), y=product(SecondVictimization)))+
+  labs(x="First Victimization", y="Second Victimization")+
+  theme(axis.text.x=element_text(angle=-25, hjust=-.1))+coord_flip()
 
