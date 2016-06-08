@@ -87,3 +87,53 @@ vcd::mosaic(Titanic)
 titanic <- as.data.frame(Titanic)
 ggplot(data=titanic)+geom_mosaic(aes(weight=Freq, x=product(Survived, Sex, Age, Class)), offset=.03)+coord_flip()
 
+######################################################
+data("PreSex")
+vcd::mosaic(~ PremaritalSex + ExtramaritalSex | Gender + MaritalStatus,
+       data = PreSex, labeling = labeling_conditional)
+
+presex <- as.data.frame(PreSex)
+ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(PremaritalSex, ExtramaritalSex), y=product(Gender), conds=product(Gender, MaritalStatus)), offset = 0.03)
+
+
+########################################################
+data("HairEyeColor")
+vcd::mosaic(HairEyeColor, shade = TRUE)
+## Independence model of hair and eye color and sex. Indicates that there are significantly more blue eyed blond females than expected
+## in the case of independence (and too few brown eyed blond females).
+hairEyeColor <- as.data.frame(HairEyeColor)
+ggplot(data = hairEyeColor) + geom_mosaic(aes(weight=Freq, x=product(Sex, Eye, Hair), y=product(Hair)), offset = 0.03)
+
+
+## Model of joint independence of sex from hair and eye color. Males
+## are underrepresented among people with brown hair and eyes, and are
+## overrepresented among people with brown hair and blue eyes, but not "significantly".
+## Formula interface for raw data: visualize crosstabulation of numbers of gears and carburettors in Motor Trend car data.
+data("mtcars")
+vcd::mosaic(~ gear + carb, data = mtcars, shade = TRUE)
+
+cars <- as.data.frame(mtcars)
+ggplot(data = cars) + geom_mosaic(aes(x=product(gear, carb), y=product(gear)))
+
+
+
+#################################################################
+## Highlighting:
+vcd::mosaic(Survived ~ ., data = Titanic)
+ggplot(data=titanic)+geom_mosaic(aes(weight=Freq, x=product(Age, Sex, Class),y=product(Sex), fill=Survived), offset=.03)+coord_flip()
+
+
+#################################################################
+data("Arthritis")
+vcd::mosaic(Improved ~ Treatment | Sex, data = Arthritis, zero_size = 0)
+ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Treatment, Sex),y=product(Sex), fill=Improved), offset=.03)
+
+
+vcd::mosaic(Improved ~ Treatment | Sex, data = Arthritis, zero_size = 0, highlighting_direction = "right")
+ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Treatment, Sex),y=product(Sex), fill=Improved), offset=.03, divider=c("hspine", "hspine", "vspine"))
+
+
+
+
+
+
