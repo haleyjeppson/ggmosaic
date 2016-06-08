@@ -21,28 +21,43 @@
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
 #' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
+#'
+#' # labelling should cut off the variable name if there is only one variable
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived)))
+#'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
+#' # good practice: use the 'dependent' variable (or most important variable)
+#' # as fill variable
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived), fill=Age))
+#'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
 #' gg <- ggplot(data=titanic) +
 #'         geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #' gg
 #'
+#' # this labelling doesn't work any more, because of the way that scales are set up
+#' # we should try to get something along these lines to work. Maybe write a labelling
+#' # function?
 #' # gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
-#' # label=paste(paste0("Survived: ",x1),paste0("Class: ",x2), sep="\n")),
-#' #    data=subset(ggplot_build(gg)$data[[1]], level==2))
+#' #                    label=paste(x1, x2, sep="\n")),
+#' #                data=subset(ggplot_build(gg)$data[[1]], level==2))
 #' # doing the right thing, but we need labelling to make it less confusing
+#' # labelling goes wrong here; this might have to do with the use of a conditional variable.
+#' # Check with productplots, whether this is the same issue.
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived),
 #'                   conds = Age))
-#' # labelling goes wrong here
-#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class), conds=Age, fill=Survived))
+#' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Age),
+#'                                        fill=Survived))
 #'
 #' data(happy, package="productplots")
-#' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(happy)))
-#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy))
+#' # why does mosaic start with a vertical split by default?
+#' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h"))
+#' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h")) +
+#'   coord_flip()
+#' # weighting is important
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(happy)), divider=mosaic("h"))
+#' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy)) +
+#'   theme(axis.text.x=element_text(angle=35))
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy), na.rm=TRUE)
 #' ggplot(data = happy) +
@@ -50,8 +65,10 @@
 #'   na.rm=TRUE)
 #'
 #' # here is where a bit more control over the spacing of the bars is helpful:
+#' # scale_x_product does not react to changes to breaks or labels - we need to look into it
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0)
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
+#'   scale_x_product("Age", breaks = 1:72, labels=1:72)
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex), na.rm=TRUE)
 #' # facetting works!!!!
@@ -59,11 +76,10 @@
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE) + facet_grid(sex~.)
 #'
 #'# set the offet
-#'ggplot(data = happy) +
-#'  geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health), group = 1))
-#'ggplot(data = happy) +
-#'  geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health),
-#'                  group = 1), offset=.005)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)), divider=mosaic("h"))
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)), offset=.005)
 #'
 #' data(rochdale)
 #' ggplot(data=rochdale) +
