@@ -4,7 +4,6 @@ library(ggmosaic)
 
 #############################################
 data("Arthritis")
-data
 art <- xtabs(~ Treatment + Improved, data = Arthritis, subset = Sex == "Female")
 vcd::mosaic(art, gp = shading_Friendly)
 vcd::mosaic(art, gp = shading_max)
@@ -28,8 +27,8 @@ vcd::mosaic(votes, gp = gpar(fill = parties[colnames(votes)]),
 
 
 vote <- as.data.frame(votes)
-ggplot(data=vote)+geom_mosaic(aes(x=product(Bundesland)))
-# doesn't work because of hyphenated names
+# ggplot(data=vote)+geom_mosaic(aes(x=product(Bundesland)))
+## doesn't work because of hyphenated names
 vote$Bundesland <- gsub("-", "", vote$Bundesland)
 ggplot(data=vote)+geom_mosaic(aes(weight=Freq, x=product(Bundesland), y=product(Fraktion), fill=Fraktion))+coord_flip()
 
@@ -43,16 +42,13 @@ vcd::mosaic(Employment,
 
 
 employment <- as.data.frame(Employment)
-ggplot(data=employment)+geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
-# doesn't work because of hyphenated dates
+# ggplot(data=employment)+geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
+## doesn't work because of hyphenated dates
 employment$EmploymentLength <- gsub("-", "x", employment$EmploymentLength)
 
 ggplot(data=employment)+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus), fill=LayoffCause), offset=0.02) +labs(x="Employment Length", y="Employment Status")
 
 
-vcd::mosaic(Employment,
-       expected = ~ LayoffCause * EmploymentLength + LayoffCause * EmploymentStatus,
-       main = "Layoff*EmployLength + Layoff*EmployStatus")
 
 ## Closure
 vcd::mosaic(Employment[,,1], main = "Layoff: Closure")
@@ -76,8 +72,10 @@ hospital$Length.of.stay <- c(rep(c("2x9", "10x19", "20plus"), each=3))
 
 vcd::mosaic(Hospital, shade = TRUE)
 # something is going wrong here
-ggplot(data=hospital)+geom_mosaic(aes(weight=Freq, x=product(Length.of.stay, Visit.frequency)))
-+labs(x="Visit Frequency ", y="Length of stay")
+# variable names have "." in them
+names(hospital) <- c("VisitFrequency", "LengthOfStay", "Freq")
+ggplot(data=hospital)+geom_mosaic(aes(weight=Freq, x=product(LengthOfStay, VisitFrequency), y=product(LengthOfStay)))+
+  labs(x="Visit Frequency ", y="Length of stay")+ coord_flip()
 
 
 ######################################################
@@ -133,7 +131,71 @@ vcd::mosaic(Improved ~ Treatment | Sex, data = Arthritis, zero_size = 0, highlig
 ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Treatment, Sex),y=product(Sex), fill=Improved), offset=.03, divider=c("hspine", "hspine", "vspine"))
 
 
+#################################################################
+data("OvaryCancer")
+
+tab <- xtabs(Freq ~ xray + survival + stage + operation, data = OvaryCancer)
+ftable(tab, col.vars = "survival", row.vars = c("stage", "operation", "xray"))
+## model: ~ xray * operation * stage + survival * stage
+## interpretation: treat xray, operation, stage as fixed margins,
+## the survival depends on stage, but not xray and operation.
+doubledecker(survival ~ stage + operation + xray, data = tab)
+cancer <- as.data.frame(OvaryCancer)
+ggplot(data = cancer) + geom_mosaic(aes(weight=Freq, x=product(xray, operation, stage), fill=survival),
+                                    divider=ddecker(), offset=0.05)+ theme(axis.text.x=element_text(angle=90))
+
+vcd::mosaic(~ stage + operation + xray + survival,
+       split = c(FALSE, TRUE, TRUE, FALSE), data = tab, keep = FALSE,
+       gp = gpar(fill = rev(grey.colors(2))))
+
+ggplot(data = cancer) + geom_mosaic(aes(weight=Freq, x=product(xray, operation, stage),
+                                        y=product(stage), fill=survival),
+                                    divider=c("vspine", "hspine", "hspine", "vspine"), offset=0.05)+
+  theme(axis.text.x=element_text(angle=35, hjust=1))
 
 
+########################################################################
+## 4 way tables
+data(Punishment, package = "vcd")
+vcd::mosaic(attitude ~ age + education + memory, data = Punishment,
+       highlighting_direction="left", rep = c(attitude = FALSE))
+punish <- as.data.frame(Punishment)
+# doesn't work because of hyphenated dates
+punish$age <- gsub("-", "to", punish$age)
+ggplot(data = punish) + geom_mosaic(aes(weight=Freq, x=product(attitude, education, age),
+                                        y=product(age), fill=memory),
+                                    divider=mosaic("h"), offset=0.05)+
+  theme(axis.text.x=element_text(angle=35, hjust=1))
 
+##############################################################
+## (Gender Pre)
+vcd::mosaic(margin.table(PreSex, c(3,4)), main = "Gender and Premarital Sex")
+
+ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(Gender, PremaritalSex), y=product(PremaritalSex)), divider=mosaic("h"))+
+  labs(x="Gender", y="Premarital Sex", title="Gender and Premarital Sex")
+
+
+## (Gender Pre)(Extra)
+vcd::mosaic(margin.table(PreSex, c(2,3,4)),
+       expected = ~Gender * PremaritalSex + ExtramaritalSex ,
+       main = "PreMaritalSex*Gender +Sex")
+
+ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(Gender, PremaritalSex, ExtramaritalSex),
+                                        y=product(ExtramaritalSex)))+
+  labs(x="Premarital Sex", y="Extramarital Sex")+
+  theme(axis.text.x=element_text(angle=-25, hjust=-.1))
+
+
+###################################################################
+
+data("RepVict")
+vcd::mosaic(RepVict[-c(4,7),-c(4,7)], gp = shading_max,
+       main = "Repeat Victimization Data")
+repvict <- as.data.frame(RepVict[-c(4,7),-c(4,7)])
+
+####
+## doesn't work and I'm not sure why
+ggplot(data = repvict) + geom_mosaic(aes(weight=Freq, x=product(First.Victimization, Second.Victimization)), divider=c("hspine", "vspine"))
+                                        +  labs(x="First.Victimization", y="First.Victimization")+
+  theme(axis.text.x=element_text(angle=-25, hjust=-.1))
 
