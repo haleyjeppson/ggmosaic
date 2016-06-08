@@ -30,13 +30,14 @@ scale_type.product <- function(x) {
 NULL
 
 #' @rdname scale_product
+#' @importFrom ggplot2 waiver
 #' @export
 scale_x_product <- function(name = waiver(), breaks = product_breaks(),
                                minor_breaks = NULL, labels = product_labels(),
                                limits = NULL, expand = waiver(), oob = scales:::censor,
                                na.value = NA_real_, trans = "identity") {
 #  browser()
-  sc <- continuous_scale(
+  sc <- ggplot2::continuous_scale(
     c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
@@ -53,12 +54,13 @@ scale_x_product <- function(name = waiver(), breaks = product_breaks(),
 }
 
 #' @rdname scale_product
+#' @importFrom ggplot2 waiver
 #' @export
 scale_y_product <- function(name = waiver(), breaks = waiver(),
                                minor_breaks = waiver(), labels = waiver(),
                                limits = NULL, expand = waiver(), oob = scales:::censor,
                                na.value = NA_real_, trans = "identity") {
-  sc <- continuous_scale(
+  sc <- ggplot2::continuous_scale(
     c("y", "ymin", "ymax", "yend", "yintercept", "ymin_final", "ymax_final", "lower", "middle", "upper"),
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,

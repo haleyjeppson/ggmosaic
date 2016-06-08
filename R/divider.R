@@ -1,3 +1,18 @@
+#' Internal helper function
+#'
+#' Squeeze pieces to lie within specified bounds; directly copied from package productplots
+#' @author Hadley Wickham
+squeeze <- function(pieces, bounds = bound()) {
+  scale_x <- function(x) x * (bounds$r - bounds$l) + bounds$l
+  scale_y <- function(y) y * (bounds$t - bounds$b) + bounds$b
+
+  pieces$l <- scale_x(pieces$l)
+  pieces$r <- scale_x(pieces$r)
+  pieces$b <- scale_y(pieces$b)
+  pieces$t <- scale_y(pieces$t)
+  pieces
+}
+
 rotate <- function(data) {
   plyr::rename(data, c("l" = "b", "r" = "t", "b" = "l", "t" = "r"))
 }
@@ -47,7 +62,7 @@ hspine <- function(data, bounds, offset = offset, max = NULL) {
     b = 0,
     t = 1
   )
-  productplots:::squeeze(locations, bounds)
+  squeeze(locations, bounds)
 }
 
 #' Vertical spine partition: width constant, height varies.
@@ -86,7 +101,7 @@ hbar <- function(data, bounds, offset = 0.02, max = NULL) {
     b = 0,
     t = heights
   )
-  productplots:::squeeze(locations, bounds)
+  squeeze(locations, bounds)
 }
 
 #' Vertical bar partition: height constant, width varies.

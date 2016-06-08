@@ -1,5 +1,6 @@
 #' Product
 #'
+#' @importFrom plyr laply
 #' @export
 #'
 #' @param x variable
