@@ -6,6 +6,16 @@
 \usage{
 margin(table, marginals = c(), conditionals = c())
 }
+\arguments{
+\item{table}{data table}
+
+\item{marginals}{variables used in margins of mosaic specification}
+
+\item{conditionals}{variables conditioned upon in mosaic specification}
+}
+\value{
+weighted data table
+}
 \description{
 function copied directly from the productplots package
 }

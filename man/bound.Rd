@@ -6,8 +6,20 @@
 \usage{
 bound(t = 1, r = 1, b = 0, l = 0)
 }
+\arguments{
+\item{t}{numeric value specifying the top of the space used; should be larger than b}
+
+\item{r}{numeric value specifying the right hand side of the space used; should be larger than l}
+
+\item{b}{numeric value specifying the bottom of the space used}
+
+\item{l}{numeric value specifying the left-hand side of the space used.}
+}
+\value{
+boundaries in data frame
+}
 \description{
-Convenience function to create bounds
+Convenience function to create bounds.
 function copied directly from the productplots package
 }
 \author{

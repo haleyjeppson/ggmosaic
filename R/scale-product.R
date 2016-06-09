@@ -26,6 +26,7 @@ scale_type.product <- function(x) {
 #'
 #' product scales are especially introduced for use with mosaic plots: they are a hybrid of
 #' continuous and discrete scales.
+#' @inheritParams ggplot2::scale_continuous
 #' @name scale_product
 NULL
 

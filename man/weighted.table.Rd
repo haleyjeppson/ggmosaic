@@ -6,6 +6,11 @@
 \usage{
 weighted.table(vars, wt = NULL)
 }
+\arguments{
+\item{vars}{data frame}
+
+\item{wt}{vector of weights}
+}
 \description{
 function copied directly from the productplots package
 }

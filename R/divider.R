@@ -1,6 +1,9 @@
 #' Internal helper function
 #'
 #' Squeeze pieces to lie within specified bounds; directly copied from package productplots
+#' @param pieces rectangle specified via l(eft), r(ight), b(ottom), t(op)
+#' @param bounds rectangle specified via l(eft), r(ight), b(ottom), t(op)
+#' @return re-scaled values for piece according to boundaries given by bounds
 #' @author Hadley Wickham
 squeeze <- function(pieces, bounds = bound()) {
   scale_x <- function(x) x * (bounds$r - bounds$l) + bounds$l
