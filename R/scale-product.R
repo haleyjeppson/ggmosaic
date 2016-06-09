@@ -78,6 +78,7 @@ scale_y_product <- function(name = waiver(), breaks = waiver(),
 }
 
 
+#' @rdname scale_product
 #' @export
 ScaleContinuousProduct <- ggproto(
   "ScaleContinuousProduct", ScaleContinuous,
