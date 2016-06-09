@@ -14,7 +14,10 @@ product_labels <- function() {
   }
 }
 
-
+#' Helper function that ggplot2 needs for determining scales on x and y
+#'
+#' @param x variable under consideration
+#' @return character string "product"
 #' @export
 scale_type.product <- function(x) {
   cat("checking for type product\n")
