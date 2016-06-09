@@ -208,3 +208,65 @@ ggplot(data = repvict) + geom_mosaic(aes(weight=Freq, x=product(SecondVictimizat
   labs(x="First Victimization", y="Second Victimization")+
   theme(axis.text.x=element_text(angle=-25, hjust=-.1))+coord_flip()
 
+#########################################################################
+
+data("Rochdale")
+vcd::mosaic(Rochdale)
+data(rochdale)
+
+ ggplot(data=rochdale) +
+   geom_mosaic(aes(x=product(Husband.sEduc, Child), fill=Household),
+               divider=ddecker(), na.rm=FALSE) + coord_flip()
+ ggplot(data=rochdale) +
+   geom_mosaic(aes(x=product(Wife.sEduc, Child), fill=Household),
+               divider=ddecker(), na.rm=FALSE) + coord_flip()
+ ggplot(data=rochdale) +
+   geom_mosaic(aes(x=product(Wife.sEduc,Husband.sEduc, Child), fill=Household),
+               divider=ddecker(), na.rm=FALSE) + coord_flip()
+ ###########################################
+
+ ## load Arthritis data
+ data("Arthritis")
+ art <- xtabs(~Treatment + Improved, data = Arthritis)
+ ## plain mosaic display without shading
+ vcd::mosaic(art)
+ ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Improved, Treatment),y=product(Improved)))+coord_flip()
+
+
+  ## Marimekko Chart
+ hec <- margin.table(HairEyeColor, 1:2)
+ vcd::mosaic(hec, gp = shading_Marimekko(hec))
+
+ HEC <- as.data.frame(hec)
+ ggplot(data = HEC) + geom_mosaic(aes(weight=Freq, x=product(Eye, Hair), y=product(Eye), fill=Eye), offset=0.02) +
+   theme(axis.text.x=element_text(angle=-25, hjust=-.1))
+ ## labeling breaks here
+
+
+ vcd::mosaic(HairEyeColor, gp = shading_Marimekko(HairEyeColor))
+ haireyecolor <- as.data.frame(HairEyeColor)
+
+ ggplot(data = haireyecolor) + geom_mosaic(aes(weight=Freq, x=product(Sex, Eye, Hair), y=product(Eye), fill=Eye), offset=0.02) +
+   theme(axis.text.x=element_text(angle=-25, hjust=-.1)) + coord_flip()
+
+
+
+ ## Diagonal cells shading
+ ac <- xtabs(VisualAcuity)
+ vcd::mosaic(ac, gp = shading_diagonal(ac))
+
+ AC <- as.data.frame(ac)
+ ggplot(data = AC) + geom_mosaic(aes(weight=Freq, x=product(gender, left, right), y=product(left), fill=left), offset=0.03) +
+   theme(axis.text.x=element_text(angle=-25, hjust=-.1)) + coord_flip()
+
+ ##############################################
+
+ data("UKSoccer")
+ vcd::mosaic(UKSoccer, gp = shading_max, main = "UK Soccer Scores")
+
+uksoccer <- as.data.frame(UKSoccer)
+
+
+ggplot(data = uksoccer) + geom_mosaic(aes(weight=Freq, x=product(Away, Home), y=product(Away)))+
+  labs(x="Home", y="Away")+coord_flip()
+

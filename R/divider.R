@@ -47,7 +47,7 @@ hspine <- function(data, bounds, offset = offset, max = NULL) {
   n <- length(data)
   # n + 1 offsets
 
-  if (ncol(bounds)>4)  offsets <- (c(0, rep(1, n - 1), 0) * offset)/(bounds$level + .75)
+  if (ncol(bounds)>4)  offsets <- ((c(0, rep(1, n - 1), 0) * offset))/sqrt((bounds$level+.1))
   else offsets <- (c(0, rep(1, n - 1), 0) * offset)
 
   data <- data * (1 - sum(offsets))
