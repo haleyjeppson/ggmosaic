@@ -23,70 +23,134 @@ knitr::opts_chunk$set(fig.width = 6,
 
 ```{r echo=FALSE, message=FALSE}
 library(ggmosaic)
+data(happy, package="productplots")
+data(Titanic)
 titanic <- as.data.frame(Titanic)
+multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
+  library(grid)
+
+  # Make a list from the ... arguments and plotlist
+  plots <- c(list(...), plotlist)
+
+  numPlots = length(plots)
+
+  # If layout is NULL, then use 'cols' to determine layout
+  if (is.null(layout)) {
+    # Make the panel
+    # ncol: Number of columns of plots
+    # nrow: Number of rows needed, calculated from # of cols
+    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
+                     ncol = cols, nrow = ceiling(numPlots/cols))
+  }
+
+  if (numPlots==1) {
+    print(plots[[1]])
+
+  } else {
+    # Set up the page
+    grid.newpage()
+    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
+
+    # Make each plot, in the correct location
+    for (i in 1:numPlots) {
+      # Get the i,j matrix positions of the regions that contain this subplot
+      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
+
+      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
+                                      layout.pos.col = matchidx$col))
+    }
+  }
+}
+
 ```
+
 # Introduction
 
-`ggmosiac` produces a mosaic plot as a convenient graphical summary of the conditional distributions in a contingency table. The area of the graphical element is propotional to the underlying probability, so we are easily able to visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions which allows us to see any association that may be occuring between the variables. Because the plot is built hierarchically, the ordering of the variables is very important.  
+### Basic Explanation of `ggmosaic`  
+  
+`ggmosiac` produces a mosaic plot as a convenient graphical summary of the conditional distributions in a contingency table. The area of the graphical element is propotional to the underlying probability, so we are easily able to visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions which allows us to see any association that may be occuring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
 
-# Example
+### Types of partitioning
 
 There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”).
 
-```{r titanic, echo=FALSE, message=FALSE, fig.width = 2, fig.height = 1.5}
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq,  x = product(Class)))
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "hspine")
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "hbar")
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "vbar")
+```{r happy, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 8}
+a <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(marital)), divider="hspine")+
+   theme(axis.text.x=element_text(angle=35, hjust= 1))+labs(x=" ", title="hspine")
+
+b <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(marital), y= product(marital)), divider="vspine")+
+   labs(y=" ", x="", title="vspine")
+
+c <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(marital)), divider="hbar")+
+   theme(axis.text.x=element_text(angle=35, hjust= 1))+labs(x=" ", title="hbar")
+
+d <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(marital), y= product(marital)), divider="vbar")+
+   labs(y=" ", x="", title="vbar")
+
+multiplot(c, d, a, b, layout=matrix(c(1:4), nrow=2, byrow=FALSE))
+
+
+# ggplot(data = titanic) +
+#   geom_mosaic(aes(weight = Freq,  x = product(Class)))
+# ggplot(data = titanic) +
+#   geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "hspine")
+# ggplot(data = titanic) +
+#   geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "hbar")
+# ggplot(data = titanic) +
+#   geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "vbar")
 ```
 
 
-# Example 2
+### Hierarchical construction
 
 To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with a one-dimensional data set and is gradually built up to a higher-dimensional data set. 
 
+###### Explain the statistical formula
 
+```{r happy-1, echo=FALSE, message=FALSE}
+# ggplot(data = titanic) +
+#  geom_mosaic(aes(weight = Freq, x = product(Sex)))
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy)), divider=mosaic("h"))+
+   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", title=" f(happy) ")
 
-### One-dimensional example
-```{r titanic-1, echo=FALSE, message=FALSE}
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, x = product(Sex)))
 ```
 
-To begin, to plot is divded into two vertical spines - one representing the proportion of passengers that were female, the other representing the proportion of passengers that were male. 
-Can be used to answer questions such as, "what proportion of the passagers were female?"  
+To begin, to plot is divded into horizontal spines - each representing the proportion of respondents that were a particular level of happy. This plot is useful for answering questions such as, "what proportion of the respondents were very happy?"  
   
-*f(sex)*
 
-### Two-dimensional example
-```{r titanic-2}
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, x = product(Class, Sex)))
+
+```{r happy-2, echo=FALSE, message=FALSE}
+#ggplot(data = titanic) +
+#  geom_mosaic(aes(weight = Freq, x = product(Class, Sex)))
+
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), y=product(health), fill=health)) +
+   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", y="Health",  title=" f(health, happy) = f(health|happy) f(happy) ")
+
 ```
 
-This example took the first plot in which the plot was divided into vertical spines representing the different sexes of passengers and then split each spine into horizontal spines representing the four different classes of the passengers. This plot can be used to answer questions such as "what proportion of females were 1st class?"  
+This example took the first plot in which the plot was divided into horizontal spines representing the different levels of happiness of the respondents and then split each spine into vertical spines representing the different responses for health. This plot can be used to answer questions such as "what proportion of those not too healthy were of excellent health?"  
   
-  *f(Class, sex) = f(Class| sex)f(sex)*
 
-### Three-dimensional example
-```{r titanic-3}
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)))
+```{r titanic-3, echo=FALSE, message=FALSE}
+#ggplot(data = titanic) +
+#  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)))
 
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)), divider = c("hspine", "vspine", "hspine"))
+#ggplot(data = titanic) +
+#  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)), divider = c("hspine", "vspine", "hspine"))
+# What proportion of the females in 1st class survived?
+
 ```
 
-What proportion of the females in 1st class survived?
 
 
 
-## Survival on the Titanic
-```{r titanic-a}
-ggplot(data = titanic) +
-  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)))
+```{r titanic-a, echo=FALSE, message=FALSE}
+#ggplot(data = titanic) +
+#  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)))
 ```

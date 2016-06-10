@@ -8,9 +8,14 @@ art <- xtabs(~ Treatment + Improved, data = Arthritis, subset = Sex == "Female")
 vcd::mosaic(art, gp = shading_Friendly)
 vcd::mosaic(art, gp = shading_max)
 
-ggplot(data = Arthritis) + geom_mosaic(aes(x=product(Treatment), y=product(Improved), fill=Improved))+coord_flip()
+ggplot(data = Arthritis) +
+  geom_mosaic(aes(x=product(Treatment), y=product(Improved), fill=Improved))  +
+  coord_flip()
+
+### levels of factors show up differently
 
 ############################################
+library(colorspace)
 seats <- structure(c(226, 61, 54, 51, 222), .Names = c("CDU/CSU", "FDP", "Linke", "Gruene", "SPD"))
 parties <- rainbow_hcl(6, c = 60, l = 75)[c(5, 2, 6, 3, 1)]
 names(parties) <- names(seats)
@@ -28,14 +33,17 @@ vcd::mosaic(votes, gp = gpar(fill = parties[colnames(votes)]),
 
 vote <- as.data.frame(votes)
 # ggplot(data=vote)+geom_mosaic(aes(x=product(Bundesland)))
-## doesn't work because of hyphenated names
-vote$Bundesland <- gsub("-", "", vote$Bundesland)
-ggplot(data=vote)+geom_mosaic(aes(weight=Freq, x=product(Bundesland), y=product(Fraktion), fill=Fraktion))+coord_flip()
 
+vote$Bundesland <- gsub("-", "", vote$Bundesland)
+ggplot(data=vote) +
+  geom_mosaic(aes(weight=Freq, x=product(Bundesland), y=product(Fraktion), fill=Fraktion)) +
+  labs(x="Bundesland", y="Fraktion") + coord_flip() +
+  theme(axis.text.x=element_text(angle=45, hjust=1))
+
+### doesn't work initially because of hyphenated names.
 
 #############################################
 data("Employment")
-## Employment Status
 vcd::mosaic(Employment,
        expected = ~ LayoffCause * EmploymentLength + EmploymentStatus,
        main = "Layoff*EmployLength + EmployStatus")
@@ -46,20 +54,26 @@ employment <- as.data.frame(Employment)
 ## doesn't work because of hyphenated dates
 employment$EmploymentLength <- gsub("-", "to", employment$EmploymentLength)
 
-ggplot(data=employment)+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus),
-                                        x=product(EmploymentLength, EmploymentStatus), fill=LayoffCause),
-                                    offset=0.02) +labs(x="Employment Length", y="Employment Status")+
-  theme(axis.text.x=element_text(angle=-35, hjust=-.1))
+ggplot(data=employment)+
+  geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus), y=product(EmploymentStatus), fill=LayoffCause), offset=0.02) +
+  labs(x="Employment Length", y="Employment Status")+
+  theme(axis.text.x=element_text(angle=35, hjust=1))
 
 
 
 ## Closure
 vcd::mosaic(Employment[,,1], main = "Layoff: Closure")
-ggplot(data=employment[employment$LayoffCause=="Closure",])+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus)), offset=0.02) + labs(x="Employment Status", y="Employment Length")+coord_flip()
+ggplot(data=employment[employment$LayoffCause=="Closure",]) +
+  geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus)), offset=0.02) +
+  labs(x="Employment Status", y="Employment Length") +
+  coord_flip()
 
 
 vcd::mosaic(Employment[,,2], main = "Layoff: Replaced")
-ggplot(data=employment[employment$LayoffCause=="Replaced",])+geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus)), offset=0.02) + labs(x="Employment Status", y="Employment Length")+coord_flip()+
+ggplot(data=employment[employment$LayoffCause=="Replaced",]) +
+  geom_mosaic(aes(weight=Freq, y=product(EmploymentStatus), x=product(EmploymentLength, EmploymentStatus)), offset=0.02) +
+  labs(x="Employment Status", y="Employment Length") +
+  coord_flip() +
   theme(axis.text.x=element_text(angle=35, hjust=1))
 
 ##################################################
@@ -70,7 +84,10 @@ vcd::mosaic(t(Hospital), shade = TRUE)
 hospital <- as.data.frame(Hospital)
 # doesn't work because of hyphenated dates
 hospital$Length.of.stay <- gsub("-", "x", hospital$Length.of.stay)
-ggplot(data=hospital)+geom_mosaic(aes(weight=Freq, y=product(Length.of.stay), x=product(Visit.frequency, Length.of.stay)), offset=0.015) +labs(x="Visit Frequency ", y="Length of stay")
+ggplot(data=hospital) +
+  geom_mosaic(aes(weight=Freq, y=product(Length.of.stay), x=product(Visit.frequency, Length.of.stay)), offset=0.015) +
+  labs(x="Visit Frequency ", y="Length of stay")
+### I think there is an issue here because the variable names have periods in them
 
 hospital$Length.of.stay <- c(rep(c("2x9", "10x19", "20plus"), each=3))
 
@@ -78,8 +95,11 @@ vcd::mosaic(Hospital, shade = TRUE)
 # something is going wrong here
 # variable names have "." in them
 names(hospital) <- c("VisitFrequency", "LengthOfStay", "Freq")
-ggplot(data=hospital)+geom_mosaic(aes(weight=Freq, x=product(LengthOfStay, VisitFrequency), y=product(LengthOfStay)))+
-  labs(x="Visit Frequency ", y="Length of stay")+ coord_flip()
+ggplot(data=hospital) +
+  geom_mosaic(aes(weight=Freq, x=product(LengthOfStay, VisitFrequency), y=product(LengthOfStay))) +
+  labs(x="Visit Frequency ", y="Length of stay") +
+  theme(axis.text.x=element_text(angle=-10, hjust=.5, vjust = .3)) +
+  coord_flip()
 
 
 ######################################################
@@ -87,7 +107,10 @@ data("Titanic")
 vcd::mosaic(Titanic)
 
 titanic <- as.data.frame(Titanic)
-ggplot(data=titanic)+geom_mosaic(aes(weight=Freq, x=product(Survived, Sex, Age, Class)), offset=.03)+coord_flip()
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight=Freq, x=product(Sex, Age, Class), y=product(Age), fill=Survived), offset=.03) +
+  labs(x="Class, Sex", y="Age") +
+  coord_flip()
 
 ######################################################
 data("PreSex")
@@ -95,8 +118,11 @@ vcd::mosaic(~ PremaritalSex + ExtramaritalSex | Gender + MaritalStatus,
        data = PreSex, labeling = labeling_conditional)
 
 presex <- as.data.frame(PreSex)
-ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(PremaritalSex, ExtramaritalSex), y=product(Gender), conds=product(Gender, MaritalStatus)), offset = 0.03)+
-  theme(axis.text.x=element_text(angle=-15, hjust=-.1))
+ggplot(data = presex) +
+  geom_mosaic(aes(weight=Freq, x=product(PremaritalSex, ExtramaritalSex), y=product(Gender),
+                  conds=product(Gender, MaritalStatus)), offset = 0.03) +
+  labs(x="Marital Status, Extramarital Sex", y="Gender, Premarital Sex") +
+  theme(axis.text.x=element_text(angle=15, hjust=1))
 
 
 ########################################################
@@ -105,7 +131,9 @@ vcd::mosaic(HairEyeColor, shade = TRUE)
 ## Independence model of hair and eye color and sex. Indicates that there are significantly more blue eyed blond females than expected
 ## in the case of independence (and too few brown eyed blond females).
 hairEyeColor <- as.data.frame(HairEyeColor)
-ggplot(data = hairEyeColor) + geom_mosaic(aes(weight=Freq, x=product(Sex, Eye, Hair), y=product(Hair)), offset = 0.03)
+ggplot(data = hairEyeColor) +
+  geom_mosaic(aes(weight=Freq, x=product(Eye, Hair), y=product(Hair), fill = Sex), offset = 0.03) +
+  labs(x="Eye color", y="Hair color")
 
 
 ## Model of joint independence of sex from hair and eye color. Males
@@ -116,24 +144,35 @@ data("mtcars")
 vcd::mosaic(~ gear + carb, data = mtcars, shade = TRUE)
 
 cars <- as.data.frame(mtcars)
-ggplot(data = cars) + geom_mosaic(aes(x=product(gear, carb), y=product(gear)))
+ggplot(data = cars) +
+  geom_mosaic(aes(x=product(gear, carb), y=product(gear))) +
+  labs(x="Carb", y="Gear")
 
 
 
 #################################################################
 ## Highlighting:
 vcd::mosaic(Survived ~ ., data = Titanic)
-ggplot(data=titanic)+geom_mosaic(aes(weight=Freq, x=product(Age, Sex, Class),y=product(Sex), fill=Survived), offset=.03)+coord_flip()
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight=Freq, x=product(Age, Sex, Class),y=product(Sex), fill=Survived), offset=.03) +
+  labs(x="Class, Age", y="Sex") +
+  coord_flip()
 
 
 #################################################################
 data("Arthritis")
 vcd::mosaic(Improved ~ Treatment | Sex, data = Arthritis, zero_size = 0)
-ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Treatment, Sex),y=product(Sex), fill=Improved), offset=.03)
+ggplot(data=Arthritis) +
+  geom_mosaic(aes(x=product(Treatment, Sex),y=product(Sex), fill=Improved), offset=.03) +
+  labs(x="Treatment", y="Sex")
 
 
 vcd::mosaic(Improved ~ Treatment | Sex, data = Arthritis, zero_size = 0, highlighting_direction = "right")
-ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Treatment, Sex),y=product(Sex), fill=Improved), offset=.03, divider=c("hspine", "hspine", "vspine"))
+ggplot(data=Arthritis) +
+  geom_mosaic(aes(x=product(Treatment, Sex), y=product(Sex), fill=Improved), offset=.03,
+              divider=c("hspine", "hspine", "vspine")) +
+  labs(x="Treatment", y="Sex")   +
+  theme(axis.text.x=element_text(angle=15, hjust=1))
 
 
 #################################################################
@@ -146,17 +185,22 @@ ftable(tab, col.vars = "survival", row.vars = c("stage", "operation", "xray"))
 ## the survival depends on stage, but not xray and operation.
 doubledecker(survival ~ stage + operation + xray, data = tab)
 cancer <- as.data.frame(OvaryCancer)
-ggplot(data = cancer) + geom_mosaic(aes(weight=Freq, x=product(xray, operation, stage), fill=survival),
-                                    divider=ddecker(), offset=0.05)+ theme(axis.text.x=element_text(angle=90))
+ggplot(data = cancer) +
+  geom_mosaic(aes(weight=Freq, x=product(xray, operation, stage), fill=survival),divider=ddecker(), offset=0.05) +
+  theme(axis.text.x=element_text(angle=25, hjust = 1)) +
+  labs(x="Stage, Operation, xray", y="Survival")
+
 
 vcd::mosaic(~ stage + operation + xray + survival,
        split = c(FALSE, TRUE, TRUE, FALSE), data = tab, keep = FALSE,
        gp = gpar(fill = rev(grey.colors(2))))
 
-ggplot(data = cancer) + geom_mosaic(aes(weight=Freq, x=product(xray, operation, stage),
-                                        y=product(stage), fill=survival),
-                                    divider=c("vspine", "hspine", "hspine", "vspine"), offset=0.05)+
-  theme(axis.text.x=element_text(angle=35, hjust=1))
+ggplot(data = cancer) +
+  geom_mosaic(aes(weight=Freq, x=product(xray, operation, stage), y=product(stage), fill=survival),
+              divider=c("vspine", "hspine", "hspine", "vspine"), offset=0.05) +
+  theme(axis.text.x=element_text(angle=15, hjust=1)) +
+  labs(x="Operation, xray", y="Stage, Survival")
+
 
 
 ########################################################################
@@ -167,16 +211,17 @@ vcd::mosaic(attitude ~ age + education + memory, data = Punishment,
 punish <- as.data.frame(Punishment)
 # doesn't work because of hyphenated dates
 punish$age <- gsub("-", "to", punish$age)
-ggplot(data = punish) + geom_mosaic(aes(weight=Freq, x=product(attitude, education, age),
-                                        y=product(age), fill=memory),
-                                    divider=mosaic("h"), offset=0.05)+
-  theme(axis.text.x=element_text(angle=35, hjust=1))
+ggplot(data = punish) +
+  geom_mosaic(aes(weight=Freq, x=product(attitude, education, age), y=product(age), fill=memory), divider=mosaic("h"), offset=0.05)+
+  theme(axis.text.x=element_text(angle=15, hjust=1)) +
+  labs(x="Education, Memory", y="Age, Attitude")
 
 ##############################################################
 ## (Gender Pre)
 vcd::mosaic(margin.table(PreSex, c(3,4)), main = "Gender and Premarital Sex")
 
-ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(Gender, PremaritalSex), y=product(PremaritalSex)), divider=mosaic("h"))+
+ggplot(data = presex) +
+  geom_mosaic(aes(weight=Freq, x=product(Gender, PremaritalSex), y=product(PremaritalSex)), divider=mosaic("h")) +
   labs(x="Gender", y="Premarital Sex", title="Gender and Premarital Sex")
 
 
@@ -185,10 +230,10 @@ vcd::mosaic(margin.table(PreSex, c(2,3,4)),
        expected = ~Gender * PremaritalSex + ExtramaritalSex ,
        main = "PreMaritalSex*Gender +Sex")
 
-ggplot(data = presex) + geom_mosaic(aes(weight=Freq, x=product(Gender, PremaritalSex, ExtramaritalSex),
-                                        y=product(ExtramaritalSex)))+
-  labs(x="Premarital Sex", y="Extramarital Sex")+
-  theme(axis.text.x=element_text(angle=-25, hjust=-.1))
+ggplot(data = presex) +
+  geom_mosaic(aes(weight=Freq, x=product(PremaritalSex, ExtramaritalSex), y=product(ExtramaritalSex), fill = Gender), offset=.02) +
+  labs(x="Premarital Sex", y="Extramarital Sex") +
+  theme(axis.text.x=element_text(angle=0, hjust=.5))
 
 
 ###################################################################
@@ -204,9 +249,11 @@ names(repvict) <- c("FirstVictimization", "SecondVictimization", "Freq")
 punish$age <- gsub("-", "to", punish$age)
 
 
-ggplot(data = repvict) + geom_mosaic(aes(weight=Freq, x=product(SecondVictimization, FirstVictimization), y=product(SecondVictimization)))+
-  labs(x="First Victimization", y="Second Victimization")+
-  theme(axis.text.x=element_text(angle=-25, hjust=-.1))+coord_flip()
+ggplot(data = repvict) +
+  geom_mosaic(aes(weight=Freq, x=product(SecondVictimization, FirstVictimization), y=product(SecondVictimization))) +
+  labs(x="First Victimization", y="Second Victimization") +
+  theme(axis.text.x=element_text(angle=15, hjust=1)) +
+  coord_flip()
 
 #########################################################################
 
@@ -230,25 +277,31 @@ data(rochdale)
  art <- xtabs(~Treatment + Improved, data = Arthritis)
  ## plain mosaic display without shading
  vcd::mosaic(art)
- ggplot(data=Arthritis)+geom_mosaic(aes(x=product(Improved, Treatment),y=product(Improved)))+coord_flip()
+ ggplot(data=Arthritis) +
+   geom_mosaic(aes(x=product(Improved, Treatment),y=product(Improved))) +
+   labs(x="Treatment", y="Improvement") +
+   coord_flip()
 
 
   ## Marimekko Chart
- hec <- margin.table(HairEyeColor, 1:2)
- vcd::mosaic(hec, gp = shading_Marimekko(hec))
+hec <- margin.table(HairEyeColor, 1:2)
+vcd::mosaic(hec, gp = shading_Marimekko(hec))
 
- HEC <- as.data.frame(hec)
- ggplot(data = HEC) + geom_mosaic(aes(weight=Freq, x=product(Eye, Hair), y=product(Eye), fill=Eye), offset=0.02) +
-   theme(axis.text.x=element_text(angle=-25, hjust=-.1))
- ## labeling breaks here
+HEC <- as.data.frame(hec)
+ggplot(data = HEC) +
+  geom_mosaic(aes(weight=Freq, x=product(Hair), y=product(Eye), fill=Eye), offset=0.02, divider=mosaic("h")) +
+  labs(x="Eye Color", y="Hair Color")
 
 
  vcd::mosaic(HairEyeColor, gp = shading_Marimekko(HairEyeColor))
  haireyecolor <- as.data.frame(HairEyeColor)
 
- ggplot(data = haireyecolor) + geom_mosaic(aes(weight=Freq, x=product(Sex, Eye, Hair), y=product(Eye), fill=Eye), offset=0.02) +
-   theme(axis.text.x=element_text(angle=-25, hjust=-.1)) + coord_flip()
-
+ ggplot(data = haireyecolor) +
+   geom_mosaic(aes(weight=Freq, x=product(Sex, Eye, Hair), y=product(Eye), fill=Eye), offset=0.02) +
+   theme(axis.text.x=element_text(angle=-25, hjust=-.1)) +
+   labs(x="Eye color", y="Hair color, Sex") +
+   coord_flip()
+## labeling breaks here
 
 
  ## Diagonal cells shading
@@ -256,8 +309,11 @@ data(rochdale)
  vcd::mosaic(ac, gp = shading_diagonal(ac))
 
  AC <- as.data.frame(ac)
- ggplot(data = AC) + geom_mosaic(aes(weight=Freq, x=product(gender, left, right), y=product(left), fill=left), offset=0.03) +
-   theme(axis.text.x=element_text(angle=-25, hjust=-.1)) + coord_flip()
+ ggplot(data = AC) +
+   geom_mosaic(aes(weight=Freq, x=product(gender, left, right), y=product(left), fill=left), offset=0.03) +
+   theme(axis.text.x=element_text(angle=-25, hjust=-.1)) +
+   labs(y="Left", x="Right, Sex") +
+   coord_flip()
 
  ##############################################
 
@@ -267,6 +323,8 @@ data(rochdale)
 uksoccer <- as.data.frame(UKSoccer)
 
 
-ggplot(data = uksoccer) + geom_mosaic(aes(weight=Freq, x=product(Away, Home), y=product(Away)))+
-  labs(x="Home", y="Away")+coord_flip()
+ggplot(data = uksoccer) +
+  geom_mosaic(aes(weight=Freq, x=product(Away, Home), y=product(Away)))+
+  labs(x="Home", y="Away") +
+  coord_flip()
 
