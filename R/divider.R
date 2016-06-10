@@ -127,7 +127,7 @@ vbar <- function(data, bounds, offset = 0.02, max = NULL) {
 #'
 #' @param direction direction of first split
 #' @export
-mosaic <- function(direction = "v") {
+mosaic <- function(direction = "h") {
   direction <- match.arg(direction, .directions)
   if (direction == "horizontal") {
     splits <- c("hspine", "vspine")
@@ -135,7 +135,7 @@ mosaic <- function(direction = "v") {
     splits <- c("vspine", "hspine")
   }
 
-  function(n) rep(splits, length = n)
+  function(n) rev(rep(splits, length = n))
 }
 
 

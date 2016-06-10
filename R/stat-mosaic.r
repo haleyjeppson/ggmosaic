@@ -1,5 +1,6 @@
 #' Product
 #'
+#' XXX it might be good to make the dot, the colon and the hyphen parameters instead ... and then pass them on to expand_variable
 #' @importFrom plyr laply
 #' @export
 #'
@@ -204,6 +205,9 @@ StatMosaic <- ggplot2::ggproto(
     if (!is.null(scales$y)) {
       res$y <- list(scale=scy)
     }
+# XXXX add label for res
+# XXX bug ggplot_build(gg) cannot be built
+
 
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable

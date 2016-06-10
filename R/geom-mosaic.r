@@ -6,6 +6,8 @@
 #' A mosaic plot is a convenient graphical summary of the conditional ditributions
 #' in a contingency table and is composed of spines in alternating directions.
 #'
+#' XXX fill at the moment is always the last variable - even if the same variable shows up ... we should respect the order when the variable is explicitly listed in the formula
+#'
 #' @inheritParams ggplot2::layer
 #' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partioning:
 #' \itemize{
@@ -43,13 +45,14 @@
 #' # labelling goes wrong here; this might have to do with the use of a conditional variable.
 #' # Check with productplots, whether this is the same issue.
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class, Survived),
+#'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
 #'                   conds = Age))
 #' ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Age),
 #'                                        fill=Survived))
 #'
 #' data(happy, package="productplots")
 #' # why does mosaic start with a vertical split by default?
+#' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h"))
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h")) +
 #'   coord_flip()

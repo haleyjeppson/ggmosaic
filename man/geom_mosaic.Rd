@@ -103,13 +103,14 @@ gg
 # labelling goes wrong here; this might have to do with the use of a conditional variable.
 # Check with productplots, whether this is the same issue.
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class, Survived),
+  geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
                   conds = Age))
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Age),
                                        fill=Survived))
 
 data(happy, package="productplots")
 # why does mosaic start with a vertical split by default?
+ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h"))
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h")) +
   coord_flip()
