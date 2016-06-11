@@ -203,10 +203,11 @@ StatMosaic <- ggplot2::ggproto(
     # export the variables with the data - terrible hack
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
-      res$y <- list(scale=scy)
+      # only set the y scale if it is a product scale, otherwise leave it alone
+      if ("ScaleContinuousProduct" %in% class(scales$y))
+        res$y <- list(scale=scy)
     }
 # XXXX add label for res
-# XXX bug ggplot_build(gg) cannot be built
 
 
     # merge res with data:

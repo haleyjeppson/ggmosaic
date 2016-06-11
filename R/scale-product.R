@@ -85,11 +85,10 @@ scale_y_product <- function(name = waiver(), breaks = waiver(),
 #' @export
 ScaleContinuousProduct <- ggproto(
   "ScaleContinuousProduct", ScaleContinuous,
-  # Position aesthetics don't map, because the coordinate system takes
-  # care of it. But they do need to be made in to doubles, so stat methods
-  # can tell the difference between continuous and discrete data.
   train =function(self, x) {
     cat("train in ScaleContinuousProduct\n")
+    cat("class of variable: ")
+    cat(class(x))
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
@@ -98,14 +97,17 @@ ScaleContinuousProduct <- ggproto(
         self$labels <- x$labels
         # there are some duplicates and NAs that should be removed
      #   browser()
+        cat("\n")
         return()
       }
     }
     if (is.discrete(x)) {
       self$range$train(x=c(0,1))
+      cat("\n")
       return()
     }
     self$range$train(x)
+    cat("\n")
   },
   map = function(self, x, limits = self$get_limits()) {
     cat("map in ScaleContinuousProduct\n")
