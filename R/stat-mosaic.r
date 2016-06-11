@@ -86,9 +86,24 @@ in_data <- function(data, variable) {
 # better leave this an internal helper function
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
-# browser()
+ browser()
   split_this <- as.character(data[,variable])
   df <-   plyr::ldply(strsplit(split_this, split=".", fixed=TRUE), function(x) x)
+  if(ncol(df) == 1)
+  df <- plyr::llply(df, function(x) {
+    split_this <- as.character(x)
+    parts <- plyr::ldply(strsplit(split_this, split="-", fixed=TRUE), function(x) x)
+    #x <- factor(parts[,2])
+    if (ncol(parts) == 2) {
+      parts[,2] <- sapply(strsplit(parts[,2],":"),'[',2)
+      xorder <- suppressWarnings({as.numeric(parts[,1])})
+      if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
+      x <- stats::reorder(factor(parts[,2]), xorder)
+      return(x)
+    }
+    parts
+  })
+  else
   df <- plyr::llply(df, function(x) {
     split_this <- as.character(x)
     parts <- plyr::ldply(strsplit(split_this, split="-", fixed=TRUE), function(x) x)
@@ -160,14 +175,20 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
     cat("compute_panel from StatMosaic\n")
-#  browser()
+  browser()
 
     vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")
 
     if (is.null(vars)) formula <- "1"
     else formula <-  paste(names(vars), collapse="+")
-    if (in_data(data, "fill")) formula <- paste("fill+",formula)
+    #    testFunc <- function(a, b) grepl(b, a)
+    if (in_data(data, "fill")) {
+      #      if (!all(apply(data[complete.cases(data[,2]),], 1, function(y) testFunc(y['x'],y['fill'])))) {
+      formula <- paste("fill+",formula)
+     # else ---- need to replace varible in formula with fill?
+    }
+    #    }
     formula <- paste("weight~", formula)
 
     if (! is.null(conds)) {
