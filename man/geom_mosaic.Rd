@@ -67,6 +67,8 @@ the default plot specification, e.g. \code{\link{borders}}.}
 \description{
 A mosaic plot is a convenient graphical summary of the conditional ditributions
 in a contingency table and is composed of spines in alternating directions.
+
+XXX fill at the moment is always the last variable - even if the same variable shows up ... we should respect the order when the variable is explicitly listed in the formula
 }
 \section{Computed variables}{
 
@@ -93,12 +95,11 @@ gg <- ggplot(data=titanic) +
         geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 gg
 
-# this labelling doesn't work any more, because of the way that scales are set up
 # we should try to get something along these lines to work. Maybe write a labelling
 # function?
-# gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
-#                    label=paste(x1, x2, sep="\\n")),
-#                data=subset(ggplot_build(gg)$data[[1]], level==2))
+gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
+                    label=paste(x1, x2, sep="\\n")),
+               data=subset(ggplot_build(gg)$data[[1]], level==2))
 # doing the right thing, but we need labelling to make it less confusing
 # labelling goes wrong here; this might have to do with the use of a conditional variable.
 # Check with productplots, whether this is the same issue.

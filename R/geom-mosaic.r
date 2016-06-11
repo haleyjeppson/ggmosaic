@@ -35,12 +35,11 @@
 #'         geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #' gg
 #'
-#' # this labelling doesn't work any more, because of the way that scales are set up
 #' # we should try to get something along these lines to work. Maybe write a labelling
 #' # function?
-#' # gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
-#' #                    label=paste(x1, x2, sep="\n")),
-#' #                data=subset(ggplot_build(gg)$data[[1]], level==2))
+#' gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
+#'                     label=paste(x1, x2, sep="\n")),
+#'                data=subset(ggplot_build(gg)$data[[1]], level==2))
 #' # doing the right thing, but we need labelling to make it less confusing
 #' # labelling goes wrong here; this might have to do with the use of a conditional variable.
 #' # Check with productplots, whether this is the same issue.

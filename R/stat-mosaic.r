@@ -209,7 +209,6 @@ StatMosaic <- ggplot2::ggproto(
     }
 # XXXX add label for res
 
-
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
