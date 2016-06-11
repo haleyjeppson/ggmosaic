@@ -43,6 +43,7 @@
 #' # doing the right thing, but we need labelling to make it less confusing
 #' # labelling goes wrong here; this might have to do with the use of a conditional variable.
 #' # Check with productplots, whether this is the same issue.
+#' # Yes, labeling with conditionals is an issue in productplots too
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
 #'                   conds = Age))
