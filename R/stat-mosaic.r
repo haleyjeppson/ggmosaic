@@ -10,6 +10,7 @@
 #'
 product <- function(x, ...) {
 #  browser()
+  # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
   vars <- t(plyr::laply(1:length(vars), function(y) {
@@ -23,7 +24,7 @@ product <- function(x, ...) {
       paste(vars[i,], sep=".", collapse=".")
     })
   }
-  prod <- factor(prod) # interaction doesn't deal with missing values correctly
+  prod <- factor(prod)
   class(prod) <- "product"
   prod
 }
@@ -229,7 +230,10 @@ StatMosaic <- ggplot2::ggproto(
         res$y <- list(scale=scy)
     }
 # XXXX add label for res
-
+    cols <- c(prs$marg, prs$cond)
+    res$label <- plyr::ldply(
+      1:nrow(res),
+      function(x) paste(unlist(res[x, cols]), collapse="-"))$V1
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
