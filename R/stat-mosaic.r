@@ -86,7 +86,7 @@ in_data <- function(data, variable) {
 # better leave this an internal helper function
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
- browser()
+# browser()
   split_this <- as.character(data[,variable])
   df <-   plyr::ldply(strsplit(split_this, split=".", fixed=TRUE), function(x) x)
   if(ncol(df) == 1)
@@ -175,7 +175,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
     cat("compute_panel from StatMosaic\n")
-  browser()
+#  browser()
 
     vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")

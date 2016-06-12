@@ -31,6 +31,8 @@
 #' # as fill variable
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
+#' ggplot(data=titanic) +
+#'   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
 #' gg <- ggplot(data=titanic) +
 #'         geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #' gg
@@ -44,6 +46,8 @@
 #' # labelling goes wrong here; this might have to do with the use of a conditional variable.
 #' # Check with productplots, whether this is the same issue.
 #' # Yes, labeling with conditionals is an issue in productplots too
+#' # Update pushed to productplots repo - re-install from github
+#' devtools::install_github("hadley/productplots")
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
 #'                   conds = Age))
