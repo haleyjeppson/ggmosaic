@@ -25,6 +25,7 @@
 #' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 #'
 #' # labelling should cut off the variable name if there is only one variable
+#' # Nicely done!
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
 #' # good practice: use the 'dependent' variable (or most important variable)
@@ -55,7 +56,7 @@
 #'                                        fill=Survived))
 #'
 #' data(happy, package="productplots")
-#' # why does mosaic start with a vertical split by default?
+#' # why does mosaic start with a vertical split by default? - now fixed
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h"))
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h")) +
@@ -72,19 +73,29 @@
 #'   na.rm=TRUE)
 #'
 #' # here is where a bit more control over the spacing of the bars is helpful:
-#' # scale_x_product does not react to changes to breaks or labels - we need to look into it
+#' # set labels manually:
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
-#'   scale_x_product("Age", breaks = 1:72, labels=1:72)
+#'   scale_x_product("Age", labels=c(17+1:72, "NA"))
+#' # thin out labels manually:
+#' labels <- c(17+1:72, NA)
+#' labels[labels %% 5 != 0] <- ""
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex), na.rm=TRUE)
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
+#'   scale_x_product("Age", labels=labels)
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex),
+#'   divider=mosaic("v"), na.rm=TRUE, offset=0.001) +
+#'   scale_x_product("Age", labels=labels)
 #' # facetting works!!!!
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE) + facet_grid(sex~.)
-#'
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE) +
+#'   facet_grid(sex~.) +
+#'   scale_x_product("Age", labels=labels)
 #'# set the offet
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)), divider=mosaic("h"))
+#'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)),
+#'   divider=mosaic("h"))
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)), offset=.005)
 #'

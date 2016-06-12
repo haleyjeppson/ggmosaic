@@ -92,10 +92,9 @@ ScaleContinuousProduct <- ggproto(
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
-        # re-assign the scale values now that we have the information
-        self$breaks <- x$breaks
-        self$labels <- x$labels
-        # there are some duplicates and NAs that should be removed
+        # re-assign the scale values now that we have the information - but only if necessary
+        if (is.function(self$breaks)) self$breaks <- x$breaks
+        if (is.function(self$labels)) self$labels <- x$labels
      #   browser()
         cat("\n")
         return()
