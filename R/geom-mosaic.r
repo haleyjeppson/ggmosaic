@@ -43,6 +43,10 @@
 #' gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
 #'                     label=paste(x1, x2, sep="\n")),
 #'                data=subset(ggplot_build(gg)$data[[1]], level==2))
+#' ggplot(data=titanic) +
+#'         geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age), label = TRUE)
+#'
+#'
 #' # doing the right thing, but we need labelling to make it less confusing
 #' # labelling goes wrong here; this might have to do with the use of a conditional variable.
 #' # Check with productplots, whether this is the same issue.
@@ -111,7 +115,7 @@
 #'               divider=ddecker(), na.rm=FALSE) + coord_flip()
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                        show.legend = NA, inherit.aes = FALSE, ...)
+                        show.legend = NA, inherit.aes = FALSE, label = FALSE, ...)
 {
   ggplot2::layer(
     data = data,
@@ -125,6 +129,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      label = label,
       ...
     )
   )
@@ -147,14 +152,40 @@ GeomMosaic <- ggplot2::ggproto(
                              size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
                              linewidth=.1),
 
-  draw_panel = function(data, panel_scales, coord) {
+  draw_panel = function(data, panel_scales, coord, label = FALSE) {
     cat("draw_panel in GeomMosaic\n")
-# browser()
+ browser()
     if (all(is.na(data$colour)))
       data$colour <- alpha(data$fill, data$alpha) # regard alpha in colour determination
 
-    GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
-  },
+    label_grob <- NULL
+    if (label){
+      text <- data
+      text$x <- (text$xmin + text$xmax)/2
+      text$y <- (text$ymin + text$ymax)/2
+      text$label <- apply(data[grep("^[x]{1,}[0-9]", names(data))],1,paste, collapse = "-") # need to come up with solution for having two lines of text
+      text$colour = "black"
+      text$size = 3.88
+      text$angle = 0
+      text$hjust = 0.5
+      text$vjust = 0.5
+      text$alpha = NA
+      text$family = ""
+      text$fontface = 1
+      text$lineheight = 1.2
+
+    text <- subset(text, level==max(text$level))
+    label_grob <- GeomText$draw_panel(text, panel_scales, coord, parse = FALSE, na.rm = FALSE, check_overlap = FALSE)
+    }
+
+
+
+
+    gList(
+      GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord),
+      label_grob)
+
+      },
 
   check_aesthetics = function(x, n) {
     ns <- vapply(x, length, numeric(1))
