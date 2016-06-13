@@ -10,14 +10,14 @@ vcd::mosaic(art, gp = shading_max)
 
 ggplot(data = Arthritis) +
   geom_mosaic(aes(x=product(Treatment), y=product(Improved), fill=Improved))  +
+  labs(x = "Treatment", y = "Improvement") +
   coord_flip()
 
 ### levels of factors show up differently
 
 ############################################
-library(colorspace)
 seats <- structure(c(226, 61, 54, 51, 222), .Names = c("CDU/CSU", "FDP", "Linke", "Gruene", "SPD"))
-parties <- rainbow_hcl(6, c = 60, l = 75)[c(5, 2, 6, 3, 1)]
+parties <- colorspace::rainbow_hcl(6, c = 60, l = 75)[c(5, 2, 6, 3, 1)]
 names(parties) <- names(seats)
 data("Bundestag2005")
 votes <- Bundestag2005[c(1, 3:5, 9, 11, 13:16, 2, 6:8, 10, 12),

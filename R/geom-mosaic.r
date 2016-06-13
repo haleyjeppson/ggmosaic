@@ -17,6 +17,7 @@
 #' \item \code{hbar}  Horizontal bar partition: width constant, height varies.
 #' }
 #' @param offset Set the space between the first spine
+#' @param label If \code{TRUE} include labels for all rectangles
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
@@ -52,7 +53,7 @@
 #' # Check with productplots, whether this is the same issue.
 #' # Yes, labeling with conditionals is an issue in productplots too
 #' # Update pushed to productplots repo - re-install from github
-#' devtools::install_github("hadley/productplots")
+#'# devtools::install_github("hadley/productplots")
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
 #'                   conds = Age))
@@ -154,7 +155,7 @@ GeomMosaic <- ggplot2::ggproto(
 
   draw_panel = function(data, panel_scales, coord, label = FALSE) {
     cat("draw_panel in GeomMosaic\n")
- browser()
+ # browser()
     if (all(is.na(data$colour)))
       data$colour <- alpha(data$fill, data$alpha) # regard alpha in colour determination
 
@@ -181,9 +182,10 @@ GeomMosaic <- ggplot2::ggproto(
 
 
 
-    gList(
+    ggplot2:::ggname("geom_mosaic", grobTree(
       GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord),
-      label_grob)
+      label_grob
+    ))
 
       },
 

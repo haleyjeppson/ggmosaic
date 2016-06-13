@@ -7,7 +7,8 @@
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
   position = "identity", na.rm = FALSE, divider = mosaic(),
-  offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
+  offset = 0.01, show.legend = NA, inherit.aes = FALSE, label = FALSE,
+  ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
   position = "position", na.rm = TRUE, divider = mosaic(),
@@ -60,6 +61,8 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
 
+\item{label}{If \code{TRUE} include labels for all rectangles}
+
 \item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
 
 \item{geom}{The geometric object to use display the data}
@@ -103,12 +106,16 @@ gg
 gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
                     label=paste(x1, x2, sep="\\n")),
                data=subset(ggplot_build(gg)$data[[1]], level==2))
+ggplot(data=titanic) +
+        geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age), label = TRUE)
+
+
 # doing the right thing, but we need labelling to make it less confusing
 # labelling goes wrong here; this might have to do with the use of a conditional variable.
 # Check with productplots, whether this is the same issue.
 # Yes, labeling with conditionals is an issue in productplots too
 # Update pushed to productplots repo - re-install from github
-devtools::install_github("hadley/productplots")
+# devtools::install_github("hadley/productplots")
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
                   conds = Age))
