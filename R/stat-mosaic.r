@@ -135,7 +135,7 @@ expand_variable <- function(data, variable) {
 #' }
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
-                        position = "position", na.rm = TRUE,  divider = mosaic(),
+                        position = "identity", na.rm = TRUE,  divider = mosaic(),
                         show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 {
   ggplot2::layer(
