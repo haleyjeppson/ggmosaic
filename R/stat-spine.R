@@ -36,7 +36,7 @@ stat_spine <- function(mapping = NULL, data = NULL, geom = "rect",
 #' @export
 StatSpine <- ggplot2::ggproto("StatSpine", ggplot2::Stat,
                                 required_aes = c("z"),
-                               #  non_missing_aes = "weight",
+                               #  non_missing_aes = "weight"
 
                                setup_params = function(self, data, params, divider = mosaic(), cascade = 0,
                                                        scale_max = TRUE, na.rm = FALSE, levels = -1L,

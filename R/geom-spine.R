@@ -8,7 +8,7 @@
 #' @examples
 #' data(Titanic)
 #' titanic <- as.data.frame(Titanic)
-#' # ggplot(data=titanic) + geom_spine()
+#' ggplot(data=titanic) + geom_spine(aes(z=Sex))
 #' #df <- read.csv("inst/mosaic-rects.csv")
 #' #ggplot() + geom_spine(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 
@@ -34,13 +34,12 @@ geom_spine <- function(mapping = NULL, data = NULL, stat = "spine",
 #' @importFrom grid grobTree
 GeomSpine <- ggplot2::ggproto("GeomSpine", ggplot2::GeomRect,
                                default_aes = aes(colour = NA, fill = "grey35", size = 0.5, linetype = 1,
-                                                 alpha = .4),
+                                                 alpha = .8),
 
                                setup_data = function(data, params) {
                                  cat("setup_data in GeomSpine\n")
-                                 #    data$x <- 1
-                                 #    data$y <- 1
-                                 browser()
+
+
                                  data
                                },
                                required_aes = c("xmin", "xmax", "ymin", "ymax"),
@@ -48,23 +47,11 @@ GeomSpine <- ggplot2::ggproto("GeomSpine", ggplot2::GeomRect,
                                draw_group = function(data, panel_scales, coord) {
                                  cat("draw_group in GeomSpine\n")
 
-                                 browser()
-                                 #     ggplot2:::ggname("geom_lvplot", grobTree(
-                                 #       outliers_grob,
-                                 #       GeomRect$draw_panel(box, panel_scales, coord),
-                                 #       GeomSegment$draw_panel(medians, panel_scales, coord)
-                                 #     ))
+
                                },
 
                                draw_panel = function(self, data, panel_scales, coord) {
-                                 browser()
 
-                               #  panel_scales$x.major <- (data$xmax+data$xmin)/2
-                                # panel_scales$x.major_source <- (data$xmax+data$xmin)/2
-
-                               # panel_scales$x.range <- range(c(min(data$xmin), max(data$xmax)))
-
-                                 browser()
 
                                  if (!coord$is_linear()) {
                                    aesthetics <- setdiff(

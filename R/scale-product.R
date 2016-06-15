@@ -1,6 +1,6 @@
 product_breaks <- function() {
     function(x) {
-      cat(" in product_breaks\n")
+   #   cat(" in product_breaks\n")
     #  browser()
       unique(x)
     }
@@ -8,7 +8,7 @@ product_breaks <- function() {
 
 product_labels <- function() {
   function(x) {
-    cat(" in product_labels\n")
+ #   cat(" in product_labels\n")
   #  browser()
     unique(x)
   }
@@ -20,7 +20,7 @@ product_labels <- function() {
 #' @return character string "product"
 #' @export
 scale_type.product <- function(x) {
-  cat("checking for type product\n")
+ # cat("checking for type product\n")
   #browser()
   "product"
 }
@@ -86,9 +86,9 @@ scale_y_product <- function(name = waiver(), breaks = waiver(),
 ScaleContinuousProduct <- ggproto(
   "ScaleContinuousProduct", ScaleContinuous,
   train =function(self, x) {
-    cat("train in ScaleContinuousProduct\n")
-    cat("class of variable: ")
-    cat(class(x))
+ #   cat("train in ScaleContinuousProduct\n")
+#    cat("class of variable: ")
+#    cat(class(x))
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
@@ -96,20 +96,20 @@ ScaleContinuousProduct <- ggproto(
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels
      #   browser()
-        cat("\n")
+ #       cat("\n")
         return()
       }
     }
     if (is.discrete(x)) {
       self$range$train(x=c(0,1))
-      cat("\n")
+  #    cat("\n")
       return()
     }
     self$range$train(x)
-    cat("\n")
+#    cat("\n")
   },
   map = function(self, x, limits = self$get_limits()) {
-    cat("map in ScaleContinuousProduct\n")
+#    cat("map in ScaleContinuousProduct\n")
   #  browser()
     if (is.discrete(x)) return(x)
     if (is.list(x)) return(0) # need a number
@@ -117,7 +117,7 @@ ScaleContinuousProduct <- ggproto(
     ifelse(!is.na(scaled), scaled, self$na.value)
   },
   dimension = function(self, expand = c(0, 0)) {
-    cat("dimension in ScaleContinuousProduct\n")
+#    cat("dimension in ScaleContinuousProduct\n")
     c(-0.05,1.05)
   }
 )

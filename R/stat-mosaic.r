@@ -8,20 +8,23 @@
 #' @param ... other arguments passed on
 #'
 #'
-product <- function(x, ...) {
-#  browser()
+product <- function(x, ..., separators = c(":", "-", ".")) {
+ # browser()
+
   # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
+  if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
   vars <- t(plyr::laply(1:length(vars), function(y) {
     x <- factor(vars[[y]])
-    paste(as.numeric(vars[[y]]), paste0(varNames[y],":",as.character(vars[[y]])), sep="-")   # keep order of variables the same
+    paste(as.numeric(vars[[y]]), paste0(varNames[y], separators[1],
+                                        as.character(vars[[y]])), sep = separators[2])
   }, .drop = FALSE))
-#  browser()
-  if (ncol(vars) == 1) prod <- vars
+  if (ncol(vars) == 1)
+    prod <- vars
   else {
     prod <- plyr::laply(1:length(x), function(i) {
-      paste(vars[i,], sep=".", collapse=".")
+      paste(vars[i, ], sep = separators[3], collapse = separators[3])
     })
   }
   prod <- factor(prod)
@@ -85,18 +88,18 @@ in_data <- function(data, variable) {
 }
 
 # better leave this an internal helper function
-expand_variable <- function(data, variable) {
+expand_variable <- function(data, variable, separators = separators) {
   if (!in_data(data, variable)) return()
 # browser()
   split_this <- as.character(data[,variable])
-  df <-   plyr::ldply(strsplit(split_this, split=".", fixed=TRUE), function(x) x)
+  df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
   if(ncol(df) == 1)
   df <- plyr::llply(df, function(x) {
     split_this <- as.character(x)
-    parts <- plyr::ldply(strsplit(split_this, split="-", fixed=TRUE), function(x) x)
+    parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
     #x <- factor(parts[,2])
     if (ncol(parts) == 2) {
-      parts[,2] <- sapply(strsplit(parts[,2],":"),'[',2)
+      parts[,2] <- sapply(strsplit(parts[,2],separators[1]),'[',2)
       xorder <- suppressWarnings({as.numeric(parts[,1])})
       if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
       x <- stats::reorder(factor(parts[,2]), xorder)
@@ -107,7 +110,7 @@ expand_variable <- function(data, variable) {
   else
   df <- plyr::llply(df, function(x) {
     split_this <- as.character(x)
-    parts <- plyr::ldply(strsplit(split_this, split="-", fixed=TRUE), function(x) x)
+    parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
     #x <- factor(parts[,2])
     if (ncol(parts) == 2) {
     xorder <- suppressWarnings({as.numeric(parts[,1])})
@@ -136,7 +139,8 @@ expand_variable <- function(data, variable) {
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "identity", na.rm = TRUE,  divider = mosaic(),
-                        show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
+                        show.legend = NA, inherit.aes = TRUE, offset = 0.01,
+                        separators = c(":", "-", "."), ...)
 {
   ggplot2::layer(
     data = data,
@@ -150,6 +154,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      separators = separators,
       ...
     )
   )
@@ -168,18 +173,18 @@ StatMosaic <- ggplot2::ggproto(
   non_missing_aes = "weight",
 
   setup_params = function(data, params) {
-    cat("setup_params from StatMosaic\n")
+  #  cat("setup_params from StatMosaic\n")
     # browser()
 
     params
   },
 
-  compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
-    cat("compute_panel from StatMosaic\n")
+  compute_panel = function(data, scales, na.rm=FALSE, divider, offset, separators) {
+  #  cat("compute_panel from StatMosaic\n")
 #  browser()
 
-    vars <- expand_variable(data, "x")
-    conds <- expand_variable(data, "conds")
+    vars <- expand_variable(data, "x", separators)
+    conds <- expand_variable(data, "conds", separators)
 
     if (is.null(vars)) formula <- "1"
     else formula <-  paste(names(vars), collapse="+")
@@ -233,7 +238,7 @@ StatMosaic <- ggplot2::ggproto(
     cols <- c(prs$marg, prs$cond)
     res$label <- plyr::ldply(
       1:nrow(res),
-      function(x) paste(unlist(res[x, cols]), collapse="-"))$V1
+      function(x) paste(unlist(res[x, cols]), collapse=separators[2]))$V1
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)

@@ -34,13 +34,18 @@ vcd::mosaic(votes, gp = gpar(fill = parties[colnames(votes)]),
 vote <- as.data.frame(votes)
 # ggplot(data=vote)+geom_mosaic(aes(x=product(Bundesland)))
 
+ggplot(data=vote) +
+  geom_mosaic(aes(weight=Freq, x=product(Bundesland, separators = c(":", "_",".")), fill=Fraktion), separators = c(":", "_","."))
+
+
+### doesn't work initially because of hyphenated names.
+
 vote$Bundesland <- gsub("-", "", vote$Bundesland)
 ggplot(data=vote) +
   geom_mosaic(aes(weight=Freq, x=product(Bundesland), y=product(Fraktion), fill=Fraktion)) +
   labs(x="Bundesland", y="Fraktion") + coord_flip() +
   theme(axis.text.x=element_text(angle=45, hjust=1))
 
-### doesn't work initially because of hyphenated names.
 
 #############################################
 data("Employment")
@@ -50,7 +55,9 @@ vcd::mosaic(Employment,
 
 
 employment <- as.data.frame(Employment)
-# ggplot(data=employment)+geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
+ggplot(data=employment) +
+  geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus, separators = c(":", "_","."))),
+              separators = c(":", "_","."))
 ## doesn't work because of hyphenated dates
 employment$EmploymentLength <- gsub("-", "to", employment$EmploymentLength)
 
