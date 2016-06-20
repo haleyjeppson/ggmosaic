@@ -74,7 +74,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”).
 
-```{r happy, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 8}
+```{r happy, echo=FALSE, message=FALSE, fig.width = 7, fig.height = 7}
 a <- ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(marital)), divider="hspine")+
    theme(axis.text.x=element_text(angle=35, hjust= 1))+labs(x=" ", title="hspine")
@@ -105,11 +105,15 @@ multiplot(c, d, a, b, layout=matrix(c(1:4), nrow=2, byrow=FALSE))
 ```
 
 
-### Hierarchical construction
+## Hierarchical construction
 
 To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with a one-dimensional data set and is gradually built up to a higher-dimensional data set. 
 
-###### Explain the statistical formula
+ **Explain the statistical formula** $f(x1, x2, x3) = f(x1 | x2, x3) f(x2, x3) $
+ 
+#### One variable
+
+To begin, to plot is divded into horizontal spines - each representing the proportion of respondents that were a particular level of happy. This plot is useful for answering questions such as, "what proportion of the respondents were very happy?" 
 
 ```{r happy-1, echo=FALSE, message=FALSE}
 # ggplot(data = titanic) +
@@ -120,37 +124,94 @@ ggplot(data = happy) +
 
 ```
 
-To begin, to plot is divded into horizontal spines - each representing the proportion of respondents that were a particular level of happy. This plot is useful for answering questions such as, "what proportion of the respondents were very happy?"  
-  
+ 
+#### Two variables 
+
+This example took the first plot in which the plot was divided into horizontal spines representing the different levels of happiness of the respondents and then split each spine into vertical spines representing the different responses for health. This plot can be used to answer questions such as "what proportion of those not too happy were of excellent health?"
 
 
 ```{r happy-2, echo=FALSE, message=FALSE}
-#ggplot(data = titanic) +
-#  geom_mosaic(aes(weight = Freq, x = product(Class, Sex)))
-
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(happy), y=product(health), fill=health)) +
    theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", y="Health",  title=" f(health, happy) = f(health|happy) f(happy) ")
 
 ```
 
-This example took the first plot in which the plot was divided into horizontal spines representing the different levels of happiness of the respondents and then split each spine into vertical spines representing the different responses for health. This plot can be used to answer questions such as "what proportion of those not too healthy were of excellent health?"  
   
+#### Three variables 
+  
+This plot can be used to answer questions such as "what proportion of those not too happy and of excellent health are female?"
 
-```{r titanic-3, echo=FALSE, message=FALSE}
-#ggplot(data = titanic) +
-#  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)))
+```{r happy-3, echo=FALSE, message=FALSE}
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(health, happy), y = product(health), fill=sex)) +
+   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", y="Health",  title=" f(sex, health, happy) = f(sex|health, happy) f(health, happy) ")
+```
 
-#ggplot(data = titanic) +
-#  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)), divider = c("hspine", "vspine", "hspine"))
-# What proportion of the females in 1st class survived?
+
+### Importance of ordering
+
+The order in which the variables are listed in the formula can have a large effect the graph -- due to the statistical formula...
+
+For example, 
+
+```{r happy-order, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 3.5}
+o1 <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(sex), y=product(degree), fill=degree)) +
+  theme(axis.text.x=element_text(angle=0, vjust= -.5), plot.title = element_text(size = rel(1))) + 
+  labs(x="Sex", y="Degree",  title=" f(degree, sex) = f(degree|sex) f(sex) ")
+
+o2 <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(degree), y=product(sex), fill=sex)) +
+  theme(axis.text.x=element_text(angle=0, vjust= -.50), plot.title = element_text(size = rel(1))) + 
+  labs(x="Degree", y="Sex",  title=" f(sex, degree) = f(sex|degree) f(degree) ")
+
+multiplot(o1, o2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
+
+```
+
+
+### Conditioning
+
+```{r conditioning, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 3.5}
+
+c1 <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), conds= degree, fill = happy) ) +  theme(axis.text.x=element_text(angle=25, hjust= 1))+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ")
+
+c2 <- ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), conds= degree, fill = degree) ) +  theme(axis.text.x=element_text(angle=25, hjust= 1))+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ")
+
+multiplot(c1, c2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
+
+
+```
+
+#### Other parameters that can be set:
+
+Facetting, offset, removing of NA's, and thinning of labels example:
+
+```{r happy-a, echo=FALSE, message=FALSE}
+#labels <- c(17+1:72, NA)
+#labels[labels %% 5 != 0] <- ""
+
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), na.rm = TRUE, offset=0) +
+   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(health, age | sex)") + facet_grid(sex~.) 
+# + scale_x_product("Age", labels=labels)
 
 ```
 
 
 
 
-```{r titanic-a, echo=FALSE, message=FALSE}
-#ggplot(data = titanic) +
-#  geom_mosaic(aes(weight = Freq, fill = Survived, x = product(Class, Sex)))
+### Other
+
+Double decker plot
+
+```{r double-decker, echo=FALSE, message=FALSE}
+
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(sex, finrela), fill=happy), na.rm = TRUE, divider = ddecker()) +
+   theme(axis.text.x=element_text(angle=25, hjust=1))+labs(x="Sex:Finrela", y=" ",  title=" Double decker plot ")  
+
 ```
