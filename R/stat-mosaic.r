@@ -6,6 +6,7 @@
 #'
 #' @param x variable
 #' @param ... other arguments passed on
+#' @param separators characters used to separate the variables. Defaults to c(":", "-", ".")
 #'
 #'
 product <- function(x, ..., separators = c(":", "-", ".")) {
@@ -181,20 +182,31 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset, separators) {
   #  cat("compute_panel from StatMosaic\n")
-#  browser()
+ # browser()
 
     vars <- expand_variable(data, "x", separators)
     conds <- expand_variable(data, "conds", separators)
 
     if (is.null(vars)) formula <- "1"
     else formula <-  paste(names(vars), collapse="+")
-    #    testFunc <- function(a, b) grepl(b, a)
+
     if (in_data(data, "fill")) {
-      #      if (!all(apply(data[complete.cases(data[,2]),], 1, function(y) testFunc(y['x'],y['fill'])))) {
-      formula <- paste("fill+",formula)
-     # else ---- need to replace varible in formula with fill?
+        if (!all(apply(data[complete.cases(data[,2]),], 1, function(y) grepl(y['fill'], y['x'])))) {
+      formula <- paste("fill+",formula) }
+     else { #---- need to replace varible in formula with fill?
+       vars1 <- data.frame(fill=data$fill, vars)
+       logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,2]),], 1, function(y) grepl(y['fill'], y[]))))
+       logicals <- logicals[,-1]
+       logs <- apply(logicals, 2, function(y) all(y[]))
+       logs <- data.frame(t(logs))
+       names(logs) <- names(vars)
+       names(logs)[logs==TRUE] <- "fill"
+
+      formula <- paste(names(logs), collapse="+")
+
     }
-    #    }
+    }
+
     formula <- paste("weight~", formula)
 
     if (! is.null(conds)) {
