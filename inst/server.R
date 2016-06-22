@@ -6,8 +6,8 @@ shinyServer(function(input, output, session) {
 
   names<- names(happy)
   d<- data.frame(value=names, label=names)
-  updateSelectizeInput(session, 'group', choices = d[c(2,4,5,6,7,8),], server=TRUE)
-  updateSelectizeInput(session, 'group2', choices = d[c(2,4,5,6,7,8),], server=TRUE)
+  updateSelectizeInput(session, 'group', choices = d[c(2,4:9),], server=TRUE, selected=d[2,])
+  updateSelectizeInput(session, 'group2', choices = d[c(2,4:9),], server=TRUE)
 
   output$values<- renderText({
     input$group
@@ -19,8 +19,11 @@ shinyServer(function(input, output, session) {
   })
 
   cond <- reactive({
+    if (length(input$group2 > 0)){
     c <- paste(input$group2, collapse = ",")
     sprintf("product(%s)", c)
+    }
+    else return()
     })
 
 
