@@ -17,13 +17,15 @@ shinyUI(fluidPage(
       uiOutput("values"),
       selectizeInput(
         'col', 'Color', names(happy[c(2,4:9)]), selected = "health"
-      )
+      ),
+      width=3
     ),
 
     # plotting
     mainPanel(
       # textOutput("funct"),
-      plotOutput("mosaicplot")
-    )
+      plotOutput("mosaicplot"),
+      width = 9
+      )
 
 ))

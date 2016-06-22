@@ -28,7 +28,9 @@ shinyServer(function(input, output, session) {
 
 
   output$mosaicplot = renderPlot({
-     ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ))
+     ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ))+
+      theme(axis.text.x = element_text(size=15), axis.title.x = element_text(size=20), legend.key.size = unit(1, "cm"),
+            legend.text = element_text(size=10), legend.title = element_text(size = 15))
     })
 
 
