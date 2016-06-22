@@ -16,7 +16,7 @@ shinyUI(fluidPage(
       selectizeInput('group2', "Select variables to condition on:", NULL, multiple = TRUE, options = list(maxItems = 2)),
       uiOutput("values"),
       selectizeInput(
-        'col', 'Color', names(happy[c(2,4:8)])
+        'col', 'Color', names(happy[c(2,4:9)]), selected = "health"
       )
     ),
 
