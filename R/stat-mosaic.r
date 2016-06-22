@@ -1,4 +1,5 @@
-separators = c("-", ":", ".")
+ggm <- new.env()
+ggm$separators = c(sep1="-", sep2=":", sep3=".")
 
 
 #' Separator characters
@@ -9,15 +10,16 @@ separators = c("-", ":", ".")
 #' @export
 set.separators <- function(seps) {
   stopifnot(length(seps) == 3, length(unique(seps)) == 3)
-  env <- loadNamespace("ggmosaic")
-  unlockBinding("separators", env)
-  assign("separators", seps , env)
+#  env <- loadNamespace("ggmosaic")
+#  unlockBinding("separators", env)
+#  assign("separators", seps , env)
+  ggm$separators <- seps
 }
 
 #' @rdname set.separators
 #' @export
 get.separators <- function() {
-  separators
+  ggm$separators
 }
 
 #' Product
