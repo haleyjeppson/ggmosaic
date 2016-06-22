@@ -182,7 +182,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset, separators) {
   #  cat("compute_panel from StatMosaic\n")
-  browser()
+  #browser()
 
     vars <- expand_variable(data, "x", separators)
     conds <- expand_variable(data, "conds", separators)
@@ -251,7 +251,7 @@ StatMosaic <- ggplot2::ggproto(
     cols <- c(prs$marg, prs$cond)
     res$label <- plyr::ldply(
       1:nrow(res),
-      function(x) paste(unlist(res[x, cols]), collapse=separators[2]))$V1
+      function(x) paste(unlist(res[x, cols]), collapse="\n"))$V1
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
