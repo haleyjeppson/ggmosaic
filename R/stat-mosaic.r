@@ -1,3 +1,25 @@
+separators = c("-", ":", ".")
+
+
+#' Separator characters
+#'
+#' separators are a list of three special characters. These characters need to be different for each level.
+#' @param seps Vector of length three. The first separator tags the value with its order, the second separator distinguishes between the key (variable name) and the value of the variable in the record.
+#' The third separator links different values. XXX Can't use "|" for the first separator - not sure why. Might be a bug. XXX
+#' @export
+set.separators <- function(seps) {
+  stopifnot(length(seps) == 3, length(unique(seps)) == 3)
+  env <- loadNamespace("ggmosaic")
+  unlockBinding("separators", env)
+  assign("separators", seps , env)
+}
+
+#' @rdname set.separators
+#' @export
+get.separators <- function() {
+  separators
+}
+
 #' Product
 #'
 #' XXX it might be good to make the dot, the colon and the hyphen parameters instead ... and then pass them on to expand_variable
@@ -6,15 +28,15 @@
 #'
 #' @param x variable
 #' @param ... other arguments passed on
-#' @param separators characters used to separate the variables. Defaults to c(":", "-", ".")
 #'
 #'
-product <- function(x, ..., separators = c(":", "-", ".")) {
+product <- function(x, ...) {
  # browser()
 
   # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
+  separators <- get.separators()
   if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
   vars <- t(plyr::laply(1:length(vars), function(y) {
     x <- factor(vars[[y]])
@@ -89,9 +111,11 @@ in_data <- function(data, variable) {
 }
 
 # better leave this an internal helper function
-expand_variable <- function(data, variable, separators = separators) {
+expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
 # browser()
+  separators <- get.separators()
+
   split_this <- as.character(data[,variable])
   df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
   if(ncol(df) == 1)
@@ -140,8 +164,7 @@ expand_variable <- function(data, variable, separators = separators) {
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "identity", na.rm = TRUE,  divider = mosaic(),
-                        show.legend = NA, inherit.aes = TRUE, offset = 0.01,
-                        separators = c(":", "-", "."), ...)
+                        show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 {
   ggplot2::layer(
     data = data,
@@ -155,7 +178,6 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
-      separators = separators,
       ...
     )
   )
@@ -180,12 +202,12 @@ StatMosaic <- ggplot2::ggproto(
     params
   },
 
-  compute_panel = function(data, scales, na.rm=FALSE, divider, offset, separators) {
+  compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
   #  cat("compute_panel from StatMosaic\n")
   #browser()
 
-    vars <- expand_variable(data, "x", separators)
-    conds <- expand_variable(data, "conds", separators)
+    vars <- expand_variable(data, "x")
+    conds <- expand_variable(data, "conds")
 
     if (is.null(vars)) formula <- "1"
     else formula <-  paste(names(vars), collapse="+")

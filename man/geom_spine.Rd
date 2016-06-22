@@ -60,7 +60,7 @@ Spine plots.
 \examples{
 data(Titanic)
 titanic <- as.data.frame(Titanic)
-# ggplot(data=titanic) + geom_spine()
+ggplot(data=titanic) + geom_spine(aes(z=Sex))
 #df <- read.csv("inst/mosaic-rects.csv")
 #ggplot() + geom_spine(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax), data=df)
 }

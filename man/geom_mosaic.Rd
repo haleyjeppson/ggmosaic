@@ -11,7 +11,7 @@ geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
   ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
-  position = "position", na.rm = TRUE, divider = mosaic(),
+  position = "identity", na.rm = TRUE, divider = mosaic(),
   show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 }
 \arguments{
@@ -83,12 +83,12 @@ XXX fill at the moment is always the last variable - even if the same variable s
 }
 }
 \examples{
+
 data(Titanic)
 titanic <- as.data.frame(Titanic)
 titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 
-# labelling should cut off the variable name if there is only one variable
-# Nicely done!
+
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
 # good practice: use the 'dependent' variable (or most important variable)
@@ -111,11 +111,8 @@ ggplot(data=titanic) +
 
 
 # doing the right thing, but we need labelling to make it less confusing
-# labelling goes wrong here; this might have to do with the use of a conditional variable.
-# Check with productplots, whether this is the same issue.
-# Yes, labeling with conditionals is an issue in productplots too
-# Update pushed to productplots repo - re-install from github
-# devtools::install_github("hadley/productplots")
+
+
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
                   conds = Age))
@@ -123,7 +120,7 @@ ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Age),
                                        fill=Survived))
 
 data(happy, package="productplots")
-# why does mosaic start with a vertical split by default? - now fixed
+
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h"))
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h")) +
@@ -156,10 +153,10 @@ ggplot(data = happy) +
   scale_x_product("Age", labels=labels)
 # facetting works!!!!
 ggplot(data = happy) +
-  geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE) +
+  geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset = 0) +
   facet_grid(sex~.) +
   scale_x_product("Age", labels=labels)
-# set the offet
+
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)),
   divider=mosaic("h"))
@@ -176,5 +173,17 @@ ggplot(data=rochdale) +
 ggplot(data=rochdale) +
   geom_mosaic(aes(x=product(Wife.sEduc,Husband.sEduc, Child), fill=Household),
               divider=ddecker(), na.rm=FALSE) + coord_flip()
+
+# Spine example
+ggplot(data = happy) +
+ geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
+ facet_grid(happy~.)
+
+# Working on using other characters as the separators:
+   ## current issue is that it has to be changed in two different places
+set.separators(c(":", "_","|"))
+employment <- as.data.frame(Employment)
+ggplot(data = employment) +
+ geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
 }
 

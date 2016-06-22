@@ -119,16 +119,14 @@
 #'
 #' # Working on using other characters as the separators:
 #'    ## current issue is that it has to be changed in two different places
-#'
+#' set.separators(c(":", "_","|"))
 #' employment <- as.data.frame(Employment)
 #' ggplot(data = employment) +
-#'  geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus,
-#'        separators = c(":", "_","."))), separators = c(":", "_","."))
+#'  geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                        show.legend = NA, inherit.aes = FALSE, label = FALSE,
-                        separators = c(":", "-", "."), ...)
+                        show.legend = NA, inherit.aes = FALSE, label = FALSE, ...)
 {
   ggplot2::layer(
     data = data,
@@ -142,7 +140,6 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
-      separators = separators,
       label = label,
       ...
     )
