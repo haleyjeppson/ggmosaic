@@ -8,9 +8,7 @@ library(ggmosaic)
 shinyUI(fluidPage(
 
   # Application title
-  titlePanel("Mosaic Plot"),
-
-  sidebarLayout(
+  headerPanel("Mosaic Plot"),
 
     # sidebar with options for controlling parameters
     sidebarPanel(
@@ -26,5 +24,5 @@ shinyUI(fluidPage(
       # textOutput("funct"),
       plotOutput("mosaicplot")
     )
-  )
+
 ))

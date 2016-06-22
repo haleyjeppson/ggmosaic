@@ -206,7 +206,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
   #  cat("compute_panel from StatMosaic\n")
-  #browser()
+  browser()
 
     vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")
@@ -216,7 +216,7 @@ StatMosaic <- ggplot2::ggproto(
 
     if (in_data(data, "fill")) {
 
-        if (!all(apply(data[complete.cases(data[,2]),], 1, function(y) grepl(y['fill'], y['x'])))) {
+        if (!all(apply(data[complete.cases(data[,1]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
       formula <- paste("fill+",formula) }
      else { #---- need to replace varible in formula with fill?
        vars1 <- data.frame(fill=data$fill, vars)
