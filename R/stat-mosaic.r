@@ -206,7 +206,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
   #  cat("compute_panel from StatMosaic\n")
- # browser()
+   browser()
 
     vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")
@@ -215,8 +215,8 @@ StatMosaic <- ggplot2::ggproto(
     else formula <-  paste(names(vars), collapse="+")
 
     if (in_data(data, "fill")) {
-
-        if (!all(apply(data[complete.cases(data[,1]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
+      if (!all(apply(data[complete.cases(data[,c(1,4)]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
+        if (!all(apply(data[complete.cases(data[,1:2]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
       formula <- paste("fill+",formula) }
      else { #---- need to replace varible in formula with fill?
        vars1 <- data.frame(fill=data$fill, vars)
@@ -230,13 +230,28 @@ StatMosaic <- ggplot2::ggproto(
       formula <- paste(names(logs), collapse="+")
 
     }
-    }
+    }}
 
     formula <- paste("weight~", formula)
 
     if (! is.null(conds)) {
-      formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
+      if (!all(apply(data[complete.cases(data[,c(1,4)]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
+        formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
+      }
+      else {
+        conds1 <- data.frame(fill=data$fill, conds)
+        logicals <- data.frame(t(apply(conds1[complete.cases(conds1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
+        logicals <- logicals[,-1]
+        logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
+        logs <- data.frame(t(logs))
+        names(logs) <- names(conds)
+        names(logs)[logs==TRUE] <- "fill"
+
+        formula<- paste(formula, paste(names(logs), collapse="+"), sep="|")
+
+      }
     }
+
     df <- data
     if (! is.null(vars)) df <- data.frame(df, vars)
     if (! is.null(conds)) df <- data.frame(df, conds)
