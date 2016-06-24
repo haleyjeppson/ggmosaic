@@ -70,9 +70,11 @@ shinyServer(function(input, output, session) {
 
       labs <- create_labels(gg)
 
-      gg <- gg + annotate("text", x = labs$x, labs$y, label=labs$label)
+      gg <- gg + annotate("text", x = labs$x, labs$y, label=labs$label, colour = "black")
     }
     else gg
+
+    gg
 
   })
 
