@@ -68,84 +68,106 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 ### Basic Explanation of `ggmosaic`  
   
-`ggmosiac` produces a mosaic plot as a convenient graphical summary of the conditional distributions in a contingency table. The area of the graphical element is propotional to the underlying probability, so we are easily able to visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions which allows us to see any association that may be occuring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
+`ggmosiac` was designed to create visualisations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table. In a mosaic plot, the area of each graphical element is propotional to the underlying probability of that category. This allows us to easily visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occuring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
 
 ### Types of partitioning
 
 There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”).
 
-```{r happy, echo=FALSE, message=FALSE, fig.width = 7, fig.height = 7}
+```{r partitions, message=FALSE, fig.width = 7, fig.height = 7}
+
 a <- ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(marital)), divider="hspine")+
-   theme(axis.text.x=element_text(angle=35, hjust= 1))+labs(x=" ", title="hspine")
+   geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="hbar") +
+   theme(axis.text.x=element_text(angle=35, hjust= 1), legend.position="none")+labs(x=" ", title="hbar")
+
 
 b <- ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(marital), y= product(marital)), divider="vspine")+
-   labs(y=" ", x="", title="vspine")
-
+   geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="hspine") +
+   theme(axis.text.x=element_text(angle=35, hjust= 1), legend.position="none") + labs(x=" ", title="hspine")
+ 
 c <- ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(marital)), divider="hbar")+
-   theme(axis.text.x=element_text(angle=35, hjust= 1))+labs(x=" ", title="hbar")
-
-d <- ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(marital), y= product(marital)), divider="vbar")+
+   geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="vbar") +
+   theme(legend.position="none") +
    labs(y=" ", x="", title="vbar")
-
-multiplot(c, d, a, b, layout=matrix(c(1:4), nrow=2, byrow=FALSE))
-
-
-# ggplot(data = titanic) +
-#   geom_mosaic(aes(weight = Freq,  x = product(Class)))
-# ggplot(data = titanic) +
-#   geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "hspine")
-# ggplot(data = titanic) +
-#   geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "hbar")
-# ggplot(data = titanic) +
-#   geom_mosaic(aes(weight = Freq,  x = product(Class)), divider = "vbar")
+ 
+d <- ggplot(data = happy) +
+   geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="vspine") +
+   theme(legend.position="none") +
+   labs(y=" ", x="", title="vspine")
+ 
+multiplot(a, b, c, d, layout=matrix(c(1:4), nrow=2, byrow=TRUE))
 ```
 
+##### Paritioning with more than one variable
 
-## Hierarchical construction
+When more than one variable is to be considered, a type of partitioning needs to be selected for each variable. By selecting `divider = mosaic()` (the default) or `divider = ddecker()`, the correct number of partitions will be selected. For example, if three variables were to be plotted, the default, `divider = mosaic()`, would partition the plot with spines in alternating directions, beginning with a horizontal spine, i.e. `divider = c("hspine", "vspine", "hspine")`. 
 
-To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with a one-dimensional data set and is gradually built up to a higher-dimensional data set. 
+```{r mosaics-1, message=FALSE}
 
- **Explain the statistical formula** $f(x1, x2, x3) = f(x1 | x2, x3) f(x2, x3) $
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(health, happy, sex), fill=health), na.rm = TRUE) +
+   theme(axis.text.x=element_text(angle=25, hjust= 1))+labs(x=" Sex : Health", y = "Happiness", title="divider = mosaic()")
+
+```
+
+Alternatively, a mosaic plot can be created with alternating spines beginning with a vertical spine by declaring `divider = mosaic("v")`.
+
+```{r mosaics-2, message=FALSE}
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(health, happy, sex), fill=health), divider = mosaic("v"), na.rm = TRUE) +
+   theme(axis.text.x=element_text(angle=10, hjust= .8))+labs(x=" Happiness : Health", y = "Sex", title='divider = mosaic("v")')
  
-#### One variable
+```
+ 
+A double decker plot will select $n-1$ horizontal spines and end with a vertical spine.
+
+```{r ddecker, message=FALSE}
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(health, happy, sex), fill=health), divider = ddecker(), na.rm = TRUE) +
+   theme(axis.text.x=element_text(angle=30, hjust= .8))+labs(x=" Happiness : Sex", y = "Health", title='divider = ddecker()')
+ 
+```
+ 
+### Hierarchical construction 
+ 
+Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important. To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with displaying one variable and is gradually built up to display multiple variables. 
+
+<!-- **Explain the statistical formula** $f(x1, x2, x3) = f(x1 | x2, x3) f(x2, x3) $ -->
+ 
+###### One variable
 
 To begin, to plot is divded into horizontal spines - each representing the proportion of respondents that were a particular level of happy. This plot is useful for answering questions such as, "what proportion of the respondents were very happy?" 
 
-```{r happy-1, echo=FALSE, message=FALSE}
-# ggplot(data = titanic) +
-#  geom_mosaic(aes(weight = Freq, x = product(Sex)))
+```{r happy-1, message=FALSE}
+
 ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(happy)), divider=mosaic("h"))+
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), fill = happy))+
    theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", title=" f(happy) ")
 
 ```
 
  
-#### Two variables 
+###### Two variables 
 
 This example took the first plot in which the plot was divided into horizontal spines representing the different levels of happiness of the respondents and then split each spine into vertical spines representing the different responses for health. This plot can be used to answer questions such as "what proportion of those not too happy were of excellent health?"
 
 
-```{r happy-2, echo=FALSE, message=FALSE}
+```{r happy-2, message=FALSE}
 ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(happy), y=product(health), fill=health)) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), fill=health)) +
    theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", y="Health",  title=" f(health, happy) = f(health|happy) f(happy) ")
 
 ```
 
   
-#### Three variables 
+###### Three variables 
   
 This plot can be used to answer questions such as "what proportion of those not too happy and of excellent health are female?"
 
-```{r happy-3, echo=FALSE, message=FALSE}
+```{r happy-3, message=FALSE}
 ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(health, happy), y = product(health), fill=sex)) +
-   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Happiness", y="Health",  title=" f(sex, health, happy) = f(sex|health, happy) f(health, happy) ")
+  geom_mosaic(aes(weight = wtssall,  x = product(health, happy), fill=sex)) +
+   theme(axis.text.x=element_text(angle=30, hjust= .8))+labs(x="Happiness : Sex", y="Health",  title=" f(sex, health, happy) = f(sex|health, happy) f(health, happy) ")
 ```
 
 
@@ -186,17 +208,17 @@ multiplot(c1, c2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 ```
 
-#### Other parameters that can be set:
+### Other parameters that can be set:
 
 Facetting, offset, removing of NA's, and thinning of labels example:
 
-```{r happy-a, echo=FALSE, message=FALSE}
+```{r happy-o, echo=FALSE, message=FALSE}
 #labels <- c(17+1:72, NA)
 #labels[labels %% 5 != 0] <- ""
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), na.rm = TRUE, offset=0) +
-   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(health, age | sex)") + facet_grid(sex~.) 
+   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(marital, age | sex)") + facet_grid(sex~.) 
 # + scale_x_product("Age", labels=labels)
 
 ```
@@ -205,13 +227,3 @@ ggplot(data = happy) +
 
 
 ### Other
-
-Double decker plot
-
-```{r double-decker, echo=FALSE, message=FALSE}
-
-ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(sex, finrela), fill=happy), na.rm = TRUE, divider = ddecker()) +
-   theme(axis.text.x=element_text(angle=25, hjust=1))+labs(x="Sex:Finrela", y=" ",  title=" Double decker plot ")  
-
-```

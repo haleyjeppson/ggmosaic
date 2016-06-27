@@ -206,7 +206,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
   #  cat("compute_panel from StatMosaic\n")
- #  browser()
+  # browser()
 
     vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")
@@ -215,8 +215,9 @@ StatMosaic <- ggplot2::ggproto(
     else formula <-  paste(names(vars), collapse="+")
 
     if (in_data(data, "fill")) {
-      if (!all(apply(data[complete.cases(data[,c(1,4)]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
-        if (!all(apply(data[complete.cases(data[,1:2]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
+      if(!is.null(conds)){
+      if (!all(apply(data[complete.cases(data[c('conds', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
+        if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
       formula <- paste("fill+",formula) }
      else { #---- need to replace varible in formula with fill?
        vars1 <- data.frame(fill=data$fill, vars)
@@ -228,14 +229,32 @@ StatMosaic <- ggplot2::ggproto(
        names(logs)[logs==TRUE] <- "fill"
 
       formula <- paste(names(logs), collapse="+")
+     }
+      }
+      }
+        else {
+          if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
+            formula <- paste("fill+",formula) }
+          else { #---- need to replace varible in formula with fill?
+            vars1 <- data.frame(fill=data$fill, vars)
+            logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
+            logicals <- logicals[,-1]
+            logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
+            logs <- data.frame(t(logs))
+            names(logs) <- names(vars)
+            names(logs)[logs==TRUE] <- "fill"
 
-    }
-    }}
+            formula <- paste(names(logs), collapse="+")
+
+
+          }
+          }}
+
 
     formula <- paste("weight~", formula)
 
     if (! is.null(conds)) {
-      if (!all(apply(data[complete.cases(data[,c(1,4)]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
+      if (!all(apply(data[complete.cases(data[c('fill', 'conds')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
         formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
       }
       else {
