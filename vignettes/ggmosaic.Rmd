@@ -70,11 +70,16 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   
 `ggmosiac` was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
 
+### Product
+
+Explain the product() function?
+
+
 ### Types of partitioning
 
 There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”).
 
-```{r partitions, message=FALSE, fig.width = 7, fig.height = 7}
+```{r partitions-a, message=FALSE, fig.width = 7, fig.height = 3.5}
 
 a <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="hbar") +
@@ -84,7 +89,13 @@ a <- ggplot(data = happy) +
 b <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="hspine") +
    theme(axis.text.x=element_text(angle=35, hjust= 1), legend.position="none") + labs(x=" ", title="hspine")
- 
+
+multiplot(a, b, layout=matrix(c(1:2), nrow=1))
+
+```
+
+```{r partitions-b, message=FALSE, fig.width = 7, fig.height = 3.5}
+
 c <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="vbar") +
    theme(legend.position="none") +
@@ -95,7 +106,7 @@ d <- ggplot(data = happy) +
    theme(legend.position="none") +
    labs(y=" ", x="", title="vspine")
  
-multiplot(a, b, c, d, layout=matrix(c(1:4), nrow=2, byrow=TRUE))
+multiplot(c, d, layout=matrix(c(1:2), nrow=1))
 ```
 
 ##### Paritioning with more than one variable
@@ -130,6 +141,11 @@ ggplot(data = happy) +
  
 ```
  
+ 
+
+
+
+
 ### Hierarchical construction 
  
 Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important. To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with displaying one variable and is gradually built up to display multiple variables. 
@@ -179,7 +195,7 @@ The order in which the variables are listed in the formula can have a large effe
 
 For example, 
 
-```{r happy-order, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 3.5}
+```{r happy-order, message=FALSE, fig.width = 8, fig.height = 3.5}
 o1 <- ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(sex), y=product(degree), fill=degree)) +
   theme(axis.text.x=element_text(angle=0, vjust= -.5), plot.title = element_text(size = rel(1))) + 
@@ -197,10 +213,10 @@ multiplot(o1, o2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 ### Conditioning
 
-Another feature of `ggmosaic` is the option to condition on a variable. 
+Another feature of `ggmosaic` is the option to condition on a variable. The conditioning variables can be called in a manner similar to the other variables, but instead of calling ` x = product(x1, x2) `, you declare ` conds = product(x1, x2) `.
 
 
-```{r conditioning, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 3.5}
+```{r conditioning, message=FALSE, fig.width = 8, fig.height = 3.5}
 
 c1 <- ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(happy), conds= degree, fill = happy) ) +  theme(axis.text.x=element_text(angle=25, hjust= 1))+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ")
@@ -210,21 +226,41 @@ c2 <- ggplot(data = happy) +
 
 multiplot(c1, c2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
+```
 
+An option to consider when conditioning is to instead use faceting. Faceting provides better labeling than `ggmosaic` currently can. 
+
+```{r conditioning-facet-1, message=FALSE}
+
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), conds= degree, fill = happy) ) +  theme(axis.text.x=element_text(hjust= .5))+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ")
+
+```
+
+```{r conditioning-facet-2, message=FALSE}
+
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(happy), fill = happy), divider=mosaic("v") )+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ") + facet_grid(.~degree)
+  
 ```
 
 ### Other parameters that can be set:
 
-Faceting, offset, removing of Na's, and thinning of labels example:
+When there is a variable with many categories, it may be of interest to decrease the size of the spacing between the spines. This can be achieved by declaring `offset = `. The default setting is `offset = 0.01`. 
 
-```{r happy-o, echo=FALSE, message=FALSE}
-#labels <- c(17+1:72, NA)
-#labels[labels %% 5 != 0] <- ""
+
+```{r offset-1, message=FALSE}
+
+ggplot(data = happy) +
+  geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), na.rm = TRUE) +
+  theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(marital, age | sex)") + facet_grid(sex~.) 
+```
+
+```{r offset-2, message=FALSE}
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), na.rm = TRUE, offset=0) +
-   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(marital, age | sex)") + facet_grid(sex~.) 
-# + scale_x_product("Age", labels=labels)
+  theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(marital, age | sex)") + facet_grid(sex~.) 
 
 ```
 
