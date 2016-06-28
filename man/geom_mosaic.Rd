@@ -63,8 +63,6 @@ the default plot specification, e.g. \code{\link{borders}}.}
 \item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
 
 \item{geom}{The geometric object to use display the data}
-
-\item{label}{If \code{TRUE} include labels for all rectangles}
 }
 \description{
 A mosaic plot is a convenient graphical summary of the conditional ditributions
@@ -94,19 +92,10 @@ ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
-gg <- ggplot(data=titanic) +
-        geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
-gg
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 
-# we should try to get something along these lines to work. Maybe write a labelling
-# function?
-gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
-                    label=paste(x1, x2, sep="\\n")),
-               data=subset(ggplot_build(gg)$data[[1]], level==2))
-
-# doing the right thing, but we need labelling to make it less confusing
-
-
+\dontrun{
 data(happy, package="productplots")
 
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
@@ -155,6 +144,6 @@ ggplot(data = happy) +
 ggplot(data = happy) +
  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
  facet_grid(happy~.)
-
+}
 }
 

@@ -14,7 +14,7 @@ Depends:
     productplots
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
-BugReports: https://github.com/sctyner/geomnet/issues
+BugReports: https://github.com/haleyjeppson/ggmosaic
 LazyData: TRUE
 RoxygenNote: 5.0.1
 Suggests:
