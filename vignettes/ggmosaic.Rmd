@@ -68,7 +68,7 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 ### Basic Explanation of `ggmosaic`  
   
-`ggmosiac` was designed to create visualisations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table. In a mosaic plot, the area of each graphical element is propotional to the underlying probability of that category. This allows us to easily visualize how the joint distribuiton is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occuring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
+`ggmosiac` was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
 
 ### Types of partitioning
 
@@ -100,7 +100,9 @@ multiplot(a, b, c, d, layout=matrix(c(1:4), nrow=2, byrow=TRUE))
 
 ##### Paritioning with more than one variable
 
-When more than one variable is to be considered, a type of partitioning needs to be selected for each variable. By selecting `divider = mosaic()` (the default) or `divider = ddecker()`, the correct number of partitions will be selected. For example, if three variables were to be plotted, the default, `divider = mosaic()`, would partition the plot with spines in alternating directions, beginning with a horizontal spine, i.e. `divider = c("hspine", "vspine", "hspine")`. 
+When more than one variable is to be considered, a type of partition needs to be selected for each variable. By selecting `divider = mosaic()`, the default, or `divider = ddecker()`, the correct number of partitions will be selected. For example, if three variables were to be plotted, the default, `divider = mosaic()`, would partition the plot with spines in alternating directions, beginning with a horizontal spine, i.e. `divider = c("hspine", "vspine", "hspine")`. It is also an option to manually select the type of partition that will be used for each variable, i.e. `divider = c("hbar", "vspine", "hspine")`. It should be noted that the first partition in the vector will be the last partition made in the plot.  
+
+As mentioned above, when no divider is declared, the default `divider = mosaic()` will begin with a horizontal spine and alternate directions with each subsequent variable.
 
 ```{r mosaics-1, message=FALSE}
 
@@ -136,7 +138,7 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
  
 ###### One variable
 
-To begin, to plot is divded into horizontal spines - each representing the proportion of respondents that were a particular level of happy. This plot is useful for answering questions such as, "what proportion of the respondents were very happy?" 
+To begin, to plot is divided into horizontal spines - each representing the proportion of respondents that were a particular level of happy. This plot is useful for answering questions such as, "what proportion of the respondents were very happy?" 
 
 ```{r happy-1, message=FALSE}
 
@@ -195,6 +197,9 @@ multiplot(o1, o2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 ### Conditioning
 
+Another feature of `ggmosaic` is the option to condition on a variable. 
+
+
 ```{r conditioning, echo=FALSE, message=FALSE, fig.width = 8, fig.height = 3.5}
 
 c1 <- ggplot(data = happy) +
@@ -210,7 +215,7 @@ multiplot(c1, c2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 ### Other parameters that can be set:
 
-Facetting, offset, removing of NA's, and thinning of labels example:
+Faceting, offset, removing of Na's, and thinning of labels example:
 
 ```{r happy-o, echo=FALSE, message=FALSE}
 #labels <- c(17+1:72, NA)
