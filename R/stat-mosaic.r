@@ -24,7 +24,6 @@ get.separators <- function() {
 
 #' Product
 #'
-#' XXX it might be good to make the dot, the colon and the hyphen parameters instead ... and then pass them on to expand_variable
 #' @importFrom plyr laply
 #' @export
 #'

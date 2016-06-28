@@ -7,8 +7,7 @@
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
   position = "identity", na.rm = FALSE, divider = mosaic(),
-  offset = 0.01, show.legend = NA, inherit.aes = FALSE, label = FALSE,
-  ...)
+  offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
   position = "identity", na.rm = TRUE, divider = mosaic(),
@@ -61,17 +60,15 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link{borders}}.}
 
-\item{label}{If \code{TRUE} include labels for all rectangles}
-
 \item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
 
 \item{geom}{The geometric object to use display the data}
+
+\item{label}{If \code{TRUE} include labels for all rectangles}
 }
 \description{
 A mosaic plot is a convenient graphical summary of the conditional ditributions
 in a contingency table and is composed of spines in alternating directions.
-
-XXX fill at the moment is always the last variable - even if the same variable shows up ... we should respect the order when the variable is explicitly listed in the formula
 }
 \section{Computed variables}{
 
@@ -106,28 +103,19 @@ gg
 gg + geom_text(aes(x = (xmin+xmax)/2, y = (ymin+ymax)/2,
                     label=paste(x1, x2, sep="\\n")),
                data=subset(ggplot_build(gg)$data[[1]], level==2))
-ggplot(data=titanic) +
-        geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age), label = TRUE)
-
 
 # doing the right thing, but we need labelling to make it less confusing
 
 
-ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Survived, Class),
-                  conds = Age))
-ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class, Age),
-                                       fill=Survived))
-
 data(happy, package="productplots")
 
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
-ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h"))
-ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider=mosaic("h")) +
+ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
+ggplot(data = happy) + geom_mosaic(aes(x=product(happy))) +
   coord_flip()
 # weighting is important
 ggplot(data = happy) +
-  geom_mosaic(aes(weight=wtssall, x=product(happy)), divider=mosaic("h"))
+  geom_mosaic(aes(weight=wtssall, x=product(happy)))
 ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy)) +
   theme(axis.text.x=element_text(angle=35))
 ggplot(data = happy) +
@@ -163,27 +151,10 @@ ggplot(data = happy) +
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)), offset=.005)
 
-data(rochdale)
-ggplot(data=rochdale) +
-  geom_mosaic(aes(x=product(Husband.sEduc, Child), fill=Household),
-              divider=ddecker(), na.rm=FALSE) + coord_flip()
-ggplot(data=rochdale) +
-  geom_mosaic(aes(x=product(Wife.sEduc, Child), fill=Household),
-              divider=ddecker(), na.rm=FALSE) + coord_flip()
-ggplot(data=rochdale) +
-  geom_mosaic(aes(x=product(Wife.sEduc,Husband.sEduc, Child), fill=Household),
-              divider=ddecker(), na.rm=FALSE) + coord_flip()
-
 # Spine example
 ggplot(data = happy) +
  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
  facet_grid(happy~.)
 
-# Working on using other characters as the separators:
-   ## current issue is that it has to be changed in two different places
-set.separators(c(":", "_","|"))
-employment <- as.data.frame(Employment)
-ggplot(data = employment) +
- geom_mosaic(aes(weight=Freq, x=product(EmploymentLength, EmploymentStatus)))
 }
 

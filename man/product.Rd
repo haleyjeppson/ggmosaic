@@ -12,6 +12,6 @@ product(x, ...)
 \item{...}{other arguments passed on}
 }
 \description{
-XXX it might be good to make the dot, the colon and the hyphen parameters instead ... and then pass them on to expand_variable
+Product
 }
 
