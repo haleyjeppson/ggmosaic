@@ -195,7 +195,7 @@ The order in which the variables are listed in the formula can have a large effe
 
 For example, 
 
-```{r happy-order, message=FALSE, fig.width = 8, fig.height = 3.5}
+```{r happy-order, message=FALSE, fig.width = 7.5, fig.height = 3.5}
 o1 <- ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(sex), y=product(degree), fill=degree)) +
   theme(axis.text.x=element_text(angle=0, vjust= -.5), plot.title = element_text(size = rel(1))) + 
@@ -216,7 +216,7 @@ multiplot(o1, o2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 Another feature of `ggmosaic` is the option to condition on a variable. The conditioning variables can be called in a manner similar to the other variables, but instead of calling ` x = product(x1, x2) `, you declare ` conds = product(x1, x2) `.
 
 
-```{r conditioning, message=FALSE, fig.width = 8, fig.height = 3.5}
+```{r conditioning, message=FALSE, fig.width = 7.58, fig.height = 3.5}
 
 c1 <- ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(happy), conds= degree, fill = happy) ) +  theme(axis.text.x=element_text(angle=25, hjust= 1))+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ")
@@ -230,14 +230,14 @@ multiplot(c1, c2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 An option to consider when conditioning is to instead use faceting. Faceting provides better labeling than `ggmosaic` currently can. 
 
-```{r conditioning-facet-1, message=FALSE}
+```{r conditioning-facet-1, message=FALSE, fig.width = 7.5}
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(happy), conds= degree, fill = happy) ) +  theme(axis.text.x=element_text(hjust= .5))+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ")
 
 ```
 
-```{r conditioning-facet-2, message=FALSE}
+```{r conditioning-facet-2, message=FALSE, fig.width = 7.5}
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(happy), fill = happy), divider=mosaic("v") )+labs(x="Degree", y="Happiness",  title="  f(happy| degree) ") + facet_grid(.~degree)
@@ -249,14 +249,14 @@ ggplot(data = happy) +
 When there is a variable with many categories, it may be of interest to decrease the size of the spacing between the spines. This can be achieved by declaring `offset = `. The default setting is `offset = 0.01`. 
 
 
-```{r offset-1, message=FALSE}
+```{r offset-1, message=FALSE, fig.width=7.5}
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), na.rm = TRUE) +
   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" f(marital, age | sex)") + facet_grid(sex~.) 
 ```
 
-```{r offset-2, message=FALSE}
+```{r offset-2, message=FALSE, fig.width= 7.5}
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), na.rm = TRUE, offset=0) +
