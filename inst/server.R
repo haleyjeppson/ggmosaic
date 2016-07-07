@@ -25,9 +25,14 @@ shinyServer(function(input, output, session) {
     else return()
     })
 
+  off <- reactive({
+    exp(-input$offset)
+
+  })
+
   plot <- reactive({
     if (input$div == "mosaic"){
-    gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ), offset = as.numeric(input$offset))+
+    gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ), offset = off())+
       theme(axis.text.x = element_text(size=rel(1.7), angle = 25, hjust=1), axis.title.x = element_text(size=rel(2.2)),
             legend.key.size = unit(1, "cm"), legend.text = element_text(size=rel(1.2)),
             legend.title = element_text(size = rel(1.5)))
