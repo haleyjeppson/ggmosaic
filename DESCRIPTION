@@ -1,5 +1,5 @@
 Package: ggmosaic
-Title: Mosaic plots in the 'ggplot2' Framework
+Title: Mosaic Plots in the 'ggplot2' Framework
 Version: 0.0.1
 Authors@R: c(
     person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre")),
