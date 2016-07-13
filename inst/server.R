@@ -26,7 +26,7 @@ shinyServer(function(input, output, session) {
     })
 
   off <- reactive({
-    exp(-input$offset)
+    log(1+(input$offset/300))
 
   })
 
@@ -40,14 +40,14 @@ shinyServer(function(input, output, session) {
     else{
       if (input$div == "mosaic reversed"){
         gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ),
-                                                  offset = as.numeric(input$offset), divider = mosaic("v"))+
+                                                  offset = off(), divider = mosaic("v"))+
           theme(axis.text.x = element_text(size=rel(1.7), angle = 25, hjust=1), axis.title.x = element_text(size=rel(2.2)),
                 legend.key.size = unit(1, "cm"), legend.text = element_text(size=rel(1.2)),
                 legend.title = element_text(size = rel(1.5)))
       }
       else {
       gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ),
-                                                offset = as.numeric(input$offset), divider=ddecker())+
+                                                offset = off(), divider=ddecker())+
         theme(axis.text.x = element_text(size=rel(1.7), angle = 25, hjust=1), axis.title.x = element_text(size=rel(2.2)),
               legend.key.size = unit(1, "cm"), legend.text = element_text(size=rel(1.2)),
               legend.title = element_text(size = rel(1.5)))

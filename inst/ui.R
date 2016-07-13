@@ -16,7 +16,7 @@ shinyUI(fluidPage(
       selectizeInput('group2', "Variables to condition on:", NULL, multiple = TRUE, options = list(maxItems = 2)),
       selectizeInput('col', 'Variable to fill:', names(happy[c(2,4:9)]), selected = "health"),
       selectizeInput('div', 'Divider', c("mosaic", "mosaic reversed", "double decker"), selected="mosaic" ),
-      sliderInput('offset', 'Offset', min =1, max = 8, value = 5),
+      sliderInput('offset', 'Offset', min =0, max = 10, value = 3),
     #  sliderInput("slider1", label = h3("Slider"), min = 0, max = .1, value = .01),
       checkboxInput("coord", label = "Flip coordinates", value = FALSE),
       checkboxInput("labels", label = "Add labels", value = FALSE),
