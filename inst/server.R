@@ -84,7 +84,11 @@ shinyServer(function(input, output, session) {
   })
 
 
-  output$mosaicplot = renderPlot({ plot()   })
+  output$mosaicplot = renderPlot({
+    if (input$goButton == 0)
+      return()
+
+    isolate({plot()   })})
 
  # output$formula<- renderText({
    # ggplot_build(plot())$data[[1]]["formula"][1,]

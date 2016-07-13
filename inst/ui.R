@@ -20,6 +20,7 @@ shinyUI(fluidPage(
     #  sliderInput("slider1", label = h3("Slider"), min = 0, max = .1, value = .01),
       checkboxInput("coord", label = "Flip coordinates", value = FALSE),
       checkboxInput("labels", label = "Add labels", value = FALSE),
+    actionButton("goButton", "Make mosaic plot"),
 
    #   uiOutput("formula"),
       width=3
