@@ -31,6 +31,14 @@
 #' # as fill variable
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
+#'
+#'  # bug: ignores previously defined variables:
+#' ggplot(data=titanic, aes(weight = Freq, fill=Survived)) +
+#'   geom_mosaic(aes(x=product(Class, Age)))
+#'  # bug: fails to plot
+#' ggplot(data=titanic, aes(weight = Freq, fill=Survived, x=product(Class, Age))) +
+#'   geom_mosaic()
+#'
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
 #' ggplot(data=titanic) +
