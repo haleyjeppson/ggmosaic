@@ -204,8 +204,8 @@ StatMosaic <- ggplot2::ggproto(
   },
 
   compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
-  #  cat("compute_panel from StatMosaic\n")
-  # browser()
+#   cat("compute_panel from StatMosaic\n")
+#   browser()
 
     vars <- expand_variable(data, "x")
     conds <- expand_variable(data, "conds")

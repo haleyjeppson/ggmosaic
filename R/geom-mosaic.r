@@ -32,10 +32,7 @@
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
 #'
-#'  # bug: ignores previously defined variables:
-#' ggplot(data=titanic, aes(weight = Freq, fill=Survived)) +
-#'   geom_mosaic(aes(x=product(Class, Age)))
-#'  # bug: fails to plot
+#' we can change where we define variables
 #' ggplot(data=titanic, aes(weight = Freq, fill=Survived, x=product(Class, Age))) +
 #'   geom_mosaic()
 #'
@@ -98,7 +95,7 @@
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                        show.legend = NA, inherit.aes = FALSE, ...)
+                        show.legend = NA, inherit.aes = TRUE, ...)
 {
   ggplot2::layer(
     data = data,
