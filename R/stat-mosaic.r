@@ -308,7 +308,7 @@ StatMosaic <- ggplot2::ggproto(
     cols <- c(prs$marg, prs$cond)
     res$label <- plyr::ldply(
       1:nrow(res),
-      function(x) paste(unlist(res[x, cols]), collapse="\n"))$V1
+      function(x) paste(unlist(res[x, rev(cols)]), collapse="\n"))$V1
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)

@@ -2,7 +2,7 @@ library(shiny)
 library(productplots)
 library(plyr)
 library(ggmosaic)
-
+library(plotly)
 
 # Define UI for application that creates a mosaic plot
 shinyUI(fluidPage(
@@ -20,7 +20,7 @@ shinyUI(fluidPage(
     #  sliderInput("slider1", label = h3("Slider"), min = 0, max = .1, value = .01),
       checkboxInput("coord", label = "Flip coordinates", value = FALSE),
       checkboxInput("labels", label = "Add labels", value = FALSE),
-    actionButton("goButton", "Make mosaic plot"),
+    actionButton("goButton", "Create mosaic plot"),
 
    #   uiOutput("formula"),
       width=3
@@ -29,7 +29,7 @@ shinyUI(fluidPage(
     # plotting
     mainPanel(
       # textOutput("funct"),
-      plotOutput("mosaicplot", height = "700px"),
+      plotlyOutput("mosaicplot", height = "700px"),
       textOutput("formula"),
       width = 9
       )

@@ -1,6 +1,7 @@
 library(shiny)
 library(ggmosaic)
 library(productplots)
+library(plotly)
 
 shinyServer(function(input, output, session) {
 
@@ -33,7 +34,7 @@ shinyServer(function(input, output, session) {
   plot <- reactive({
     if (input$div == "mosaic"){
     gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ), offset = off())+
-      theme(axis.text.x = element_text(size=rel(1.7), angle = 25, hjust=1), axis.title.x = element_text(size=rel(2.2)),
+      theme(axis.text.x = element_text(size=rel(1.3), angle = 25, hjust=-.51, vjust=-.5), axis.title.x = element_text(size=rel(1.5)),
             legend.key.size = unit(1, "cm"), legend.text = element_text(size=rel(1.2)),
             legend.title = element_text(size = rel(1.5)))
     }
@@ -41,14 +42,14 @@ shinyServer(function(input, output, session) {
       if (input$div == "mosaic reversed"){
         gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ),
                                                   offset = off(), divider = mosaic("v"))+
-          theme(axis.text.x = element_text(size=rel(1.7), angle = 25, hjust=1), axis.title.x = element_text(size=rel(2.2)),
+          theme(axis.text.x = element_text(size=rel(1.3), angle = 25, hjust=1), axis.title.x = element_text(size=rel(1.5)),
                 legend.key.size = unit(1, "cm"), legend.text = element_text(size=rel(1.2)),
                 legend.title = element_text(size = rel(1.5)))
       }
       else {
       gg <-  ggplot(data = happy) + geom_mosaic(aes_string( weight = "wtssall", x = xstr(), conds=cond(), fill = input$col ),
                                                 offset = off(), divider=ddecker())+
-        theme(axis.text.x = element_text(size=rel(1.7), angle = 25, hjust=1), axis.title.x = element_text(size=rel(2.2)),
+        theme(axis.text.x = element_text(size=rel(1.3), angle = 25, hjust=1), axis.title.x = element_text(size=rel(1.5)),
               legend.key.size = unit(1, "cm"), legend.text = element_text(size=rel(1.2)),
               legend.title = element_text(size = rel(1.5)))
       }}
@@ -84,11 +85,11 @@ shinyServer(function(input, output, session) {
   })
 
 
-  output$mosaicplot = renderPlot({
+  output$mosaicplot = renderPlotly({
     if (input$goButton == 0)
       return()
 
-    isolate({plot()   })})
+    isolate({ggplotly(plot())   })})
 
  # output$formula<- renderText({
    # ggplot_build(plot())$data[[1]]["formula"][1,]
