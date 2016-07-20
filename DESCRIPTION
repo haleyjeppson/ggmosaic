@@ -5,18 +5,19 @@ Authors@R: c(
     person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre")),
     person("Heike", "Hofmann", email = "hofmann@iastate.edu", role = "aut"),
     person("Di", "Cook", email = "dicook@monash.edu", role = "aut"))
-Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality is
-    provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
+Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
+    is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
 Depends:
     R (>= 3.2.0),
     ggplot2 (>= 1.0.1.9003),
+    plotly (>= 3.6.0),
     plyr,
     productplots
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 LazyData: TRUE
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1
 Suggests:
     knitr,
     rmarkdown
