@@ -1,5 +1,5 @@
 ggm <- new.env()
-ggm$separators = c(sep1="-", sep2=":", sep3=".")
+ggm$separators = c(sep1=":", sep2="-", sep3=".")
 
 
 #' Separator characters
@@ -307,6 +307,7 @@ StatMosaic <- ggplot2::ggproto(
     }
 # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
+ #   browser()
     res$label <- plyr::ldply(
       1:nrow(res),
       function(x) paste(unlist(res[x, rev(cols)]), collapse="\n"))$V1
