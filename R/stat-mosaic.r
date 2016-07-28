@@ -40,8 +40,9 @@ product <- function(x, ...) {
   separators <- get.separators()
   if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
   vars <- t(plyr::laply(1:length(vars), function(y) {
-    x <- factor(vars[[y]])
-    paste(as.numeric(vars[[y]]), paste0(varNames[y], separators[1],
+#    x <- factor(vars[[y]])
+#    browser()
+    paste(as.numeric(factor(vars[[y]])), paste0(varNames[y], separators[1],
                                         as.character(vars[[y]])), sep = separators[2])
   }, .drop = FALSE))
   if (ncol(vars) == 1)
