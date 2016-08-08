@@ -91,15 +91,38 @@ shinyServer(function(input, output, session) {
 
     isolate({ggplotly(plot())   })})
 
- # output$formula<- renderText({
-   # ggplot_build(plot())$data[[1]]["formula"][1,]
-  #  vars <- xstr()
-  #  vars <- gsub("product[:(:]", "", vars)
-  #  vars <- gsub(")", "", vars)
-  #  vars <- gsub(",", " + ", vars)
+  form <- reactive({
+   formula <-  paste(rev((input$group)), collapse="+")
 
-  #  paste("weight ~",  vars)
-  #  })
+   if (!is.null(input$col)) {
+    if(!is.null(input$group2)){
+      if (!(any(grepl(input$col, input$group2)) == TRUE)) {
+        if (!(any(grepl(input$col, input$group)) == TRUE)) {
+          formula <- paste(input$col, "+",formula) }
 
+      }
+    }
+    else {
+      if (!(any(grepl(input$col, input$group)) == TRUE)) {
+        formula <- paste(input$col, "+", formula) }
+    }}
+
+
+  formula <- paste("weight~", formula)
+
+  if (! is.null(input$group2)) {
+      formula <- paste(formula, paste(rev((input$group2)), collapse="+"), sep="|")
+  }
+  formula
 
 })
+
+  output$formula <- renderText({
+    if (input$goButton == 0)
+      return()
+
+    isolate({ paste("Formula : ", form()) })
+  })
+
+})
+

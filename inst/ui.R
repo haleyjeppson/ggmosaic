@@ -29,8 +29,9 @@ shinyUI(fluidPage(
     # plotting
     mainPanel(
       # textOutput("funct"),
+      verbatimTextOutput("formula"),
       plotlyOutput("mosaicplot", height = "700px"),
-      textOutput("formula"),
+
       width = 9
       )
 
