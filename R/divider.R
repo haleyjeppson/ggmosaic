@@ -17,7 +17,7 @@ squeeze <- function(pieces, bounds = bound()) {
 }
 
 rotate <- function(data) {
-  plyr::rename(data, c("l" = "b", "r" = "t", "b" = "l", "t" = "r"))
+  dplyr::rename(data, b=l, t=r, l=b, r=t) #"l" = "b", "r" = "t", "b" = "l", "t" = "r")
 }
 
 #' Spine partition: divide longest dimesion.

@@ -33,7 +33,7 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
     labels <- piece[rep(1, nrow(partition)), 1:d, drop = FALSE]
     cbind(labels, partition)
   })
-  plyr::rbind.fill(parent, children)
+  dplyr::bind_rows(parent, children)
 }
 
 # @param data data frame giving partitioning variables and weights.  Final

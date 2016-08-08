@@ -33,7 +33,7 @@ margin <- function(table, marginals = c(), conditionals = c()) {
     # Work around bug in ninteraction
     cond <- marg[conditionals]
     cond[] <- lapply(cond, addNA, ifany = TRUE)
-    marg$.wt <- stats::ave(marg$.wt, plyr::id(cond), FUN = function(x) x / sum(x, na.rm=TRUE))
+    marg$.wt <- stats::ave(marg$.wt, id(cond), FUN = function(x) x / sum(x, na.rm=TRUE))
   }
 
   marg$.wt[is.na(marg$.wt)] <- 0
