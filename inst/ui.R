@@ -8,7 +8,7 @@ library(plotly)
 shinyUI(fluidPage(
 
   # Application title
-  headerPanel("Mosaic Plot"),
+  headerPanel("Mosaic Plots with ggplot2"),
 
     # sidebar with options for controlling parameters
     sidebarPanel(

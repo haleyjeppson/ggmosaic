@@ -68,41 +68,41 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
 
 ### Basic Explanation of `ggmosaic`  
   
-`ggmosiac` was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  
+`ggmosiac` was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  There are many features that can be customized in `ggmosaic`. A few that will be discussed in this vignette are the types of partitioning available, the ordering, conditioning, and highlighting of the variables, and the spacing between the categories.
 
 
 ### Types of partitioning
 
-There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”).
+There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars,the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally (“hbar”) or vertically (“vbar”). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally (“hspine”) or vertically (“vspine”). In `ggmosaic`, the type of partitioning desired can be specified by setting `divider = " "`. The default divider for one variable is `"hspine"`.
 
 ```{r partitions-a, message=FALSE, fig.width = 7, fig.height = 3.5}
 
-a <- ggplot(data = happy) +
+a1 <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="hbar") +
    theme(axis.text.x=element_text(angle=35, hjust= 1), legend.position="none")+labs(x=" ", title="hbar")
 
 
-b <- ggplot(data = happy) +
+a2 <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="hspine") +
    theme(axis.text.x=element_text(angle=35, hjust= 1), legend.position="none") + labs(x=" ", title="hspine")
 
-multiplot(a, b, layout=matrix(c(1:2), nrow=1))
+multiplot(a1, a2, layout=matrix(c(1:2), nrow=1))
 
 ```
 
 ```{r partitions-b, message=FALSE, fig.width = 7, fig.height = 3.5}
 
-c <- ggplot(data = happy) +
+b1 <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="vbar") +
    theme(legend.position="none") +
    labs(y=" ", x="", title="vbar")
  
-d <- ggplot(data = happy) +
+b2 <- ggplot(data = happy) +
    geom_mosaic(aes(weight = wtssall,  x = product(marital), fill=marital), divider="vspine") +
    theme(legend.position="none") +
    labs(y=" ", x="", title="vspine")
  
-multiplot(c, d, layout=matrix(c(1:2), nrow=1))
+multiplot(b1, b2, layout=matrix(c(1:2), nrow=1))
 ```
 
 ##### Paritioning with more than one variable
@@ -144,7 +144,7 @@ ggplot(data = happy) +
 
 ### Hierarchical construction 
  
-Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important. To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with displaying one variable and is gradually built up to display multiple variables. 
+Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important. To demonstrate the capabilities of `ggmosaic` and to emphasize the importance of the ordering of variables, the following example begins with displaying one variable and is gradually built on to display multiple variables. 
 
 <!-- **Explain the statistical formula** $f(x1, x2, x3) = f(x1 | x2, x3) f(x2, x3) $ -->
  
@@ -222,7 +222,7 @@ multiplot(c1, c2, layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 ```
 
-An option to consider when conditioning is to instead use faceting. Faceting provides better labeling than `ggmosaic` currently can. 
+An option to consider when conditioning is to instead use faceting. Faceting, though the width of the seperation between the facets is static, currently provides better labeling than `ggmosaic`. 
 
 ```{r conditioning-facet-1, message=FALSE, fig.width = 7.5}
 
