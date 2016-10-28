@@ -23,3 +23,7 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBrin
 ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline), na.rm=T)
 
 ggplot(data = fly) + geom_mosaic(aes(x=product(DoYouRecline), fill=RudeToRecline), na.rm=T)
+
+
+ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringBaby), na.rm=T, offset=0.005)
+

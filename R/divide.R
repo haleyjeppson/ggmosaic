@@ -10,6 +10,8 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
   }
   # In divide we work with the opposite order of variables to margin -
   # so we flip and then flip back
+  margin <- getFromNamespace("margin", "productplots")
+
   parent_data <- margin(data, rev(seq_len(d)))
   parent_data <- parent_data[, c(rev(seq_len(d)), d + 1)]
 

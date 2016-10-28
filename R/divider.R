@@ -1,24 +1,25 @@
-#' Internal helper function
-#'
-#' Squeeze pieces to lie within specified bounds; directly copied from package productplots
-#' @param pieces rectangle specified via l(eft), r(ight), b(ottom), t(op)
-#' @param bounds rectangle specified via l(eft), r(ight), b(ottom), t(op)
-#' @return re-scaled values for piece according to boundaries given by bounds
-#' @author Hadley Wickham
-squeeze <- function(pieces, bounds = bound()) {
-  scale_x <- function(x) x * (bounds$r - bounds$l) + bounds$l
-  scale_y <- function(y) y * (bounds$t - bounds$b) + bounds$b
+# #' Internal helper function
+# #'
+# #' Squeeze pieces to lie within specified bounds; directly copied from package productplots
+# #' @param pieces rectangle specified via l(eft), r(ight), b(ottom), t(op)
+# #' @param bounds rectangle specified via l(eft), r(ight), b(ottom), t(op)
+# #' @return re-scaled values for piece according to boundaries given by bounds
+# #' @author Hadley Wickham
+# squeeze <- function(pieces, bounds = bound()) {
+#   scale_x <- function(x) x * (bounds$r - bounds$l) + bounds$l
+#   scale_y <- function(y) y * (bounds$t - bounds$b) + bounds$b
+#
+#   pieces$l <- scale_x(pieces$l)
+#   pieces$r <- scale_x(pieces$r)
+#   pieces$b <- scale_y(pieces$b)
+#   pieces$t <- scale_y(pieces$t)
+#   pieces
+# }
 
-  pieces$l <- scale_x(pieces$l)
-  pieces$r <- scale_x(pieces$r)
-  pieces$b <- scale_y(pieces$b)
-  pieces$t <- scale_y(pieces$t)
-  pieces
-}
 
 rotate <- function(data) {
-  dplyr::rename(data, b=l, t=r, l=b, r=t) #"l" = "b", "r" = "t", "b" = "l", "t" = "r")
-}
+   dplyr::rename(data, b=l, t=r, l=b, r=t) #"l" = "b", "r" = "t", "b" = "l", "t" = "r")
+ }
 
 #' Spine partition: divide longest dimesion.
 #'
@@ -79,44 +80,44 @@ vspine <- function(data, bounds, offset = offset, max = NULL) {
   rotate(hspine(data, rotate(bounds), offset, max = max))
 }
 
-#' Horizontal bar partition: width constant, height varies.
-#'
-#' @param data bounds data frame
-#' @param bounds bounds of space to partition
-#' @param offset space between spines
-#' @param max maximum value
-#' @export
-hbar <- function(data, bounds, offset = 0.02, max = NULL) {
-  if (is.null(max)) max <- 1
+# #' Horizontal bar partition: width constant, height varies.
+# #'
+# #' @param data bounds data frame
+# #' @param bounds bounds of space to partition
+# #' @param offset space between spines
+# #' @param max maximum value
+# #' @export
+# hbar <- function(data, bounds, offset = 0.02, max = NULL) {
+#   if (is.null(max)) max <- 1
+#
+#   n <- length(data)
+#   # n + 1 offsets
+#   offsets <- c(0, rep(1, n - 1), 0) * offset
+#
+#   width <- (1 - sum(offsets)) / n
+#   heights <- data / max
+#
+#   widths <- as.vector(t(cbind(width, offsets[-1])))
+#   pos <- c(offsets[1], cumsum(widths)) / sum(widths)
+#   locations <- data.frame(
+#     l = pos[seq(1, 2 * n - 1, by = 2)],
+#     r = pos[seq(2, 2 * n, by = 2)],
+#     b = 0,
+#     t = heights
+#   )
+#   squeeze(locations, bounds)
+# }
 
-  n <- length(data)
-  # n + 1 offsets
-  offsets <- c(0, rep(1, n - 1), 0) * offset
-
-  width <- (1 - sum(offsets)) / n
-  heights <- data / max
-
-  widths <- as.vector(t(cbind(width, offsets[-1])))
-  pos <- c(offsets[1], cumsum(widths)) / sum(widths)
-  locations <- data.frame(
-    l = pos[seq(1, 2 * n - 1, by = 2)],
-    r = pos[seq(2, 2 * n, by = 2)],
-    b = 0,
-    t = heights
-  )
-  squeeze(locations, bounds)
-}
-
-#' Vertical bar partition: height constant, width varies.
-#'
-#' @param data bounds data frame
-#' @param bounds bounds of space to partition
-#' @param offset space between spines
-#' @param max maximum value
-#' @export
-vbar <- function(data, bounds, offset = 0.02, max = NULL) {
-  rotate(hbar(data, rotate(bounds), offset, max = max))
-}
+# #' Vertical bar partition: height constant, width varies.
+# #'
+# #' @param data bounds data frame
+# #' @param bounds bounds of space to partition
+# #' @param offset space between spines
+# #' @param max maximum value
+# #' @export
+#vbar <- function(data, bounds, offset = 0.02, max = NULL) {
+#  rotate(hbar(data, rotate(bounds), offset, max = max))
+#}
 
 
 
