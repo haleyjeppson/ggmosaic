@@ -1,3 +1,7 @@
+is.discrete <- function(x) {
+  is.factor(x) || is.character(x) || is.logical(x)
+}
+
 product_breaks <- function() {
     function(x) {
    #   cat(" in product_breaks\n")
