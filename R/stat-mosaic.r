@@ -24,7 +24,6 @@ get.separators <- function() {
 
 #' Product
 #'
-#' @importFrom plyr laply
 #' @export
 #'
 #' @param x variable
@@ -32,25 +31,27 @@ get.separators <- function() {
 #'
 #'
 product <- function(x, ...) {
- # browser()
 
   # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varNames <- as.character(match.call()[-1])
   separators <- get.separators()
   if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
-  vars <- t(plyr::laply(1:length(vars), function(y) {
-#    x <- factor(vars[[y]])
-#    browser()
-    paste(as.numeric(factor(vars[[y]])), paste0(varNames[y], separators[1],
-                                        as.character(vars[[y]])), sep = separators[2])
-  }, .drop = FALSE))
+
+  vars <- sapply(1:length(vars), function(y) {
+    name <- varNames[y]
+    ynum <- as.numeric(vars[[y]])
+    ychar <- as.character(vars[[y]])
+    paste(ynum, paste(name, ychar, sep=separators[1]), sep=separators[2])
+  })
+
   if (ncol(vars) == 1)
     prod <- vars
   else {
-    prod <- plyr::laply(1:length(x), function(i) {
-      paste(vars[i, ], sep = separators[3], collapse = separators[3])
-    })
+    prod <- vars[,1]
+    for (i in 2:ncol(vars)) {
+      prod <- paste(prod, vars[,i], sep=separators[3])
+    }
   }
   prod <- factor(prod)
   class(prod) <- "product"
