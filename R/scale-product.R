@@ -5,7 +5,7 @@ is.discrete <- function(x) {
 product_breaks <- function() {
     function(x) {
    #   cat(" in product_breaks\n")
-    #  browser()
+      #browser()
       unique(x)
     }
 }
@@ -13,10 +13,11 @@ product_breaks <- function() {
 product_labels <- function() {
   function(x) {
  #   cat(" in product_labels\n")
-  #  browser()
+    #browser()
     unique(x)
   }
 }
+is.waive <- getFromNamespace("is.waive", "ggplot2")
 
 #' Helper function that ggplot2 needs for determining scales on x and y
 #'
@@ -41,23 +42,24 @@ NULL
 #' @importFrom ggplot2 waiver
 #' @export
 scale_x_product <- function(name = waiver(), breaks = product_breaks(),
-                               minor_breaks = NULL, labels = product_labels(),
-                               limits = NULL, expand = waiver(), oob = scales:::censor,
-                               na.value = NA_real_, trans = "identity") {
-#  browser()
+                            minor_breaks = NULL, labels = product_labels(),
+                            limits = NULL, expand = waiver(), oob = scales:::censor,
+                            na.value = NA_real_, trans = "identity",
+                            position = "bottom", sec.axis = waiver()) {
+  #browser()
   sc <- ggplot2::continuous_scale(
     c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
-    guide = "none"
+    guide = "none", position = position, super = ScaleContinuousProduct
   )
 
-  # TODO: Fix this hack. We're reassigning the parent ggproto object, but this
-  # object should in the first place be created with the correct parent.
-  sc$super <- ScaleContinuousProduct
-  class(sc) <- class(ScaleContinuousProduct)
-
+  if (!is.waive(sec.axis)) {
+    if (is.formula(sec.axis)) sec.axis <- sec_axis(sec.axis)
+    if (!is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
+    sc$secondary.axis <- sec.axis
+  }
   sc
 }
 
@@ -67,20 +69,21 @@ scale_x_product <- function(name = waiver(), breaks = product_breaks(),
 scale_y_product <- function(name = waiver(), breaks = waiver(),
                                minor_breaks = waiver(), labels = waiver(),
                                limits = NULL, expand = waiver(), oob = scales:::censor,
-                               na.value = NA_real_, trans = "identity") {
+                               na.value = NA_real_, trans = "identity",
+                            position = "left", sec.axis = waiver()) {
   sc <- ggplot2::continuous_scale(
     c("y", "ymin", "ymax", "yend", "yintercept", "ymin_final", "ymax_final", "lower", "middle", "upper"),
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
-    guide = "none"
+    guide = "none", position = position, super = ScaleContinuousProduct
   )
 
-  # TODO: Fix this hack. We're reassigning the parent ggproto object, but this
-  # object should in the first place be created with the correct parent.
-  sc$super <- ScaleContinuousProduct
-  class(sc) <- class(ScaleContinuousProduct)
-
+  if (!is.waive(sec.axis)) {
+    if (is.formula(sec.axis)) sec.axis <- sec_axis(sec.axis)
+    if (!is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
+    sc$secondary.axis <- sec.axis
+  }
   sc
 }
 
@@ -88,40 +91,40 @@ scale_y_product <- function(name = waiver(), breaks = waiver(),
 #' @rdname scale_product
 #' @export
 ScaleContinuousProduct <- ggproto(
-  "ScaleContinuousProduct", ScaleContinuous,
+  "ScaleContinuousProduct", ScaleContinuousPosition,
   train =function(self, x) {
- #   cat("train in ScaleContinuousProduct\n")
-#    cat("class of variable: ")
-#    cat(class(x))
+    #cat("train in ScaleContinuousProduct\n")
+    #cat("class of variable: ")
+    #cat(class(x))
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
         # re-assign the scale values now that we have the information - but only if necessary
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels
-     #   browser()
- #       cat("\n")
+        #browser()
+        #cat("\n")
         return()
       }
     }
     if (is.discrete(x)) {
       self$range$train(x=c(0,1))
-  #    cat("\n")
+      #cat("\n")
       return()
     }
     self$range$train(x)
-#    cat("\n")
+    #cat("\n")
   },
   map = function(self, x, limits = self$get_limits()) {
-#    cat("map in ScaleContinuousProduct\n")
-  #  browser()
+    #cat("map in ScaleContinuousProduct\n")
+    #browser()
     if (is.discrete(x)) return(x)
     if (is.list(x)) return(0) # need a number
     scaled <- as.numeric(self$oob(x, limits))
     ifelse(!is.na(scaled), scaled, self$na.value)
   },
   dimension = function(self, expand = c(0, 0)) {
-#    cat("dimension in ScaleContinuousProduct\n")
+    #cat("dimension in ScaleContinuousProduct\n")
     c(-0.05,1.05)
   }
 )
