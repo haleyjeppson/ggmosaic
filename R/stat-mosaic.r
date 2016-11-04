@@ -116,39 +116,52 @@ in_data <- function(data, variable) {
 # better leave this an internal helper function
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
-# browser()
+
   separators <- get.separators()
 
-  split_this <- as.character(data[,variable])
-  df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
-  if(ncol(df) == 1)
-  df <- plyr::llply(df, function(x) {
-    split_this <- as.character(x)
-    parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
-    #x <- factor(parts[,2])
-    if (ncol(parts) == 2) {
-      parts[,2] <- sapply(strsplit(parts[,2],separators[1]),'[',2)
-      xorder <- suppressWarnings({as.numeric(parts[,1])})
-      if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
-      x <- stats::reorder(factor(parts[,2]), xorder)
-      return(x)
-    }
-    parts
-  })
-  else
-  df <- plyr::llply(df, function(x) {
-    split_this <- as.character(x)
-    parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
-    #x <- factor(parts[,2])
-    if (ncol(parts) == 2) {
-    xorder <- suppressWarnings({as.numeric(parts[,1])})
-    if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
-    x <- stats::reorder(factor(parts[,2]), xorder)
-    return(x)
-    }
-    parts
-  })
-  df <- data.frame(df)
+  data$x__ <- data[,variable]
+  k <- length(grep(separators[3],  data$x__[1], fixed=TRUE))+1
+  df <- tidyr::separate(select(data, x__), x__, into=paste0("V",1:k), sep = paste0("\\", separators[3]))
+
+  df <- df %>% purrr::map(.f = function(x) {
+    dframe <- data.frame(x=x)
+    dframe <- dframe %>% tidyr::separate(x, into=c("levels", "x"), sep=paste0("\\", separators[2])) %>%
+      mutate(
+        x = reorder(x, as.numeric(levels), mean, na.rm=TRUE)
+      ) %>% select(x)
+    dframe$x
+  }) %>% data.frame()
+
+#  split_this <- as.character(data[,variable])
+#  df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
+  # if(ncol(df) == 1)
+  # df <- plyr::llply(df, function(x) {
+  #   split_this <- as.character(x)
+  #   parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
+  #   #x <- factor(parts[,2])
+  #   if (ncol(parts) == 2) {
+  #     parts[,2] <- sapply(strsplit(parts[,2],separators[1]),'[',2)
+  #     xorder <- suppressWarnings({as.numeric(parts[,1])})
+  #     if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
+  #     x <- stats::reorder(factor(parts[,2]), xorder)
+  #     return(x)
+  #   }
+  #   parts
+  # })
+  # else
+  # df <- plyr::llply(df, function(x) {
+  #   split_this <- as.character(x)
+  #   parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
+  #   #x <- factor(parts[,2])
+  #   if (ncol(parts) == 2) {
+  #   xorder <- suppressWarnings({as.numeric(parts[,1])})
+  #   if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
+  #   x <- stats::reorder(factor(parts[,2]), xorder)
+  #   return(x)
+  #   }
+  #   parts
+  # })
+  # df <- data.frame(df)
 
   names(df) <- paste(variable, 1:ncol(df), sep="")
   df
