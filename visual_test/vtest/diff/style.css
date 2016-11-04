@@ -1,0 +1,200 @@
+html {
+  background-color: #fff;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 300%;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+h2 {
+  font-size: 200%;
+  margin: 10px;
+}
+
+p {
+  margin: 10px;
+}
+
+.changestatus {
+  font-size: 150%;
+  margin: 5px 10px 5px 10px;
+}
+
+.refspec {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-weight: normal;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+.smallrefspec {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  font-size: 75%;
+  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-weight: normal;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+
+/* Tables */
+
+table {
+  border: 1px solid #000;
+  border-radius: 3px;
+  background: #eee;
+  text-align: center;
+  margin: 20px;
+}
+
+thead {
+  background: #333;
+  color: #fff;
+}
+
+th {
+  padding:5px;
+  border-radius: 2px;
+}
+tr {
+  border: 1px solid #666;
+}
+td {
+  padding:5px;
+  border-radius: 2px;
+}
+td.context {
+  text-align: right;
+}
+
+td.num {
+}
+td.warn {
+  border: 1px solid #ddd;
+  background-color: #fec;
+}
+td.error {
+  border: 1px solid #ddd;
+  background-color: #fcc;
+}
+td.added {
+  border: 1px solid #ddd;
+  background-color: #dee;
+}
+td.deleted {
+  border: 1px solid #ddd;
+  background-color: #dee;
+}
+td.changed {
+  border: 1px solid #ddd;
+  background-color: #fb0;
+}
+
+tfoot {
+  background: #ccc;
+  font-weight: bold;
+}
+tfoot td {
+}
+
+/* Floats */
+
+.float {
+  background-color: #eee;
+  border: 1px solid #000;
+  border-radius: 3px;
+  margin: 20px 10px;
+  display: table;
+  float: left;
+}
+
+/* These are for the vtest pages */
+.float .ok {
+  border-radius: 3px;
+}
+
+.float .warn {
+  border-radius: 3px;
+  background-color: #fec;
+}
+
+.float .error {
+  border-radius: 3px;
+  background-color: #fcc;
+}
+
+/* These are for the vdiff pages */
+.float .unchanged {
+  border-radius: 3px;
+}
+.float .added {
+  border-radius: 4px;
+  background-color: #dee;
+}
+.float .deleted {
+  border-radius: 4px;
+  background-color: #dee;
+}
+.float .changed {
+  border-radius: 4px;
+  background-color: #fb0;
+}
+
+
+.float .header {
+  background-color: #333;
+  color: #fff;
+  border-radius: 3px;
+  padding: 5px;
+  text-align: center;
+}
+
+.float .header .description {
+  margin: 4px 0px;
+  height: 2.5em;
+}
+
+.float .imageset {
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.float .imagewrap {
+  min-width: 250px;
+  min-height: 250px;
+  float: left;
+  text-align: center;
+  display: table-cell;
+}
+
+.float .imagewrap .image {
+}
+
+.float .imagewrap .hash {
+  font-size: 75%;
+  margin: 4px 0px;
+}
+
+.float img {
+  background-color: #fff;
+  padding: 0px;
+  box-shadow: 2px 2px 12px -5px #666;
+  margin: 5px 5px;
+}
+
+.nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+}

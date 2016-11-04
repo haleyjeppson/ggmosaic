@@ -126,7 +126,7 @@ GeomMosaic <- ggplot2::ggproto(
   default_aes = ggplot2::aes(width = 0.75, linetype = "solid", fontsize=5,
                              shape = 19, colour = NA,
                              size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
-                             linewidth=.1),
+                             linewidth=.1, weight = 1, x = NULL),
 
   draw_panel = function(data, panel_scales, coord, label = FALSE) {
   #  cat("draw_panel in GeomMosaic\n")

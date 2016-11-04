@@ -104,7 +104,6 @@ ggplot(data=titanic) +
 data(happy, package="productplots")
 
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
-ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy))) +
   coord_flip()
 # weighting is important
