@@ -321,10 +321,14 @@ StatMosaic <- ggplot2::ggproto(
     }
 # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
- #   browser()
-    res$label <- plyr::ldply(
-      1:nrow(res),
-      function(x) paste(unlist(res[x, rev(cols)]), collapse="\n"))$V1
+#    browser()
+    df <- res[,cols]
+    df <- tidyr::unite_(df, "label", cols, sep="\n")
+
+    res$label <- df$label
+#    res$label <- plyr::ldply(
+#      1:nrow(res),
+#      function(x) paste(unlist(res[x, rev(cols)]), collapse="\n"))$V1
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
