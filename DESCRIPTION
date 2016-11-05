@@ -12,6 +12,8 @@ Depends:
     ggplot2 (>= 2.1.0.9000),
     plotly (>= 3.6.0),
     dplyr,
+    purrr,
+    tidyr,
     productplots (>= 0.1.1)
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic

@@ -139,11 +139,11 @@ If any of the variable names or values of the variable contain one of those 3 sy
     
 __Current solution:__ an option to redefine what symbols are used as separators
     
-Original separators:
+Default separators:
       
-```{r eval=FALSE, echo=TRUE, tidy=TRUE, fig.align='center'}
+```{r echo=TRUE, tidy=TRUE, fig.align='center'}
     
-set.separators(c(":", "-",".")) 
+get.separators() 
     
 ```
     
@@ -210,6 +210,7 @@ set.separators(c(":", ";","|"))
 
 
 ```{r formula-2b, message=FALSE, fig.align='center'}
+set.separators(c(":", ";","|"))
 
  ggplot(data = NHANES) +
    geom_mosaic(aes(weight = Weight, x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight)), na.rm=TRUE) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight | AgeDecade) f(AgeDecade)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
@@ -220,9 +221,10 @@ set.separators(c(":", ";","|"))
 
 
 ```{r formula-4b, message=FALSE, fig.align='center'}
+set.separators(c(":", ";","_"))
 
  ggplot(data = NHANES) +
-   geom_mosaic(aes( x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight), conds=Gender), na.rm=TRUE, divider=mosaic("v")) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight, AgeDecade | Gender)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+   geom_mosaic(aes( x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight), conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight, AgeDecade | Gender)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
 
 
 ```

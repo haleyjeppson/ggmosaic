@@ -37,11 +37,13 @@ product <- function(x, ...) {
   varNames <- as.character(match.call()[-1])
   separators <- get.separators()
   if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
-
+#browser()
   vars <- sapply(1:length(vars), function(y) {
+    z <- factor(vars[[y]])
     name <- varNames[y]
-    ynum <- as.numeric(vars[[y]])
-    ychar <- as.character(vars[[y]])
+    ynum <- as.numeric(z)
+    ynum[is.na(ynum)] <- max(ynum, na.rm=TRUE)+1
+    ychar <- as.character(z)
     paste(ynum, paste(name, ychar, sep=separators[1]), sep=separators[2])
   })
 
@@ -117,6 +119,7 @@ in_data <- function(data, variable) {
 expand_variable <- function(data, variable) {
   if (!in_data(data, variable)) return()
 
+#  browser()
   separators <- get.separators()
 
   data$x__ <- data[,variable]
@@ -322,10 +325,13 @@ StatMosaic <- ggplot2::ggproto(
 # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
 #    browser()
+    if (length(cols) > 1) {
     df <- res[,cols]
     df <- tidyr::unite_(df, "label", cols, sep="\n")
 
     res$label <- df$label
+    } else res$label <- as.character(res[,cols])
+
 #    res$label <- plyr::ldply(
 #      1:nrow(res),
 #      function(x) paste(unlist(res[x, rev(cols)]), collapse="\n"))$V1

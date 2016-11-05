@@ -26,8 +26,12 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
     max_wt <- max(margin(data, d + 1, seq_len(d))$.wt, na.rm = TRUE)
   }
 
-  pieces <- as.list(plyr::dlply(data, seq_len(d)))
-  children <- plyr::ldply(seq_along(pieces), function(i) {
+#  browser()
+  pieces <- split(data, data[,seq_len(d)])
+#  pieces <- as.list(plyr::dlply(data, seq_len(d)))
+
+
+  children <- seq_along(pieces) %>% purrr::map_df( function(i) {
     piece <- pieces[[i]]
     partition <- divide(piece[, -seq_len(d)], parentc[i, ], divider[-1],
                         level = level + 1, cascade = cascade, max_wt = max_wt, offset = offset)
@@ -35,6 +39,15 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
     labels <- piece[rep(1, nrow(partition)), 1:d, drop = FALSE]
     cbind(labels, partition)
   })
+
+  # children <- plyr::ldply(seq_along(pieces), function(i) {
+  #   piece <- pieces[[i]]
+  #   partition <- divide(piece[, -seq_len(d)], parentc[i, ], divider[-1],
+  #                       level = level + 1, cascade = cascade, max_wt = max_wt, offset = offset)
+  #
+  #   labels <- piece[rep(1, nrow(partition)), 1:d, drop = FALSE]
+  #   cbind(labels, partition)
+  # })
   dplyr::bind_rows(parent, children)
 }
 
