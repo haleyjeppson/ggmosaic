@@ -123,7 +123,7 @@ expand_variable <- function(data, variable) {
   separators <- get.separators()
 
   data$x__ <- data[,variable]
-  k <- length(grep(separators[3],  data$x__[1], fixed=TRUE))+1
+  k <- sum(gregexpr(separators[3], data$x__[1], fixed = TRUE)[[1]]!=-1)+1
   df <- tidyr::separate(select(data, x__), x__, into=paste0("V",1:k), sep = paste0("\\", separators[3]))
 
   df <- df %>% purrr::map(.f = function(x) {
