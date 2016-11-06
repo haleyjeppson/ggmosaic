@@ -1,6 +1,6 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
-Version: 0.0.1
+Version: 0.1.1
 Authors@R: c(
     person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre")),
     person("Heike", "Hofmann", email = "hofmann@iastate.edu", role = "aut"),
@@ -10,7 +10,7 @@ Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
 Depends:
     R (>= 3.2.0),
     ggplot2 (>= 2.1.0.9000),
-    plotly (>= 3.6.0),
+    plotly (>= 4.5.5),
     dplyr,
     purrr,
     tidyr,
