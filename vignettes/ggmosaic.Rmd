@@ -26,9 +26,7 @@ library(ggmosaic)
 library(ggplot2)
 library(gridExtra)
 library(grid)
-library(NHANES)
-data(happy, package="productplots")
-data(NHANES)
+data(NHANES, package="NHANES")
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)
 

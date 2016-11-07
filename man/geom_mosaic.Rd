@@ -91,7 +91,7 @@ ggplot(data=titanic) +
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
 
-we can change where we define variables
+# we can change where we define variables
 ggplot(data=titanic, aes(weight = Freq, fill=Survived, x=product(Class, Age))) +
   geom_mosaic()
 
