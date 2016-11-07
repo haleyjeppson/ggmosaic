@@ -1,3 +1,5 @@
+is.formula <- function (x) inherits(x, "formula")
+
 is.discrete <- function(x) {
   is.factor(x) || is.character(x) || is.logical(x)
 }

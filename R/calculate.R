@@ -11,6 +11,7 @@
 #'   silently removed?
 #' @keywords internal
 #' @importFrom productplots parse_product_formula
+#' @importFrom utils getFromNamespace
 #' @export
 #' @examples
 #' prodcalc(happy, ~ happy, "hbar", offset = 0.005)

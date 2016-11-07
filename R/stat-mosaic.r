@@ -115,25 +115,28 @@ in_data <- function(data, variable) {
   length(intersect(names(data), variable)) > 0
 }
 
-# better leave this an internal helper function
+#' @importFrom purrr map_df
+#' @importFrom dplyr mutate select
+#' @importFrom stats reorder
 expand_variable <- function(data, variable) {
+  # better leave this an internal helper function
   if (!in_data(data, variable)) return()
 
 #  browser()
   separators <- get.separators()
 
+  x__ <- NULL # provide visible binding
   data$x__ <- data[,variable]
   k <- sum(gregexpr(separators[3], data$x__[1], fixed = TRUE)[[1]]!=-1)+1
   df <- tidyr::separate(select(data, x__), x__, into=paste0("V",1:k), sep = paste0("\\", separators[3]))
 
-  df <- df %>% purrr::map(.f = function(x) {
+  df <- purrr::map(df, .f = function(x) {
     dframe <- data.frame(x=x)
-    dframe <- dframe %>% tidyr::separate(x, into=c("levels", "x"), sep=paste0("\\", separators[2])) %>%
-      mutate(
-        x = reorder(x, as.numeric(levels), mean, na.rm=TRUE)
-      ) %>% select(x)
+    dframe <- tidyr::separate(dframe, x, into=c("levels", "x"), sep=paste0("\\", separators[2]))
+    dframe <- mutate(dframe, x = reorder(x, as.numeric(levels), mean, na.rm=TRUE))
     dframe$x
-  }) %>% data.frame()
+  })
+  df <- data.frame(df)
 
 #  split_this <- as.character(data[,variable])
 #  df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
@@ -207,7 +210,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 #'
 #' @format NULL
 #' @usage NULL
-#'
+#' @importFrom tidyr unite_
 #' @export
 StatMosaic <- ggplot2::ggproto(
   "StatMosaic", ggplot2::Stat,

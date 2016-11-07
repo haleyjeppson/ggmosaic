@@ -4,17 +4,19 @@ Version: 0.1.1
 Authors@R: c(
     person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre")),
     person("Heike", "Hofmann", email = "hofmann@iastate.edu", role = "aut"),
-    person("Di", "Cook", email = "dicook@monash.edu", role = "aut"))
+    person("Di", "Cook", email = "dicook@monash.edu", role = "aut"),
+    person("Hadley", "Wickham", email = "hadley@rstudio.com", role = "ctb"))
 Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
     is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
 Depends:
     R (>= 3.2.0),
     ggplot2 (>= 2.1.0.9000),
+    productplots (>= 0.1.1)
+Imports:
     plotly (>= 4.5.5),
     dplyr,
     purrr,
-    tidyr,
-    productplots (>= 0.1.1)
+    tidyr
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic

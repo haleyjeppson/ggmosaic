@@ -1,3 +1,5 @@
+#' @importFrom utils getFromNamespace
+#' @importFrom plotly to_basic
 #' @export
 to_basic.GeomMosaic <- function (data, prestats_data, layout, params, p, ...) {
   seps <- get.separators()

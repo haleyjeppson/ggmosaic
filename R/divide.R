@@ -3,7 +3,8 @@ partd <- function(x) {
   if (!is.null(d)) d else 1
 }
 
-divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), level = 1, cascade = 0, max_wt = NULL, offset = offset) {
+#' @importFrom utils getFromNamespace
+divide <- function(data, bounds = productplots:::bound(), divider = list(productplots::hbar), level = 1, cascade = 0, max_wt = NULL, offset = offset) {
   d <- partd(divider[[1]])
   if (ncol(data) == d + 1) {
     return(divide_once(data, bounds, divider[[1]], level, max_wt, offset))
@@ -31,7 +32,7 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(hbar), 
 #  pieces <- as.list(plyr::dlply(data, seq_len(d)))
 
 
-  children <- seq_along(pieces) %>% purrr::map_df( function(i) {
+  children <- purrr::map_df(seq_along(pieces), function(i) {
     piece <- pieces[[i]]
     partition <- divide(piece[, -seq_len(d)], parentc[i, ], divider[-1],
                         level = level + 1, cascade = cascade, max_wt = max_wt, offset = offset)

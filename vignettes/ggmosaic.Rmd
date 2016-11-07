@@ -23,6 +23,12 @@ knitr::opts_chunk$set(fig.width = 6,
 
 ```{r echo=FALSE, message=FALSE}
 library(ggmosaic)
+# shouldn't be needed between these comments
+library(plotly)
+library(dplyr)
+library(purrr)
+library(tidyr)
+# shouldn't be needed
 library(ggplot2)
 library(gridExtra)
 library(grid)
