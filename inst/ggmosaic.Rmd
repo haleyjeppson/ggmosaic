@@ -1,0 +1,339 @@
+---
+title: "Mosaic plots in the ggplot2 framework" 
+author: "Haley Jeppson"
+
+output: 
+  ioslides_presentation:
+    smaller: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE, message=FALSE)
+```
+
+```{r}
+library(ggmosaic)
+library(ggplot2)
+library(plotly)
+library(viridis)
+library(gridExtra)
+library(NHANES)
+library(forcats)
+gend <- read.csv("gend.csv")
+```
+
+## Visualizing Categorical Data
+
+
+- Graphical methods for categorical data are not well developed in comparison with what is available for numeric variables. 
+
+- Hierarchical structure of the counts and proportions creates a subtle complexity.
+
+- There are three types of distributions: joint, marginal, and conditional
+
+- Mosaic plots provide one possibility of visualizing multidimensional data and can be a powerful and easy option. 
+
+## 
+
+```{r fig.height=2}
+library(png)
+library(grid)
+img1 <- readPNG("nyt1.png")
+grid.raster(img1)
+```
+
+```{r fig.height=2}
+library(png)
+img2 <- readPNG("nyt2.png")
+grid.raster(img2)
+```
+
+Published by the New York Times
+
+## Mosaic Plots 
+
+- map the proportions of a distribution to the areas of a graphic
+- disjoint partitioning of a rectangular area
+- constructed by dividing a square into smaller rectangles recursively, into horizontal and vertical directions in turns
+
+
+
+
+
+
+## Example
+
+```{r breakdown, fig.width = 8, fig.height = 4, fig.align='center'}
+b1 <- ggplot(diamonds) + geom_rect(aes(xmin=0, xmax=1, ymin=0, ymax=1))+ labs(x="", title='All diamonds') + theme(axis.text = element_text(size=rel(.8)), plot.title= element_text(size=rel(.9)),  axis.text.x = element_text(angle=90, color="white"))+scale_x_product(breaks=1, labels="Very Good")
+
+b2 <- ggplot(diamonds) + geom_mosaic(aes(x = product(cut))) +   labs(x="Cut", title='Diamonds by cut') + 
+  guides(fill=guide_legend( reverse = TRUE)) + 
+  theme(axis.text = element_text(size=rel(.8)), plot.title= element_text(size=rel(.9)), axis.text.x = element_text(angle=90), axis.title = element_text(size=rel(.85)) )+ scale_x_product(labels=levels(diamonds$cut))
+
+b3 <- ggplot(diamonds) +
+  geom_mosaic(aes(x = product(clarity, cut))) +
+  labs(x="Cut ", y="Clarity", title='Diamonds by clarity and cut') + 
+  guides(fill=guide_legend( reverse = TRUE)) + 
+  theme(axis.text = element_text(size=rel(.8)), axis.text.x = element_text(angle=90), plot.title= element_text(size=rel(.9)), axis.title = element_text(size=rel(.85) )) + scale_x_product(labels=levels(diamonds$cut))
+
+grid.arrange(b1, b2, b3, ncol=3)
+```
+
+
+
+
+
+## Creation of `ggmosaic`
+
+- Version 2.0.0 of `ggplot2` introduced a way for other R packages to implement custom geoms.
+
+
+- `ggmosaic` was created primarily using `ggproto` and the `productplots` package
+
+- `ggmosaic` began as a geom extension of the `rect` geom
+
+- used the data handling provided in the `productplots` package
+
+- calculates xmin, xmax, ymin, and ymax for the `rect` geom to plot
+
+
+
+## Why Mosaic Plots?
+
+```{r fig.height=5.5,echo=FALSE}
+library(jpeg)
+clev <- readJPEG("cleve.jpeg")
+grid.raster(clev)
+```
+
+## 
+
+```{r ex, fig.width = 8, fig.height = 4, fig.align='center'}
+set.separators(c(":", ";","|")) 
+gend$Major_category <- fct_infreq(gend$Major_category)
+
+e1 <- ggplot(gend) +   geom_mosaic(aes(x=product(Major_category), fill = Major_category)) +  scale_fill_viridis(discrete=TRUE, option="D") +labs(x="")+theme(legend.position = "none", axis.text.x = element_text(size=rel(.9), angle=90))
+
+e2 <- ggplot(gend) +   geom_mosaic(aes(x=product(gender), weight=number, fill = gender, conds=product(Major_category)), na.rm=TRUE) + scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+labs(x="")+scale_x_product(labels= levels(gend$Major_category))+theme(legend.position = "none", axis.text.x = element_text(size=rel(.9), angle=90))
+
+e3 <- ggplot(gend) +   geom_mosaic(aes(x=product(Major_category), weight=number, fill = gender), na.rm=TRUE) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9) +labs(x="")+scale_x_product(labels= levels(gend$Major_category))+theme(legend.position = "none",axis.text.x = element_text(size=rel(.9), angle=90))
+
+grid.arrange(e1, e2, e3, top = "f(Major Category) × f(sex | Major Category) = f(sex, Major Category)", ncol=3)
+
+```
+
+Each one of the disjoint segments of the rightmost mosaic plot has area proportional to the corresponding joint probability.
+
+
+
+## GeomMosaic
+
+- Easy customization
+- Facetting
+- Ease of Use 
+- Versatile
+
+
+## Translating GeomMosaic for ggplotly()
+
+- The `plotly` package contains the infrastructure to provide translations of custom geoms to plotly
+
+- GeomMosaic can be reduced to the lower-level geom GeomRect
+
+- allowed us to write a method for the `to_basic()` generic function in `plotly`.
+
+## Interactive Mosaic Plots
+
+
+```{r plotly}
+e3<- e3+theme(legend.position="right", axis.text.x = element_text(size=rel(.9), angle=90))+
+    guides(fill=guide_legend(title="Gender", reverse = TRUE)) 
+ggplotly(e3)
+```
+
+## Examples
+
+```{r}
+NHANES$nBabies <- factor(NHANES$nBabies)
+NHANES$MaritalStatus <- relevel(NHANES$MaritalStatus, "Separated")
+NHANES$MaritalStatus <- relevel(NHANES$MaritalStatus, "Married")
+NHANES$MaritalStatus <- relevel(NHANES$MaritalStatus, "LivePartner")
+NHANES$MaritalStatus <- relevel(NHANES$MaritalStatus, "NeverMarried")
+baby <- ggplot(NHANES) +  geom_mosaic(aes(x=product(MaritalStatus), fill = nBabies), divider=ddecker(), offset=0.005, na.rm=TRUE) + scale_fill_viridis(discrete=TRUE) +labs(x="Marital Status") + scale_x_product(labels=c(levels(NHANES$MaritalStatus), "NA")) + guides(fill=guide_legend(title = "# kids", reverse = TRUE))+theme(axis.text.x = element_text(angle=90))
+
+baby
+
+```
+
+## 
+
+```{r}
+drinks <- readPNG("drinks.png")
+grid.raster(drinks)
+```
+
+
+## 
+
+```{r examples}
+
+NHANES$AlcoholDay <- as.factor(NHANES$AlcoholDay)
+levels(NHANES$AlcoholDay) <- c("1",  "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9", rep("10 or more", 16))
+
+NHANES$Race1 <- fct_infreq(NHANES$Race1)
+
+dr <- ggplot(NHANES) +   geom_mosaic(aes(x=product(Gender, AlcoholDay, Race1), fill = AlcoholDay:Gender),  offset=0.005, na.rm=TRUE)+   scale_fill_viridis(discrete=TRUE, option="B", begin=.2, end=.9, direction=-1) + labs(x="Race", title="When you drink, how many drinks do you consume on average?",  subtitle="Here is how different groups responded to surveys taken '09-'14.")
+
+## http://flowingdata.com/2016/07/11/how-much-alcohol-americans-drink/
+
+labels <- levels(NHANES$Race1:NHANES$Gender)
+
+dr <- dr  +  scale_x_product("Race:Gender", labels=labels) +
+  theme(
+    panel.background = element_rect(fill="white"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.line = element_blank(),
+    axis.text.y  = element_blank(), 
+    axis.text.x  = element_text(size=rel(1), angle=90, vjust=0.5)
+  )+ guides(fill=guide_legend(reverse = TRUE))
+
+ggplotly(dr)
+
+```
+
+
+
+## 
+
+```{r}
+
+inc <- ggplot(gend) + 
+    geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number), divider=ddecker(), offset=0.005, na.rm=TRUE) + 
+    scale_fill_viridis(discrete=TRUE)+ 
+    labs(x="Gender by Major Category", title="Deciles of median income by gender by major") +
+    guides(fill=guide_legend(title="Median Income", reverse = TRUE)) + scale_x_product(labels=levels(gend$Major_category:gend$gender))+theme(axis.text = element_text(size=rel(.9)), axis.text.x = element_text(angle=90))
+
+ggplotly(inc)
+
+
+```
+
+##
+
+```{r vers}
+
+w1 <- ggplot(gend) + geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number), divider=c("vspine", "vbar", "hspine"), offset=0.00, na.rm=TRUE) + scale_fill_viridis(discrete=TRUE)+
+  guides(fill=guide_legend( reverse = TRUE))  +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+    
+  )
+
+
+w2 <- ggplot(gend) + geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number), divider=c("vspine", "vbar", "vbar"), offset=0.05, na.rm=TRUE) + scale_fill_viridis(discrete=TRUE) +guides(fill=guide_legend( reverse = TRUE)) + coord_flip() +labs(x="", y="")+ theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+    
+  )
+
+
+w8<- ggplot(gend) + geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number),  divider=c("vbar", "hspine", "vspine"), offset=0.01, na.rm=TRUE) + scale_fill_viridis(discrete=TRUE)+ 
+  guides(fill=guide_legend( reverse = TRUE)) + coord_flip() +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+    
+  )
+
+
+w4 <- ggplot(gend) + 
+  geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number), divider=c("hbar", "hspine", "vspine"), offset=0.001, na.rm=TRUE) + 
+  scale_fill_viridis(discrete=TRUE)+ guides(fill=guide_legend( reverse = TRUE))  +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+  )
+
+
+w5 <- ggplot(gend) + geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number), offset=0.015, na.rm=TRUE) +
+  scale_fill_viridis(discrete=TRUE)+ 
+  guides(fill=guide_legend( reverse = TRUE))  +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+  )
+  
+
+w6 <-ggplot(gend) + 
+  geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number), 
+              divider=ddecker(), offset=0.005, na.rm=TRUE) + 
+  scale_fill_viridis(discrete=TRUE)+
+  guides(fill=guide_legend( reverse = TRUE)) +labs(x="", y="")+
+  theme(plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+  )
+
+w7 <- ggplot(gend) + 
+  geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number),  divider=c("vspine", "vspine", "vspine"), offset=0.0001, na.rm=TRUE) + 
+  scale_fill_viridis(discrete=TRUE)+ 
+  guides(fill=guide_legend( reverse = TRUE))  +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+  )
+
+w3 <-  ggplot(gend) + 
+  geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number),  divider=mosaic("v"), offset=0.01, na.rm=TRUE) + 
+  scale_fill_viridis(discrete=TRUE)+ 
+  guides(fill=guide_legend( reverse = TRUE))  +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+  )
+
+w9 <- ggplot(gend) + 
+  geom_mosaic(aes(x=product(gender, Major_category), fill=Median_income, weight=number),  divider=c("hspine", "hspine", "hspine"), offset=0.0001, na.rm=TRUE) + 
+  scale_fill_viridis(discrete=TRUE)+ 
+  guides(fill=guide_legend( reverse = TRUE))  +labs(x="", y="")+
+  theme(
+    plot.title = element_blank(),
+    axis.text = element_blank(),
+    legend.position = "none",
+    legend.title=element_blank()
+  )
+
+grid.arrange(w1, w2, w3, w4, w5, w6, w7, w8, w9, ncol=3)
+
+```
+
+## Shiny 
+
+```{r}
+shiny <- readPNG("shiny.png")
+grid.raster(shiny)
+```
+
+## Conclusion
+
+People have a natural tendency to compare shapes by area, and we can leverage this tendency to depict statistical distributions via mosaic plots. 
+
+Mosaic plots can be implemented easily with the implementation of `GeomMosaic` into `ggplot2`

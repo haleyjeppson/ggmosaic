@@ -128,7 +128,7 @@ GeomMosaic <- ggplot2::ggproto(
                              size = .1, fill = "grey30", alpha = .8, stroke = 0.1,
                              linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL),
 
-  draw_panel = function(data, panel_scales, coord, label = FALSE) {
+  draw_panel = function(data, panel_scales, coord) {
   #  cat("draw_panel in GeomMosaic\n")
  # browser()
     if (all(is.na(data$colour)))

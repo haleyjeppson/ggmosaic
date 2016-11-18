@@ -219,17 +219,23 @@ StatMosaic <- ggplot2::ggproto(
 
   setup_params = function(data, params) {
   #  cat("setup_params from StatMosaic\n")
-    # browser()
+  #   browser()
 
     params
   },
 
-  compute_panel = function(data, scales, na.rm=FALSE, divider, offset) {
+  compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
 #   cat("compute_panel from StatMosaic\n")
-#   browser()
+  # browser()
 
     vars <- expand_variable(data, "x")
+    if (!is.null(vars)){
+    names(vars) <- apply(vars, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
+    }
     conds <- expand_variable(data, "conds")
+    if (!is.null(conds)){
+    names(conds) <- apply(conds, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
+    }
 
     if (is.null(vars)) formula <- "1"
     else formula <-  paste(names(vars), collapse="+")
@@ -317,6 +323,7 @@ StatMosaic <- ggplot2::ggproto(
 
     #   res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
+    res <- subset(res, level==max(res$level))
 
     # export the variables with the data - terrible hack
     res$x <- list(scale=scx)
