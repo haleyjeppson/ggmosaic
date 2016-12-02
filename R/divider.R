@@ -18,7 +18,8 @@
 
 
 rotate <- function(data) {
-   dplyr::rename(data, b=l, t=r, l=b, r=t) #"l" = "b", "r" = "t", "b" = "l", "t" = "r")
+   l <- b <- t <- r <- NULL # visible binding
+   dplyr::rename(data, b=l, t=r, l=b, r=t)
  }
 
 #' Spine partition: divide longest dimesion.
