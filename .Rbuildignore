@@ -3,3 +3,4 @@
 ^visual_test$
 ^cran-comments\.md$
 ^vtest$
+^inst/$

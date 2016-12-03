@@ -60,7 +60,8 @@ scale_x_product <- function(name = waiver(), breaks = product_breaks(),
 
   if (!is.waive(sec.axis)) {
     if (is.formula(sec.axis)) sec.axis <- ggplot2::sec_axis(sec.axis)
-    if (!ggplot2::is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
+    is.sec_axis = getFromNamespace("is.sec_axis", "ggplot2")
+    if (is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
     sc$secondary.axis <- sec.axis
   }
   sc
@@ -84,7 +85,8 @@ scale_y_product <- function(name = waiver(), breaks = waiver(),
 
   if (!is.waive(sec.axis)) {
     if (is.formula(sec.axis)) sec.axis <- ggplot2::sec_axis(sec.axis)
-    if (!ggplot2::is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
+    is.sec_axis = getFromNamespace("is.sec_axis", "ggplot2")
+    if (is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
     sc$secondary.axis <- sec.axis
   }
   sc
