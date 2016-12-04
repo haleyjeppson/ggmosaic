@@ -10,13 +10,15 @@ Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
     is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
 Depends:
     R (>= 3.2.0),
-    ggplot2 (>= 2.1.0.9000),
+    ggplot2 (>= 2.2.0),
     productplots (>= 0.1.1)
 Imports:
     plotly (>= 4.5.5),
     dplyr,
     purrr,
-    tidyr
+    tidyr,
+    gridExtra, 
+    NHANES
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
