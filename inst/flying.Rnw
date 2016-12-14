@@ -114,7 +114,12 @@ Iowa State University % Your institution
 
 \section*{The \texttt{ggmosaic} package}
 
-\par To view the   Database in a new way, I use the \texttt{ggmosaic} pac
+While mosaic plots have been implemented in a variety of packages in R \citep{R2016}, the ordinary grammar of graphics does not support mosaic plots. However, with version 2.0.0 of `ggplot2` \citep{ggplot2}, a way for other R packages to implement custom geoms was introduced. With the R package ggmosaic, a custom ggplot2 geom designed for mosaic plots is implemented.
+
+`ggmosaic` was created primarily using `ggproto` and the `productplots` package
+ which was created by \citet{productplots, ieee-prodplots}. They refer to their framework as product plots, alluding to the computation of area as a product of height and width, and the statistical concept of generating a joint distribution from the product of conditional and marginal distributions.
+
+To begin, `ggmosaic` began as a geom extension of the `rect` geom with the data handling provided in the `productplots` package which calculates xmin, xmax, ymin, and ymax for the `rect` geom to plot.
 
 \section*{Visualizing the data}
 
@@ -126,11 +131,11 @@ After exploring
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
-%\bibliographystyle{abbrv}
-%\bibliography{ASA_SCSG_Paper}
-\section*{Further Reading}
-To view more visualizations of the
+\bibliographystyle{asa.bst}
+%\biboptions{authoryear}
+\bibliography{references}
 
 %----------------------------------------------------------------------------------------
+
 
 \end{document}
