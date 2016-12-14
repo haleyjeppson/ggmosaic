@@ -109,18 +109,54 @@ Iowa State University % Your institution
 %----------------------------------------------------------------------------------------
 \section*{Introduction}
 
-\par The  Database, hosted by , contains
+\par
+
+To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions.
+
+
+\par To explore the data a bit more, I used the \texttt{ggmosaic} package. The original analysis done by five thirty eight focused primarily on the perceived rudeness of a behavior, one behavior at a time, or comparing the response "Very Rude" across all behaviors. By using a mosaic plot, multiple categorical counts can be viewed simultaneously which will provide a clearer view of the underlying data and allow for more comparisons to be made. A few questions to explore:
+
 %------------------------------------------------
 
 \section*{The \texttt{ggmosaic} package}
 
-While mosaic plots have been implemented in a variety of packages in R \citep{R2016}, the ordinary grammar of graphics does not support mosaic plots. However, with version 2.0.0 of `ggplot2` \citep{ggplot2}, a way for other R packages to implement custom geoms was introduced. With the R package ggmosaic, a custom ggplot2 geom designed for mosaic plots is implemented.
+\par The \texttt{ggmosaic} package was designed to create visualizations of categorical data. It is not limited to mosaic plots. Rather, it is capable of producing a wide variety of plots, including bar charts, stacked bar charts, spine plots, mosaic plots, and double decker plots. Each of these plots are constructed hierarchically, so the ordering of the variables is very important.
 
-`ggmosaic` was created primarily using `ggproto` and the `productplots` package
- which was created by \citet{productplots, ieee-prodplots}. They refer to their framework as product plots, alluding to the computation of area as a product of height and width, and the statistical concept of generating a joint distribution from the product of conditional and marginal distributions.
+\par While mosaic plots have been implemented in a variety of packages in R \citep{R2016}, the ordinary grammar of graphics does not support mosaic plots. However, with version 2.0.0 of `ggplot2` \citep{ggplot2}, a way for other R packages to implement custom geoms was introduced. With the R package ggmosaic, a custom ggplot2 geom designed for mosaic plots is implemented. The \texttt{ggmosaic} package can be installed from \url{https://github.com/haleyjeppson/ggmosaic}.
 
-To begin, `ggmosaic` began as a geom extension of the `rect` geom with the data handling provided in the `productplots` package which calculates xmin, xmax, ymin, and ymax for the `rect` geom to plot.
 
+\par \texttt{ggmosaic} was created primarily using \texttt{ggproto} and the \texttt{productplots} package which was created by \citet{productplots, ieee-prodplots}. They refer to their framework as product plots, alluding to the computation of area as a product of height and width, and the statistical concept of generating a joint distribution from the product of conditional and marginal distributions.
+
+\par To begin, \texttt{ggmosaic} began as a geom extension of the \texttt{rect} geom with the data handling provided in the \texttt{productplots} package which calculates \texttt{xmin}, \texttt{xmax}, \texttt{ymin}, and \texttt{ymax} for the \texttt{rect} geom to plot.
+
+\par Having a geom designed for mosaic plots does more than simply allow us to utilize the ggplot2 customization options such as facetting and layering, it allows for a \texttt{ggplotly()} hook so we can create interactive mosaic plots. Although the \texttt{ggplotly()} function translates most of the geoms bundled with the \texttt{ggplot2} package, it has no way of knowing about the rendering rules for custom geoms. The \texttt{plotly} package does, however, contain the infrastructure to provide translations of custom geoms to plotly. In \texttt{ggplot2}, many geoms are special cases of other geoms. For example,\texttt{geom_line()} is equivalent to \texttt{geom_path()} once the data is sorted by the \texttt{x} variable. Because GeomMosaic can be reduced to the lower-level geom GeomRect, with the assistance of Carson Sievert, we were able to write a method for the \texttt{to_basic()} generic function in \texttt{plotly}.
+
+
+\par \texttt{ggmosaic} does not come without its own set of limitations and the main hurdle \texttt{ggmosaic} faces is that \texttt{ggplot2} is not capable of handling a variable number of variables. The current solution is to read in the variables \texttt{x1} and \texttt{x2} as \texttt{x = product(x1, x2)}. The \texttt{product} function creates a data frame that combines all of the variables listed whch allows for it to pass \texttt{check_aesthetics}, and then splits the variables back apart for the calculations.
+
+\par The product function creates limitiations for values the variables can take, and what the labels of variables can be. When the variables are combined, the values, variable name, and level are separated using ":", "-", and ".". For example, the \texttt{x} variable data is read is as \texttt{level-variable:value.level-variable:value}. If any of the variable names or values of the variable contain one of those 3 symbols, the function will break.
+
+\par The aesthetics set up the formula that determines the how the joint distribution will be broken down. The following aesthetics can be set:
+
+\begin{itemize}
+\item weight: select a weighting variable
+\item \texttt{x}: select variables to add to formula
+    \begin{itemize}
+    \item declared as \texttt{x} = product(x1, x2, ...)
+    \end{itemize}
+\item \texttt{fill}: select a variable to be filled
+    \begin{itemize}
+    \item if the variable is not also called in \texttt{x}, it will be added to the formula in the first position
+    \end{itemize}
+\item \texttt{conds} : select a variable to condition on
+\end{itemize}
+
+
+\par These values are then sent through `productplots` functions to create the formula for the desired distribution: \texttt{weight ~ fill + x | conds }
+
+
+
+%-----------------------------------------------------------------------------
 \section*{Visualizing the data}
 
 I start by visualizing all of the data I pulled from the database on one map. This
