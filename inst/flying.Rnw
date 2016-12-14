@@ -41,7 +41,7 @@
 
 % Headers - all currently empty
 \lhead{}
-\chead{\emph{Flying Etiquette}}
+\chead{\emph{Flying Etiquette: Get that baby out of here!}}
 \rhead{}
 
 % Footers
@@ -129,10 +129,10 @@ To learn a little about people's opinions on what people consider to be rude beh
 
 \par To begin, \texttt{ggmosaic} began as a geom extension of the \texttt{rect} geom with the data handling provided in the \texttt{productplots} package which calculates \texttt{xmin}, \texttt{xmax}, \texttt{ymin}, and \texttt{ymax} for the \texttt{rect} geom to plot.
 
-\par Having a geom designed for mosaic plots does more than simply allow us to utilize the ggplot2 customization options such as facetting and layering, it allows for a \texttt{ggplotly()} hook so we can create interactive mosaic plots. Although the \texttt{ggplotly()} function translates most of the geoms bundled with the \texttt{ggplot2} package, it has no way of knowing about the rendering rules for custom geoms. The \texttt{plotly} package does, however, contain the infrastructure to provide translations of custom geoms to plotly. In \texttt{ggplot2}, many geoms are special cases of other geoms. For example,\texttt{geom_line()} is equivalent to \texttt{geom_path()} once the data is sorted by the \texttt{x} variable. Because GeomMosaic can be reduced to the lower-level geom GeomRect, with the assistance of Carson Sievert, we were able to write a method for the \texttt{to_basic()} generic function in \texttt{plotly}.
+\par Having a geom designed for mosaic plots does more than simply allow us to utilize the ggplot2 customization options such as facetting and layering, it allows for a \texttt{ggplotly()} hook so we can create interactive mosaic plots. Although the \texttt{ggplotly()} function translates most of the geoms bundled with the \texttt{ggplot2} package, it has no way of knowing about the rendering rules for custom geoms. The \texttt{plotly} package does, however, contain the infrastructure to provide translations of custom geoms to plotly. In \texttt{ggplot2}, many geoms are special cases of other geoms. For example,\texttt{geom\_line()} is equivalent to \texttt{geom\_path()} once the data is sorted by the \texttt{x} variable. Because GeomMosaic can be reduced to the lower-level geom GeomRect, with the assistance of Carson Sievert, we were able to write a method for the \texttt{to\_basic()} generic function in \texttt{plotly}.
 
 
-\par \texttt{ggmosaic} does not come without its own set of limitations and the main hurdle \texttt{ggmosaic} faces is that \texttt{ggplot2} is not capable of handling a variable number of variables. The current solution is to read in the variables \texttt{x1} and \texttt{x2} as \texttt{x = product(x1, x2)}. The \texttt{product} function creates a data frame that combines all of the variables listed whch allows for it to pass \texttt{check_aesthetics}, and then splits the variables back apart for the calculations.
+\par \texttt{ggmosaic} does not come without its own set of limitations and the main hurdle \texttt{ggmosaic} faces is that \texttt{ggplot2} is not capable of handling a variable number of variables. The current solution is to read in the variables \texttt{x1} and \texttt{x2} as \texttt{x = product(x1, x2)}. The \texttt{product} function creates a data frame that combines all of the variables listed whch allows for it to pass \texttt{check\_aesthetics}, and then splits the variables back apart for the calculations.
 
 \par The product function creates limitiations for values the variables can take, and what the labels of variables can be. When the variables are combined, the values, variable name, and level are separated using ":", "-", and ".". For example, the \texttt{x} variable data is read is as \texttt{level-variable:value.level-variable:value}. If any of the variable names or values of the variable contain one of those 3 symbols, the function will break.
 
@@ -142,7 +142,7 @@ To learn a little about people's opinions on what people consider to be rude beh
 \item weight: select a weighting variable
 \item \texttt{x}: select variables to add to formula
     \begin{itemize}
-    \item declared as \texttt{x} = product(x1, x2, ...)
+    \item declared as \texttt{x = product(x1, x2, ...)}
     \end{itemize}
 \item \texttt{fill}: select a variable to be filled
     \begin{itemize}
@@ -152,18 +152,79 @@ To learn a little about people's opinions on what people consider to be rude beh
 \end{itemize}
 
 
-\par These values are then sent through `productplots` functions to create the formula for the desired distribution: \texttt{weight ~ fill + x | conds }
+\par These values are then sent through `productplots` functions to create the formula for the desired distribution: \texttt{weight $~$ fill $+$ x $|$ conds }
 
 
 
 %-----------------------------------------------------------------------------
 \section*{Visualizing the data}
 
-I start by visualizing all of the data I pulled from the database on one map. This
+\par I start by visualizing all
 
+<<setup, echo=FALSE>>=
+datadir=".."
+
+@
+
+<<first_plot, echo = FALSE, message=FALSE, warning=FALSE, fig.cap="S .", fig.pos='h'>>=
+
+library(curl)
+
+fly <- read.csv( curl("https://raw.githubusercontent.com/fivethirtyeight/data/master/flying-etiquette-survey/flying-etiquette.csv") ,
+                 na.strings=c(""," ","NA"))
+
+names(fly) <- c("ID", "FlightFreq", "DoYouRecline", "Height", "Child18",
+                "3Seats-2Arms", "2Seats-1Arm", "WhoControlsWindowShade",
+                "RudeToMoveToUnsoldSeat", "RudeToTalkToNeighbor",
+                "6hrFlightRudeToLeaveSeat", "RecliningObligationToBehind",
+                "RudeToRecline", "EliminateReclining", "RudeToSwitchSeatsForFriends", "RudeToSwitchSeatsForFamily", "RudeToWakeNeighborForBathroom",
+                "RudeToWakeNeighborForWalk", "RudeToBringBaby",
+                "RudeToBringUnrulyChild", "UseElectronicsDuringTakeoff",
+                "HaveYouSmoked", "Gender", "Age", "HouseholdIncome", "Education", "Region")
+
+library(ggplot2)
+library(ggmosaic)
+library(forcats)
+
+# change order of the levels
+
+fly$DoYouRecline <- fct_relevel(fly$DoYouRecline, c("Never", "Once in a while", "About half the time", "Usually", "Always") )
+
+set.separators(c(":", ";","|"))
+
+ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline), na.rm=T)+ coord_flip()
+
+@
+
+\par What we see here is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act recling, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat.
+
+<<talk, echo = FALSE, message=FALSE, warning=FALSE, fig.cap="S .", fig.pos='h'>>=
+library(viridis)
+ggplot(data = fly) + geom_mosaic(aes(x=product(Region), fill=RudeToTalkToNeighbor), na.rm=T) +
+  guides(fill=guide_legend( reverse = TRUE))# +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+
+@
+
+
+<<talk, echo = FALSE, message=FALSE, warning=FALSE, fig.cap="S .", fig.pos='h'>>=
+
+ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringBaby), na.rm=T) +
+  guides(fill=guide_legend( reverse = TRUE))# +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+
+ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringBaby), na.rm=T) +
+  guides(fill=guide_legend( reverse = TRUE)) +facet_grid(~Gender) #+  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+
+ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringUnrulyChild), na.rm=T) +
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+
+ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringUnrulyChild), na.rm=T) +
+  guides(fill=guide_legend( reverse = TRUE)) +facet_grid(~Gender) #+  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+
+@
 \section*{Conclusion}
 
-After exploring
+
+\par After exploring
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
