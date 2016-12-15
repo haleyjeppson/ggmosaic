@@ -109,7 +109,7 @@ Iowa State University % Your institution
 %----------------------------------------------------------------------------------------
 \section*{Introduction}
 
-\par Is there a social contract we should all be following when flying? Who gets to use that extra arm rest? Is it okay to recline your seat or to bring your baby or child onboard? How often are you allowed to leave your seat before being perceived as rude? Does the occupant of the window seat reserve all rights to the window shade? And is it okay to switch seats for family, friends, or to an unsold seat?
+\par Is there a social contract we should all be following when flying? Who gets to use that extra arm rest? Is it okay to recline your seat or to bring your baby or child onboard? Are people upset if the child is unruly and, like Donald Trump, wish to "get that baby out of here?" \citep{cnn} How often are you allowed to leave your seat before being perceived as rude? Does the occupant of the window seat reserve all rights to the window shade? And is it okay to switch seats for family, friends, or to an unsold seat?
 
 \par To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions.
 
@@ -159,7 +159,11 @@ Iowa State University % Your institution
 %-----------------------------------------------------------------------------
 \section*{Visualizing the data}
 
-\par I start by taking a look at who is flying and how frequently they fly. From \autoref{fig:who1} we can see that the largest majority of repondents fall within the household income bracket of \$50,000-99,000, as household income increases, the more likely one is to frequently fly. To add to this, \autoref{fig:who2} informs us, the most of the frequent fliers have some college education and the higher the degree, the more frequently they fly. Lastly,  \autoref{fig:who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.
+\par I began by taking a look at who is flying and how frequently they fly. In addition to answering questions about common aggravating behaviors, the respondents answered questions regarding their demographics. Some of the demographic types of questions asked included age, gender, household income bracket, education level and region.
+
+\par \autoref{fig:who1} was created by first dividing the space into horizontal spines each representing the proportion of respondents within that household income bracket. We can view these horizontal spines in the final product and they will answer questions such as, "what proportion of the respondents have a household income of under \$100,000?" The next step was to split each horizontal spine into vertical spines, which were subsequently filled with different colors,  representing how frequently one flew. This plot can be used to answer questions such as "what proportion of those that have a household income of under \$24,999 flies a few times per month?"
+
+\par From \autoref{fig:who1} we can see that the largest majority of repondents fall within the household income bracket of \$50,000-99,000, as household income increases, the more likely one is to frequently fly. To add to this, \autoref{fig:who2} informs us, the most of the frequent fliers have some college education and the higher the degree, the more frequently they fly. Lastly,  \autoref{fig:who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.
 
 <<setup, echo=FALSE>>=
 datadir=".."
@@ -234,7 +238,7 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringBaby), na.rm=T, divider=ddecker()) +
   guides(fill=guide_legend( reverse = TRUE))  +  #scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+
    scale_fill_brewer(palette = "Set1", direction=-1)+
-  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")#+theme(axis.text.x = element_text(size=rel(.5), angle=90) )
+  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")+theme(axis.text.x = element_text(angle=90) )
 @
 
 \par \autoref{fig:baby2} is an example of one of the other types of plots \texttt{ggmosaic} is capable of creating, a double decker plot. A modification of a mosaic plot, a double decker plot, is composed of n−1 hspines and ends with a vspine rather than alternating hspines and vspines. In \autoref{fig:baby2}, the plot is first split horizontally by response to "Do you have a child under the age of 18?". From there each hspine is split into gender resulting in a plot where each combination of gender and child under the age of 18 is represented by a vertical bar where the width represents the proportion of that category. Lastly, each vertical bar is split vertically by the responses to "Is it rude to bring a baby on a plane?" The finished product is a plot that allows for the three variables to be presented concisely and displays how the proportions differ.
