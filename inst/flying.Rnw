@@ -111,10 +111,10 @@ Iowa State University % Your institution
 
 \par Is there a social contract we should all be following when flying? Who gets to use that extra arm rest? Is it okay to recline your seat or to bring your baby or child onboard? Are people upset if the child is unruly and, like Donald Trump, wish to "get that baby out of here?" \citep{cnn} How often are you allowed to leave your seat before being perceived as rude? Does the occupant of the window seat reserve all rights to the window shade? And is it okay to switch seats for family, friends, or to an unsold seat?
 
-\par To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions.
+\par To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions. \citep{fivethirtyeight}
 
 
-\par To explore the data a bit more, I used the \texttt{ggmosaic} package. The original analysis done by five thirty eight focused primarily on the perceived rudeness of a behavior, one behavior at a time, or comparing the response "Very Rude" across all behaviors. By using a mosaic plot, multiple categorical counts can be viewed simultaneously which will provide a clearer view of the underlying data and allow for more comparisons to be made. A few questions to explore:
+\par To explore the data a bit more, I used the \texttt{ggmosaic} package. The original analysis done by five thirty eight focused primarily on the perceived rudeness of a behavior, one behavior at a time, or comparing the response "Very Rude" across all behaviors. By using a mosaic plot, multiple categorical counts can be viewed simultaneously which will provide a clearer view of the underlying data and allow for more comparisons to be made.
 
 %------------------------------------------------
 
