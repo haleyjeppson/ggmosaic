@@ -120,7 +120,7 @@ To learn a little about people's opinions on what people consider to be rude beh
 
 \section*{The \texttt{ggmosaic} package}
 
-\par The \texttt{ggmosaic} package was designed to create visualizations of categorical data. It is not limited to mosaic plots. Rather, it is capable of producing a wide variety of plots, including bar charts, stacked bar charts, spine plots, mosaic plots, and double decker plots. Each of these plots are constructed hierarchically, so the ordering of the variables is very important.
+\par The \texttt{ggmosaic} package was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this paper, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  There are many features that can be customized in \texttt{ggmosaic}, including the types of partitioning available, the ordering, conditioning, and highlighting of the variables, and the spacing between the categories.
 
 \par While mosaic plots have been implemented in a variety of packages in R \citep{R2016}, the ordinary grammar of graphics does not support mosaic plots. However, with version 2.0.0 of `ggplot2` \citep{ggplot2}, a way for other R packages to implement custom geoms was introduced. With the R package ggmosaic, a custom ggplot2 geom designed for mosaic plots is implemented. The \texttt{ggmosaic} package can be installed from \url{https://github.com/haleyjeppson/ggmosaic}.
 
@@ -166,7 +166,7 @@ datadir=".."
 
 @
 
-<<first_plot, echo = FALSE, message=FALSE, warning=FALSE, fig.cap="S .", fig.pos='h'>>=
+<<first_plot, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
 
 library(curl)
 
@@ -196,31 +196,50 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline
 
 @
 
-\par What we see here is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act recling, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat.
+\par What we see here is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act recling, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
 
-<<talk, echo = FALSE, message=FALSE, warning=FALSE, fig.cap="S .", fig.pos='h'>>=
+<<talk, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE, fig.show='asis', fig.cap="Is it rude to talk to your neighbor?", fig.pos='h'>>=
 library(viridis)
-ggplot(data = fly) + geom_mosaic(aes(x=product(Region), fill=RudeToTalkToNeighbor), na.rm=T) +
-  guides(fill=guide_legend( reverse = TRUE))# +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
-
-@
-
-
-<<talk, echo = FALSE, message=FALSE, warning=FALSE, fig.cap="S .", fig.pos='h'>>=
-
-ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringBaby), na.rm=T) +
-  guides(fill=guide_legend( reverse = TRUE))# +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
-
-ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringBaby), na.rm=T) +
-  guides(fill=guide_legend( reverse = TRUE)) +facet_grid(~Gender) #+  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
-
-ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringUnrulyChild), na.rm=T) +
+ggplot(data = fly) + geom_mosaic(aes(x=product(Region), fill=RudeToTalkToNeighbor), na.rm=T) +labs(x="Region") +coord_flip()+
   guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
 
-ggplot(data = fly) + geom_mosaic(aes(x=product(Child18), fill=RudeToBringUnrulyChild), na.rm=T) +
-  guides(fill=guide_legend( reverse = TRUE)) +facet_grid(~Gender) #+  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+@
+
+\par Next, I looked into if how rude someone considers talking to your neighbor during a flight varies by region.
+
+
+
+<<baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringBaby), na.rm=T, divider=ddecker()) +
+  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")
+@
+
+\par Here we see that those without a child under the age of 18 make up the largest proportion of the respondents and are more likely to consider bringing a baby onboard as rude. Additionally, men or more likely than women to consider it rude to bring a baby on a flight.
+
+
+<<child2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringUnrulyChild), na.rm=T, divider=ddecker()) +
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+labs(x="Gender, Child under 18", title="Is it rude to bring an unruly child?", subtitle="Broken down by whether respondent has a child under 18 and gender")
 
 @
+
+<<age, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Age), fill=FlightFreq),
+                                 divider=ddecker(), na.rm=T)+
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+@
+
+<<age_baby, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Age), fill=RudeToBringBaby),                                  divider=ddecker(), na.rm=T)+
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+@
+
+<<age_child, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(Age), fill=RudeToBringUnrulyChild),                                  divider=ddecker(), na.rm=T)+
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+@
+
+\par What I found to be interesting about these two plots, is that while those older seem to be less likely to be bothered by a baby being on a flight, they are more likely to be upset by an unruly child.
 \section*{Conclusion}
 
 
