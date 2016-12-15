@@ -236,7 +236,10 @@ ggplot(data = fly) +
 
 \par  To add to this,  \autoref{fig:flying-who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.  \autoref{fig:flying-who3} exemplifies how having mosaic plots implemented as a geom allows for the ggplot2 customization features to easily be accessed. Here, rather than partitioning into spines for the gender categories, I have facetted on gender. Statistically, this relates to conditioning on the variable on gender. The distribution that is being diplayed by  \autoref{fig:flying-who3} is f(FlightFreq, Age |Gender)
 
-<<label=recline1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", width=7, height=14>>=
+
+\par Next I dove into the perceived level of rudeness of some of the more common behaviors. First up, how do the particpants view "The seat recliner" and are the particpants seat recliners themselves? We can look at how often the participants reclined their seat and also at how rude participants believe the behavior to be. However, perhaps a more interesting question is "How often does one recline given they feel the behavior is very rude?" \autoref{fig:flying-recline} is a breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?" that can allow for such types of questions to be answered. While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
+
+<<label=recline1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.cap="Is it rude to recline your seat?", width=7, height=14>>=
 
 # change order of the levels
 
@@ -265,9 +268,14 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline
 #ggplot(data = fly) + geom_mosaic(aes(x=product(RecliningObligationToBehind), fill=DoYouRecline), na.rm=T)
 @
 
-\par Next I dove into the perceived level of rudeness of some of the more common behaviors. We can look at how often the participants reclined their seat nd also at how rude participants believe the behavior to be. However, perhaps a more interesting question is "How often does one recline given they feel the behavior is very rude?" \autoref{fig:flying-recline} is a breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?" that can allow for such types of questions to be answered. While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
 
 
+<<label=baby, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h', width = 7, height = 7>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToBringBaby)), fill="#e41a1c", na.rm=T, divider="hbar") +
+  guides(fill=guide_legend( reverse = TRUE))  +  #scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+
+   scale_fill_brewer(palette = "Set1", direction=-1)+
+  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender") +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
+@
 
 <<label=baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h', width = 7, height = 7>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringBaby), na.rm=T, divider=ddecker()) +
@@ -276,9 +284,15 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBrin
   labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender") +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
 @
 
-\par \autoref{fig:flying-baby2} is an example of one of the other types of plots \texttt{ggmosaic} is capable of creating, a double decker plot. A modification of a mosaic plot, a double decker plot, is composed of n−1 hspines and ends with a vspine rather than alternating hspines and vspines. In \autoref{fig:flying-baby2}, the plot is first split horizontally by response to "Do you have a child under the age of 18?". From there each hspine is split into gender resulting in a plot where each combination of gender and child under the age of 18 is represented by a vertical bar where the width represents the proportion of that category. Lastly, each vertical bar is split vertically by the responses to "Is it rude to bring a baby on a plane?" The finished product is a plot that allows for the three variables to be presented concisely and displays how the proportions differ.
+\par Next, how did the particpants view babies and unruly children on flights? Are there certain demographics that are more likely to be offended by their presence? Are parents less likely or more likely to be offended by other children? The first question addressed is how the participants judged the level of rudeness of bringing a baby onboard broken down by whether the participant had a child under the age of 18 and then by gender. \autoref{fig:flying-baby2} is an example of one of the other types of plots \texttt{ggmosaic} is capable of creating, a double decker plot. A modification of a mosaic plot, a double decker plot, is composed of n−1 hspines and ends with a vspine rather than alternating hspines and vspines. In \autoref{fig:flying-baby2}, the plot is first split horizontally by response to "Do you have a child under the age of 18?". From there each hspine is split into gender resulting in a plot where each combination of gender and child under the age of 18 is represented by a vertical bar where the width represents the proportion of that category. Lastly, each vertical bar is split vertically by the responses to "Is it rude to bring a baby on a plane?" The finished product is a plot that allows for the three variables to be presented concisely and displays how the proportions differ.
 \par In \autoref{fig:flying-baby}, we see that those without a child under the age of 18 make up the largest proportion of the respondents and they are more likely to consider bringing a baby onboard as rude. Additionally, men or more likely than women to consider it rude to bring a baby on a flight.
 
+<<label=child, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h', width = 7, height = 7>>=
+ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToBringUnrulyChild)), fill="#e41a1c", na.rm=T, divider="hbar") +
+  guides(fill=guide_legend( reverse = TRUE))  +  #scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+
+   scale_fill_brewer(palette = "Set1", direction=-1)+
+  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender") +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
+@
 
 <<child2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h', width = 7, height = 7>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringUnrulyChild), na.rm=T, divider=ddecker()) +
