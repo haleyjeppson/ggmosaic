@@ -111,10 +111,9 @@ Iowa State University % Your institution
 
 \par Is there a social contract we should all be following when flying? Who gets to use that extra arm rest? Is it okay to recline your seat or to bring your baby or child onboard? Are people upset if the child is unruly and, like Donald Trump, wish to "get that baby out of here?" \citep{cnn} How often are you allowed to leave your seat before being perceived as rude? Does the occupant of the window seat reserve all rights to the window shade? And is it okay to switch seats for family, friends, or to an unsold seat?
 
-\par To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions. \citep{fivethirtyeight}
+\par To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, FiveThirtEight ran a SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions. \citep{fivethirtyeight}. The dataset is available from FiveThirtEight's data git hub repository.
 
-
-\par To explore the data a bit more, I used the \texttt{ggmosaic} package. The original analysis done by five thirty eight focused primarily on the perceived rudeness of a behavior, one behavior at a time, or comparing the response "Very Rude" across all behaviors. By using a mosaic plot, multiple categorical counts can be viewed simultaneously which will provide a clearer view of the underlying data and allow for more comparisons to be made.
+\par To explore the data a bit more, I used the \texttt{ggmosaic} package. The original analysis done by FiveThirtEight focused primarily on the perceived rudeness of a behavior, one behavior at a time, or comparing the response "Very Rude" across all behaviors. By using a mosaic plot, multiple categorical counts can be viewed simultaneously which will provide a clearer view of the underlying data and allow for more comparisons to be made. We can perhaps gain more insight into how the seat recliner, the chatterbox, or the unruly child is preceived and how those perceptions may be related.
 
 %------------------------------------------------
 
@@ -163,6 +162,7 @@ When more than one variable is to be considered, a type of partition needs to be
 \par I began by taking a look at who is flying and how frequently they fly. In addition to answering questions about common aggravating behaviors, the respondents answered questions regarding their demographics. Some of the demographic types of questions asked included age, gender, household income bracket, education level and region.
 
 \par \autoref{fig:who1} was created by first dividing the space into horizontal spines each representing the proportion of respondents within that household income bracket. We can view these horizontal spines in the final product and they will answer questions such as, "what proportion of the respondents have a household income of under \$100,000?" The next step was to split each horizontal spine into vertical spines, which were subsequently filled with different colors,  representing how frequently one flew. This plot can be used to answer questions such as "what proportion of those that have a household income of under \$24,999 flies a few times per month?"
+
 <<setup, echo=FALSE>>=
 datadir=".."
 
@@ -272,7 +272,7 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(Age), fill=RudeToBringUnrulyChild
 \section*{Conclusion}
 
 
-\par After exploring
+\par After exploring the data a bit more, it is clear that there are wide ranges of what passengers perceive to be acceptable behavior on an airplane.
 %----------------------------------------------------------------------------------------
 %	REFERENCE LIST
 %----------------------------------------------------------------------------------------
