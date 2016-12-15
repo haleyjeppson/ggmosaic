@@ -154,7 +154,8 @@ Iowa State University % Your institution
 
 \par These values are then sent through `productplots` functions to create the formula for the desired distribution: \texttt{weight $\sim$ fill $+$ x $|$ conds }
 
-
+\par The other parameters that can be set include the \texttt{offset} and the \texttt{divider}. When there is a variable with many categories, it may be of interest to decrease the size of the spacing between the spines. This can be achieved by declaring \texttt{offset =}. The default setting is \texttt{offset = 0.01}. There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars, the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally ("hbar") or vertically ("vbar"). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally ("hspine") or vertically ("vspine"). In \texttt{ggmosaic}, the type of partitioning desired can be specified by setting \texttt{divider = " "}. The default divider for one variable is "hspine".
+When more than one variable is to be considered, a type of partition needs to be selected for each variable. By selecting \texttt{divider = mosaic()}, the default, or \texttt{divider = ddecker()}, the correct number of partitions will be selected. For example, if three variables were to be plotted, the default, \texttt{divider = mosaic()}, would partition the plot with spines in alternating directions, beginning with a horizontal spine, i.e. \texttt{divider = c("hspine", "vspine", "hspine")}. It is also an option to manually select the type of partition that will be used for each variable, i.e. \texttt{divider = c("hbar", "vspine", "hspine")}. It should be noted that the first partition in the vector will be the last partition made in the plot. As mentioned above, when no divider is declared, the default \texttt{divider = mosaic()} will begin with a horizontal spine and alternate directions with each subsequent variable.
 
 %-----------------------------------------------------------------------------
 \section*{Visualizing the data}
@@ -162,15 +163,12 @@ Iowa State University % Your institution
 \par I began by taking a look at who is flying and how frequently they fly. In addition to answering questions about common aggravating behaviors, the respondents answered questions regarding their demographics. Some of the demographic types of questions asked included age, gender, household income bracket, education level and region.
 
 \par \autoref{fig:who1} was created by first dividing the space into horizontal spines each representing the proportion of respondents within that household income bracket. We can view these horizontal spines in the final product and they will answer questions such as, "what proportion of the respondents have a household income of under \$100,000?" The next step was to split each horizontal spine into vertical spines, which were subsequently filled with different colors,  representing how frequently one flew. This plot can be used to answer questions such as "what proportion of those that have a household income of under \$24,999 flies a few times per month?"
-
-\par From \autoref{fig:who1} we can see that the largest majority of repondents fall within the household income bracket of \$50,000-99,000, as household income increases, the more likely one is to frequently fly. To add to this, \autoref{fig:who2} informs us, the most of the frequent fliers have some college education and the higher the degree, the more frequently they fly. Lastly,  \autoref{fig:who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.
-
 <<setup, echo=FALSE>>=
 datadir=".."
 
 @
 
-<<who1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+<<who1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="", width = 4, height = 2>>=
 
 library(curl)
 
@@ -206,18 +204,25 @@ ggplot(data = fly) +
 #+   scale_fill_viridis(discrete=TRUE, option="B", begin=.3, end=.9)
 @
 
-<<who2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Who?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+\par From \autoref{fig:who1} we can see that the largest majority of repondents fall within the household income bracket of \$50,000-99,000, as household income increases, the more likely one is to frequently fly.
+
+<<who2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Who?", width = 4, height = 2>>=
 fly$Education <- fct_relevel(fly$Education, c("Less than high school degree", "High school degree" , "Some college or Associate degree", "Bachelor degree", "Graduate degree" ))
 ggplot(data = fly) +
   geom_mosaic(aes(x=product(Education), fill=FlightFreq), divider=ddecker(), na.rm=T)+  guides(fill=guide_legend( reverse = TRUE))+labs(x="Education level", title="How frequently do you fly?", subtitle="Broken down by education level") #+   scale_fill_viridis(discrete=TRUE, option="B", begin=.2, end=.9)
 @
 
-<<who3, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="I", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+\par Continuing the investigation into who is flying and how frequently they fly, \autoref{fig:who2} presents how frequently the respondents flew by education level.
+
+<<who3, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="I", width = 4, height = 2>>=
 ggplot(data = fly) +
   geom_mosaic(aes(x=product(Age), fill=FlightFreq), divider=ddecker(), na.rm=T)+facet_grid(~Gender)+  guides(fill=guide_legend( reverse = TRUE))+labs(x="Age Bracket", title="How frequently do you fly?", subtitle="Broken down by gender and age bracket")#+   scale_fill_viridis(discrete=TRUE, option="B", begin=.2, end=.9)
 @
 
-<<label=recline, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+\par  To add to this,  \autoref{fig:who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.
+
+
+<<label=recline, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?",width = 4, height = 2>>=
 
 # change order of the levels
 
@@ -234,35 +239,36 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline
 
 
 
-<<label=baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+<<label=baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h', width = 4, height = 2>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringBaby), na.rm=T, divider=ddecker()) +
   guides(fill=guide_legend( reverse = TRUE))  +  #scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+
    scale_fill_brewer(palette = "Set1", direction=-1)+
-  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")+theme(axis.text.x = element_text(angle=90) )
+  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")#+theme(axis.text.x = element_text(angle=90) )
 @
 
 \par \autoref{fig:baby2} is an example of one of the other types of plots \texttt{ggmosaic} is capable of creating, a double decker plot. A modification of a mosaic plot, a double decker plot, is composed of n−1 hspines and ends with a vspine rather than alternating hspines and vspines. In \autoref{fig:baby2}, the plot is first split horizontally by response to "Do you have a child under the age of 18?". From there each hspine is split into gender resulting in a plot where each combination of gender and child under the age of 18 is represented by a vertical bar where the width represents the proportion of that category. Lastly, each vertical bar is split vertically by the responses to "Is it rude to bring a baby on a plane?" The finished product is a plot that allows for the three variables to be presented concisely and displays how the proportions differ.
 \par In \autoref{fig:baby}, we see that those without a child under the age of 18 make up the largest proportion of the respondents and they are more likely to consider bringing a baby onboard as rude. Additionally, men or more likely than women to consider it rude to bring a baby on a flight.
 
 
-<<child2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+<<child2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h', width = 4, height = 2>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringUnrulyChild), na.rm=T, divider=ddecker()) +
   guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_brewer(palette = "Set1", direction=-1)+labs(x="Gender, Child under 18", title="Is it rude to bring an unruly child?", subtitle="Broken down by whether respondent has a child under 18 and gender")
 
 @
 
 
-<<age_baby, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+<<age_baby, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h', width = 4, height = 2>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Age), fill=RudeToBringBaby),                                  divider=ddecker(), na.rm=T)+
   guides(fill=guide_legend( reverse = TRUE)) + scale_fill_brewer(palette = "Set1", direction=-1)+labs(x="Age Bracket", title="Is it rude to bring a baby on a plane?", subtitle="Responses broken down by age bracket")
 @
 
-<<age_child, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+<<age_child, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h', width = 4, height = 2>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Age), fill=RudeToBringUnrulyChild),                                  divider=ddecker(), na.rm=T)+
   guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_brewer(palette = "Set1", direction=-1)+labs(x="Age Bracket", title="Is it rude to bring an unruly child on a plane?", subtitle="Responses broken down by age bracket")
 @
 
-\par What I found to be interesting about these two plots, is that while those older seem to be less likely to be bothered by a baby being on a flight, they are more likely to be upset by an unruly child.
+\par An interesting revelation brought about by these two plots is that while those older seem to be less likely to be bothered by a baby being on a flight, they are more likely to be upset by an unruly child.
+
 \section*{Conclusion}
 
 
