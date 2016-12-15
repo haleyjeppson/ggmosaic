@@ -109,9 +109,9 @@ Iowa State University % Your institution
 %----------------------------------------------------------------------------------------
 \section*{Introduction}
 
-\par
+\par Is there a social contract we should all be following when flying? Who gets to use that extra arm rest? Is it okay to recline your seat or to bring your baby or child onboard? How often are you allowed to leave your seat before being perceived as rude? Does the occupant of the window seat reserve all rights to the window shade? And is it okay to switch seats for family, friends, or to an unsold seat?
 
-To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions.
+\par To learn a little about people's opinions on what people consider to be rude behavior while on an airplane, fivethirtyeight ran a  SurveyMonkey Audience poll for two days in August of 2014. The survey had 1,040 respondents (874 of whom had flown) and sought insight on common aggravating behaviors on flights to judge the perceived level of rudeness of those actions.
 
 
 \par To explore the data a bit more, I used the \texttt{ggmosaic} package. The original analysis done by five thirty eight focused primarily on the perceived rudeness of a behavior, one behavior at a time, or comparing the response "Very Rude" across all behaviors. By using a mosaic plot, multiple categorical counts can be viewed simultaneously which will provide a clearer view of the underlying data and allow for more comparisons to be made. A few questions to explore:
@@ -120,7 +120,7 @@ To learn a little about people's opinions on what people consider to be rude beh
 
 \section*{The \texttt{ggmosaic} package}
 
-\par The \texttt{ggmosaic} package was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this paper, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  There are many features that can be customized in \texttt{ggmosaic}, including the types of partitioning available, the ordering, conditioning, and highlighting of the variables, and the spacing between the categories.
+\par The \texttt{ggmosaic} package was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this paper, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  There are many features that can be customized in \texttt{ggmosaic}, including the type of partitioning, the ordering of variables, conditioning or facetting, and the spacing between the categories.
 
 \par While mosaic plots have been implemented in a variety of packages in R \citep{R2016}, the ordinary grammar of graphics does not support mosaic plots. However, with version 2.0.0 of `ggplot2` \citep{ggplot2}, a way for other R packages to implement custom geoms was introduced. With the R package ggmosaic, a custom ggplot2 geom designed for mosaic plots is implemented. The \texttt{ggmosaic} package can be installed from \url{https://github.com/haleyjeppson/ggmosaic}.
 
@@ -152,7 +152,7 @@ To learn a little about people's opinions on what people consider to be rude beh
 \end{itemize}
 
 
-\par These values are then sent through `productplots` functions to create the formula for the desired distribution: \texttt{weight $~$ fill $+$ x $|$ conds }
+\par These values are then sent through `productplots` functions to create the formula for the desired distribution: \texttt{weight $\sim$ fill $+$ x $|$ conds }
 
 
 
@@ -213,7 +213,7 @@ ggplot(data = fly) +
   geom_mosaic(aes(x=product(Age), fill=FlightFreq), divider=ddecker(), na.rm=T)+facet_grid(~Gender)+  guides(fill=guide_legend( reverse = TRUE))+labs(x="Age Bracket", title="How frequently do you fly?", subtitle="Broken down by gender and age bracket")#+   scale_fill_viridis(discrete=TRUE, option="B", begin=.2, end=.9)
 @
 
-<<recline, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+<<label=recline, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
 
 # change order of the levels
 
@@ -226,18 +226,19 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline
 #ggplot(data = fly) + geom_mosaic(aes(x=product(RecliningObligationToBehind), fill=DoYouRecline), na.rm=T)
 @
 
-\par Next I dove into the perceived level of rudeness of some of the more common behaviors. \autoref{fig:recling} is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
+\par Next I dove into the perceived level of rudeness of some of the more common behaviors. \autoref{fig:recline} is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
 
 
 
-<<baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
+<<label=baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringBaby), na.rm=T, divider=ddecker()) +
   guides(fill=guide_legend( reverse = TRUE))  +  #scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+
    scale_fill_brewer(palette = "Set1", direction=-1)+
-  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")
+  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")#+theme(axis.text.x = element_text(size=rel(.5), angle=90) )
 @
 
-\par Here we see that those without a child under the age of 18 make up the largest proportion of the respondents and are more likely to consider bringing a baby onboard as rude. Additionally, men or more likely than women to consider it rude to bring a baby on a flight.
+\par \autoref{fig:baby2} is an example of one of the other types of plots \texttt{ggmosaic} is capable of creating, a double decker plot. A modification of a mosaic plot, a double decker plot, is composed of n−1 hspines and ends with a vspine rather than alternating hspines and vspines. In \autoref{fig:baby2}, the plot is first split horizontally by response to "Do you have a child under the age of 18?". From there each hspine is split into gender resulting in a plot where each combination of gender and child under the age of 18 is represented by a vertical bar where the width represents the proportion of that category. Lastly, each vertical bar is split vertically by the responses to "Is it rude to bring a baby on a plane?" The finished product is a plot that allows for the three variables to be presented concisely and displays how the proportions differ.
+\par In \autoref{fig:baby}, we see that those without a child under the age of 18 make up the largest proportion of the respondents and they are more likely to consider bringing a baby onboard as rude. Additionally, men or more likely than women to consider it rude to bring a baby on a flight.
 
 
 <<child2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
