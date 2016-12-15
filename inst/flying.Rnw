@@ -159,14 +159,14 @@ To learn a little about people's opinions on what people consider to be rude beh
 %-----------------------------------------------------------------------------
 \section*{Visualizing the data}
 
-\par I start by visualizing all
+\par I start by taking a look at who is flying and how frequently they fly. From \autoref{fig:who1} we can see that the largest majority of repondents fall within the household income bracket of \$50,000-99,000, as household income increases, the more likely one is to frequently fly. To add to this, \autoref{fig:who2} informs us, the most of the frequent fliers have some college education and the higher the degree, the more frequently they fly. Lastly,  \autoref{fig:who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.
 
 <<setup, echo=FALSE>>=
 datadir=".."
 
 @
 
-<<first_plot, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+<<who1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
 
 library(curl)
 
@@ -174,9 +174,9 @@ fly <- read.csv( curl("https://raw.githubusercontent.com/fivethirtyeight/data/ma
                  na.strings=c(""," ","NA"))
 
 names(fly) <- c("ID", "FlightFreq", "DoYouRecline", "Height", "Child18",
-                "3Seats-2Arms", "2Seats-1Arm", "WhoControlsWindowShade",
+                "three_Seats_2Arms", "two_Seats-1Arm", "WhoControlsWindowShade",
                 "RudeToMoveToUnsoldSeat", "RudeToTalkToNeighbor",
-                "6hrFlightRudeToLeaveSeat", "RecliningObligationToBehind",
+                "SixhrFlightRudeToLeaveSeat", "RecliningObligationToBehind",
                 "RudeToRecline", "EliminateReclining", "RudeToSwitchSeatsForFriends", "RudeToSwitchSeatsForFamily", "RudeToWakeNeighborForBathroom",
                 "RudeToWakeNeighborForWalk", "RudeToBringBaby",
                 "RudeToBringUnrulyChild", "UseElectronicsDuringTakeoff",
@@ -185,6 +185,35 @@ names(fly) <- c("ID", "FlightFreq", "DoYouRecline", "Height", "Child18",
 library(ggplot2)
 library(ggmosaic)
 library(forcats)
+library(RColorBrewer)
+library(viridis)
+
+
+fly$HouseholdIncome <- fct_relevel(fly$HouseholdIncome,
+                                   c( "$0 - $24,999" ,"$25,000 - $49,999",
+                                      "$50,000 - $99,999" ,
+                                      "$100,000 - $149,999", "150000"))
+levels(fly$HouseholdIncome)[5]<- "150,000 or more"
+
+fly$FlightFreq <- fct_relevel(fly$FlightFreq, c( "Never" , "Once a year or less" , "Once a month or less", "A few times per month", "A few times per week", "Every day"))
+
+ggplot(data = fly) +
+  geom_mosaic(aes(x=product(HouseholdIncome), fill=FlightFreq), divider=ddecker(), na.rm=T)+  guides(fill=guide_legend( reverse = TRUE))+labs(x="Household Income", title="How frequently do you fly?", subtitle="Broken down by household income")
+#+   scale_fill_viridis(discrete=TRUE, option="B", begin=.3, end=.9)
+@
+
+<<who2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Who?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+fly$Education <- fct_relevel(fly$Education, c("Less than high school degree", "High school degree" , "Some college or Associate degree", "Bachelor degree", "Graduate degree" ))
+ggplot(data = fly) +
+  geom_mosaic(aes(x=product(Education), fill=FlightFreq), divider=ddecker(), na.rm=T)+  guides(fill=guide_legend( reverse = TRUE))+labs(x="Education level", title="How frequently do you fly?", subtitle="Broken down by education level") #+   scale_fill_viridis(discrete=TRUE, option="B", begin=.2, end=.9)
+@
+
+<<who3, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="I", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
+ggplot(data = fly) +
+  geom_mosaic(aes(x=product(Age), fill=FlightFreq), divider=ddecker(), na.rm=T)+facet_grid(~Gender)+  guides(fill=guide_legend( reverse = TRUE))+labs(x="Age Bracket", title="How frequently do you fly?", subtitle="Broken down by gender and age bracket")#+   scale_fill_viridis(discrete=TRUE, option="B", begin=.2, end=.9)
+@
+
+<<recline, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", fig.width = 4, fig.height = 2, out.width="0.4\\linewidth">>=
 
 # change order of the levels
 
@@ -192,26 +221,20 @@ fly$DoYouRecline <- fct_relevel(fly$DoYouRecline, c("Never", "Once in a while", 
 
 set.separators(c(":", ";","|"))
 
-ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline), na.rm=T)+ coord_flip()
+ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline), na.rm=T)  +  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_brewer(palette = "Dark2", direction = -1)+labs(x="Is it rude to recline?", title="Do you recline your seat?", subtitle="Broken down by response to 'Is it rude to recline?'")
 
+#ggplot(data = fly) + geom_mosaic(aes(x=product(RecliningObligationToBehind), fill=DoYouRecline), na.rm=T)
 @
 
-\par What we see here is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act recling, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
-
-<<talk, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE, fig.show='asis', fig.cap="Is it rude to talk to your neighbor?", fig.pos='h'>>=
-library(viridis)
-ggplot(data = fly) + geom_mosaic(aes(x=product(Region), fill=RudeToTalkToNeighbor), na.rm=T) +labs(x="Region") +coord_flip()+
-  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
-
-@
-
-\par Next, I looked into if how rude someone considers talking to your neighbor during a flight varies by region.
+\par Next I dove into the perceived level of rudeness of some of the more common behaviors. \autoref{fig:recling} is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
 
 
 
 <<baby2, echo = FALSE, message=FALSE, warning=FALSE, fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringBaby), na.rm=T, divider=ddecker()) +
-  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")
+  guides(fill=guide_legend( reverse = TRUE))  +  #scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+
+   scale_fill_brewer(palette = "Set1", direction=-1)+
+  labs(x="Gender, Child under 18", title="Is it rude to bring a baby?", subtitle="Broken down by whether respondent has a child under 18 and gender")
 @
 
 \par Here we see that those without a child under the age of 18 make up the largest proportion of the respondents and are more likely to consider bringing a baby onboard as rude. Additionally, men or more likely than women to consider it rude to bring a baby on a flight.
@@ -219,24 +242,19 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBrin
 
 <<child2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Child18), fill=RudeToBringUnrulyChild), na.rm=T, divider=ddecker()) +
-  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)+labs(x="Gender, Child under 18", title="Is it rude to bring an unruly child?", subtitle="Broken down by whether respondent has a child under 18 and gender")
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_brewer(palette = "Set1", direction=-1)+labs(x="Gender, Child under 18", title="Is it rude to bring an unruly child?", subtitle="Broken down by whether respondent has a child under 18 and gender")
 
 @
 
-<<age, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
-ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Age), fill=FlightFreq),
-                                 divider=ddecker(), na.rm=T)+
-  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
-@
 
 <<age_baby, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
-ggplot(data = fly) + geom_mosaic(aes(x=product(Gender, Age), fill=RudeToBringBaby),                                  divider=ddecker(), na.rm=T)+
-  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+ggplot(data = fly) + geom_mosaic(aes(x=product(Age), fill=RudeToBringBaby),                                  divider=ddecker(), na.rm=T)+
+  guides(fill=guide_legend( reverse = TRUE)) + scale_fill_brewer(palette = "Set1", direction=-1)+labs(x="Age Bracket", title="Is it rude to bring a baby on a plane?", subtitle="Responses broken down by age bracket")
 @
 
 <<age_child, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE,  fig.cap="S .", fig.pos='h'>>=
 ggplot(data = fly) + geom_mosaic(aes(x=product(Age), fill=RudeToBringUnrulyChild),                                  divider=ddecker(), na.rm=T)+
-  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_viridis(discrete=TRUE, option="D", begin=.2, end=.9)
+  guides(fill=guide_legend( reverse = TRUE)) +  scale_fill_brewer(palette = "Set1", direction=-1)+labs(x="Age Bracket", title="Is it rude to bring an unruly child on a plane?", subtitle="Responses broken down by age bracket")
 @
 
 \par What I found to be interesting about these two plots, is that while those older seem to be less likely to be bothered by a baby being on a flight, they are more likely to be upset by an unruly child.
