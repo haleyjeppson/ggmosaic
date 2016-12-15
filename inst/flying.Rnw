@@ -157,6 +157,8 @@ Iowa State University % Your institution
 \par The other parameters that can be set include the \texttt{offset} and the \texttt{divider}. When there is a variable with many categories, it may be of interest to decrease the size of the spacing between the spines. This can be achieved by declaring \texttt{offset =}. The default setting is \texttt{offset = 0.01}. There are two main ways to partition the area - into bars or into spines. When the area is partitioned into bars, the height is proportional to value and the width equally divides the space. Bars can be arranged horizontally ("hbar") or vertically ("vbar"). Alternatively, the space can be partitioned into spines, where the width is proportional to value, height occupies full range. Spines are space filling and can be arranged horizontally ("hspine") or vertically ("vspine"). In \texttt{ggmosaic}, the type of partitioning desired can be specified by setting \texttt{divider = " "}. The default divider for one variable is "hspine".
 When more than one variable is to be considered, a type of partition needs to be selected for each variable. By selecting \texttt{divider = mosaic()}, the default, or \texttt{divider = ddecker()}, the correct number of partitions will be selected. For example, if three variables were to be plotted, the default, \texttt{divider = mosaic()}, would partition the plot with spines in alternating directions, beginning with a horizontal spine, i.e. \texttt{divider = c("hspine", "vspine", "hspine")}. It is also an option to manually select the type of partition that will be used for each variable, i.e. \texttt{divider = c("hbar", "vspine", "hspine")}. It should be noted that the first partition in the vector will be the last partition made in the plot. As mentioned above, when no divider is declared, the default \texttt{divider = mosaic()} will begin with a horizontal spine and alternate directions with each subsequent variable.
 
+\par Using mosaic plots to vizualize this data will allow for the hierarchical structure of the counts and proportions, which is important for understanding the multivariate discrete distributions, to be seen.
+
 %-----------------------------------------------------------------------------
 \section*{Visualizing the data}
 
@@ -171,7 +173,7 @@ datadir=".."
 
 
 \setkeys{Gin}{width=0.45\textwidth}
-<<who1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="", width = 7, height = 7>>=
+<<who1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', caption="", label=who1, width = 7, height = 7>>=
 
 library(curl)
 library(ggplot2)
@@ -212,7 +214,7 @@ ggplot(data = fly) +
 #+   scale_fill_viridis(discrete=TRUE, option="B", begin=.3, end=.9)
 @
 
-\par From \autoref{flying-who1} we can see that the largest majority of the survey participants fall within the household income bracket of \$50,000-99,000, and that as household income increases, the more likely one is to frequently fly. Even more interesting, the few participants that responded that they flew every day were of the 2 lower income brackets or chose to not repond to the question.
+\par From \ref{fig:flying-who1} we can see that the largest majority of the survey participants fall within the household income bracket of \$50,000-99,000, and that as household income increases, the more likely one is to frequently fly. Even more interesting, the few participants that responded that they flew every day were of the two lower income brackets or chose to not repond to the question.
 
 <<who2, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Who?", width = 7, height = 7>>=
 fly$Education <- fct_relevel(fly$Education, c("Less than high school degree", "High school degree" , "Some college or Associate degree", "Bachelor degree", "Graduate degree" ))
@@ -234,6 +236,21 @@ ggplot(data = fly) +
 
 \par  To add to this,  \autoref{fig:flying-who3} shows that gender and age don't play too large of a role in how often one flys, though interestingly the largest group of those that never fly was made up of males in the age bracket 18-29.  \autoref{fig:flying-who3} exemplifies how having mosaic plots implemented as a geom allows for the ggplot2 customization features to easily be accessed. Here, rather than partitioning into spines for the gender categories, I have facetted on gender. Statistically, this relates to conditioning on the variable on gender. The distribution that is being diplayed by  \autoref{fig:flying-who3} is f(FlightFreq, Age |Gender)
 
+<<label=recline1, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", width=7, height=14>>=
+
+# change order of the levels
+
+fly$DoYouRecline <- fct_relevel(fly$DoYouRecline, c("Never", "Once in a while", "About half the time", "Usually", "Always") )
+
+set.separators(c(":", ";","|"))
+library(gridExtra)
+a <- ggplot(data = fly) + geom_mosaic(aes(x=product(DoYouRecline)), fill="#d95f02", na.rm=T, divider="hbar")  +  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_brewer(palette = "Dark2", direction = -1)+labs(x="Is it rude to recline?", title="Do you recline your seat?")  +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
+
+b <- ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline)), fill="#1b9e77", na.rm=T, divider="hbar")  +  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_brewer(palette = "Dark2", direction = -1)+labs(x="Is it rude to recline?", title="Is it rude to recline your seat?")  +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
+#ggplot(data = fly) + geom_mosaic(aes(x=product(RecliningObligationToBehind), fill=DoYouRecline), na.rm=T)
+grid.arrange(a,b)
+
+@
 
 <<label=recline, echo = FALSE, message=FALSE, warning=FALSE,fig=TRUE, fig.show='hold', fig.cap="Is it rude to recline your seat?", width=7, height=7>>=
 
@@ -248,7 +265,7 @@ ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline
 #ggplot(data = fly) + geom_mosaic(aes(x=product(RecliningObligationToBehind), fill=DoYouRecline), na.rm=T)
 @
 
-\par Next I dove into the perceived level of rudeness of some of the more common behaviors. \autoref{fig:flying-recline} is an interesting breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?". While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
+\par Next I dove into the perceived level of rudeness of some of the more common behaviors. We can look at how often the participants reclined their seat nd also at how rude participants believe the behavior to be. However, perhaps a more interesting question is "How often does one recline given they feel the behavior is very rude?" \autoref{fig:flying-recline} is a breakdown of participant responses to the two questions "Do you recline?" and "Is it rude to recline?" that can allow for such types of questions to be answered. While some of the results were as expected - the more rude someone considers the act reclining, the less likely they were to recline their own chair- there were three respondants who felt it was very rude to recline your seat on an airplane, yet always reclined their own seat. The plot also lets us know that the majority of the respondents do not find it at all rude to recline your seat and are fairly evenly divided on how often they themselves recline their own seat.
 
 
 
