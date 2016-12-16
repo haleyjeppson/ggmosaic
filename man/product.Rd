@@ -12,6 +12,6 @@ product(x, ...)
 \item{...}{other arguments passed on}
 }
 \description{
-Product
+This function creates a product variable based on all combinations of the variables.
 }
 

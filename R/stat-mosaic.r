@@ -22,8 +22,10 @@ get.separators <- function() {
   ggm$separators
 }
 
+
 #' Product
 #'
+#' This function creates a product variable based on all combinations of the variables.
 #' @export
 #'
 #' @param x variable
