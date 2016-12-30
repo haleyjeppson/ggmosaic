@@ -62,6 +62,31 @@ product <- function(x, ...) {
   prod
 }
 
+#' Wrapper for a list
+#'
+#' @export
+#' @examples
+#' data(Titanic)
+#' titanic <- as.data.frame(Titanic)
+#' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
+#' ggplot(data=titanic) +
+#'   geom_mosaic(aes(weight=Freq, x=product2(Survived, Class), fill=Survived))
+product2 <- function(x, ...) {
+  browser()
+  # interaction doesn't deal with missing values correctly
+  vars <- list(x, ...)
+  varnames <- as.character(match.call()[-1])
+  vars <- lapply(1:length(varnames), function(k) {
+#    browser()
+    if (!is.factor(vars[[k]])) vars[[k]] <- factor(vars[[k]])
+    levels(vars[[k]]) <- paste(varnames[k], levels(vars[[k]]), sep=":")
+    vars[[k]]
+  })
+  names(vars) <- varnames
+
+  class(vars) <- "productlist"
+  vars
+}
 
 #' Is an Object of Type Product?
 #'
@@ -227,81 +252,111 @@ StatMosaic <- ggplot2::ggproto(
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
-#   cat("compute_panel from StatMosaic\n")
-  # browser()
+   cat("compute_panel from StatMosaic\n")
+   browser()
 
-    vars <- expand_variable(data, "x")
-    if (!is.null(vars)){
-    names(vars) <- apply(vars, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
-    }
-    conds <- expand_variable(data, "conds")
-    if (!is.null(conds)){
-    names(conds) <- apply(conds, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
-    }
-
-    if (is.null(vars)) formula <- "1"
-    else formula <-  paste(names(vars), collapse="+")
-
-    if (in_data(data, "fill")) {
-      if(!is.null(conds)){
-      if (!all(apply(data[complete.cases(data[c('conds', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
-        if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
-      formula <- paste("fill+",formula) }
-     else { #---- need to replace varible in formula with fill?
-       vars1 <- data.frame(fill=data$fill, vars)
-       logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
-       logicals <- logicals[,-1]
-       logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
-       logs <- data.frame(t(logs))
-       names(logs) <- names(vars)
-       names(logs)[logs==TRUE] <- "fill"
-
-      formula <- paste(names(logs), collapse="+")
+   vars <- names(data)[grep("x", names(data))]
+    # vars <- expand_variable(data, "x")
+    # if (!is.null(vars)){
+    # names(vars) <- apply(vars, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
+    # }
+   conds <- names(data)[grep("conds", names(data))]
+    # conds <- expand_variable(data, "conds")
+    # if (!is.null(conds)){
+    # names(conds) <- apply(conds, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
+    # }
+   if (in_data(data, "fill")) {
+     # is fill colour one of the existing variables?
+     # in that case, we want to replace the variable by "fill".
+     # Otherwise, we expand vars by one variable.
+     fillfound <- FALSE
+     fillvar <- sapply(vars, FUN = function(x) {
+       identical(data[,x], data$fill)
+       })
+     if (any(fillvar)) {
+       vars[which(fillvar)] <- "fill"
+       fillfound <- TRUE
      }
-      }
-      }
-        else {
-          if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
-            formula <- paste("fill+",formula) }
-          else { #---- need to replace varible in formula with fill?
-            vars1 <- data.frame(fill=data$fill, vars)
-            logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
-            logicals <- logicals[,-1]
-            logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
-            logs <- data.frame(t(logs))
-            names(logs) <- names(vars)
-            names(logs)[logs==TRUE] <- "fill"
 
-            formula <- paste(names(logs), collapse="+")
+     # if we have conditions, we need to check if one of them is
+     # is the fill variable.
+     if (length(conds) > 0) {
+        condsvar <- sapply(conds, FUN = function(x) {
+           identical(data[,x], data$fill)
+         })
+         if (any(condsvar)) {
+           conds[which(condsvar)] <- "fill"
+           fillfound <- TRUE
+         }
+       }
+     if (!fillfound) vars <- c("fill", vars)
+   }
 
 
-          }
-          }}
+    if (length(vars) == 0) formula <- "1"
+    else formula <-  paste(vars, collapse="+")
+
+    # if (in_data(data, "fill")) {
+    #   if(!is.null(conds)){
+    #   if (!all(apply(data[complete.cases(data[c('conds', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
+    #     if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
+    #   formula <- paste("fill+",formula) }
+    #  else { #---- need to replace varible in formula with fill?
+    #    vars1 <- data.frame(fill=data$fill, vars)
+    #    logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
+    #    logicals <- logicals[,-1]
+    #    logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
+    #    logs <- data.frame(t(logs))
+    #    names(logs) <- names(vars)
+    #    names(logs)[logs==TRUE] <- "fill"
+    #
+    #   formula <- paste(names(logs), collapse="+")
+    #  }
+    #   }
+    #   }
+    #     else {
+    #       if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
+    #         formula <- paste("fill+",formula) }
+    #       else { #---- need to replace varible in formula with fill?
+    #         vars1 <- data.frame(fill=data$fill, vars)
+    #         logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
+    #         logicals <- logicals[,-1]
+    #         logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
+    #         logs <- data.frame(t(logs))
+    #         names(logs) <- names(vars)
+    #         names(logs)[logs==TRUE] <- "fill"
+    #
+    #         formula <- paste(names(logs), collapse="+")
+    #
+    #
+    #       }
+    #       }}
 
 
     formula <- paste("weight~", formula)
 
-    if (! is.null(conds)) {
-      if (!all(apply(data[complete.cases(data[c('fill', 'conds')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
-        formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
-      }
-      else {
-        conds1 <- data.frame(fill=data$fill, conds)
-        logicals <- data.frame(t(apply(conds1[complete.cases(conds1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
-        logicals <- logicals[,-1]
-        logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
-        logs <- data.frame(t(logs))
-        names(logs) <- names(conds)
-        names(logs)[logs==TRUE] <- "fill"
-
-        formula<- paste(formula, paste(names(logs), collapse="+"), sep="|")
-
-      }
-    }
+    if (length(conds) > 0) formula <- paste(formula, paste(conds, collapse="+"), sep="|")
+    # if (! is.null(conds)) {
+    #   if (!all(apply(data[complete.cases(data[c('fill', 'conds')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
+    #     formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
+    #   }
+    #   else {
+    #     conds1 <- data.frame(fill=data$fill, conds)
+    #     logicals <- data.frame(t(apply(conds1[complete.cases(conds1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
+    #     logicals <- logicals[,-1]
+    #     logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
+    #     logs <- data.frame(t(logs))
+    #     names(logs) <- names(conds)
+    #     names(logs)[logs==TRUE] <- "fill"
+    #
+    #     formula<- paste(formula, paste(names(logs), collapse="+"), sep="|")
+    #
+    #   }
+    # }
 
     df <- data
-    if (! is.null(vars)) df <- data.frame(df, vars)
-    if (! is.null(conds)) df <- data.frame(df, conds)
+#    if (! is.null(vars)) df <- data.frame(df, vars)
+#    if (! is.null(conds)) df <- data.frame(df, conds)
     if (!in_data(df, "weight")) {
       df$weight <- 1
     }
