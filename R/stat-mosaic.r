@@ -77,9 +77,8 @@ product <- function(x, ...) {
   vars <- list(x, ...)
   varnames <- as.character(match.call()[-1])
   vars <- lapply(1:length(varnames), function(k) {
-#    browser()
     if (!is.factor(vars[[k]])) vars[[k]] <- factor(vars[[k]])
-    levels(vars[[k]]) <- paste(varnames[k], levels(vars[[k]]), sep=":")
+#    levels(vars[[k]]) <- paste(varnames[k], levels(vars[[k]]), sep=":")
     vars[[k]]
   })
   names(vars) <- varnames
