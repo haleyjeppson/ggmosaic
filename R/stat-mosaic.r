@@ -70,9 +70,9 @@ get.separators <- function() {
 #' titanic <- as.data.frame(Titanic)
 #' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product2(Survived, Class), fill=Survived))
-product2 <- function(x, ...) {
-  browser()
+#'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
+product <- function(x, ...) {
+#  browser()
   # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varnames <- as.character(match.call()[-1])
@@ -252,8 +252,8 @@ StatMosaic <- ggplot2::ggproto(
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
-   cat("compute_panel from StatMosaic\n")
-   browser()
+#   cat("compute_panel from StatMosaic\n")
+#   browser()
 
    vars <- names(data)[grep("x", names(data))]
     # vars <- expand_variable(data, "x")
