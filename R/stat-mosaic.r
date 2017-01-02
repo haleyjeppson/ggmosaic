@@ -23,44 +23,44 @@ get.separators <- function() {
 }
 
 
-#' Product
-#'
-#' This function creates a product variable based on all combinations of the variables.
-#' @export
-#'
-#' @param x variable
-#' @param ... other arguments passed on
-#'
-#'
-product <- function(x, ...) {
-
-  # interaction doesn't deal with missing values correctly
-  vars <- list(x, ...)
-  varNames <- as.character(match.call()[-1])
-  separators <- get.separators()
-  if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
-#browser()
-  vars <- sapply(1:length(vars), function(y) {
-    z <- factor(vars[[y]])
-    name <- varNames[y]
-    ynum <- as.numeric(z)
-    ynum[is.na(ynum)] <- max(ynum, na.rm=TRUE)+1
-    ychar <- as.character(z)
-    paste(ynum, paste(name, ychar, sep=separators[1]), sep=separators[2])
-  })
-
-  if (ncol(vars) == 1)
-    prod <- vars
-  else {
-    prod <- vars[,1]
-    for (i in 2:ncol(vars)) {
-      prod <- paste(prod, vars[,i], sep=separators[3])
-    }
-  }
-  prod <- factor(prod)
-  class(prod) <- "product"
-  prod
-}
+# #' Product
+# #'
+# #' This function creates a product variable based on all combinations of the variables.
+# #' @export
+# #'
+# #' @param x variable
+# #' @param ... other arguments passed on
+# #'
+# #'
+# product <- function(x, ...) {
+#
+#   # interaction doesn't deal with missing values correctly
+#   vars <- list(x, ...)
+#   varNames <- as.character(match.call()[-1])
+#   separators <- get.separators()
+#   if(length(vars) < length(varNames)) varNames <- varNames[1:length(vars)]
+# #browser()
+#   vars <- sapply(1:length(vars), function(y) {
+#     z <- factor(vars[[y]])
+#     name <- varNames[y]
+#     ynum <- as.numeric(z)
+#     ynum[is.na(ynum)] <- max(ynum, na.rm=TRUE)+1
+#     ychar <- as.character(z)
+#     paste(ynum, paste(name, ychar, sep=separators[1]), sep=separators[2])
+#   })
+#
+#   if (ncol(vars) == 1)
+#     prod <- vars
+#   else {
+#     prod <- vars[,1]
+#     for (i in 2:ncol(vars)) {
+#       prod <- paste(prod, vars[,i], sep=separators[3])
+#     }
+#   }
+#   prod <- factor(prod)
+#   class(prod) <- "product"
+#   prod
+# }
 
 #' Wrapper for a list
 #'
@@ -88,51 +88,51 @@ product2 <- function(x, ...) {
   vars
 }
 
-#' Is an Object of Type Product?
-#'
-#' Checks whether its argument is a product.
-#'
-#' @export
-#'
-#' @param x an `R` object
-#'
-is.product <- function(x) {
-  "product" %in% class(x)
-}
+# #' Is an Object of Type Product?
+# #'
+# #' Checks whether its argument is a product.
+# #'
+# #' @export
+# #'
+# #' @param x an `R` object
+# #'
+# is.product <- function(x) {
+#   "product" %in% class(x)
+# }
+#
 
-
-#' @method as.data.frame product
-#' @export
-as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., nm = paste(deparse(substitute(x),
-                                                                                                  width.cutoff = 500L), collapse = " "))
-{
-  force(nm)
-  nrows <- length(x)
-  if (!(is.null(row.names) || (is.character(row.names) && length(row.names) ==
-                               nrows))) {
-    warning(gettextf("'row.names' is not a character vector of length %d -- omitting it. Will be an error!",
-                     nrows), domain = NA)
-    row.names <- NULL
-  }
-  if (is.null(row.names)) {
-    if (nrows == 0L)
-      row.names <- character()
-    else if (length(row.names <- names(x)) != nrows || anyDuplicated(row.names))
-      row.names <- .set_row_names(nrows)
-  }
-  if (!is.null(names(x)))
-    names(x) <- NULL
-  levels <- attr(x, "levels")
-  value <- list(levels[x])
-
-  if (!optional)
-    names(value) <- nm
-  df <- structure(value, row.names = row.names, class = "data.frame")
-# browser()
-
-  df
-}
-
+# #' @method as.data.frame product
+# #' @export
+# as.data.frame.product <- function (x, row.names = NULL, optional = FALSE, ..., nm = paste(deparse(substitute(x),
+#                                                                                                   width.cutoff = 500L), collapse = " "))
+# {
+#   force(nm)
+#   nrows <- length(x)
+#   if (!(is.null(row.names) || (is.character(row.names) && length(row.names) ==
+#                                nrows))) {
+#     warning(gettextf("'row.names' is not a character vector of length %d -- omitting it. Will be an error!",
+#                      nrows), domain = NA)
+#     row.names <- NULL
+#   }
+#   if (is.null(row.names)) {
+#     if (nrows == 0L)
+#       row.names <- character()
+#     else if (length(row.names <- names(x)) != nrows || anyDuplicated(row.names))
+#       row.names <- .set_row_names(nrows)
+#   }
+#   if (!is.null(names(x)))
+#     names(x) <- NULL
+#   levels <- attr(x, "levels")
+#   value <- list(levels[x])
+#
+#   if (!optional)
+#     names(value) <- nm
+#   df <- structure(value, row.names = row.names, class = "data.frame")
+# # browser()
+#
+#   df
+# }
+#
 
 "%||%" <- function(a, b) {
   if (!is.null(a)) a else b
@@ -142,63 +142,63 @@ in_data <- function(data, variable) {
   length(intersect(names(data), variable)) > 0
 }
 
-#' @importFrom purrr map_df
-#' @importFrom dplyr mutate select
-#' @importFrom stats reorder
-expand_variable <- function(data, variable) {
-  # better leave this an internal helper function
-  if (!in_data(data, variable)) return()
-
-#  browser()
-  separators <- get.separators()
-
-  x__ <- NULL # provide visible binding
-  data$x__ <- data[,variable]
-  k <- sum(gregexpr(separators[3], data$x__[1], fixed = TRUE)[[1]]!=-1)+1
-  df <- tidyr::separate(select(data, x__), x__, into=paste0("V",1:k), sep = paste0("\\", separators[3]))
-
-  df <- purrr::map(df, .f = function(x) {
-    dframe <- data.frame(x=x)
-    dframe <- tidyr::separate(dframe, x, into=c("levels", "x"), sep=paste0("\\", separators[2]))
-    dframe <- mutate(dframe, x = reorder(x, as.numeric(levels), mean, na.rm=TRUE))
-    dframe$x
-  })
-  df <- data.frame(df)
-
-#  split_this <- as.character(data[,variable])
-#  df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
-  # if(ncol(df) == 1)
-  # df <- plyr::llply(df, function(x) {
-  #   split_this <- as.character(x)
-  #   parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
-  #   #x <- factor(parts[,2])
-  #   if (ncol(parts) == 2) {
-  #     parts[,2] <- sapply(strsplit(parts[,2],separators[1]),'[',2)
-  #     xorder <- suppressWarnings({as.numeric(parts[,1])})
-  #     if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
-  #     x <- stats::reorder(factor(parts[,2]), xorder)
-  #     return(x)
-  #   }
-  #   parts
-  # })
-  # else
-  # df <- plyr::llply(df, function(x) {
-  #   split_this <- as.character(x)
-  #   parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
-  #   #x <- factor(parts[,2])
-  #   if (ncol(parts) == 2) {
-  #   xorder <- suppressWarnings({as.numeric(parts[,1])})
-  #   if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
-  #   x <- stats::reorder(factor(parts[,2]), xorder)
-  #   return(x)
-  #   }
-  #   parts
-  # })
-  # df <- data.frame(df)
-
-  names(df) <- paste(variable, 1:ncol(df), sep="")
-  df
-}
+# #' @importFrom purrr map_df
+# #' @importFrom dplyr mutate select
+# #' @importFrom stats reorder
+# expand_variable <- function(data, variable) {
+#   # better leave this an internal helper function
+#   if (!in_data(data, variable)) return()
+#
+# #  browser()
+#   separators <- get.separators()
+#
+#   x__ <- NULL # provide visible binding
+#   data$x__ <- data[,variable]
+#   k <- sum(gregexpr(separators[3], data$x__[1], fixed = TRUE)[[1]]!=-1)+1
+#   df <- tidyr::separate(select(data, x__), x__, into=paste0("V",1:k), sep = paste0("\\", separators[3]))
+#
+#   df <- purrr::map(df, .f = function(x) {
+#     dframe <- data.frame(x=x)
+#     dframe <- tidyr::separate(dframe, x, into=c("levels", "x"), sep=paste0("\\", separators[2]))
+#     dframe <- mutate(dframe, x = reorder(x, as.numeric(levels), mean, na.rm=TRUE))
+#     dframe$x
+#   })
+#   df <- data.frame(df)
+#
+# #  split_this <- as.character(data[,variable])
+# #  df <-   plyr::ldply(strsplit(split_this, split=separators[3], fixed=TRUE), function(x) x)
+#   # if(ncol(df) == 1)
+#   # df <- plyr::llply(df, function(x) {
+#   #   split_this <- as.character(x)
+#   #   parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
+#   #   #x <- factor(parts[,2])
+#   #   if (ncol(parts) == 2) {
+#   #     parts[,2] <- sapply(strsplit(parts[,2],separators[1]),'[',2)
+#   #     xorder <- suppressWarnings({as.numeric(parts[,1])})
+#   #     if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
+#   #     x <- stats::reorder(factor(parts[,2]), xorder)
+#   #     return(x)
+#   #   }
+#   #   parts
+#   # })
+#   # else
+#   # df <- plyr::llply(df, function(x) {
+#   #   split_this <- as.character(x)
+#   #   parts <- plyr::ldply(strsplit(split_this, split=separators[2], fixed=TRUE), function(x) x)
+#   #   #x <- factor(parts[,2])
+#   #   if (ncol(parts) == 2) {
+#   #   xorder <- suppressWarnings({as.numeric(parts[,1])})
+#   #   if (any(is.na(xorder))) xorder[is.na(xorder)] <- max(xorder, na.rm=T) + 1
+#   #   x <- stats::reorder(factor(parts[,2]), xorder)
+#   #   return(x)
+#   #   }
+#   #   parts
+#   # })
+#   # df <- data.frame(df)
+#
+#   names(df) <- paste(variable, 1:ncol(df), sep="")
+#   df
+# }
 
 
 #' @rdname geom_mosaic
@@ -412,21 +412,21 @@ StatMosaic <- ggplot2::ggproto(
 # #' might need to overwrite check_aesthetics in geom - at the moment this function gets ignored
 # #' @export
 
-check_aesthetics <- function (x, n)
-{
-  #  do a recursive check on the length of aesthetics - this will allow a specification of
-  #  variables as a list (to allow for arbitrary many variables such as for mosaic plots or
-  #  parallel coordinate plots)
-  islist <- vapply(x, is.list, logical(1))
-  lapply(x[islist==TRUE], check_aesthetics, n =n)
-  x <- x[-which(islist)]
-  #  end of recursive check
-
-  ns <- vapply(x, length, numeric(1))
-  good <- ns == 1L | ns == n
-  if (all(good)) {
-    return()
-  }
-  stop("Aesthetics must be either length 1 or the same as the data (",
-       n, "): ", paste(names(!good), collapse = ", "), call. = FALSE)
-}
+# check_aesthetics <- function (x, n)
+# {
+#   #  do a recursive check on the length of aesthetics - this will allow a specification of
+#   #  variables as a list (to allow for arbitrary many variables such as for mosaic plots or
+#   #  parallel coordinate plots)
+#   islist <- vapply(x, is.list, logical(1))
+#   lapply(x[islist==TRUE], check_aesthetics, n =n)
+#   x <- x[-which(islist)]
+#   #  end of recursive check
+#
+#   ns <- vapply(x, length, numeric(1))
+#   good <- ns == 1L | ns == n
+#   if (all(good)) {
+#     return()
+#   }
+#   stop("Aesthetics must be either length 1 or the same as the data (",
+#        n, "): ", paste(names(!good), collapse = ", "), call. = FALSE)
+# }
