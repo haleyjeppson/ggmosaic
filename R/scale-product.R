@@ -38,14 +38,14 @@ scale_type.product <- function(x) {
 #' @return character string "productlist"
 #' @export
 scale_type.productlist <- function(x) {
- cat("checking for type productlist\n")
+# cat("checking for type productlist\n")
   #browser()
   "productlist"
 }
 
 #' @export
 length.productlist <- function(x) {
-  cat("length.productlist\n")
+#  cat("length.productlist\n")
   y <- x
   class(y) <- "list"
   length(y[[1]])
@@ -53,7 +53,7 @@ length.productlist <- function(x) {
 
 #' @export
 as.data.frame.productlist <- function(x, row.names = NULL, optional = FALSE, ...) {
-  cat("as.data.frame.productlist \n")
+#  cat("as.data.frame.productlist \n")
   y <- x
   class(y) <- "list"
   res <- as.data.frame(y)

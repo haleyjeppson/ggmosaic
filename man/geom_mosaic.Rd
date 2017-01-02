@@ -103,7 +103,7 @@ ggplot(data=titanic) +
 \dontrun{
 data(happy, package="productplots")
 
-ggplot(data = happy) + geom_mosaic(aes(x=product(happy)))
+ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider="hbar")
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy))) +
   coord_flip()
 # weighting is important
@@ -121,22 +121,22 @@ ggplot(data = happy) +
 # set labels manually:
 ggplot(data = happy) +
   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
-  scale_x_product("Age", labels=c(17+1:72, "NA"))
+  scale_x_productlist("Age", labels=c(17+1:72))
 # thin out labels manually:
-labels <- c(17+1:72, NA)
+labels <- c(17+1:72)
 labels[labels \%\% 5 != 0] <- ""
 ggplot(data = happy) +
   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
-  scale_x_product("Age", labels=labels)
+  scale_x_productlist("Age", labels=labels)
 ggplot(data = happy) +
   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex),
   divider=mosaic("v"), na.rm=TRUE, offset=0.001) +
-  scale_x_product("Age", labels=labels)
+  scale_x_productlist("Age", labels=labels)
 # facetting works!!!!
 ggplot(data = happy) +
   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset = 0) +
   facet_grid(sex~.) +
-  scale_x_product("Age", labels=labels)
+  scale_x_productlist("Age", labels=labels)
 
 ggplot(data = happy) +
   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)),
