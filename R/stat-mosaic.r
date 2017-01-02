@@ -64,6 +64,8 @@ get.separators <- function() {
 
 #' Wrapper for a list
 #'
+#' @param x (blank) name of the variable going into the product plot.
+#' @param ...  arbitrarily many additional variables.
 #' @export
 #' @examples
 #' data(Titanic)
