@@ -384,21 +384,28 @@ StatMosaic <- ggplot2::ggproto(
     res <- subset(res, level==max(res$level))
 
     # export the variables with the data - terrible hack
-    res$x <- list(scale=scx)
-    if (!is.null(scales$y)) {
-      # only set the y scale if it is a product scale, otherwise leave it alone
-      if ("ScaleContinuousProduct" %in% class(scales$y))
-        res$y <- list(scale=scy)
-    }
+    # res$x <- list(scale=scx)
+    # if (!is.null(scales$y)) {
+    #   # only set the y scale if it is a product scale, otherwise leave it alone
+    #   if ("ScaleContinuousProduct" %in% class(scales$y))
+    #     res$y <- list(scale=scy)
+    # }
 # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
-#    browser()
+    # browser()
     if (length(cols) > 1) {
     df <- res[,cols]
     df <- tidyr::unite_(df, "label", cols, sep="\n")
 
     res$label <- df$label
     } else res$label <- as.character(res[,cols])
+
+    res$x <- list(scale=scx)
+    if (!is.null(scales$y)) {
+      # only set the y scale if it is a product scale, otherwise leave it alone
+      if ("ScaleContinuousProduct" %in% class(scales$y))
+        res$y <- list(scale=scy)
+    }
 
 #    res$label <- plyr::ldply(
 #      1:nrow(res),
