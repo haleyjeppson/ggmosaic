@@ -1,6 +1,17 @@
+
+"%||%" <- function(a, b) {
+  if (!is.null(a)) a else b
+}
+
+in_data <- function(data, variable) {
+  length(intersect(names(data), variable)) > 0
+}
+
+
+
 #' Wrapper for a list
 #'
-#' @param x (blank) name of the variable going into the product plot.
+#' @param x name of the variable going into the product plot.
 #' @param ...  arbitrarily many additional variables.
 #' @export
 #' @examples
@@ -9,6 +20,7 @@
 #' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
+
 product <- function(x, ...) {
 #  browser()
   # interaction doesn't deal with missing values correctly
@@ -25,14 +37,6 @@ product <- function(x, ...) {
   vars
 }
 
-
-"%||%" <- function(a, b) {
-  if (!is.null(a)) a else b
-}
-
-in_data <- function(data, variable) {
-  length(intersect(names(data), variable)) > 0
-}
 
 
 #' @rdname geom_mosaic
