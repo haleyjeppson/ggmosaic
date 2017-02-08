@@ -1,6 +1,6 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
-Version: 0.1.1.9000
+Version: 0.1.2
 Authors@R: c(
     person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre")),
     person("Heike", "Hofmann", email = "hofmann@iastate.edu", role = "aut"),
@@ -23,7 +23,7 @@ License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 Suggests:
     knitr,
     rmarkdown
