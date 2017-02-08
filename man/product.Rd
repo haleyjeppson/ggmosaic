@@ -7,7 +7,7 @@
 product(x, ...)
 }
 \arguments{
-\item{x}{(blank) name of the variable going into the product plot.}
+\item{x}{name of the variable going into the product plot.}
 
 \item{...}{arbitrarily many additional variables.}
 }
