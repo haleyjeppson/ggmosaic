@@ -6,6 +6,7 @@
 ## Small Usage Changes
 
 - discontinued use of separators
+- `alpha` is recognized as aesthetic
 
 ## Other changes
 
