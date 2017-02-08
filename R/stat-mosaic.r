@@ -286,6 +286,34 @@ StatMosaic <- ggplot2::ggproto(
      if (!fillfound) vars <- c("fill", vars)
    }
 
+   # same things as above, only with alpha
+   if (in_data(data, "alpha")) {
+     # is alpha one of the existing variables?
+     # in that case, we want to replace the variable by "alpha".
+     # Otherwise, we expand vars by one variable.
+     alphafound <- FALSE
+     alphavar <- sapply(vars, FUN = function(x) {
+       identical(data[,x], data$alpha)
+     })
+     if (any(alphavar)) {
+       vars[which(alphavar)] <- "alpha"
+       alphafound <- TRUE
+     }
+
+     # if we have conditions, we need to check if one of them is
+     # is the alpha variable.
+     if (length(conds) > 0) {
+       condsvar <- sapply(conds, FUN = function(x) {
+         identical(data[,x], data$alpha)
+       })
+       if (any(condsvar)) {
+         conds[which(condsvar)] <- "alpha"
+         alphafound <- TRUE
+       }
+     }
+     if (!alphafound) vars <- c("alpha", vars)
+   }
+
 
     if (length(vars) == 0) formula <- "1"
     else formula <-  paste(vars, collapse="+")
