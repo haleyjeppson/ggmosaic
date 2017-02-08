@@ -96,11 +96,6 @@ grid_arrange_shared_legend <- function(..., ncol = length(list(...)), nrow = 1, 
 
 # Introduction
 
-<!--
-### Basic Explanation of `ggmosaic`  
-  
-`ggmosiac` was designed to create visualizations of categorical data, and has the capability to produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The main focus of this vignette, however, will be on mosaic plots. A mosaic plot is a convenient graphical summary of the conditional distributions in a contingency table, and in a mosaic plot, the area of each graphical element is proportional to the underlying probability of that category. This allows us to easily visualize how the joint distribution is composed of the product of the conditional and marginal distributions -- which, in turn, allows us to see any association that may be occurring between the variables. Because the plot is constructed hierarchically, the ordering of the variables is very important.  There are many features that can be customized in `ggmosaic`. A few that will be discussed in this vignette are the types of partitioning available, the ordering, conditioning, and highlighting of the variables, and the spacing between the categories. -->
-
 ## Basic Explanation of `ggmosaic`  
 
 - designed to create visualizations of categorical data
@@ -129,37 +124,9 @@ ggplot2 is not capable of handling a variable number of variables
 
     
 - `product` function:
-- creates a data frame that combines all of the variables listed 
+- a wrapper function for a list
 - allows for it to pass `check_aesthetics` 
-- then splits the variables back apart for the calculations
-    
-HH: update: the `product` function is a wrapper for a list. The limitations below are (currently) not an issue.
 
-The product function creates limitiations for values the variables can take, and what the labels of variables can be. When the variables are combined, the values, variable name, and level are separated using ":", "-", and "."
-    
-- level-variable:value.level-variable:value
-    
-    
-If any of the variable names or values of the variable contain one of those 3 symbols, the function will break
-    
-__Current solution:__ an option to redefine what symbols are used as separators
-    
-Default separators:
-      
-```{r echo=TRUE, tidy=TRUE, fig.align='center'}
-    
-get.separators() 
-    
-```
-    
-Separators redefined:
-      
-```{r eval=FALSE, echo=TRUE, tidy=TRUE, fig.align='center'}
-  
-set.separators(c(":", ";","|")) 
-    
-``` 
-    
 These limitations also lead to issues with the labeling, but those can be manually fixed.
 
 ## geom_mosaic: setting the aesthetics
@@ -199,11 +166,8 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 ## Weight ~ X
 
-<!--The aesthetics set up the formula that determines the how the joint distribution will be broken down.-->
-
 
 ```{r formula-1b, message=FALSE, fig.align='center'}
-#set.separators(c(":", ";","|"))
 
  ggplot(data = NHANES) +
    geom_mosaic(aes(weight = Weight, x = product(SleepHrsNight), fill=factor(SleepHrsNight)), na.rm=TRUE) +
@@ -215,7 +179,6 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 
 ```{r formula-2b, message=FALSE, fig.align='center'}
-#set.separators(c(":", ";","|"))
 
  ggplot(data = NHANES) +
    geom_mosaic(aes(weight = Weight, x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight)), na.rm=TRUE) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight | AgeDecade) f(AgeDecade)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
@@ -226,7 +189,6 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 
 ```{r formula-4b, message=FALSE, fig.align='center'}
-#set.separators(c(":", ";","_"))
 
  ggplot(data = NHANES) +
    geom_mosaic(aes( x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight), conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight, AgeDecade | Gender)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
@@ -236,7 +198,6 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 ##  Alternative to conditioning: facetting
 
-<!--The aesthetics set up the formula that determines the how the joint distribution will be broken down.-->
 
 
 ```{r formula-5b, message=FALSE, fig.align='center'}
@@ -287,7 +248,6 @@ Four options available for each partion:
 
 
 ```{r partitions, message=FALSE, fig.width = 7, fig.height = 3.5}
-#set.separators(c(":", ";","|"))
 
 a2 <- ggplot(data = NHANES) +
    geom_mosaic(aes( x = product(SleepHrsNight), fill=factor(SleepHrsNight)), divider="hbar", na.rm=TRUE) + theme(#axis.text.x=element_text(angle=35, hjust= 1),
