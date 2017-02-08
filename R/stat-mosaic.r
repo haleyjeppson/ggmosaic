@@ -257,15 +257,8 @@ StatMosaic <- ggplot2::ggproto(
 #   browser()
 
    vars <- names(data)[grep("x", names(data))]
-    # vars <- expand_variable(data, "x")
-    # if (!is.null(vars)){
-    # names(vars) <- apply(vars, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
-    # }
    conds <- names(data)[grep("conds", names(data))]
-    # conds <- expand_variable(data, "conds")
-    # if (!is.null(conds)){
-    # names(conds) <- apply(conds, 2, function(x) unique(sapply(strsplit(as.character(x), ggm$separators[1]), "[", 1)))
-    # }
+
    if (in_data(data, "fill")) {
      # is fill colour one of the existing variables?
      # in that case, we want to replace the variable by "fill".
@@ -297,67 +290,13 @@ StatMosaic <- ggplot2::ggproto(
     if (length(vars) == 0) formula <- "1"
     else formula <-  paste(vars, collapse="+")
 
-    # if (in_data(data, "fill")) {
-    #   if(!is.null(conds)){
-    #   if (!all(apply(data[complete.cases(data[c('conds', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
-    #     if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
-    #   formula <- paste("fill+",formula) }
-    #  else { #---- need to replace varible in formula with fill?
-    #    vars1 <- data.frame(fill=data$fill, vars)
-    #    logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
-    #    logicals <- logicals[,-1]
-    #    logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
-    #    logs <- data.frame(t(logs))
-    #    names(logs) <- names(vars)
-    #    names(logs)[logs==TRUE] <- "fill"
-    #
-    #   formula <- paste(names(logs), collapse="+")
-    #  }
-    #   }
-    #   }
-    #     else {
-    #       if (!all(apply(data[complete.cases(data[c('fill', 'x')]),], 1, function(y) as.logical(grepl(y['fill'], y['x']))))) {
-    #         formula <- paste("fill+",formula) }
-    #       else { #---- need to replace varible in formula with fill?
-    #         vars1 <- data.frame(fill=data$fill, vars)
-    #         logicals <- data.frame(t(apply(vars1[complete.cases(vars1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
-    #         logicals <- logicals[,-1]
-    #         logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
-    #         logs <- data.frame(t(logs))
-    #         names(logs) <- names(vars)
-    #         names(logs)[logs==TRUE] <- "fill"
-    #
-    #         formula <- paste(names(logs), collapse="+")
-    #
-    #
-    #       }
-    #       }}
 
 
     formula <- paste("weight~", formula)
 
     if (length(conds) > 0) formula <- paste(formula, paste(conds, collapse="+"), sep="|")
-    # if (! is.null(conds)) {
-    #   if (!all(apply(data[complete.cases(data[c('fill', 'conds')]),], 1, function(y) as.logical(grepl(y['fill'], y['conds']))))) {
-    #     formula <- paste(formula, paste(names(conds), collapse="+"), sep="|")
-    #   }
-    #   else {
-    #     conds1 <- data.frame(fill=data$fill, conds)
-    #     logicals <- data.frame(t(apply(conds1[complete.cases(conds1[,1]),], 1, function(y) grepl(y['fill'], y[]))))
-    #     logicals <- logicals[,-1]
-    #     logs <- apply(data.frame(logicals), 2, function(y) all(y[]))
-    #     logs <- data.frame(t(logs))
-    #     names(logs) <- names(conds)
-    #     names(logs)[logs==TRUE] <- "fill"
-    #
-    #     formula<- paste(formula, paste(names(logs), collapse="+"), sep="|")
-    #
-    #   }
-    # }
 
     df <- data
-#    if (! is.null(vars)) df <- data.frame(df, vars)
-#    if (! is.null(conds)) df <- data.frame(df, conds)
     if (!in_data(df, "weight")) {
       df$weight <- 1
     }
@@ -407,9 +346,6 @@ StatMosaic <- ggplot2::ggproto(
         res$y <- list(scale=scy)
     }
 
-#    res$label <- plyr::ldply(
-#      1:nrow(res),
-#      function(x) paste(unlist(res[x, rev(cols)]), collapse="\n"))$V1
     # merge res with data:
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
@@ -417,24 +353,3 @@ StatMosaic <- ggplot2::ggproto(
   }
 )
 
-# #' might need to overwrite check_aesthetics in geom - at the moment this function gets ignored
-# #' @export
-
-# check_aesthetics <- function (x, n)
-# {
-#   #  do a recursive check on the length of aesthetics - this will allow a specification of
-#   #  variables as a list (to allow for arbitrary many variables such as for mosaic plots or
-#   #  parallel coordinate plots)
-#   islist <- vapply(x, is.list, logical(1))
-#   lapply(x[islist==TRUE], check_aesthetics, n =n)
-#   x <- x[-which(islist)]
-#   #  end of recursive check
-#
-#   ns <- vapply(x, length, numeric(1))
-#   good <- ns == 1L | ns == n
-#   if (all(good)) {
-#     return()
-#   }
-#   stop("Aesthetics must be either length 1 or the same as the data (",
-#        n, "): ", paste(names(!good), collapse = ", "), call. = FALSE)
-# }
