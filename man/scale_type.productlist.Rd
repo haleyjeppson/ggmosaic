@@ -4,7 +4,7 @@
 \alias{scale_type.productlist}
 \title{Helper function that ggplot2 needs for determining scales on x and y}
 \usage{
-scale_type.productlist(x)
+\method{scale_type}{productlist}(x)
 }
 \arguments{
 \item{x}{variable under consideration}

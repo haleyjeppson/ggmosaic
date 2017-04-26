@@ -11,6 +11,7 @@ Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
 Depends:
     R (>= 3.2.0),
     ggplot2 (>= 2.2.0),
+    tibble,
     productplots (>= 0.1.1)
 Imports:
     plotly (>= 4.5.5),
@@ -23,7 +24,7 @@ License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 LazyData: TRUE
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1
 Suggests:
     knitr,
     rmarkdown

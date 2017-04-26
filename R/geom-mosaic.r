@@ -138,13 +138,15 @@ GeomMosaic <- ggplot2::ggproto(
       },
 
   check_aesthetics = function(x, n) {
+  #  browser()
     ns <- vapply(x, length, numeric(1))
     good <- ns == 1L | ns == n
+
 
     if (all(good)) {
       return()
     }
-    # browser()
+
     stop(
       "Aesthetics must be either length 1 or the same as the data (", n, "): ",
       paste(names(!good), collapse = ", "),
@@ -152,5 +154,7 @@ GeomMosaic <- ggplot2::ggproto(
     )
   },
 
+
   draw_key = ggplot2::draw_key_rect
 )
+

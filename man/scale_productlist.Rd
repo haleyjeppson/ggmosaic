@@ -6,7 +6,7 @@
 \alias{scale_productlist}
 \alias{scale_x_productlist}
 \title{Product scales for mosaic plots}
-\format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}) of length 4.}
+\format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
 scale_x_productlist(name = waiver(), breaks = product_breaks(),
   minor_breaks = NULL, labels = product_labels(), limits = NULL,

@@ -22,7 +22,6 @@ in_data <- function(data, variable) {
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
 
 product <- function(x, ...) {
-#  browser()
   # interaction doesn't deal with missing values correctly
   vars <- list(x, ...)
   varnames <- as.character(match.call()[-1])
@@ -34,7 +33,7 @@ product <- function(x, ...) {
   names(vars) <- varnames
 
   class(vars) <- "productlist"
-  vars
+  tibble::tibble(vars=vars)
 }
 
 
@@ -83,15 +82,22 @@ StatMosaic <- ggplot2::ggproto(
   non_missing_aes = "weight",
 
   setup_params = function(data, params) {
-  #  cat("setup_params from StatMosaic\n")
-  #   browser()
+    cat("setup_params from StatMosaic\n")
+ #    browser()
 
     params
   },
 
+  setup_data = function(data, params) {
+    cat("setup_data from StatMosaic\n")
+#    browser()
+
+    data
+  },
+
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
-#   cat("compute_panel from StatMosaic\n")
-#   browser()
+   cat("compute_panel from StatMosaic\n")
+ #  browser()
 
    vars <- names(data)[grep("x", names(data))]
    conds <- names(data)[grep("conds", names(data))]
@@ -203,7 +209,7 @@ StatMosaic <- ggplot2::ggproto(
 
     res$label <- df$label
     } else res$label <- as.character(res[,cols])
-
+# browser()
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
       # only set the y scale if it is a product scale, otherwise leave it alone
