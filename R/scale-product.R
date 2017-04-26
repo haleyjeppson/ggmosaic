@@ -81,16 +81,38 @@ as_tibble.list <- function(x, ...) {
   cat("as.tibble.list \n")
 #  browser()
   # still need to check that we are not accidentally hijacking a real list vector
-  if (! ("productlist" %in% class(x$x[[1]]))) return(tibble::as_tibble.list(x))
+  if (! ("productlist" %in% class(x$x[[1]]))) return(tibble:::as_tibble.list(x))
 
-  xframe <- NULL
+  remove <- NULL
+  newframe <- NULL
   if ("x" %in% names(x)) {
     xframe <- data.frame(x$x[[1]])
     names(xframe) <- paste0("x", 1:ncol(xframe),"__", names(xframe))
-    id_x <- which(names(x) %in% "x")
+    remove <- c(remove, which(names(x) %in% "x"))
+    newframe <- xframe
   }
-  if (!is.null(xframe))
-    tibble::as_tibble(data.frame(xframe, x[-id_x]))
+
+  yframe <- NULL
+  if ("y" %in% names(x)) {
+    if (class(x$y[[1]]) == "productlist") {
+    yframe <- data.frame(x$y[[1]])
+    names(yframe) <- paste0("y", 1:ncol(yframe),"__", names(yframe))
+    remove <- c(remove, which(names(x) %in% "y"))
+    if (is.null(newframe)) newframe <- yframe
+    else newframe <- data.frame(newframe, yframe)
+    }
+  }
+
+  if ("conds" %in% names(x)) {
+    if (class(x$conds[[1]]) == "productlist") {
+      cframe <- data.frame(x$conds[[1]])
+      names(cframe) <- paste0("conds", 1:ncol(cframe),"__", names(cframe))
+      remove <- c(remove, which(names(x) %in% "conds"))
+      if (is.null(newframe)) newframe <- cframe
+      else newframe <- data.frame(newframe, cframe)
+    }
+  }
+  tibble::as_tibble(data.frame(newframe,  x[-remove]))
 }
 
 
