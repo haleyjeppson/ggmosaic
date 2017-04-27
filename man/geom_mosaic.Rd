@@ -10,7 +10,7 @@ geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
   offset = 0.01, show.legend = NA, inherit.aes = TRUE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
-  position = "identity", na.rm = TRUE, divider = mosaic(),
+  position = "identity", na.rm = FALSE, divider = mosaic(),
   show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 }
 \arguments{

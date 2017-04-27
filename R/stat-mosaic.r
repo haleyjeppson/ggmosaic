@@ -49,7 +49,7 @@ product <- function(x, ...) {
 #' }
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
-                        position = "identity", na.rm = TRUE,  divider = mosaic(),
+                        position = "identity", na.rm = FALSE,  divider = mosaic(),
                         show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 {
   ggplot2::layer(
@@ -90,14 +90,14 @@ StatMosaic <- ggplot2::ggproto(
 
   setup_data = function(data, params) {
     cat("setup_data from StatMosaic\n")
-#    browser()
+    browser()
 
     data
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
    cat("compute_panel from StatMosaic\n")
-  # browser()
+   browser()
 
    vars <- names(data)[grep("x", names(data))]
    conds <- names(data)[grep("conds", names(data))]

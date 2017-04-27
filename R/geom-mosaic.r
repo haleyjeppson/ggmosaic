@@ -119,7 +119,7 @@ GeomMosaic <- ggplot2::ggproto(
   setup_data = function(data, params) {
   #  cat("setup_data in GeomMosaic\n")
 
-    #   browser()
+       browser()
     data
   },
   required_aes = c("xmin", "xmax", "ymin", "ymax"),

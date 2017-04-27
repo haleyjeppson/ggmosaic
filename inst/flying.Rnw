@@ -210,7 +210,7 @@ fly$FlightFreq <- fct_relevel(fly$FlightFreq, c( "Never" , "Once a year or less"
 
 # flight frequency by household income
 ggplot(data = fly) +
-  geom_mosaic(aes(x=product(HouseholdIncome), fill=FlightFreq), divider=ddecker(), na.rm=T) +
+  geom_mosaic(aes(x=product(HouseholdIncome), fill=FlightFreq), divider=ddecker(), na.rm=F) +
   guides(fill=guide_legend(reverse = TRUE)) +
   labs(x="Household Income", title="How frequently do you fly?", subtitle="Broken down by household income") +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
 #+   scale_fill_viridis(discrete=TRUE, option="B", begin=.3, end=.9)
@@ -247,7 +247,7 @@ ggplot(data = fly) +
 
 fly$DoYouRecline <- fct_relevel(fly$DoYouRecline, c("Never", "Once in a while", "About half the time", "Usually", "Always") )
 
-set.separators(c(":", ";","|"))
+#set.separators(c(":", ";","|"))
 library(gridExtra)
 a <- ggplot(data = fly) + geom_mosaic(aes(x=product(DoYouRecline)), fill="#d95f02", na.rm=T, divider="hbar")  +  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_brewer(palette = "Dark2", direction = -1)+labs(x="Is it rude to recline?", title="Do you recline your seat?")  +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
 
@@ -263,7 +263,7 @@ grid.arrange(a,b)
 
 fly$DoYouRecline <- fct_relevel(fly$DoYouRecline, c("Never", "Once in a while", "About half the time", "Usually", "Always") )
 
-set.separators(c(":", ";","|"))
+#set.separators(c(":", ";","|"))
 
 ggplot(data = fly) + geom_mosaic(aes(x=product(RudeToRecline), fill=DoYouRecline), na.rm=T)  +  guides(fill=guide_legend( reverse = TRUE))  +  scale_fill_brewer(palette = "Dark2", direction = -1)+labs(x="Is it rude to recline?", title="Do you recline your seat?", subtitle="Broken down by response to 'Is it rude to recline?'")  +   theme(axis.text.x = element_text(angle=90), legend.position="bottom")
 

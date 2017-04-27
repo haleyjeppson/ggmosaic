@@ -400,7 +400,6 @@ gg <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, Ag
 # just for now commented out
 # ggplotly(gg)
 
-
 ```
 
 

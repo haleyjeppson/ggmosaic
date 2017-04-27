@@ -3,7 +3,6 @@
 S3method(as.data.frame,productlist)
 S3method(as_tibble,list)
 S3method(as_tibble,productlist)
-S3method(is.finite,productlist)
 S3method(scale_type,product)
 S3method(scale_type,productlist)
 S3method(scale_type,tbl_df)

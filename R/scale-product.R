@@ -62,11 +62,12 @@ scale_type.tbl_df <- function(x) {
 #   length(y[[1]])
 # }
 
-#' @export
-is.finite.productlist <- function(x) {
-  #  cat("is.finite.productlist\n")
-  is.finite(x[[1]])
-}
+# #' @export
+# is.finite.productlist <- function(x) {
+#   cat("is.finite.productlist\n")
+#   #  is.finite(x[[1]])
+#   rep(TRUE, length=length(x[[1]])) # we want to keep the missing values
+# }
 
 
 #' @export
@@ -79,10 +80,10 @@ as_tibble.productlist <- function(x, ...) {
 #' @export
 as_tibble.list <- function(x, ...) {
   cat("as.tibble.list \n")
-#  browser()
   # still need to check that we are not accidentally hijacking a real list vector
   if (! ("productlist" %in% class(x$x[[1]]))) return(tibble:::as_tibble.list(x))
 
+  browser()
   remove <- NULL
   newframe <- NULL
   if ("x" %in% names(x)) {

@@ -28,8 +28,8 @@ divide <- function(data, bounds = productplots:::bound(), divider = list(product
   }
 
 #  browser()
-  pieces <- split(data, data[,seq_len(d)])
-#  pieces <- as.list(plyr::dlply(data, seq_len(d)))
+#  pieces <- split(data, data[,seq_len(d)]) # this one doesn't deal well with NAs
+  pieces <- as.list(plyr::dlply(data, seq_len(d))) #
 
 
   children <- purrr::map_df(seq_along(pieces), function(i) {

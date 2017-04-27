@@ -8,10 +8,10 @@ multiplot(a.1, b.1,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 a.2 <- productplots::prodplot(happy, ~ happy, "hspine")
 b.2 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(happy)), divider="hspine")
-multiplot(two.a, two.b,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
+multiplot(a2, b.2,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
-a.3 <- prodplot(happy, ~ sex + happy, c("vspine", "hbar"))
-b.3 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(sex, happy)), divider=c("vspine", "hbar"))
+a.3 <- prodplot(happy, ~ sex + happy, c("vspine", "hspine"))
+b.3 <- ggplot(data = happy) + geom_mosaic(aes(weight = wtssall, x = product(sex, happy)), divider=c("vspine", "hspine"))
 multiplot(a.3, b.3,layout=matrix(c(1:2), nrow=1, byrow=FALSE))
 
 
