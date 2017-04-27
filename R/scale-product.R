@@ -96,7 +96,7 @@ as_tibble.list <- function(x, ...) {
       yframe <- data.frame(x$y[[1]])
       names(yframe) <- paste0("x",1:ncol(yframe),"__", names(yframe))
       remove <- c(remove, which(names(x) %in% "y"))
-      newframe <- yframe
+      newframe <- data.frame(yframe, y="placeholder")
     }
   }
 
@@ -188,10 +188,10 @@ scale_y_productlist <- function(name = waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
                                 limits = NULL, expand = waiver(), oob = scales:::censor,
                                 na.value = NA_real_, trans = "identity",
-                                position = "bottom", sec.axis = waiver()) {
+                                position = "left", sec.axis = waiver()) {
   #browser()
   sc <- ggplot2::continuous_scale(
-    c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
+    c("y", "ymin", "ymax", "yend", "yintercept", "ymin_final", "ymax_final", "ylower", "ymiddle", "yupper"),
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
