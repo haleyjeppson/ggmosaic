@@ -81,28 +81,36 @@ as_tibble.productlist <- function(x, ...) {
 as_tibble.list <- function(x, ...) {
   cat("as.tibble.list \n")
   # still need to check that we are not accidentally hijacking a real list vector
-  if (! ("productlist" %in% class(x$x[[1]]))) return(tibble:::as_tibble.list(x))
+#  browser()
+  # this is why we got called:
+  idx <- which(sapply(x, function(xx) "tbl_df" %in% class(xx)))
+  if (! any(sapply(x[idx], function(xx) "productlist" %in% class(xx[[1]])))) return(tibble:::as_tibble.list(x))
 
 #  browser()
   remove <- NULL
   newframe <- NULL
-  if ("x" %in% names(x)) {
-    xframe <- data.frame(x$x[[1]])
-    names(xframe) <- paste0("x", 1:ncol(xframe),"__", names(xframe))
-    remove <- c(remove, which(names(x) %in% "x"))
-    newframe <- xframe
-  }
 
   yframe <- NULL
   if ("y" %in% names(x)) {
     if (class(x$y[[1]]) == "productlist") {
-    yframe <- data.frame(x$y[[1]])
-    names(yframe) <- paste0("y", 1:ncol(yframe),"__", names(yframe))
-    remove <- c(remove, which(names(x) %in% "y"))
-    if (is.null(newframe)) newframe <- yframe
-    else newframe <- data.frame(newframe, yframe)
+      yframe <- data.frame(x$y[[1]])
+      names(yframe) <- paste0("x",1:ncol(yframe),"__", names(yframe))
+      remove <- c(remove, which(names(x) %in% "y"))
+      newframe <- yframe
     }
   }
+
+
+  if ("x" %in% names(x)) {
+    xframe <- data.frame(x$x[[1]])
+    nc <- 0
+    if (!is.null(yframe)) nc <- ncol(yframe)
+    names(xframe) <- paste0("x", nc+ 1:ncol(xframe),"__", names(xframe))
+    remove <- c(remove, which(names(x) %in% "x"))
+    if (is.null(newframe)) newframe <- xframe
+    else newframe <- data.frame(newframe, xframe)
+  }
+
 
   if ("conds" %in% names(x)) {
     if (class(x$conds[[1]]) == "productlist") {

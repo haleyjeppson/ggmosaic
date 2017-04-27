@@ -97,7 +97,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
    cat("compute_panel from StatMosaic\n")
-#   browser()
+   browser()
 
    vars <- names(data)[grep("x", names(data))]
    conds <- names(data)[grep("conds", names(data))]
@@ -209,7 +209,7 @@ StatMosaic <- ggplot2::ggproto(
 
     res$label <- df$label
     } else res$label <- as.character(res[,cols])
-# browser()
+ browser()
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
       # only set the y scale if it is a product scale, otherwise leave it alone
