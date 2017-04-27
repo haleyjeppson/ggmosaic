@@ -166,7 +166,6 @@ NULL
 
 #' @rdname scale_productlist
 #' @importFrom ggplot2 waiver
-#' @param sec.axis specify a secondary axis
 #' @export
 scale_x_productlist <- function(name = waiver(), breaks = product_breaks(),
                             minor_breaks = NULL, labels = product_labels(),

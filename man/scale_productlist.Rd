@@ -81,8 +81,6 @@ discrete variables.}
 scales, "top" or "bottom" for horizontal scales}
 
 \item{sec.axis}{specify a secondary axis}
-
-\item{sec.axis}{specify a secondary axis}
 }
 \description{
 product scales are especially introduced for use with mosaic plots: they are a hybrid of
