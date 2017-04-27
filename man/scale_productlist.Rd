@@ -17,7 +17,7 @@ scale_x_productlist(name = waiver(), breaks = product_breaks(),
 scale_y_productlist(name = waiver(), breaks = product_breaks(),
   minor_breaks = NULL, labels = product_labels(), limits = NULL,
   expand = waiver(), oob = scales:::censor, na.value = NA_real_,
-  trans = "identity", position = "bottom", sec.axis = waiver())
+  trans = "identity", position = "left", sec.axis = waiver())
 
 ScaleContinuousProduct
 }

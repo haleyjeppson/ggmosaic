@@ -88,6 +88,14 @@ ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
 # good practice: use the 'dependent' variable (or most important variable)
 # as fill variable
+
+# or turn the dependent variable on explicitly (note the difference in the
+# labelling of the y axis)
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight=Freq, x=product(Class), y=product(Survived),
+                  fill=Survived))
+
+
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
 
