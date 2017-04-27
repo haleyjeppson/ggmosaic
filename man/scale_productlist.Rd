@@ -5,10 +5,16 @@
 \alias{ScaleContinuousProduct}
 \alias{scale_productlist}
 \alias{scale_x_productlist}
+\alias{scale_y_productlist}
 \title{Product scales for mosaic plots}
 \format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
 scale_x_productlist(name = waiver(), breaks = product_breaks(),
+  minor_breaks = NULL, labels = product_labels(), limits = NULL,
+  expand = waiver(), oob = scales:::censor, na.value = NA_real_,
+  trans = "identity", position = "bottom", sec.axis = waiver())
+
+scale_y_productlist(name = waiver(), breaks = product_breaks(),
   minor_breaks = NULL, labels = product_labels(), limits = NULL,
   expand = waiver(), oob = scales:::censor, na.value = NA_real_,
   trans = "identity", position = "bottom", sec.axis = waiver())
@@ -73,6 +79,8 @@ discrete variables.}
 
 \item{position}{The position of the axis. "left" or "right" for vertical
 scales, "top" or "bottom" for horizontal scales}
+
+\item{sec.axis}{specify a secondary axis}
 
 \item{sec.axis}{specify a secondary axis}
 }

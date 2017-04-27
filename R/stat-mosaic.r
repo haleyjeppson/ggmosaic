@@ -209,7 +209,7 @@ StatMosaic <- ggplot2::ggproto(
 
     res$label <- df$label
     } else res$label <- as.character(res[,cols])
- browser()
+ #browser()
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
       # only set the y scale if it is a product scale, otherwise leave it alone
