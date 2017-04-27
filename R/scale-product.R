@@ -25,6 +25,7 @@ is.waive <- getFromNamespace("is.waive", "ggplot2")
 #'
 #' @param x variable under consideration
 #' @return character string "product"
+#' @importFrom ggplot2 scale_type
 #' @export
 scale_type.product <- function(x) {
   cat("checking for type product\n")
@@ -77,6 +78,7 @@ as_tibble.productlist <- function(x, ...) {
 
 }
 
+#' @importFrom tibble as_tibble
 #' @export
 as_tibble.list <- function(x, ...) {
   cat("as.tibble.list \n")
@@ -84,7 +86,9 @@ as_tibble.list <- function(x, ...) {
 #  browser()
   # this is why we got called:
   idx <- which(sapply(x, function(xx) "tbl_df" %in% class(xx)))
-  if (! any(sapply(x[idx], function(xx) "productlist" %in% class(xx[[1]])))) return(tibble:::as_tibble.list(x))
+  if (! any(sapply(x[idx], function(xx) "productlist" %in% class(xx[[1]])))) {
+    getFromNamespace("as_tibble.list", asNamespace("tibble"))(x)
+  }
 
 #  browser()
   remove <- NULL
@@ -121,7 +125,14 @@ as_tibble.list <- function(x, ...) {
       else newframe <- data.frame(newframe, cframe)
     }
   }
-  tibble::as_tibble(data.frame(newframe,  x[-remove]))
+
+  # making sure that we don't try to remove anything that's not there
+  dx <- x
+  if (!is.null(remove)) dx <- x[-remove]
+  if (!is.null(newframe)) dx <- data.frame(newframe,  dx)
+
+#  tibble::as_tibble(dx)
+  getFromNamespace("as_tibble.list", asNamespace("tibble"))(dx)
 }
 
 

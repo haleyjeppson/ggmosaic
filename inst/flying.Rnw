@@ -179,6 +179,7 @@ datadir=".."
 
 library(curl)
 library(ggplot2)
+library(tibble)
 library(ggmosaic)
 library(forcats)
 library(RColorBrewer)
