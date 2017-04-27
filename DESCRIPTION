@@ -10,8 +10,8 @@ Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
     is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
 Depends:
     R (>= 3.2.0),
-    ggplot2 (>= 2.2.0),
-    tibble,
+    ggplot2 (>= 2.2.1.9000),
+    tibble (>= 1.3.0),
     productplots (>= 0.1.1)
 Imports:
     plotly (>= 4.5.5),
