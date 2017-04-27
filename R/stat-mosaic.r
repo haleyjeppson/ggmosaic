@@ -90,14 +90,14 @@ StatMosaic <- ggplot2::ggproto(
 
   setup_data = function(data, params) {
     cat("setup_data from StatMosaic\n")
-    browser()
+#    browser()
 
     data
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
    cat("compute_panel from StatMosaic\n")
-   browser()
+#   browser()
 
    vars <- names(data)[grep("x", names(data))]
    conds <- names(data)[grep("conds", names(data))]

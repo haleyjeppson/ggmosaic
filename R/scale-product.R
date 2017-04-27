@@ -83,7 +83,7 @@ as_tibble.list <- function(x, ...) {
   # still need to check that we are not accidentally hijacking a real list vector
   if (! ("productlist" %in% class(x$x[[1]]))) return(tibble:::as_tibble.list(x))
 
-  browser()
+#  browser()
   remove <- NULL
   newframe <- NULL
   if ("x" %in% names(x)) {
