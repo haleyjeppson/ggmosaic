@@ -83,9 +83,14 @@ as_tibble.productlist <- function(x, ...) {
 as_tibble.list <- function(x, ...) {
   #cat("as.tibble.list \n")
   # still need to check that we are not accidentally hijacking a real list vector
-  #browser()
   # this is why we got called:
+  if (length(x) == 0) {
+    return(getFromNamespace("as_tibble.list", asNamespace("tibble"))(x))
+  }
   idx <- which(sapply(x, function(xx) "tbl_df" %in% class(xx)))
+  if (length(idx) == 0) {
+    return(getFromNamespace("as_tibble.list", asNamespace("tibble"))(x))
+  }
   if (! any(sapply(x[idx], function(xx) "productlist" %in% class(xx[[1]])))) {
     dx <- getFromNamespace("as_tibble.list", asNamespace("tibble"))(x)
     return(dx)
