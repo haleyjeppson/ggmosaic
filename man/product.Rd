@@ -21,4 +21,3 @@ titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
 }
-

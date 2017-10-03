@@ -23,6 +23,7 @@ in_data <- function(data, variable) {
 
 product <- function(x, ...) {
   # interaction doesn't deal with missing values correctly
+  #browser()
   vars <- list(x, ...)
   varnames <- as.character(match.call()[-1])
   vars <- lapply(1:length(varnames), function(k) {
@@ -34,6 +35,7 @@ product <- function(x, ...) {
 
   class(vars) <- "productlist"
   tibble::tibble(vars=vars)
+  #vars
 }
 
 
@@ -82,21 +84,21 @@ StatMosaic <- ggplot2::ggproto(
   non_missing_aes = "weight",
 
   setup_params = function(data, params) {
-    cat("setup_params from StatMosaic\n")
+    #cat("setup_params from StatMosaic\n")
  #    browser()
 
     params
   },
 
   setup_data = function(data, params) {
-    cat("setup_data from StatMosaic\n")
+    #cat("setup_data from StatMosaic\n")
 #    browser()
 
     data
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
-   cat("compute_panel from StatMosaic\n")
+   #cat("compute_panel from StatMosaic\n")
 #   browser()
 
    vars <- names(data)[grep("x", names(data))]

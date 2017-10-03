@@ -18,4 +18,3 @@ vspine(data, bounds, offset = offset, max = NULL)
 \description{
 Vertical spine partition: width constant, height varies.
 }
-

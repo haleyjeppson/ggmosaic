@@ -28,7 +28,7 @@ is.waive <- getFromNamespace("is.waive", "ggplot2")
 #' @importFrom ggplot2 scale_type
 #' @export
 scale_type.product <- function(x) {
-  cat("checking for type product\n")
+  #cat("checking for type product\n")
   #browser()
   "product"
 }
@@ -39,15 +39,15 @@ scale_type.product <- function(x) {
 #' @return character string "productlist"
 #' @export
 scale_type.productlist <- function(x) {
- cat("checking for type productlist\n")
+ #cat("checking for type productlist\n")
   #browser()
   "productlist"
 }
 
 #' @export
 scale_type.tbl_df <- function(x) {
-  cat("checking for type productlist\n")
-#  browser()
+  #cat("checking for type productlist\n")
+  #browser()
   if ("productlist" %in% class(x[[1]]))
   return("productlist")
   "tbl_df"
@@ -73,21 +73,22 @@ scale_type.tbl_df <- function(x) {
 
 #' @export
 as_tibble.productlist <- function(x, ...) {
-  cat("as.tibble.productlist \n")
-  browser() # this is where we should come, but we don't
+ # cat("as.tibble.productlist \n")
+  #browser() # this is where we should come, but we don't
 
 }
 
 #' @importFrom tibble as_tibble
 #' @export
 as_tibble.list <- function(x, ...) {
-  cat("as.tibble.list \n")
+  #cat("as.tibble.list \n")
   # still need to check that we are not accidentally hijacking a real list vector
-#  browser()
+  #browser()
   # this is why we got called:
   idx <- which(sapply(x, function(xx) "tbl_df" %in% class(xx)))
   if (! any(sapply(x[idx], function(xx) "productlist" %in% class(xx[[1]])))) {
-    getFromNamespace("as_tibble.list", asNamespace("tibble"))(x)
+    dx <- getFromNamespace("as_tibble.list", asNamespace("tibble"))(x)
+    return(dx)
   }
 
 #  browser()
@@ -138,7 +139,7 @@ as_tibble.list <- function(x, ...) {
 
 #' @export
 as.data.frame.productlist <- function(x, row.names = NULL, optional = FALSE, ...) {
-  cat("as.data.frame.productlist \n")
+  #cat("as.data.frame.productlist \n")
 #  browser()
 
   y <- x
@@ -275,9 +276,9 @@ scale_y_productlist <- function(name = waiver(), breaks = product_breaks(),
 ScaleContinuousProduct <- ggproto(
   "ScaleContinuousProduct", ScaleContinuousPosition,
   train =function(self, x) {
-    cat("train in ScaleContinuousProduct\n")
-    cat("class of variable: ")
-    cat(class(x))
+    #cat("train in ScaleContinuousProduct\n")
+    #cat("class of variable: ")
+    #cat(class(x))
 #    browser()
     if (is.list(x)) {
       x <- x[[1]]
@@ -299,7 +300,7 @@ ScaleContinuousProduct <- ggproto(
     #cat("\n")
   },
   map = function(self, x, limits = self$get_limits()) {
-    cat("map in ScaleContinuousProduct\n")
+    #cat("map in ScaleContinuousProduct\n")
 #    browser()
     if (is.discrete(x)) return(x)
     if (is.list(x)) return(0) # need a number
@@ -307,7 +308,7 @@ ScaleContinuousProduct <- ggproto(
     ifelse(!is.na(scaled), scaled, self$na.value)
   },
   dimension = function(self, expand = c(0, 0)) {
-    cat("dimension in ScaleContinuousProduct\n")
+    #cat("dimension in ScaleContinuousProduct\n")
     c(-0.05,1.05)
   }
 )

@@ -15,4 +15,3 @@ character string "productlist"
 \description{
 Helper function that ggplot2 needs for determining scales on x and y
 }
-

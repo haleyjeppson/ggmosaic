@@ -14,4 +14,3 @@ mosaic(direction = "h")
 Template for a mosaic plot.
 A mosaic plot is composed of spines in alternating directions.
 }
-

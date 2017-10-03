@@ -18,4 +18,3 @@ spine(data, bounds, offset = offset, max = NULL)
 \description{
 Spine partition: divide longest dimesion.
 }
-
