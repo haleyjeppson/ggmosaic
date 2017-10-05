@@ -140,7 +140,7 @@ GeomMosaic <- ggplot2::ggproto(
   #  cat("draw_panel in GeomMosaic\n")
  # browser()
     if (all(is.na(data$colour)))
-      data$colour <- alpha(data$fill, data$alpha) # regard alpha in colour determination
+      data$colour <- scales::alpha(data$fill, data$alpha) # regard alpha in colour determination
 
       GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
       },
