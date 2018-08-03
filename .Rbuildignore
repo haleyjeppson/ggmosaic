@@ -5,3 +5,4 @@
 ^vtest$
 ^inst/$
 ^\.travis\.yml$
+^docs$
