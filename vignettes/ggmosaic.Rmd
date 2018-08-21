@@ -23,51 +23,11 @@ knitr::opts_chunk$set(fig.width = 6,
 
 ```{r echo=FALSE, message=FALSE}
 library(ggmosaic)
-# shouldn't be needed between these comments
-library(plotly)
-library(dplyr)
-library(purrr)
-library(tidyr)
-# shouldn't be needed
 library(ggplot2)
 library(gridExtra)
 library(grid)
-data(NHANES, package="NHANES")
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-  library(grid)
+data(fly)
 
-  # Make a list from the ... arguments and plotlist
-  plots <- c(list(...), plotlist)
-
-  numPlots = length(plots)
-
-  # If layout is NULL, then use 'cols' to determine layout
-  if (is.null(layout)) {
-    # Make the panel
-    # ncol: Number of columns of plots
-    # nrow: Number of rows needed, calculated from # of cols
-    layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-                     ncol = cols, nrow = ceiling(numPlots/cols))
-  }
-
-  if (numPlots==1) {
-    print(plots[[1]])
-
-  } else {
-    # Set up the page
-    grid.newpage()
-    pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-
-    # Make each plot, in the correct location
-    for (i in 1:numPlots) {
-      # Get the i,j matrix positions of the regions that contain this subplot
-      matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-
-      print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-                                      layout.pos.col = matchidx$col))
-    }
-  }
-}
 grid_arrange_shared_legend <- function(..., ncol = length(list(...)), nrow = 1, position = c("bottom", "right")) {
   
   plots <- list(...)
@@ -96,13 +56,12 @@ grid_arrange_shared_legend <- function(..., ncol = length(list(...)), nrow = 1, 
 
 # Introduction
 
-## Basic Explanation of `ggmosaic`  
+## Basics of `ggmosaic`  
 
 - designed to create visualizations of categorical data
 - can produce bar charts, stacked bar charts, mosaic plots, and double decker plots
 - plots are constructed hierarchically, so the ordering of the variables is very important.
-- integrated in ggplot2 as a `geom`
-- allows for ggplot2 tools, such as facetting and layering
+- integrated in ggplot2 as a `geom` which allows for facetting and layering
 
 
 ## Creation of `ggmosaic`
@@ -127,7 +86,7 @@ ggplot2 is not capable of handling a variable number of variables
 - a wrapper function for a list
 - allows for it to pass `check_aesthetics` 
 
-These limitations also lead to issues with the labeling, but those can be manually fixed.
+These limitations also lead to issues with the labeling, but those can be fixed manually.
 
 ## geom_mosaic: setting the aesthetics
 
@@ -158,41 +117,39 @@ Example of how the formula is built
 These aesthetics set up the formula for the distribution:
 
   
-> __Formula:__ 1 ~ W + Y + X | Z 
+> __Formula:__ 1 ~ W + X + Y | Z 
   
 
 
 Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important.
 
-## Weight ~ X
+## 1 ~ X
 
 
 ```{r formula-1b, message=FALSE, fig.align='center'}
 
- ggplot(data = NHANES) +
-   geom_mosaic(aes(weight = Weight, x = product(SleepHrsNight), fill=factor(SleepHrsNight)), na.rm=TRUE) +
-   labs(x="Hours of sleep a night ", title='f(SleepHrsNight)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+ ggplot(data = fly) +
+   geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), na.rm=TRUE) +
+   labs(x="Is it rude recline? ", title='f(RudeToRecline)') #+ guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
 ```
 
 
-##  Weight ~ Y + X
+##  1 ~ Y + X
 
 
 ```{r formula-2b, message=FALSE, fig.align='center'}
 
- ggplot(data = NHANES) +
-   geom_mosaic(aes(weight = Weight, x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight)), na.rm=TRUE) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight | AgeDecade) f(AgeDecade)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
 
 ```
 
-##  Weight ~ X + Y / Z
+##  1 ~ X + Y / Z
 
 
 ```{r formula-4b, message=FALSE, fig.align='center'}
-
- ggplot(data = NHANES) +
-   geom_mosaic(aes( x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight), conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) + labs(x="Age in Decades ", title='f(SleepHrsNight, AgeDecade | Gender)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
-
+ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) + labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)')
 
 ```
 
@@ -201,10 +158,8 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 
 ```{r formula-5b, message=FALSE, fig.align='center'}
-ggplot(data = NHANES) +
-   geom_mosaic(aes( x = product(SleepHrsNight, AgeDecade), fill=factor(SleepHrsNight)), na.rm=TRUE) +    theme(axis.text.x=element_text(angle=-25, hjust= .1)) +
-   labs(x="Age in Decades ", title='f(SleepHrsNight, AgeDecade | Gender)')  + facet_grid(Gender~.) + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
-
+ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) + labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)') + facet_grid(Gender~.)
 
 ```
 
@@ -213,9 +168,11 @@ ggplot(data = NHANES) +
 
 ```{r order-b, message=FALSE, fig.align='center'}
 
-order1 <- ggplot(data = NHANES) + geom_mosaic(aes(weight = Weight, x = product(SleepHrsNight, Gender), fill=factor(SleepHrsNight)), na.rm=TRUE, offset=0.015) + labs(x="Gender ", title='f(SleepHrsNight | Gender)  f(Gender)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE)) + theme(plot.title = element_text(size = rel(1)))
+order1 <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + theme(plot.title = element_text(size = rel(1)))
 
-order2<- ggplot(data = NHANES) + geom_mosaic(aes(weight = Weight, x = product(Gender, SleepHrsNight), fill=factor(SleepHrsNight)), na.rm=TRUE, offset=0.015) + labs(x="", y="Gender", title='f(Gender | SleepHrsNight)  f(SleepHrsNight)') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE)) + theme(plot.title = element_text(size = rel(1))) + coord_flip()
+order2<- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(RudeToRecline, DoYouRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "" , y = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + coord_flip() + theme(plot.title = element_text(size = rel(1)))
 
 ```
 
@@ -249,28 +206,26 @@ Four options available for each partion:
 
 ```{r partitions, message=FALSE, fig.width = 7, fig.height = 3.5}
 
-a2 <- ggplot(data = NHANES) +
-   geom_mosaic(aes( x = product(SleepHrsNight), fill=factor(SleepHrsNight)), divider="hbar", na.rm=TRUE) + theme(#axis.text.x=element_text(angle=35, hjust= 1),
-     legend.position="none")+labs(x=" ", title='divider= "hbar"') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+hbar <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq), divider="hbar", na.rm=TRUE) + labs(x=" ", title='divider = "hbar"') 
 
 
-a1 <- ggplot(data = NHANES) +
-   geom_mosaic(aes( x = product(SleepHrsNight), fill=factor(SleepHrsNight)), divider="hspine", na.rm=TRUE) + theme(#axis.text.x=element_text(angle=35, hjust= 1),
-     legend.position="none") + labs(x=" ", title='divider= "hspine"') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+hspine <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq),  divider="hspine", na.rm=TRUE) + labs(x=" ", title='divider = "hspine"') 
 
 
-b2 <- ggplot(data = NHANES) +
-   geom_mosaic(aes( x = product(SleepHrsNight), fill=factor(SleepHrsNight)), divider="vbar", na.rm=TRUE) + theme(legend.position="none") + labs(y=" ", x="", title='divider= "vbar"') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+vbar <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq), divider="vbar", na.rm=TRUE) + labs(y=" ", x="", title='divider = "vbar"') 
  
-b1 <- ggplot(data = NHANES) +
-   geom_mosaic(aes(  x = product(SleepHrsNight), fill=factor(SleepHrsNight)), divider="vspine", na.rm=TRUE) + theme(legend.position="none") + labs(y=" ", x="", title='divider= "vspine"') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+vspine <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq), divider="vspine", na.rm=TRUE) + labs(y=" ", x="", title='divider = "vspine"') 
 
 ```
 
 
 ```{r plot, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center'}
 
-grid_arrange_shared_legend(a1, a2, b1, b2, ncol = 2, nrow = 2, position = "right")
+grid_arrange_shared_legend(hbar, hspine, vbar, vspine, ncol = 2, nrow = 2, position = "right")
 
 ```
 
@@ -289,19 +244,22 @@ grid_arrange_shared_legend(a1, a2, b1, b2, ncol = 2, nrow = 2, position = "right
 
 
 ```{r mosaic-a, message=FALSE, fig.width = 7, fig.height = 3.5}
-#set.separators(c(":", ";","|"))
 
-m1 <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=mosaic("h")) +
-   theme(axis.text.x=element_blank(), legend.position="none")+labs(x=" ", title='divider= mosaic()') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+h_mosaic <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=mosaic("h")) +
+  theme(axis.text.x=element_blank(), legend.position="none") + 
+  labs(x=" ", title='divider= mosaic()')
 
-m2 <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=mosaic("v")) +
-   theme(axis.text.x=element_blank(), legend.position="none")+labs(x=" ", title='divider= mosaic("v")') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+v_mosaic <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=mosaic("v")) +
+  theme(axis.text.x=element_blank()) + 
+  labs(x=" ", title='divider= mosaic("v")')
 
 
-m3 <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=ddecker()) +
-   theme(axis.text.x=element_blank(), legend.position="none")+labs(x=" ", title='divider= ddecker()') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
-
-
+doubledecker <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=ddecker()) +
+  theme(axis.text.x=element_blank()) +
+  labs(x=" ", title='divider= ddecker()')
 
 ```
 
@@ -309,7 +267,7 @@ m3 <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, Ag
 
 ```{r mosaic-3, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center'}
 
-grid_arrange_shared_legend(m1, m2, m3, ncol = 3, nrow = 1, position = "right")
+grid_arrange_shared_legend(h_mosaic, v_mosaic, doubledecker, ncol = 3, nrow = 1, position = "right")
 
 ```
 
@@ -317,26 +275,32 @@ grid_arrange_shared_legend(m1, m2, m3, ncol = 3, nrow = 1, position = "right")
 
 ```{r mosaic-d, message=FALSE, fig.width = 7, fig.height = 3.5}
 
-m4 <-  ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=c("vspine", "vspine", "hbar")) +
-   theme(axis.text.x=element_blank(), legend.position="none")+labs(x=" ", title='divider= c("vspine", "vspine", "hbar")') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+mosaic4 <-  ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("vspine", "vspine", "hbar")) +
+  theme(axis.text.x=element_blank()) +
+  labs(x=" ", title='divider= c("vspine", "vspine", "hbar")') 
 
-m5 <-  ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=c("hbar", "vspine", "hbar")) +
-   theme(axis.text.x=element_blank(), legend.position="none")+labs(x=" ", title='divider= c("hbar", "vspine", "hbar")') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+mosaic5 <-  ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("hbar", "vspine", "hbar")) +
+  theme(axis.text.x=element_blank()) +
+  labs(x=" ", title='divider= c("hbar", "vspine", "hbar")')
 
-m6 <-  ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=c("hspine", "hspine", "hspine")) +
-   theme(axis.text.x=element_blank(),
-legend.position="none")+labs(x=" ", title='divider= c("hspine", "hspine", "hspine")') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+mosaic6 <-  ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("hspine", "hspine", "hspine")) +
+  theme(axis.text.x=element_blank()) +
+  labs(x=" ", title='divider= c("hspine", "hspine", "hspine")')
 
-m7 <-  ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=c("vspine", "vspine", "vspine")) +
-   theme(axis.text.x=element_blank(), legend.position="none")+labs(x=" ", title='divider= c("vspine", "vspine", "vspine")') + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
-
+mosaic7 <-  ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("vspine", "vspine", "vspine")) +
+  theme(axis.text.x=element_blank()) +
+  labs(x=" ", title='divider= c("vspine", "vspine", "vspine")')
 
 ```
 
 
 ```{r mosaic-6, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center'}
 
-grid_arrange_shared_legend(m4, m5, m6, m7, ncol = 2, nrow = 2, position="right")
+grid_arrange_shared_legend(mosaic4, mosaic5, mosaic6, mosaic7, ncol = 2, nrow = 2, position="right")
 
 ```
 
@@ -356,26 +320,20 @@ grid_arrange_shared_legend(m4, m5, m6, m7, ncol = 2, nrow = 2, position="right")
 
 ```{r offset-b, message=FALSE}
 
-oo1 <- ggplot(data = NHANES) +
-  geom_mosaic(aes(weight = Weight,  x = product(Age), fill=factor(SleepHrsNight)), na.rm=TRUE) +   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" offset = 0.01") + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE)) 
+offset1 <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE) + labs(x="Region", y=" ",  title=" offset = 0.01") 
 
-o1 <- ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital)) +
-  theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" offset = 0.01")+ guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE)) 
+offset0 <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0) + labs(x="Region", y=" ",  title=" offset = 0")
 
-oo2 <- ggplot(data = NHANES) +
-  geom_mosaic(aes(weight = Weight,  x = product(Age), fill=factor(SleepHrsNight)), offset=0, na.rm=TRUE) +   theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" offset = 0")+ guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE)) 
-
-o2 <- ggplot(data = happy) +
-  geom_mosaic(aes(weight = wtssall,  x = product(age), fill=marital), offset = 0) +
-  theme(axis.text.x=element_text(angle=0, hjust= .5))+labs(x="Age", y=" ",  title=" offset = 0") + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
-
+offset2 <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0.02) + labs(x="Region", y=" ",  title=" offset = 0.02")
 
 ```
 
 ```{r offset-plot, message=FALSE, fig.width = 8, fig.height = 4, fig.align='center'}
 
-grid_arrange_shared_legend(oo1, oo2, nrow = 1, ncol =2, position="right")
+grid_arrange_shared_legend(offset0, offset1, offset2, nrow = 1, ncol =3, position="right")
 
 ```
 
@@ -386,15 +344,10 @@ grid_arrange_shared_legend(oo1, oo2, nrow = 1, ncol =2, position="right")
 ```{r plotly, message=FALSE, echo=TRUE, tidy=TRUE, eval=FALSE}
 
 
-gg <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), na.rm=T, divider=ddecker(), offset = 0.025) 
+gg <-ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
 ```
 
-```{r plotly-2, message=FALSE, echo=FALSE, tidy=TRUE}
-
-
-gg <-ggplot(data = NHANES) + geom_mosaic(aes(x=product(SleepHrsNight, Gender, AgeDecade), fill = factor(SleepHrsNight)), offset=0.025, na.rm=T, divider=ddecker()) + guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
-
-```
 
 ```{r plotly-3, message=FALSE, echo=TRUE, tidy=TRUE}
 # just for now commented out
