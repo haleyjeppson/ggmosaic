@@ -52,7 +52,7 @@ Aesthetics that can be set:
 
 These values are then sent through `productplots` functions to create the formula for the desired distribution
 
-**Formula:** **weight ~ fill + x | conds **
+**Formula:** weight ~ fill + x | conds
 
 ### From the aesthetics to the formula
 
@@ -63,8 +63,6 @@ Example of how the formula is built
 -   **fill** = W
 -   **conds** = Z
 
-These aesthetics set up the formula for the distribution:
-
-> **Formula:** 1 ~ W + X + Y | Z
+These aesthetics set up the formula for the distribution: 1 ~ W + X + Y | Z
 
 Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important.
