@@ -6,3 +6,5 @@
 ^inst/$
 ^\.travis\.yml$
 ^docs$
+^README\.Rmd$
+^README-.*\.png$
