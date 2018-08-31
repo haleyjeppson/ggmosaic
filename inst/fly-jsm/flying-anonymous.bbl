@@ -1,0 +1,31 @@
+\begin{thebibliography}{7}
+\newcommand{\enquote}[1]{``#1''}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Halsey~III(2016)}]{washpost}
+Halsey~III, A. (2016), \enquote{Trying to squeeze into that airline seat?
+  Congress is feeling the pinch, too.} .
+
+\bibitem[{Hickey(2014)}]{fivethirtyeight}
+Hickey, W. (2014), \enquote{41 Percent Of Fliers Think You're Rude If You
+  Recline Your Seat,} .
+
+\bibitem[{Killough(2016)}]{cnn}
+Killough, A. (2016), \enquote{Trump: 'You can get the baby out of here',} .
+
+\bibitem[{{R Core Team}(2016)}]{R2016}
+{R Core Team} (2016), \textit{R: A Language and Environment for Statistical
+  Computing}, R Foundation for Statistical Computing, Vienna, Austria.
+
+\bibitem[{Sievert(2016)}]{carson}
+Sievert, C. (2016), \enquote{plotly for R,} .
+
+\bibitem[{Wickham(2009)}]{ggplot2}
+Wickham, H. (2009), \textit{ggplot2: Elegant Graphics for Data Analysis},
+  Springer-Verlag New York.
+
+\bibitem[{Wickham and Hofmann(2016)}]{productplots}
+Wickham, H. and Hofmann, H. (2016), \textit{productplots: Product Plots for R},
+  r package version 0.1.1.
+
+\end{thebibliography}

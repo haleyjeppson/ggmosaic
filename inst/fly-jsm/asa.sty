@@ -1,0 +1,35 @@
+% This definition has to be changed slightly for different document
+% styles such as report.
+
+\def\thebibliography#1{\section*{References\@mkboth
+ {REFERENCES}{REFERENCES}}\list
+%% default is no labels, for those not using \cite or BibTeX
+% undent first line of a reference by using negative \itemindent.
+ {}{\setlength{\leftmargin}{3em}\setlength{\labelsep}{0pt}\itemindent=-\leftmargin}
+ \def\newblock{\hskip .11em plus .33em minus -.07em}
+ \sloppy\clubpenalty4000\widowpenalty4000
+ \sfcode`\.=1000\relax}
+
+
+\def\@biblabel#1{\hfill}
+
+% don't box citations, add space between multiple citations, separate with ;
+\def\@citex[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \def\@citea{}\@cite{\@for\@citeb:=#2\do
+    {\@citea\def\@citea{; }\@ifundefined
+       {b@\@citeb}{{\bf ?}\@warning
+       {Citation `\@citeb' on page \thepage \space undefined}}%
+{\csname b@\@citeb\endcsname}}}{#1}}
+
+% Allow running citations, when used in
+% conjunction with a bibliography style that creates labels like
+%	\citename{<names>}{<year>};
+% A running citation will print like ``As shown in Draper and Smith (1982)''
+% while a cite will print like ``Regression (Draper and Smith, 1982) is''
+% but you must include your own parentheses.
+
+\def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\let\@internalcite\cite
+\def\cite{\def\citename##1##2{##1, ##2}\@internalcite}
+\def\runcite{\def\citename##1##2{##1 (##2)}\@internalcite}
+

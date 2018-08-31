@@ -22,73 +22,71 @@ practicality of mosaic plots.
 
 \subsection{Introduction}\label{introduction}
 
-Is there a social contract we should all be following when flying? Who
-gets to use that extra arm rest? Is it okay to recline your seat or to
-bring your baby or child on board? Are people upset if the child is
-unruly and, like Donald Trump, wish to ``get that baby out of here?''
-\citep{cnn} How often are you allowed to leave your seat before being
-perceived as rude? Does the occupant of the window seat reserve all
-rights to the window shade? And is it okay to switch seats for family,
-friends, or to an unsold seat?
+The options of graphical methods for categorical variables are not well
+developed in comparison to what is available for numeric variables.
+\ldots{}elaborate\ldots{}
 
-To learn a little about people's opinions on what is considered to be
-rude behavior while on an airplane, FiveThirtyEight ran a SurveyMonkey
-Audience poll for two days in August of 2014. \citep{fivethirtyeight}
-The survey had 1,040 respondents (874 of whom had flown) aged 18-60+
-from across the county and asked twenty-six questions that ranged from
-background information regarding the respondent to feelings regarding
-potentially aggravating behavior one might encounter on an airplane. The
-data set is available from FiveThirtyEight's data git hub repository.
+One method of visualizing multidimensional data is through a mosaic
+plot. Mosaic plots can be an easy and powerful option for investigating
+and exploring relationships between multiple variables. A mosaic plot is
+constructed hierarchically with alternating spines, therefore allowing
+the hierarchical structure of the counts and proportions to be
+visualized. The hierarchical structure of counts and proportions is an
+important concept for understanding the multivariate discrete
+distribution. In a mosaic plot, the area of each graphical element is
+proportional to the underlying probability of that category resulting in
+a convenient graphical summary of the conditional distributions in a
+contingency table. This allows us to easily visualize how the joint
+distribution is composed of the product of the conditional and marginal
+distributions -- which, in turn, allows us to see any association that
+may be occurring between the variables. Mosaic plots excel at depicting
+part-to-whole relationships. They work by combing these simple, low
+dimensional graphical primitives in order to display complex,
+high-dimensional data. Additionally, from a whole dataset, there tend to
+be many dimensions across which to split the data into parts.
 
-To explore the data a bit more, I used the \texttt{ggmosaic} package.
-The original analysis done by FiveThirtyEight focused primarily on the
-perceived rudeness of a behavior, one behavior at a time, or comparing
-the response ``Very Rude'' across all behaviors. By using a mosaic plot,
-multiple categorical counts can be viewed simultaneously which will
-provide a clearer view of the underlying data and allow for more
-comparisons to be made. We can perhaps gain more insight into how the
-seat recliner, the chatterbox, or the unruly child is perceived and how
-those perceptions may be related.
+The remainder of this paper will focus heavily on mosaic plots,
+beginning with an introduction to the \texttt{ggmosac} package, and
+following with an overview of the implementation and examples that
+highlight the versatility and ease of use of ggmosaic while
+demonstrating the practicality of mosaic plots. Lastly, a review of the
+multiple packages available for mosaic plots will be provided.
 
-\subsection{\texorpdfstring{The \texttt{ggmosaic}
-package}{The  package}}\label{the-package}
-
-The \texttt{ggmosaic} package was designed to create visualizations of
-categorical data, and has the capability to produce bar charts, stacked
-bar charts, mosaic plots, and double decker plots. The main focus of
-this paper, however, will be on mosaic plots. A mosaic plot is a
-convenient graphical summary of the conditional distributions in a
-contingency table, and in a mosaic plot, the area of each graphical
-element is proportional to the underlying probability of that category.
-This allows us to easily visualize how the joint distribution is
-composed of the product of the conditional and marginal distributions --
-which, in turn, allows us to see any association that may be occurring
-between the variables. Because the plot is constructed hierarchically,
-the ordering of the variables is very important. There are many features
-that can be customized in \texttt{ggmosaic}, including the type of
-partitioning, the ordering of variables, conditioning or faceting, and
-the spacing between the categories.
+\subsection{ggmosaic}\label{ggmosaic}
 
 While mosaic plots have been implemented in a variety of packages in R
 \citep{R2016}, the ordinary grammar of graphics does not support mosaic
 plots. However, with version 2.0.0 of \texttt{ggplot2} \citep{ggplot2},
-a way for other R packages to implement custom geoms was introduced.
-With the R package ggmosaic, a custom ggplot2 geom designed for mosaic
-plots is implemented. The \texttt{ggmosaic} package can be installed
-from \url{https://github.com/haleyjeppson/ggmosaic}.
+a way for other R packages to implement custom geoms was introduced
+allowing for(bringing forth?) an expansion of the utility of ggplot2. In
+turn, the increasingly popular ggplot2 will likely appeal to a larger
+user base. By creating a ggplot2 implementation, we hope to appeal to
+this user base. Additionally, for these users, having mosaic plots
+within the ggplot2 framework allows for a decrease in the amount of
+syntax required in order to produce a mosaic plot.
+
+With the R package \texttt{ggmosaic}, a custom ggplot2 geom designed for
+mosaic plots is implemented. Designed to create visualizations of
+categorical data, the \texttt{ggmosaic} package and has the capability
+to produce bar charts, stacked bar charts, mosaic plots, and double
+decker plots and therefore offers a wide range of potential plots.
+Additionally, equipped with the functionality and flexibility of
+ggplot2, there are many features that can be customized in
+\texttt{ggmosaic}, including the type of partitioning, the ordering of
+variables, conditioning on a variable, faceting, and the spacing between
+the categories. The \texttt{ggmosaic} package can be installed from
+\url{https://github.com/haleyjeppson/ggmosaic}.
 
 \texttt{ggmosaic} was created primarily using \texttt{ggproto} and the
-\texttt{productplots} package which was created by
-\citet{productplots, ieee-prodplots}. They refer to their framework as
-product plots, alluding to the computation of area as a product of
-height and width, and the statistical concept of generating a joint
-distribution from the product of conditional and marginal distributions.
-
-To begin, \texttt{ggmosaic} began as a geom extension of the
-\texttt{rect} geom with the data handling provided in the
-\texttt{productplots} package which calculates \texttt{xmin},
-\texttt{xmax}, \texttt{ymin}, and \texttt{ymax} for the \texttt{rect}
-geom to plot.
+\texttt{productplots} package which was created by \citet{productplots}.
+They refer to their framework as product plots, alluding to the
+computation of area as a product of height and width, and the
+statistical concept of generating a joint distribution from the product
+of conditional and marginal distributions. To begin, \texttt{ggmosaic}
+began as a geom extension of the \texttt{rect} geom with the data
+handling provided in the \texttt{productplots} package which calculates
+\texttt{xmin}, \texttt{xmax}, \texttt{ymin}, and \texttt{ymax} for the
+\texttt{rect} geom to plot.
 
 Having a geom designed for mosaic plots does more than simply allow us
 to utilize the ggplot2 customization options such as faceting and
@@ -109,13 +107,16 @@ function in \texttt{plotly}.
 the main hurdle \texttt{ggmosaic} faces is that \texttt{ggplot2} is not
 capable of handling a variable number of variables. The current solution
 is to read in the variables \texttt{x1} and \texttt{x2} as
-\texttt{x = product(x1, x2)}. The \texttt{product} function creates a
-list of the variables specified which allows for it to pass
-\texttt{check\_aesthetics}, and then splits the variables back into a
-dataframe for the calculations.
+\texttt{x = product(x1, x2)}. The \texttt{product} function accomodates
+the one or more variables by creating a list of the variables specified
+which allows for it to pass \texttt{check\_aesthetics}, and then splits
+the variables back into a dataframe for the calculations.
 
-The aesthetics set up the formula that determines the how the joint
-distribution will be broken down. The following aesthetics can be set:
+In order to fit ggmosaic within the ggplot2 framework, we must be able
+to create the formula from the aestheics defined in a call. In essence,
+the aesthetics set up the formula that determines the how the joint
+distribution will be broken down. In geom\_mosaic, the following
+aesthetics can be set:
 
 \begin{itemize}
 \item weight: select a weighting variable
@@ -135,8 +136,10 @@ distribution will be broken down. The following aesthetics can be set:
 \end{itemize}
 
 These values are then sent through \texttt{productplots} functions to
-create the formula for the desired distribution:
-\texttt{weight $\sim$ alpha $+$ fill $+$ x $|$ conds }
+create the desired formula:
+\texttt{weight $\sim$ alpha $+$ fill $+$ x $|$ conds }. It should be
+noted that because the plot is constructed hierarchically, the ordering
+of the variables is very important.
 
 The other parameters that can be set include the \texttt{offset} and the
 \texttt{divider}. When there is a variable with many categories, it may
@@ -166,11 +169,66 @@ partition made in the plot. As mentioned above, when no divider is
 declared, the default \texttt{divider = mosaic()} will begin with a
 horizontal spine and alternate directions with each subsequent variable.
 
-Using mosaic plots to visualize this data will allow for the
-hierarchical structure of the counts and proportions, which is important
-for understanding the multivariate discrete distributions, to be seen.
+To demonstrate some of the capabilities of \texttt{ggmosaic}\ldots{}
 
-\subsection{Visualizing the Data}\label{visualizing-the-data}
+\subsection{Examples}\label{examples}
+
+We will examine a couple of data sets while emphasizing the versatility
+and ease of use of \texttt{ggmosaic}. The topic selected to \ldots{} has
+been a hot topic in the new recently - Airline dissatisfaction. First,
+
+\subsubsection{Shrinking Seats}\label{shrinking-seats}
+
+\begin{Schunk}
+
+
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/unnamed-chunk-1-1} \end{center}
+
+\end{Schunk}
+
+\begin{Schunk}
+
+
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/unnamed-chunk-2-1} \end{center}
+
+\end{Schunk}
+
+\begin{Schunk}
+
+
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/unnamed-chunk-3-1} \end{center}
+
+\end{Schunk}
+
+\subsubsection{Airline Ettiquette}\label{airline-ettiquette}
+
+Is there a social contract we should all be following when flying? Who
+gets to use that extra arm rest? Is it okay to recline your seat or to
+bring your baby or child on board? Are people upset if the child is
+unruly and, like Donald Trump, wish to ``get that baby out of here?''
+\citep{cnn} How often are you allowed to leave your seat before being
+perceived as rude? Does the occupant of the window seat reserve all
+rights to the window shade? And is it okay to switch seats for family,
+friends, or to an unsold seat?
+
+To learn a little about people's opinions on what is considered to be
+rude behavior while on an airplane, FiveThirtyEight ran a SurveyMonkey
+Audience poll for two days in August of 2014. \citep{fivethirtyeight}
+The survey had 1,040 respondents (874 of whom had flown) aged 18-60+
+from across the county and asked twenty-six questions that ranged from
+background information regarding the respondent to feelings regarding
+potentially aggravating behavior one might encounter on an airplane. The
+data set is available from FiveThirtyEight's data git hub repository.
+
+To explore the data a bit more, I used the \texttt{ggmosaic} package.
+The original analysis done by FiveThirtyEight focused primarily on the
+perceived rudeness of a behavior, one behavior at a time, or comparing
+the response ``Very Rude'' across all behaviors. By using a mosaic plot,
+multiple categorical counts can be viewed simultaneously which will
+provide a clearer view of the underlying data and allow for more
+comparisons to be made. We can perhaps gain more insight into how the
+seat recliner, the chatterbox, or the unruly child is perceived and how
+those perceptions may be related.
 
 I began by taking a look at who is flying and how frequently they fly.
 In addition to answering questions about common aggravating behaviors,
@@ -192,7 +250,7 @@ income of under \$24,999 flies a few times per month?''
 \begin{Schunk}
 
 
-\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/unnamed-chunk-1-1} \end{center}
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/unnamed-chunk-4-1} \end{center}
 
 \end{Schunk}
 
@@ -384,12 +442,29 @@ revelation brought about by these two plots is that while those older
 seem to be less likely to be bothered by a baby being on a flight, they
 are more likely to be upset by an unruly child.
 
-\subsection{Conclusion}\label{conclusion}
-
 After exploring the data a bit more, it is clear that there does not
 seem to be a general consensus on what passengers perceive to be
 acceptable behavior on an airplane. The use of mosaic plots aided in the
 exploration of how certain opinions or behaviors are related.
+
+\subsection{Comparisons}\label{comparisons}
+
+\begin{Schunk}
+
+
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/comparisons-1} \end{center}
+
+
+
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/comparisons-2} \end{center}
+
+
+
+\begin{center}\includegraphics[width=0.5\linewidth]{fly_files/figure-latex/comparisons-3} \end{center}
+
+\end{Schunk}
+
+\subsection{Conclusion}\label{conclusion}
 
 \subsection{Summary}\label{summary}
 
