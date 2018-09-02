@@ -4,12 +4,10 @@
 \alias{product}
 \title{Wrapper for a list}
 \usage{
-product(x, ...)
+product(...)
 }
 \arguments{
-\item{x}{name of the variable going into the product plot.}
-
-\item{...}{arbitrarily many additional variables.}
+\item{...}{Unquoted variables going into the product plot.}
 }
 \description{
 Wrapper for a list

@@ -49,7 +49,6 @@
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #'
-#' \dontrun{
 #' data(happy, package="productplots")
 #'
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider="hbar")
@@ -97,13 +96,37 @@
 #' ggplot(data = happy) +
 #'  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
 #'  facet_grid(happy~.)
-#' }
-
-
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                        show.legend = NA, inherit.aes = TRUE, ...)
+                        show.legend = NA, inherit.aes = FALSE, ...)
 {
+  aes_x <- mapping$x
+  if (!is.null(aes_x)) {
+    aes_x <- rlang::eval_tidy(mapping$x)
+    mapping$x <- NULL
+    var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
+    for (i in seq_along(var_x)) {
+      mapping[[var_x[i]]] <- aes_x[[i]]
+    }
+  }
+  aes_y <- mapping$y
+  if (!is.null(aes_y)) {
+    aes_y <- rlang::eval_tidy(mapping$y)
+    mapping$y <- NULL
+    var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
+    for (i in seq_along(var_y)) {
+      mapping[[var_y[i]]] <- aes_y[[i]]
+    }
+  }
+  aes_conds <- mapping$conds
+  if (!is.null(aes_conds)) {
+    aes_conds <- rlang::eval_tidy(mapping$conds)
+    mapping$conds <- NULL
+    aes_conds <- paste0("conds", seq_along(aes_conds), "__", as.character(aes_conds))
+    for (i in seq_along(aes_conds)) {
+      mapping[[aes_conds[i]]] <- aes_conds[[i]]
+    }
+  }
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -111,7 +134,8 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     geom = GeomMosaic,
     position = position,
     show.legend = show.legend,
-    inherit.aes = inherit.aes,
+    check.aes = FALSE,
+    inherit.aes = FALSE, # only FALSE to turn the warning off
     params = list(
       na.rm = na.rm,
       divider = divider,

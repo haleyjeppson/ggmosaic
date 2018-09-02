@@ -11,8 +11,7 @@ in_data <- function(data, variable) {
 
 #' Wrapper for a list
 #'
-#' @param x name of the variable going into the product plot.
-#' @param ...  arbitrarily many additional variables.
+#' @param ... Unquoted variables going into the product plot.
 #' @export
 #' @examples
 #' data(Titanic)
@@ -20,25 +19,9 @@ in_data <- function(data, variable) {
 #' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
-
-product <- function(x, ...) {
-  # interaction doesn't deal with missing values correctly
-  #browser()
-  vars <- list(x, ...)
-  varnames <- as.character(match.call()[-1])
-  vars <- lapply(1:length(varnames), function(k) {
-    if (!is.factor(vars[[k]])) vars[[k]] <- factor(vars[[k]])
-#    levels(vars[[k]]) <- paste(varnames[k], levels(vars[[k]]), sep=":")
-    vars[[k]]
-  })
-  names(vars) <- varnames
-
-  class(vars) <- "productlist"
-  tibble::tibble(vars=vars)
-  #vars
+product <- function(...) {
+  rlang::exprs(...)
 }
-
-
 
 #' @rdname geom_mosaic
 #' @inheritParams ggplot2::stat_identity
@@ -54,6 +37,33 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(),
                         show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 {
+  aes_x <- mapping$x
+  if (!is.null(aes_x)) {
+    aes_x <- rlang::eval_tidy(mapping$x)
+    mapping$x <- NULL
+    var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
+    for (i in seq_along(var_x)) {
+      mapping[[var_x[i]]] <- aes_x[[i]]
+    }
+  }
+  aes_y <- mapping$y
+  if (!is.null(aes_y)) {
+    aes_y <- rlang::eval_tidy(mapping$y)
+    mapping$y <- NULL
+    var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
+    for (i in seq_along(var_y)) {
+      mapping[[var_y[i]]] <- aes_y[[i]]
+    }
+  }
+  aes_conds <- mapping$conds
+  if (!is.null(aes_conds)) {
+    aes_conds <- rlang::eval_tidy(mapping$conds)
+    mapping$conds <- NULL
+    aes_conds <- paste0("conds", seq_along(aes_conds), "__", as.character(aes_conds))
+    for (i in seq_along(aes_conds)) {
+      mapping[[aes_conds[i]]] <- aes_conds[[i]]
+    }
+  }
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -62,6 +72,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
     position = position,
     show.legend = show.legend,
     inherit.aes = inherit.aes,
+    check.aes = FALSE,
     params = list(
       na.rm = na.rm,
       divider = divider,
@@ -99,7 +110,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
    #cat("compute_panel from StatMosaic\n")
-#   browser()
+  # browser()
 
    vars <- names(data)[grep("x", names(data))]
    conds <- names(data)[grep("conds", names(data))]

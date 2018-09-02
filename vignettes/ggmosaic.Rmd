@@ -2,17 +2,15 @@
 title: "Mosaic plots with `ggplot2`"
 author: "Haley Jeppson and Heike Hofmann"
 date: "`r Sys.Date()`"
-output:
-  rmarkdown::html_vignette:
-  toc: true
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Mosaic plots with `ggplot2`}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 
-  ```{r setup, echo=FALSE}
+```{r setup, echo=FALSE}
 
 knitr::opts_chunk$set(fig.width = 6,
                       fig.height = 4,
@@ -23,7 +21,6 @@ knitr::opts_chunk$set(fig.width = 6,
 
 ```{r echo=FALSE, message=FALSE}
 library(ggmosaic)
-library(ggplot2)
 library(gridExtra)
 library(grid)
 data(fly)
@@ -130,6 +127,7 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
  ggplot(data = fly) +
    geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), na.rm=TRUE) +
+   scale_x_productlist() +
    labs(x="Is it rude recline? ", title='f(RudeToRecline)') #+ guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
 ```
 
@@ -140,7 +138,9 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 ```{r formula-2b, message=FALSE, fig.align='center'}
 
 ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
+   scale_x_productlist() +
+  labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
 
 ```
 
@@ -149,7 +149,9 @@ ggplot(data = fly) +
 
 ```{r formula-4b, message=FALSE, fig.align='center'}
 ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) + labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)')
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +
+scale_x_productlist()+ 
+  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)')
 
 ```
 
@@ -159,7 +161,9 @@ ggplot(data = fly) +
 
 ```{r formula-5b, message=FALSE, fig.align='center'}
 ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) + labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)') + facet_grid(Gender~.)
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +
+  scale_x_productlist() +
+  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)') + facet_grid(Gender~.)
 
 ```
 
@@ -169,7 +173,9 @@ ggplot(data = fly) +
 ```{r order-b, message=FALSE, fig.align='center'}
 
 order1 <- ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + theme(plot.title = element_text(size = rel(1)))
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
+  scale_x_productlist() +
+  labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + theme(plot.title = element_text(size = rel(1)))
 
 order2<- ggplot(data = fly) +
    geom_mosaic(aes(x = product(RudeToRecline, DoYouRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "" , y = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + coord_flip() + theme(plot.title = element_text(size = rel(1)))
@@ -223,7 +229,7 @@ vspine <- ggplot(data = fly) +
 ```
 
 
-```{r plot, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center'}
+```{r plot, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center', eval = FALSE}
 
 grid_arrange_shared_legend(hbar, hspine, vbar, vspine, ncol = 2, nrow = 2, position = "right")
 
@@ -265,7 +271,7 @@ doubledecker <- ggplot(data = fly) +
 
 
 
-```{r mosaic-3, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center'}
+```{r mosaic-3, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center', eval = FALSE}
 
 grid_arrange_shared_legend(h_mosaic, v_mosaic, doubledecker, ncol = 3, nrow = 1, position = "right")
 
@@ -298,7 +304,7 @@ mosaic7 <-  ggplot(data = fly) +
 ```
 
 
-```{r mosaic-6, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center'}
+```{r mosaic-6, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center', eval = FALSE}
 
 grid_arrange_shared_legend(mosaic4, mosaic5, mosaic6, mosaic7, ncol = 2, nrow = 2, position="right")
 
@@ -331,7 +337,7 @@ offset2 <- ggplot(data = fly) +
 
 ```
 
-```{r offset-plot, message=FALSE, fig.width = 8, fig.height = 4, fig.align='center'}
+```{r offset-plot, message=FALSE, fig.width = 8, fig.height = 4, fig.align='center', eval = FALSE}
 
 grid_arrange_shared_legend(offset0, offset1, offset2, nrow = 1, ncol =3, position="right")
 
@@ -341,7 +347,7 @@ grid_arrange_shared_legend(offset0, offset1, offset2, nrow = 1, ncol =3, positio
 ## Plotly
 
 
-```{r plotly, message=FALSE, echo=TRUE, tidy=TRUE, eval=FALSE}
+```{r plotly, message=FALSE, echo=TRUE, eval=FALSE}
 
 
 gg <-ggplot(data = fly) +
@@ -349,7 +355,7 @@ gg <-ggplot(data = fly) +
 ```
 
 
-```{r plotly-3, message=FALSE, echo=TRUE, tidy=TRUE}
+```{r plotly-3, message=FALSE, echo=TRUE, eval = FALSE}
 # just for now commented out
 # ggplotly(gg)
 
