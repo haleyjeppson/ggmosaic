@@ -37,4 +37,7 @@
 #' }
 #'
 #' @source \url{https://github.com/fivethirtyeight/data/tree/master/flying-etiquette-survey}
+#' @docType data
+#' @name fly
+#' @usage fly
 "fly"

@@ -23,8 +23,10 @@ Imports:
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
-LazyData: TRUE
-RoxygenNote: 6.0.1
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate', 'namespace'))
+RoxygenNote: 6.1.0
 Suggests:
     knitr,
     rmarkdown
