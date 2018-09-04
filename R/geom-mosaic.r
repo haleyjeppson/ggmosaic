@@ -103,7 +103,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
-    mapping$x <- NULL
+    mapping$x <- structure(1L, class = "productlist")
     var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
@@ -112,7 +112,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
   aes_y <- mapping$y
   if (!is.null(aes_y)) {
     aes_y <- rlang::eval_tidy(mapping$y)
-    mapping$y <- NULL
+    mapping$y <- structure(1L, class = "productlist")
     var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
     for (i in seq_along(var_y)) {
       mapping[[var_y[i]]] <- aes_y[[i]]
@@ -121,10 +121,10 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
     aes_conds <- rlang::eval_tidy(mapping$conds)
-    mapping$conds <- NULL
-    aes_conds <- paste0("conds", seq_along(aes_conds), "__", as.character(aes_conds))
-    for (i in seq_along(aes_conds)) {
-      mapping[[aes_conds[i]]] <- aes_conds[[i]]
+    mapping$conds <- structure(1L, class = "productlist")
+    var_conds <- paste0("conds", seq_along(aes_conds), "__", as.character(aes_conds))
+    for (i in seq_along(var_conds)) {
+      mapping[[var_conds[i]]] <- aes_conds[[i]]
     }
   }
   ggplot2::layer(
@@ -189,4 +189,6 @@ GeomMosaic <- ggplot2::ggproto(
 
   draw_key = ggplot2::draw_key_rect
 )
+
+
 
