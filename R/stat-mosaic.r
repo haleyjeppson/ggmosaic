@@ -37,6 +37,9 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(),
                         show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
 {
+  if (!is.null(params$y)) {
+    stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
+  }
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
@@ -46,15 +49,15 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
-  aes_y <- mapping$y
-  if (!is.null(aes_y)) {
-    aes_y <- rlang::eval_tidy(mapping$y)
-    mapping$y <- structure(1L, class = "productlist")
-    var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
-    for (i in seq_along(var_y)) {
-      mapping[[var_y[i]]] <- aes_y[[i]]
-    }
-  }
+  # aes_y <- mapping$y
+  # if (!is.null(aes_y)) {
+  #   aes_y <- rlang::eval_tidy(mapping$y)
+  #   mapping$y <- structure(1L, class = "productlist")
+  #   var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
+  #   for (i in seq_along(var_y)) {
+  #     mapping[[var_y[i]]] <- aes_y[[i]]
+  #   }
+  # }
   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
     aes_conds <- rlang::eval_tidy(mapping$conds)
@@ -91,84 +94,86 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 #' @export
 StatMosaic <- ggplot2::ggproto(
   "StatMosaic", ggplot2::Stat,
-#  required_aes = c("x"),
+  #required_aes = c("x"),
   non_missing_aes = "weight",
 
   setup_params = function(data, params) {
     #cat("setup_params from StatMosaic\n")
- #    browser()
-
+    #browser()
+    if (!is.null(data$y)) {
+      stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
+    }
     params
   },
 
   setup_data = function(data, params) {
     #cat("setup_data from StatMosaic\n")
-#    browser()
+    #browser()
 
     data
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
-   #cat("compute_panel from StatMosaic\n")
-  # browser()
+    #cat("compute_panel from StatMosaic\n")
+    #browser()
 
-   vars <- names(data)[grep("[0-9]+__", names(data))]
-   conds <- names(data)[grep("conds[0-9]+__", names(data))]
+    vars <- names(data)[grep("x[0-9]+__", names(data))]
+    conds <- names(data)[grep("conds[0-9]+__", names(data))]
 
-   if (in_data(data, "fill")) {
-     # is fill colour one of the existing variables?
-     # in that case, we want to replace the variable by "fill".
-     # Otherwise, we expand vars by one variable.
-     fillfound <- FALSE
-     fillvar <- sapply(vars, FUN = function(x) {
-       identical(data[,x], data$fill)
-       })
-     if (any(fillvar)) {
-       vars[which(fillvar)] <- "fill"
-       fillfound <- TRUE
-     }
+    if (in_data(data, "fill")) {
+      # is fill colour one of the existing variables?
+      # in that case, we want to replace the variable by "fill".
+      # Otherwise, we expand vars by one variable.
+      fillfound <- FALSE
+      fillvar <- sapply(vars, FUN = function(x) {
+        identical(data[,x], data$fill)
+      })
+      if (any(fillvar)) {
+        vars[which(fillvar)] <- "fill"
+        fillfound <- TRUE
+      }
 
-     # if we have conditions, we need to check if one of them is
-     # is the fill variable.
-     if (length(conds) > 0) {
+      # if we have conditions, we need to check if one of them is
+      # is the fill variable.
+      if (length(conds) > 0) {
         condsvar <- sapply(conds, FUN = function(x) {
-           identical(data[,x], data$fill)
-         })
-         if (any(condsvar)) {
-           conds[which(condsvar)] <- "fill"
-           fillfound <- TRUE
-         }
-       }
-     if (!fillfound) vars <- c("fill", vars)
-   }
+          identical(data[,x], data$fill)
+        })
+        if (any(condsvar)) {
+          conds[which(condsvar)] <- "fill"
+          fillfound <- TRUE
+        }
+      }
+      if (!fillfound) vars <- c("fill", vars)
+    }
 
-   # same things as above, only with alpha
-   if (in_data(data, "alpha")) {
-     # is alpha one of the existing variables?
-     # in that case, we want to replace the variable by "alpha".
-     # Otherwise, we expand vars by one variable.
-     alphafound <- FALSE
-     alphavar <- sapply(vars, FUN = function(x) {
-       identical(data[,x], data$alpha)
-     })
-     if (any(alphavar)) {
-       vars[which(alphavar)] <- "alpha"
-       alphafound <- TRUE
-     }
+    # same things as above, only with alpha
+    if (in_data(data, "alpha")) {
+      # is alpha one of the existing variables?
+      # in that case, we want to replace the variable by "alpha".
+      # Otherwise, we expand vars by one variable.
+      alphafound <- FALSE
+      alphavar <- sapply(vars, FUN = function(x) {
+        identical(data[,x], data$alpha)
+      })
+      if (any(alphavar)) {
+        vars[which(alphavar)] <- "alpha"
+        alphafound <- TRUE
+      }
 
-     # if we have conditions, we need to check if one of them is
-     # is the alpha variable.
-     if (length(conds) > 0) {
-       condsvar <- sapply(conds, FUN = function(x) {
-         identical(data[,x], data$alpha)
-       })
-       if (any(condsvar)) {
-         conds[which(condsvar)] <- "alpha"
-         alphafound <- TRUE
-       }
-     }
-     if (!alphafound) vars <- c("alpha", vars)
-   }
+      # if we have conditions, we need to check if one of them is
+      # is the alpha variable.
+      if (length(conds) > 0) {
+        condsvar <- sapply(conds, FUN = function(x) {
+          identical(data[,x], data$alpha)
+        })
+        if (any(condsvar)) {
+          conds[which(condsvar)] <- "alpha"
+          alphafound <- TRUE
+        }
+      }
+      if (!alphafound) vars <- c("alpha", vars)
+    }
 
 
     if (length(vars) == 0) formula <- "1"
@@ -187,9 +192,9 @@ StatMosaic <- ggplot2::ggproto(
 
 
     res <- prodcalc(df, formula=as.formula(formula),
-                                  divider = divider, cascade=0, scale_max = TRUE,
-                                  na.rm = na.rm, offset = offset)
-# browser()
+                    divider = divider, cascade=0, scale_max = TRUE,
+                    na.rm = na.rm, offset = offset)
+    #browser()
 
     # need to set x variable - I'd rather set the scales here.
     prs <- productplots::parse_product_formula(as.formula(formula))
@@ -202,7 +207,7 @@ StatMosaic <- ggplot2::ggproto(
     scx <- productplots::scale_x_product(dflist)
     scy <- productplots::scale_y_product(dflist)
 
-    #   res is data frame that has xmin, xmax, ymin, ymax
+    # res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
     res <- subset(res, level==max(res$level))
 
@@ -213,16 +218,16 @@ StatMosaic <- ggplot2::ggproto(
     #   if ("ScaleContinuousProduct" %in% class(scales$y))
     #     res$y <- list(scale=scy)
     # }
-# XXXX add label for res
+    # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
-    # browser()
+    #browser()
     if (length(cols) > 1) {
-    df <- res[,cols]
-    df <- tidyr::unite_(df, "label", cols, sep="\n")
+      df <- res[,cols]
+      df <- tidyr::unite_(df, "label", cols, sep="\n")
 
-    res$label <- df$label
+      res$label <- df$label
     } else res$label <- as.character(res[,cols])
-# browser()
+    #browser()
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
       # only set the y scale if it is a product scale, otherwise leave it alone

@@ -28,9 +28,9 @@ devtools::install_github("haleyjeppson/ggmosaic")
 ``` r
 library(ggmosaic)
 #> Loading required package: ggplot2
+#> Warning: package 'ggplot2' was built under R version 3.4.4
 ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline)) +
-  scale_x_productlist()
+  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline))
 ```
 
 ![](man/figures/README-example-1.png)<!-- -->

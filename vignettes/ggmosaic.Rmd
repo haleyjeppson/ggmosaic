@@ -124,11 +124,9 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 
 ```{r formula-1b, message=FALSE, fig.align='center'}
-
  ggplot(data = fly) +
    geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), na.rm=TRUE) +
-   scale_x_productlist() +
-   labs(x="Is it rude recline? ", title='f(RudeToRecline)') #+ guides(fill=guide_legend(title = "SleepHrsNight", reverse = TRUE))
+   labs(x="Is it rude recline? ", title='f(RudeToRecline)') 
 ```
 
 
@@ -139,7 +137,6 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 ggplot(data = fly) +
    geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
-   scale_x_productlist() +
   labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
 
 ```
@@ -149,9 +146,7 @@ ggplot(data = fly) +
 
 ```{r formula-4b, message=FALSE, fig.align='center'}
 ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +
-scale_x_productlist()+ 
-  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)')
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)')
 
 ```
 
@@ -161,9 +156,7 @@ scale_x_productlist()+
 
 ```{r formula-5b, message=FALSE, fig.align='center'}
 ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +
-  scale_x_productlist() +
-  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)') + facet_grid(Gender~.)
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) +  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)') + facet_grid(Gender~.)
 
 ```
 
@@ -173,9 +166,7 @@ ggplot(data = fly) +
 ```{r order-b, message=FALSE, fig.align='center'}
 
 order1 <- ggplot(data = fly) +
-   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
-  scale_x_productlist() +
-  labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + theme(plot.title = element_text(size = rel(1)))
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) +  labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + theme(plot.title = element_text(size = rel(1)))
 
 order2<- ggplot(data = fly) +
    geom_mosaic(aes(x = product(RudeToRecline, DoYouRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "" , y = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + coord_flip() + theme(plot.title = element_text(size = rel(1)))

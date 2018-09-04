@@ -109,15 +109,15 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
-  aes_y <- mapping$y
-  if (!is.null(aes_y)) {
-    aes_y <- rlang::eval_tidy(mapping$y)
-    mapping$y <- structure(1L, class = "productlist")
-    var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
-    for (i in seq_along(var_y)) {
-      mapping[[var_y[i]]] <- aes_y[[i]]
-    }
-  }
+  # aes_y <- mapping$y
+  # if (!is.null(aes_y)) {
+  #   aes_y <- rlang::eval_tidy(mapping$y)
+  #   mapping$y <- structure(1L, class = "productlist")
+  #   var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
+  #   for (i in seq_along(var_y)) {
+  #     mapping[[var_y[i]]] <- aes_y[[i]]
+  #   }
+  # }
   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
     aes_conds <- rlang::eval_tidy(mapping$conds)
