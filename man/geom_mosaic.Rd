@@ -7,7 +7,7 @@
 \usage{
 geom_mosaic(mapping = NULL, data = NULL, stat = "mosaic",
   position = "identity", na.rm = FALSE, divider = mosaic(),
-  offset = 0.01, show.legend = NA, inherit.aes = TRUE, ...)
+  offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
 
 stat_mosaic(mapping = NULL, data = NULL, geom = "mosaic",
   position = "identity", na.rm = FALSE, divider = mosaic(),
@@ -111,7 +111,6 @@ ggplot(data=titanic) +
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 
-\dontrun{
 data(happy, package="productplots")
 
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider="hbar")
@@ -159,5 +158,4 @@ ggplot(data = happy) +
 ggplot(data = happy) +
  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
  facet_grid(happy~.)
-}
 }

@@ -34,11 +34,9 @@ devtools::install_github("haleyjeppson/ggmosaic")
 
 ```{r example}
 library(ggmosaic)
-library(ggplot2)
-
 ggplot(data = fly) +
-   geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline))
-
+  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline)) +
+  scale_x_productlist()
 ```
 
 ## geom_mosaic: setting the aesthetics

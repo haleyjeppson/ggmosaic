@@ -1,31 +1,48 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
 Version: 0.1.2.9000
-Authors@R: c(
-    person("Haley", "Jeppson", email = "hjeppson@iastate.edu", role = c("aut", "cre")),
-    person("Heike", "Hofmann", email = "hofmann@iastate.edu", role = "aut"),
-    person("Di", "Cook", email = "dicook@monash.edu", role = "aut"),
-    person("Hadley", "Wickham", email = "hadley@rstudio.com", role = "ctb"))
-Description: Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality
-    is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
-Depends:
-    R (>= 3.2.0),
-    ggplot2 (>= 2.2.1.9000),
-    tibble (>= 1.3.0),
-    productplots (>= 0.1.1)
-Imports:
-    plotly (>= 4.5.5),
-    dplyr,
-    purrr,
-    tidyr,
-    gridExtra,
-    NHANES
+Authors@R: 
+    c(person(given = "Haley",
+             family = "Jeppson",
+             role = c("aut", "cre"),
+             email = "hjeppson@iastate.edu"),
+      person(given = "Heike",
+             family = "Hofmann",
+             role = "aut",
+             email = "hofmann@iastate.edu"),
+      person(given = "Di",
+             family = "Cook",
+             role = "aut",
+             email = "dicook@monash.edu"),
+      person(given = "Hadley",
+             family = "Wickham",
+             role = "ctb",
+             email = "hadley@rstudio.com"))
+Description: Mosaic plots in the 'ggplot2' framework. Mosaic
+    plot functionality is provided in a single 'ggplot2' layer by calling
+    the geom 'mosaic'.
 License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
-LazyData: TRUE
-RoxygenNote: 6.0.1
+Depends:
+    ggplot2 (>= 3.0.0),
+    R (>= 3.2.0)
+Imports:
+    dplyr,
+    plotly (>= 4.5.5),
+    productplots (>= 0.1.1),
+    purrr,
+    rlang,
+    tidyr
 Suggests:
+    gridExtra,
     knitr,
+    NHANES,
     rmarkdown
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate',
+    'namespace'))
+RoxygenNote: 6.1.0

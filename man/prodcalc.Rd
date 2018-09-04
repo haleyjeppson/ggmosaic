@@ -4,8 +4,8 @@
 \alias{prodcalc}
 \title{Calculate frequencies.}
 \usage{
-prodcalc(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE,
-  na.rm = FALSE, offset = offset)
+prodcalc(data, formula, divider = mosaic(), cascade = 0,
+  scale_max = TRUE, na.rm = FALSE, offset = offset)
 }
 \arguments{
 \item{data}{input data frame}
@@ -27,7 +27,10 @@ silently removed?}
 Calculate frequencies.
 }
 \examples{
+\dontrun{
+library(productplots)
 prodcalc(happy, ~ happy, "hbar", offset = 0.005)
 prodcalc(happy, ~ happy, "hspine", offset = 0.01)
+}
 }
 \keyword{internal}
