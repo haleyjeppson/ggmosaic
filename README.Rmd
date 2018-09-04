@@ -48,6 +48,7 @@ Aesthetics that can be set:
 - __fill__ : select a variable to be filled 
     - if the variable is not also called in __x__, it will be added to the formula in the first position
 - __conds__ : select a variable to condition on
+    - declared as __conds__ = product(cond1, cond2, ...)
 
 These values are then sent through `productplots` functions to create the formula for the desired distribution
 
@@ -62,7 +63,7 @@ Example of how the formula is built
 - __weight__ = 1
 - __x__ = product(Y, X)
 - __fill__ = W
-- __conds__ = Z
+- __conds__ = product(Z)
   
 These aesthetics set up the formula for the distribution: 1 ~ W + X + Y | Z 
 

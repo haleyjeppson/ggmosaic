@@ -30,19 +30,8 @@
 #' # good practice: use the 'dependent' variable (or most important variable)
 #' # as fill variable
 #'
-#' # or turn the dependent variable on explicitly (note the difference in the
-#' # labelling of the y axis)
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), y=product(Survived),
-#'                   fill=Survived))
-#'
-#'
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
-#'
-#' # we can change where we define variables
-#' ggplot(data=titanic, aes(weight = Freq, fill=Survived, x=product(Class, Age))) +
-#'   geom_mosaic()
 #'
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
@@ -77,7 +66,7 @@
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
 #'   scale_x_productlist("Age", labels=labels)
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex),
+#'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = product(sex)),
 #'   divider=mosaic("v"), na.rm=TRUE, offset=0.001) +
 #'   scale_x_productlist("Age", labels=labels)
 #' # facetting works!!!!
@@ -96,6 +85,7 @@
 #' ggplot(data = happy) +
 #'  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
 #'  facet_grid(happy~.)
+
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
@@ -149,9 +139,8 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
 GeomMosaic <- ggplot2::ggproto(
   "GeomMosaic", ggplot2::Geom,
   setup_data = function(data, params) {
-  #  cat("setup_data in GeomMosaic\n")
-
-    #   browser()
+    #cat("setup_data in GeomMosaic\n")
+    #browser()
     data
   },
   required_aes = c("xmin", "xmax", "ymin", "ymax"),
@@ -161,16 +150,16 @@ GeomMosaic <- ggplot2::ggproto(
                              linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL),
 
   draw_panel = function(data, panel_scales, coord) {
-  #  cat("draw_panel in GeomMosaic\n")
- # browser()
+    #cat("draw_panel in GeomMosaic\n")
+    #browser()
     if (all(is.na(data$colour)))
       data$colour <- scales::alpha(data$fill, data$alpha) # regard alpha in colour determination
 
-      GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
-      },
+    GeomRect$draw_panel(subset(data, level==max(data$level)), panel_scales, coord)
+  },
 
   check_aesthetics = function(x, n) {
-  #  browser()
+    #browser()
     ns <- vapply(x, length, numeric(1))
     good <- ns == 1L | ns == n
 

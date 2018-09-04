@@ -45,6 +45,10 @@ scale_type.productlist <- function(x) {
   "productlist"
 }
 
+#' Helper function that ggplot2 needs for determining scales on x and y
+#'
+#' @param x variable under consideration
+#' @return character string "productlist"
 #' @export
 scale_type.tbl_df <- function(x) {
   #cat("checking for type productlist\n")
