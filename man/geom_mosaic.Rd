@@ -30,7 +30,7 @@ data. All objects will be fortified to produce a data frame. See
 \code{\link[=fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
-the plot data. The return value must be a \code{data.frame}, and
+the plot data. The return value must be a \code{data.frame.}, and
 will be used as the layer data.}
 
 \item{stat}{The statistical transformation to use on the data for this
@@ -92,19 +92,8 @@ ggplot(data=titanic) +
 # good practice: use the 'dependent' variable (or most important variable)
 # as fill variable
 
-# or turn the dependent variable on explicitly (note the difference in the
-# labelling of the y axis)
-ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), y=product(Survived),
-                  fill=Survived))
-
-
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
-
-# we can change where we define variables
-ggplot(data=titanic, aes(weight = Freq, fill=Survived, x=product(Class, Age))) +
-  geom_mosaic()
 
 ggplot(data=titanic) +
   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
@@ -139,7 +128,7 @@ ggplot(data = happy) +
   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
   scale_x_productlist("Age", labels=labels)
 ggplot(data = happy) +
-  geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = sex),
+  geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = product(sex)),
   divider=mosaic("v"), na.rm=TRUE, offset=0.001) +
   scale_x_productlist("Age", labels=labels)
 # facetting works!!!!

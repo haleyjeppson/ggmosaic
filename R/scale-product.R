@@ -34,9 +34,10 @@ scale_type.product <- function(x) {
   "product"
 }
 
-#' Helper function that ggplot2 needs for determining scales on x and y
+#' Helper function for determining scales
 #'
-#' @param x variable under consideration
+#' Used internally to determine class of variable x
+#' @param x variable
 #' @return character string "productlist"
 #' @export
 scale_type.productlist <- function(x) {
@@ -45,9 +46,10 @@ scale_type.productlist <- function(x) {
   "productlist"
 }
 
-#' Helper function that ggplot2 needs for determining scales on x and y
+#' Helper function for determining scales
 #'
-#' @param x variable under consideration
+#' Used internally, might not needed to be exported. HH: XXXX let's check
+#' @param x variable
 #' @return character string "productlist"
 #' @export
 scale_type.tbl_df <- function(x) {
@@ -59,7 +61,8 @@ scale_type.tbl_df <- function(x) {
 }
 
 
-#' @rdname scale_productlist
+#' Determining scales for mosaics
+#'
 #' @importFrom ggplot2 waiver
 #' @export
 scale_x_productlist <- function(name = waiver(), breaks = product_breaks(),
@@ -85,7 +88,7 @@ scale_x_productlist <- function(name = waiver(), breaks = product_breaks(),
   sc
 }
 
-#' @rdname scale_productlist
+#' @rdname scale_x_productlist
 #' @importFrom ggplot2 waiver
 #' @param sec.axis specify a secondary axis
 #' @export
@@ -113,7 +116,7 @@ scale_y_productlist <- function(name = waiver(), breaks = product_breaks(),
 }
 
 
-#' @rdname scale_productlist
+#' @rdname scale_x_productlist
 #' @export
 ScaleContinuousProduct <- ggproto(
   "ScaleContinuousProduct", ScaleContinuousPosition,
