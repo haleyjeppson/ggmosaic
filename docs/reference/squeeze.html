@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • ggmosaic</title>
+<title>Internal helper function — squeeze • ggmosaic</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,10 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Internal helper function — squeeze" />
+
+<meta property="og:description" content="Squeeze pieces to lie within specified bounds; directly copied from package productplots" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -46,7 +49,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -100,47 +103,51 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      <small>Source: <a href='http://github.com/haleyjeppson/ggmosaic/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Internal helper function</h1>
+    <small class="dont-index">Source: <a href='http://github.com/haleyjeppson/ggmosaic/blob/master/R/divider.R'><code>R/divider.R</code></a></small>
+    <div class="hidden name"><code>squeeze.Rd</code></div>
     </div>
 
-    <div id="ggmosaic-0-0-1" class="section level1">
-<h1 class="page-header">
-<a href="#ggmosaic-0-0-1" class="anchor"></a>ggmosaic 0.0.1<small> Unreleased </small>
-</h1>
-<div id="brand-new-features" class="section level2">
-<h2 class="hasAnchor">
-<a href="#brand-new-features" class="anchor"></a>Brand New Features</h2>
-</div>
-<div id="small-usage-changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#small-usage-changes" class="anchor"></a>Small Usage Changes</h2>
-<ul>
-<li>discontinued use of separators</li>
-<li>
-<code>alpha</code> is recognized as aesthetic</li>
-</ul>
-</div>
-<div id="other-changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-changes" class="anchor"></a>Other changes</h2>
-<ul>
-<li>
-<code>product</code> function is changed to wrapper of <code>list</code>.</li>
-</ul>
-</div>
-</div>
-  </div>
+    <div class="ref-description">
+    
+    <p>Squeeze pieces to lie within specified bounds; directly copied from package productplots</p>
+    
+    </div>
 
+    <pre class="usage"><span class='fu'>squeeze</span>(<span class='no'>pieces</span>, <span class='kw'>bounds</span> <span class='kw'>=</span> <span class='fu'>bound</span>())</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>pieces</th>
+      <td><p>rectangle specified via l(eft), r(ight), b(ottom), t(op)</p></td>
+    </tr>
+    <tr>
+      <th>bounds</th>
+      <td><p>rectangle specified via l(eft), r(ight), b(ottom), t(op)</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>re-scaled values for piece according to boundaries given by bounds</p>
+    
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#ggmosaic-0-0-1">0.0.1</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
+    <h2>Author</h2>
+    
+Hadley Wickham
+
+  </div>
 </div>
 
       <footer>

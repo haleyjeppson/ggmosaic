@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper function that ggplot2 needs for determining scales on x and y — scale_type.product • ggmosaic</title>
+<title>Flying Etiquette Survey Data — fly • ggmosaic</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="Helper function that ggplot2 needs for determining scales on x and y — scale_type.product" />
+<meta property="og:title" content="Flying Etiquette Survey Data — fly" />
 
-<meta property="og:description" content="Helper function that ggplot2 needs for determining scales on x and y" />
+<meta property="og:description" content="Data from the results of a SurveyMonkey
+survey commissioned by FiveThirtyEight for the story
+41 Percent of Fliers Say It’s Rude To Recline Your Airplane Seat." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,41 +105,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Helper function that ggplot2 needs for determining scales on x and y</h1>
-    <small class="dont-index">Source: <a href='http://github.com/haleyjeppson/ggmosaic/blob/master/R/scale-product.R'><code>R/scale-product.R</code></a></small>
-    <div class="hidden name"><code>scale_type.product.Rd</code></div>
+    <h1>Flying Etiquette Survey Data</h1>
+    <small class="dont-index">Source: <a href='http://github.com/haleyjeppson/ggmosaic/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>fly.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Helper function that ggplot2 needs for determining scales on x and y</p>
+    <p>Data from the results of a SurveyMonkey
+survey commissioned by FiveThirtyEight for the story
+41 Percent of Fliers Say It’s Rude To Recline Your Airplane Seat.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for product</span>
-<span class='fu'>scale_type</span>(<span class='no'>x</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>variable under consideration</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>fly</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>character string "product"</p>
+    <p>A data frame with 1040 rows and 27 variables:</p><dl class='dl-horizontal'>
+<dt>ID</dt><dd><p>Respondent ID</p></dd>
+<dt>FlightFreq</dt><dd><p>How often do you travel by plane?</p></dd>
+<dt>DoYouRecline</dt><dd><p>Do you ever recline your seat when you fly?</p></dd>
+<dt>Height</dt><dd><p>How tall are you?</p></dd>
+<dt>Child18</dt><dd><p>Do you have any children under 18?</p></dd>
+<dt>Seats3_2Arms</dt><dd><p>n a row of three seats, who should get to use the two arm rests?</p></dd>
+<dt>Seats2_1Arm</dt><dd><p>In a row of two seats, who should get to use the middle arm rest?</p></dd>
+<dt>WhoControlsWindowShade</dt><dd><p>Who should have control over the window shade?</p></dd>
+<dt>RudeToMoveToUnsoldSeat</dt><dd><p>Is itrude to move to an unsold seat on a plane?</p></dd>
+<dt>RudeToTalkToNeighbor</dt><dd><p>Generally speaking, is it rude to say more than a few words tothe stranger sitting next to you on a plane?</p></dd>
+<dt>6hrFlightRudeToLeaveSeat</dt><dd><p>On a 6 hour flight from NYC to LA, how many times is it acceptable to get up if you're not in an aisle seat?</p></dd>
+<dt>RecliningObligationToBehind</dt><dd><p>Under normal circumstances, does a person who reclines their seat during a flight have any obligation to the person sitting behind them?</p></dd>
+<dt>RudeToRecline</dt><dd><p>Is itrude to recline your seat on a plane?</p></dd>
+<dt>EliminateReclining</dt><dd><p>Given the opportunity, would you eliminate the possibility of reclining seats on planes entirely?</p></dd>
+<dt>RudeToSwitchSeatsForFriends</dt><dd><p>Is it rude to ask someone to switch seats with you in order to be closer to friends?</p></dd>
+<dt>RudeToSwitchSeatsForFamily</dt><dd><p>Is it rude to ask someone to switch seats with you in order to be closer to family?</p></dd>
+<dt>RudeToWakeNeighborForBathroom</dt><dd><p>Is it rude to wake a passenger up if you are trying to go to the bathroom?</p></dd>
+<dt>RudeToWakeNeighborForWalk</dt><dd><p>Is it rude to wake a passenger up if you are trying to walk around?</p></dd>
+<dt>RudeToBringBaby</dt><dd><p>In general, is itrude to bring a baby on a plane?</p></dd>
+<dt>RudeToBringUnrulyChild</dt><dd><p>In general, is it rude to knowingly bring unruly children on a plane?</p></dd>
+<dt>UseElectronicsDuringTakeoff</dt><dd><p>Have you ever used personal electronics during take off or landing in violation of a flight attendant's direction?</p></dd>
+<dt>HaveYouSmoked</dt><dd><p>Have you ever smoked a cigarette in an airplane bathroom when it was against the rules?</p></dd>
+<dt>Gender</dt><dd><p>Gender</p></dd>
+<dt>Age</dt><dd><p>Age</p></dd>
+<dt>HouseholdIncome</dt><dd><p>Household Income</p></dd>
+<dt>Education</dt><dd><p>Education</p></dd>
+<dt>Region</dt><dd><p>Region</p></dd>
+</dl>
+    
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p><a href='https://github.com/fivethirtyeight/data/tree/master/flying-etiquette-survey'>https://github.com/fivethirtyeight/data/tree/master/flying-etiquette-survey</a></p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
+
+      <li><a href="#source">Source</a></li>
           </ul>
 
   </div>

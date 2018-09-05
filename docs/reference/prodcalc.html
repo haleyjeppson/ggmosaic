@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggmosaic</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.1.2.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.0.0</span>
       </span>
     </div>
 
@@ -114,8 +114,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>prodcalc</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>divider</span> <span class='kw'>=</span> <span class='fu'><a href='mosaic.html'>mosaic</a></span>(), <span class='kw'>cascade</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale_max</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='no'>offset</span>)</pre>
+    <pre class="usage"><span class='fu'>prodcalc</span>(<span class='no'>data</span>, <span class='no'>formula</span>, <span class='kw'>divider</span> <span class='kw'>=</span> <span class='fu'><a href='mosaic.html'>mosaic</a></span>(), <span class='kw'>cascade</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>scale_max</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='no'>offset</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,15 +151,11 @@ silently removed?</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prodcalc</span>(<span class='no'>happy</span>, ~ <span class='no'>happy</span>, <span class='st'>"hbar"</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.005</span>)</div><div class='output co'>#&gt;           happy   .wt       l       r b         t level
-#&gt; 1 not too happy  5629 0.00000 0.24625 0 0.2175543     1
-#&gt; 2  pretty happy 25874 0.25125 0.49750 0 1.0000000     1
-#&gt; 3    very happy 14800 0.50250 0.74875 0 0.5720028     1
-#&gt; 4          &lt;NA&gt;  4717 0.75375 1.00000 0 0.1823066     1</div><div class='input'><span class='fu'>prodcalc</span>(<span class='no'>happy</span>, ~ <span class='no'>happy</span>, <span class='st'>"hspine"</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)</div><div class='output co'>#&gt;           happy   .wt         l         r b t level
-#&gt; 1 not too happy  5629 0.0000000 0.1070194 0 1     1
-#&gt; 2  pretty happy 25874 0.1170194 0.6089398 0 1     1
-#&gt; 3    very happy 14800 0.6189398 0.9003197 0 1     1
-#&gt; 4          &lt;NA&gt;  4717 0.9103197 1.0000000 0 1     1</div></pre>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>library</span>(<span class='no'>productplots</span>)
+<span class='fu'>prodcalc</span>(<span class='no'>happy</span>, ~ <span class='no'>happy</span>, <span class='st'>"hbar"</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.005</span>)
+<span class='fu'>prodcalc</span>(<span class='no'>happy</span>, ~ <span class='no'>happy</span>, <span class='st'>"hspine"</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='fl'>0.01</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

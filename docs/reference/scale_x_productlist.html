@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Geom proto — StatMosaic • ggmosaic</title>
+<title>Determining scales for mosaics — scale_x_productlist • ggmosaic</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Geom proto — StatMosaic" />
+<meta property="og:title" content="Determining scales for mosaics — scale_x_productlist" />
 
-<meta property="og:description" content="Geom proto" />
+<meta property="og:description" content="Determining scales for mosaics" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,24 +103,51 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Geom proto</h1>
-    <small class="dont-index">Source: <a href='http://github.com/haleyjeppson/ggmosaic/blob/master/R/stat-mosaic.r'><code>R/stat-mosaic.r</code></a></small>
-    <div class="hidden name"><code>StatMosaic.Rd</code></div>
+    <h1>Determining scales for mosaics</h1>
+    <small class="dont-index">Source: <a href='http://github.com/haleyjeppson/ggmosaic/blob/master/R/scale-product.R'><code>R/scale-product.R</code></a></small>
+    <div class="hidden name"><code>scale_x_productlist.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Geom proto</p>
+    <p>Determining scales for mosaics</p>
     
     </div>
 
-        
+    <pre class="usage"><span class='fu'>scale_x_productlist</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>product_breaks</span>(),
+  <span class='kw'>minor_breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>product_labels</span>(), <span class='kw'>limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>oob</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>:::</span><span class='no'><a href='http://www.rdocumentation.org/packages/scales/topics/censor'>censor</a></span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>,
+  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>sec.axis</span> <span class='kw'>=</span> <span class='fu'>waiver</span>())
+
+<span class='fu'>scale_y_productlist</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>product_breaks</span>(),
+  <span class='kw'>minor_breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>product_labels</span>(), <span class='kw'>limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>oob</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>:::</span><span class='no'><a href='http://www.rdocumentation.org/packages/scales/topics/censor'>censor</a></span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>,
+  <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"left"</span>, <span class='kw'>sec.axis</span> <span class='kw'>=</span> <span class='fu'>waiver</span>())
+
+<span class='no'>ScaleContinuousProduct</span></pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>sec.axis</th>
+      <td><p>specify a secondary axis</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>An object of class <code>ScaleContinuousProduct</code> (inherits from <code>ScaleContinuousPosition</code>, <code>ScaleContinuous</code>, <code>Scale</code>, <code>ggproto</code>, <code>gg</code>) of length 4.</p>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#format">Format</a></li>
+          </ul>
 
   </div>
 </div>

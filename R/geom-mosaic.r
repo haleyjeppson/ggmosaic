@@ -38,6 +38,8 @@
 #' ggplot(data=titanic) +
 #'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
 #'
+#' # Just excluded for timing. Examples are included in testing to make sure they work
+#' \dontrun{
 #' data(happy, package="productplots")
 #'
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider="hbar")
@@ -85,6 +87,7 @@
 #' ggplot(data = happy) +
 #'  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
 #'  facet_grid(happy~.)
+#' } # end of don't run
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,

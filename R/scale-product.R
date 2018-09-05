@@ -63,6 +63,7 @@ scale_type.tbl_df <- function(x) {
 
 #' Determining scales for mosaics
 #'
+#' @inheritParams ggplot2::continuous_scale
 #' @importFrom ggplot2 waiver
 #' @export
 scale_x_productlist <- function(name = waiver(), breaks = product_breaks(),
