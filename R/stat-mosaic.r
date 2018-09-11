@@ -39,7 +39,8 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
-  }
+  } else mapping$y <- structure(1L, class = "productlist")
+
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
@@ -49,6 +50,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
+
   # aes_y <- mapping$y
   # if (!is.null(aes_y)) {
   #   aes_y <- rlang::eval_tidy(mapping$y)
@@ -100,9 +102,9 @@ StatMosaic <- ggplot2::ggproto(
   setup_params = function(data, params) {
     #cat("setup_params from StatMosaic\n")
     #browser()
-    if (!is.null(data$y)) {
-      stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
-    }
+    # if (!is.null(data$y)) {
+    #   stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
+    # }
     params
   },
 

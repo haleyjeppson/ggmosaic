@@ -93,6 +93,10 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
 {
+  if (!is.null(mapping$y)) {
+    stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
+  } else mapping$y <- structure(1L, class = "productlist")
+
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
@@ -102,6 +106,8 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
+
+
   # aes_y <- mapping$y
   # if (!is.null(aes_y)) {
   #   aes_y <- rlang::eval_tidy(mapping$y)
