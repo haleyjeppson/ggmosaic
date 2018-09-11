@@ -28,7 +28,6 @@ devtools::install_github("haleyjeppson/ggmosaic")
 ``` r
 library(ggmosaic)
 #> Loading required package: ggplot2
-#> Warning: package 'ggplot2' was built under R version 3.4.4
 ggplot(data = fly) +
   geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline))
 ```
@@ -46,6 +45,7 @@ Aesthetics that can be set:
       - if the variable is not also called in **x**, it will be added to
         the formula in the first position
   - **conds** : select a variable to condition on
+      - declared as **conds** = product(cond1, cond2, …)
 
 These values are then sent through `productplots` functions to create
 the formula for the desired distribution
@@ -59,7 +59,7 @@ Example of how the formula is built
   - **weight** = 1
   - **x** = product(Y, X)
   - **fill** = W
-  - **conds** = Z
+  - **conds** = product(Z)
 
 These aesthetics set up the formula for the distribution: 1 ~ W + X + Y
 | Z
