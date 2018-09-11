@@ -41,3 +41,33 @@
 #' @name fly
 #' @usage fly
 "fly"
+
+
+#' Data related to happiness from the general social survey.
+#'
+#' The General Social Survey (GSS) is a yearly cross-sectional survey of
+#' Americans, run since 1972. This data set is a small subset of the over 5000 variables collected in the GSS.
+#' We combine data since 1972 to yield more than 50 thousand
+#' observations, for some variables that are related to
+#' happiness:
+#'
+#' \itemize{
+#'  \item age. age in years: 18--89 (89 stands for all 89 year olds and older).
+#'  \item degree. highest education: lt high school, high school, junior
+#'     college, bachelor, graduate.
+#'  \item finrela. how is your financial status compared to others: far below, below average, average, above average, far above.
+#'  \item happy. happiness: very happy, pretty happy, not too happy.
+#'  \item health. health: excellent, good, fair, poor.
+#'  \item marital. marital status:  married, never married, divorced,
+#'    widowed, separated.
+#'  \item sex. sex: female, male.
+#'  \item polviews. from extremely conservative to extremely liberal.
+#'  \item partyid. party identification: strong republican, not str republican, ind near rep, independent, ind near dem, not str democrat, strong democrat, other party.
+#'  \item wtsall. probability weight. 0.39--8.74
+#' }
+#'
+#' @source \url{http://gss.norc.org/Get-The-Data}
+#' @name happy
+#' @usage data(happy)
+#' @format A data frame with 62466 rows and 11 variables
+"happy"
