@@ -17,7 +17,7 @@
 #'   \item{WhoControlsWindowShade}{Who should have control over the window shade?}
 #'   \item{RudeToMoveToUnsoldSeat}{Is it rude to move to an unsold seat on a plane?}
 #'   \item{RudeToTalkToNeighbor}{Generally speaking, is it rude to say more than a few words to the stranger sitting next to you on a plane?}
-#'   \item{6hrFlightRudeToLeaveSeat}{On a 6 hour flight from NYC to LA, how many times is it acceptable to get up if you're not in an aisle seat?}
+#'   \item{sixhrFlightRudeToLeaveSeat}{On a six hour flight from NYC to LA, how many times is it acceptable to get up if you're not in an aisle seat?}
 #'   \item{RecliningObligationToBehind}{Under normal circumstances, does a person who reclines their seat during a flight have any obligation to the person sitting behind them?}
 #'   \item{RudeToRecline}{Is it rude to recline your seat on a plane?}
 #'   \item{EliminateReclining}{Given the opportunity, would you eliminate the possibility of reclining seats on planes entirely?}
