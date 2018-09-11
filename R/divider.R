@@ -22,7 +22,7 @@ rotate <- function(data) {
    dplyr::rename(data, b=l, t=r, l=b, r=t)
  }
 
-#' Spine partition: divide longest dimesion.
+#' Spine partition: divide longest dimension.
 #'
 #' @param data bounds data frame
 #' @param bounds bounds of space to partition

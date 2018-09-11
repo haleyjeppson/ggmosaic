@@ -2,7 +2,7 @@
 % Please edit documentation in R/divider.R
 \name{spine}
 \alias{spine}
-\title{Spine partition: divide longest dimesion.}
+\title{Spine partition: divide longest dimension.}
 \usage{
 spine(data, bounds, offset = offset, max = NULL)
 }
@@ -16,5 +16,5 @@ spine(data, bounds, offset = offset, max = NULL)
 \item{max}{maximum value}
 }
 \description{
-Spine partition: divide longest dimesion.
+Spine partition: divide longest dimension.
 }

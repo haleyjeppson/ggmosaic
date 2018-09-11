@@ -41,7 +41,7 @@ a call to a position adjustment function.}
 
 \item{na.rm}{If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.}
 
-\item{divider}{Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partioning:
+\item{divider}{Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partitioning:
 \itemize{
 \item \code{vspine} Vertical spine partition: width constant, height varies.
 \item \code{hspine}  Horizontal spine partition: height constant, width varies.
@@ -67,7 +67,7 @@ the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 \item{geom}{The geometric object to use display the data}
 }
 \description{
-A mosaic plot is a convenient graphical summary of the conditional ditributions
+A mosaic plot is a convenient graphical summary of the conditional distributions
 in a contingency table and is composed of spines in alternating directions.
 }
 \section{Computed variables}{

@@ -3,12 +3,12 @@
 #' @export
 #'
 #' @description
-#' A mosaic plot is a convenient graphical summary of the conditional ditributions
+#' A mosaic plot is a convenient graphical summary of the conditional distributions
 #' in a contingency table and is composed of spines in alternating directions.
 #'
 #'
 #' @inheritParams ggplot2::layer
-#' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partioning:
+#' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partitioning:
 #' \itemize{
 #' \item \code{vspine} Vertical spine partition: width constant, height varies.
 #' \item \code{hspine}  Horizontal spine partition: height constant, width varies.
