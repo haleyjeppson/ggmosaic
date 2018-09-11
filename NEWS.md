@@ -1,14 +1,6 @@
-# ggmosaic 0.0.1
+# ggmosaic 0.2.0
 
-
-## Brand New Features
 
 ## Small Usage Changes
 
-- discontinued use of separators
-- `alpha` is recognized as aesthetic
-
-## Other changes
-
-- `product` function is changed to wrapper of `list`.
-
+- fixed bugs in previous versions
