@@ -52,15 +52,16 @@
 #' happiness:
 #'
 #' \itemize{
+#'  \item happy. happiness: very happy, pretty happy, not too happy.
+#'  \item year. year of the survey
 #'  \item age. age in years: 18--89 (89 stands for all 89 year olds and older).
+#'  \item sex. sex: female, male.
+#'  \item marital. marital status:  married, never married, divorced,
+#'    widowed, separated.
 #'  \item degree. highest education: lt high school, high school, junior
 #'     college, bachelor, graduate.
 #'  \item finrela. how is your financial status compared to others: far below, below average, average, above average, far above.
-#'  \item happy. happiness: very happy, pretty happy, not too happy.
 #'  \item health. health: excellent, good, fair, poor.
-#'  \item marital. marital status:  married, never married, divorced,
-#'    widowed, separated.
-#'  \item sex. sex: female, male.
 #'  \item polviews. from extremely conservative to extremely liberal.
 #'  \item partyid. party identification: strong republican, not str republican, ind near rep, independent, ind near dem, not str democrat, strong democrat, other party.
 #'  \item wtsall. probability weight. 0.39--8.74
