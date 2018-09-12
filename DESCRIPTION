@@ -1,6 +1,6 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
-Version: 0.2.0.0000
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Haley",
              family = "Jeppson",
