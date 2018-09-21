@@ -42,31 +42,34 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
   } else mapping$y <- structure(1L, class = "productlist")
 
   aes_fill <- mapping$fill
+  var_fill <- ""
   if (!is.null(aes_fill)) {
     aes_fill <- rlang::quo_text(mapping$fill)
     var_fill <- paste0("x__fill__", aes_fill)
     mapping[[var_fill]] <- mapping$fill
-    #    browser()
   }
 
   aes_alpha <- mapping$alpha
+  var_alpha <- ""
   if (!is.null(aes_alpha)) {
     aes_alpha <- rlang::quo_text(mapping$alpha)
     var_alpha <- paste0("x__alpha__", aes_alpha)
     mapping[[var_alpha]] <- mapping$alpha
   }
 
-
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
     mapping$x <- structure(1L, class = "productlist")
     var_x <- paste0("x__", as.character(aes_x))
-#    var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
+    var_x <- # remove variables, if they are already there
+      setdiff(var_x, c(gsub("__fill__", "__", var_fill), gsub("__alpha__", "__", var_alpha)))
+
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
+
 
    aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
@@ -200,7 +203,6 @@ StatMosaic <- ggplot2::ggproto(
       fill_res_idx <- grep("x__fill", names(res))
       res$fill <- res[[fill_res_idx]]
     }
-#    browser()
     alpha_idx <- grep("x__alpha", names(data))
     if (length(alpha_idx) > 0) {
       alpha_res_idx <- grep("x__alpha", names(res))
