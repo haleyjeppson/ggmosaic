@@ -41,26 +41,34 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
+  aes_fill <- mapping$fill
+  if (!is.null(aes_fill)) {
+    aes_fill <- rlang::quo_text(mapping$fill)
+    var_fill <- paste0("x__fill__", aes_fill)
+    mapping[[var_fill]] <- mapping$fill
+    #    browser()
+  }
+
+  aes_alpha <- mapping$alpha
+  if (!is.null(aes_alpha)) {
+    aes_alpha <- rlang::quo_text(mapping$alpha)
+    var_alpha <- paste0("x__alpha__", aes_alpha)
+    mapping[[var_alpha]] <- mapping$alpha
+  }
+
+
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
     mapping$x <- structure(1L, class = "productlist")
-    var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
+    var_x <- paste0("x__", as.character(aes_x))
+#    var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
 
-  # aes_y <- mapping$y
-  # if (!is.null(aes_y)) {
-  #   aes_y <- rlang::eval_tidy(mapping$y)
-  #   mapping$y <- structure(1L, class = "productlist")
-  #   var_y <- paste0("y", seq_along(aes_y), "__", as.character(aes_y))
-  #   for (i in seq_along(var_y)) {
-  #     mapping[[var_y[i]]] <- aes_y[[i]]
-  #   }
-  # }
-  aes_conds <- mapping$conds
+   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
     aes_conds <- rlang::eval_tidy(mapping$conds)
     mapping$conds <- structure(1L, class = "productlist")
@@ -117,65 +125,11 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
-    #browser()
+  #  browser()
 
-    vars <- names(data)[grep("x[0-9]+__", names(data))]
+#    vars <- names(data)[grep("x[0-9]+__", names(data))]
+    vars <- names(data)[grep("x__", names(data))]
     conds <- names(data)[grep("conds[0-9]+__", names(data))]
-
-    if (in_data(data, "fill")) {
-      # is fill colour one of the existing variables?
-      # in that case, we want to replace the variable by "fill".
-      # Otherwise, we expand vars by one variable.
-      fillfound <- FALSE
-      fillvar <- sapply(vars, FUN = function(x) {
-        identical(data[,x], data$fill)
-      })
-      if (any(fillvar)) {
-        vars[which(fillvar)] <- "fill"
-        fillfound <- TRUE
-      }
-
-      # if we have conditions, we need to check if one of them is
-      # is the fill variable.
-      if (length(conds) > 0) {
-        condsvar <- sapply(conds, FUN = function(x) {
-          identical(data[,x], data$fill)
-        })
-        if (any(condsvar)) {
-          conds[which(condsvar)] <- "fill"
-          fillfound <- TRUE
-        }
-      }
-      if (!fillfound) vars <- c("fill", vars)
-    }
-
-    # same things as above, only with alpha
-    if (in_data(data, "alpha")) {
-      # is alpha one of the existing variables?
-      # in that case, we want to replace the variable by "alpha".
-      # Otherwise, we expand vars by one variable.
-      alphafound <- FALSE
-      alphavar <- sapply(vars, FUN = function(x) {
-        identical(data[,x], data$alpha)
-      })
-      if (any(alphavar)) {
-        vars[which(alphavar)] <- "alpha"
-        alphafound <- TRUE
-      }
-
-      # if we have conditions, we need to check if one of them is
-      # is the alpha variable.
-      if (length(conds) > 0) {
-        condsvar <- sapply(conds, FUN = function(x) {
-          identical(data[,x], data$alpha)
-        })
-        if (any(condsvar)) {
-          conds[which(condsvar)] <- "alpha"
-          alphafound <- TRUE
-        }
-      }
-      if (!alphafound) vars <- c("alpha", vars)
-    }
 
 
     if (length(vars) == 0) formula <- "1"
@@ -209,6 +163,7 @@ StatMosaic <- ggplot2::ggproto(
     scx <- productplots::scale_x_product(dflist)
     scy <- productplots::scale_y_product(dflist)
 
+
     # res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
     res <- subset(res, level==max(res$level))
@@ -222,14 +177,15 @@ StatMosaic <- ggplot2::ggproto(
     # }
     # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
-    #browser()
+
     if (length(cols) > 1) {
       df <- res[,cols]
       df <- tidyr::unite_(df, "label", cols, sep="\n")
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])
-    #browser()
+ #   browser()
+
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
       # only set the y scale if it is a product scale, otherwise leave it alone
@@ -238,6 +194,19 @@ StatMosaic <- ggplot2::ggproto(
     }
 
     # merge res with data:
+    # is there a fill variable?
+    fill_idx <- grep("x__fill", names(data))
+    if (length(fill_idx) > 0) {
+      fill_res_idx <- grep("x__fill", names(res))
+      res$fill <- res[[fill_res_idx]]
+    }
+#    browser()
+    alpha_idx <- grep("x__alpha", names(data))
+    if (length(alpha_idx) > 0) {
+      alpha_res_idx <- grep("x__alpha", names(res))
+      res$alpha <- res[[alpha_res_idx]]
+    }
+
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
     res

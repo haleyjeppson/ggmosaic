@@ -125,13 +125,16 @@ ScaleContinuousProduct <- ggproto(
     #cat("train in ScaleContinuousProduct\n")
     #cat("class of variable: ")
     #cat(class(x))
-    #browser()
+ #   browser()
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
         # re-assign the scale values now that we have the information - but only if necessary
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels
+        self$name <- gsub("x__alpha__", "", x$name)
+        self$name <- gsub("x__fill__", "", self$name)
+        self$name <- gsub("x__", "", self$name)
         #browser()
         #cat("\n")
         return()
@@ -158,4 +161,5 @@ ScaleContinuousProduct <- ggproto(
     c(-0.05,1.05)
   }
 )
+
 

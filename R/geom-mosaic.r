@@ -97,15 +97,32 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
+#  browser()
+  aes_fill <- mapping$fill
+  if (!is.null(aes_fill)) {
+    aes_fill <- rlang::quo_text(mapping$fill)
+    var_fill <- paste0("x__fill__", aes_fill)
+    mapping[[var_fill]] <- mapping$fill
+  }
+
+  aes_alpha <- mapping$alpha
+  if (!is.null(aes_alpha)) {
+    aes_alpha <- rlang::quo_text(mapping$alpha)
+    var_alpha <- paste0("x__alpha__", aes_alpha)
+    mapping[[var_alpha]] <- mapping$alpha
+  }
+
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
     mapping$x <- structure(1L, class = "productlist")
-    var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
+    var_x <- paste0("x__", as.character(aes_x))
+ #   var_x <- paste0("x", seq_along(aes_x), "__", as.character(aes_x))
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
+
 
 
   # aes_y <- mapping$y
