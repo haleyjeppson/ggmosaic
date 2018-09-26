@@ -4,6 +4,14 @@ is.discrete <- function(x) {
   is.factor(x) || is.character(x) || is.logical(x)
 }
 
+product_names <- function() {
+  function(x) {
+    #cat(" in product_breaks\n")
+    #browser()
+    unique(x)
+  }
+}
+
 product_breaks <- function() {
   function(x) {
     #cat(" in product_breaks\n")
@@ -66,7 +74,7 @@ scale_type.tbl_df <- function(x) {
 #' @inheritParams ggplot2::continuous_scale
 #' @importFrom ggplot2 waiver
 #' @export
-scale_x_productlist <- function(name = waiver(), breaks = product_breaks(),
+scale_x_productlist <- function(name = product_names(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
                                 limits = NULL, expand = waiver(), oob = scales:::censor,
                                 na.value = NA_real_, trans = "identity",
@@ -93,7 +101,7 @@ scale_x_productlist <- function(name = waiver(), breaks = product_breaks(),
 #' @importFrom ggplot2 waiver
 #' @param sec.axis specify a secondary axis
 #' @export
-scale_y_productlist <- function(name = waiver(), breaks = product_breaks(),
+scale_y_productlist <- function(name = product_names(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
                                 limits = NULL, expand = waiver(), oob = scales:::censor,
                                 na.value = NA_real_, trans = "identity",
@@ -129,13 +137,16 @@ ScaleContinuousProduct <- ggproto(
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
+      #  browser()
         # re-assign the scale values now that we have the information - but only if necessary
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels
-        self$name <- gsub("x__alpha__", "", x$name)
-        self$name <- gsub("x__fill__", "", self$name)
-        self$name <- gsub("x__", "", self$name)
-        #browser()
+        if (is.function(self$name)) {
+          self$name <- gsub("x__alpha__", "", x$name)
+          self$name <- gsub("x__fill__", "", self$name)
+          self$name <- gsub("x__", "", self$name)
+        }
+
         #cat("\n")
         return()
       }
