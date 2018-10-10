@@ -114,12 +114,12 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>scale_x_productlist</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>product_breaks</span>(),
+    <pre class="usage"><span class='fu'>scale_x_productlist</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>product_names</span>(), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>product_breaks</span>(),
   <span class='kw'>minor_breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>product_labels</span>(), <span class='kw'>limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>oob</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>:::</span><span class='no'><a href='http://www.rdocumentation.org/packages/scales/topics/censor'>censor</a></span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>,
   <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>sec.axis</span> <span class='kw'>=</span> <span class='fu'>waiver</span>())
 
-<span class='fu'>scale_y_productlist</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>product_breaks</span>(),
+<span class='fu'>scale_y_productlist</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>product_names</span>(), <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>product_breaks</span>(),
   <span class='kw'>minor_breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'>product_labels</span>(), <span class='kw'>limits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>expand</span> <span class='kw'>=</span> <span class='fu'>waiver</span>(), <span class='kw'>oob</span> <span class='kw'>=</span> <span class='kw pkg'>scales</span><span class='kw ns'>:::</span><span class='no'><a href='http://www.rdocumentation.org/packages/scales/topics/censor'>censor</a></span>, <span class='kw'>na.value</span> <span class='kw'>=</span> <span class='fl'>NA_real_</span>,
   <span class='kw'>trans</span> <span class='kw'>=</span> <span class='st'>"identity"</span>, <span class='kw'>position</span> <span class='kw'>=</span> <span class='st'>"left"</span>, <span class='kw'>sec.axis</span> <span class='kw'>=</span> <span class='fu'>waiver</span>())
@@ -131,10 +131,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>The name of the scale. Used as axis or legend title. If
-<code>waiver()</code>, the default, the name of the scale is taken from the first
-mapping used for that aesthetic. If <code>NULL</code>, the legend title will be
-omitted.</p></td>
+      <td><p>set to pseudo waiver function <code>product_names</code> by default.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
