@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggmosaic</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.0.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.2.1</span>
       </span>
     </div>
 
@@ -129,6 +129,85 @@
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>The name of the scale. Used as axis or legend title. If
+<code>waiver()</code>, the default, the name of the scale is taken from the first
+mapping used for that aesthetic. If <code>NULL</code>, the legend title will be
+omitted.</p></td>
+    </tr>
+    <tr>
+      <th>breaks</th>
+      <td><p>One of:</p><ul>
+<li><p><code>NULL</code> for no breaks</p></li>
+<li><p><code>waiver()</code> for the default breaks computed by the
+transformation object</p></li>
+<li><p>A numeric vector of positions</p></li>
+<li><p>A function that takes the limits as input and returns breaks
+as output</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>minor_breaks</th>
+      <td><p>One of:</p><ul>
+<li><p><code>NULL</code> for no minor breaks</p></li>
+<li><p><code>waiver()</code> for the default breaks (one minor break between
+each major break)</p></li>
+<li><p>A numeric vector of positions</p></li>
+<li><p>A function that given the limits returns a vector of minor breaks.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>labels</th>
+      <td><p>One of:</p><ul>
+<li><p><code>NULL</code> for no labels</p></li>
+<li><p><code>waiver()</code> for the default labels computed by the
+transformation object</p></li>
+<li><p>A character vector giving labels (must be same length as <code>breaks</code>)</p></li>
+<li><p>A function that takes the breaks as input and returns labels
+as output</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>limits</th>
+      <td><p>A numeric vector of length two providing limits of the scale.
+Use <code>NA</code> to refer to the existing minimum or maximum.</p></td>
+    </tr>
+    <tr>
+      <th>expand</th>
+      <td><p>Vector of range expansion constants used to add some
+padding around the data, to ensure that they are placed some distance
+away from the axes. Use the convenience function <code>expand_scale()</code>
+to generate the values for the <code>expand</code> argument. The defaults are to
+expand the scale by 5% on each side for continuous variables, and by
+0.6 units on each side for discrete variables.</p></td>
+    </tr>
+    <tr>
+      <th>oob</th>
+      <td><p>Function that handles limits outside of the scale limits
+(out of bounds). The default replaces out of bounds values with NA.</p></td>
+    </tr>
+    <tr>
+      <th>na.value</th>
+      <td><p>Missing values will be replaced with this value.</p></td>
+    </tr>
+    <tr>
+      <th>trans</th>
+      <td><p>Either the name of a transformation object, or the
+object itself. Built-in transformations include "asn", "atanh",
+"boxcox", "exp", "identity", "log", "log10", "log1p", "log2",
+"logit", "probability", "probit", "reciprocal", "reverse" and "sqrt".</p>
+<p>A transformation object bundles together a transform, it's inverse,
+and methods for generating breaks and labels. Transformation objects
+are defined in the scales package, and are called <code>name_trans</code>, e.g.
+<code><a href='http://www.rdocumentation.org/packages/scales/topics/boxcox_trans'>scales::boxcox_trans()</a></code>. You can create your own
+transformation with <code><a href='http://www.rdocumentation.org/packages/scales/topics/trans_new'>scales::trans_new()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>position</th>
+      <td><p>The position of the axis. "left" or "right" for vertical
+scales, "top" or "bottom" for horizontal scales</p></td>
+    </tr>
     <tr>
       <th>sec.axis</th>
       <td><p>specify a secondary axis</p></td>

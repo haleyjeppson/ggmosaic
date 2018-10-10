@@ -8,12 +8,12 @@
 \title{Determining scales for mosaics}
 \format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
-scale_x_productlist(name = waiver(), breaks = product_breaks(),
+scale_x_productlist(name = product_names(), breaks = product_breaks(),
   minor_breaks = NULL, labels = product_labels(), limits = NULL,
   expand = waiver(), oob = scales:::censor, na.value = NA_real_,
   trans = "identity", position = "bottom", sec.axis = waiver())
 
-scale_y_productlist(name = waiver(), breaks = product_breaks(),
+scale_y_productlist(name = product_names(), breaks = product_breaks(),
   minor_breaks = NULL, labels = product_labels(), limits = NULL,
   expand = waiver(), oob = scales:::censor, na.value = NA_real_,
   trans = "identity", position = "left", sec.axis = waiver())
@@ -21,10 +21,7 @@ scale_y_productlist(name = waiver(), breaks = product_breaks(),
 ScaleContinuousProduct
 }
 \arguments{
-\item{name}{The name of the scale. Used as axis or legend title. If
-\code{waiver()}, the default, the name of the scale is taken from the first
-mapping used for that aesthetic. If \code{NULL}, the legend title will be
-omitted.}
+\item{name}{set to pseudo waiver function \code{product_names} by default.}
 
 \item{breaks}{One of:
 \itemize{
