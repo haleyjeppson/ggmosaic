@@ -22,25 +22,26 @@ product_breaks <- function() {
 
 product_labels <- function() {
   function(x) {
-    #cat(" in product_labels\n")
-    #browser()
+    cat(" in product_labels\n")
+    browser()
+
     unique(x)
   }
 }
 
 is.waive <- getFromNamespace("is.waive", "ggplot2")
 
-#' Helper function that ggplot2 needs for determining scales on x and y
-#'
-#' @param x variable under consideration
-#' @return character string "product"
-#' @importFrom ggplot2 scale_type
-#' @export
-scale_type.product <- function(x) {
-  #cat("checking for type product\n")
-  #browser()
-  "product"
-}
+#' #' Helper function that ggplot2 needs for determining scales on x and y
+#' #'
+#' #' @param x variable under consideration
+#' #' @return character string "product"
+#' #' @importFrom ggplot2 scale_type
+#' #' @export
+#' scale_type.product <- function(x) {
+#'   #cat("checking for type product\n")
+#'   #browser()
+#'   "product"
+#' }
 
 #' Helper function for determining scales
 #'
@@ -54,19 +55,19 @@ scale_type.productlist <- function(x) {
   "productlist"
 }
 
-#' Helper function for determining scales
-#'
-#' Used internally, might not needed to be exported. HH: XXXX let's check
-#' @param x variable
-#' @return character string "productlist"
-#' @export
-scale_type.tbl_df <- function(x) {
-  #cat("checking for type productlist\n")
-  #browser()
-  if ("productlist" %in% class(x[[1]]))
-    return("productlist")
-  "tbl_df"
-}
+#' #' Helper function for determining scales
+#' #'
+#' #' Used internally, might not needed to be exported. HH: XXXX let's check
+#' #' @param x variable
+#' #' @return character string "productlist"
+#' #' @export
+#' scale_type.tbl_df <- function(x) {
+#'   #cat("checking for type productlist\n")
+#'   #browser()
+#'   if ("productlist" %in% class(x[[1]]))
+#'     return("productlist")
+#'   "tbl_df"
+#' }
 
 
 #' Determining scales for mosaics
@@ -138,7 +139,7 @@ ScaleContinuousProduct <- ggproto(
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
-      #  browser()
+        browser()
         # re-assign the scale values now that we have the information - but only if necessary
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels
@@ -172,5 +173,4 @@ ScaleContinuousProduct <- ggproto(
     c(-0.05,1.05)
   }
 )
-
 
