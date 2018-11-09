@@ -14,7 +14,7 @@ data(happy)
 \description{
 The General Social Survey (GSS) is a yearly cross-sectional survey of
 Americans, run since 1972. This data set is a small subset of the over 5000 variables collected in the GSS.
-We combine data since 1972 to yield more than 50 thousand
+It combines data since 1972 to yield more than 60 thousand
 observations, for some variables that are related to
 happiness:
 }
@@ -26,7 +26,7 @@ happiness:
 \item sex. sex: female, male.
 \item marital. marital status:  married, never married, divorced,
 widowed, separated.
-\item degree. highest education: lt high school, high school, junior
+\item degree. highest education: less than (lt) high school, high school, junior
 college, bachelor, graduate.
 \item finrela. how is your financial status compared to others: far below, below average, average, above average, far above.
 \item health. health: excellent, good, fair, poor.

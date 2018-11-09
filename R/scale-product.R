@@ -23,7 +23,7 @@ product_breaks <- function() {
 product_labels <- function() {
   function(x) {
     cat(" in product_labels\n")
-    browser()
+ #   browser()
 
     unique(x)
   }
@@ -31,17 +31,7 @@ product_labels <- function() {
 
 is.waive <- getFromNamespace("is.waive", "ggplot2")
 
-#' #' Helper function that ggplot2 needs for determining scales on x and y
-#' #'
-#' #' @param x variable under consideration
-#' #' @return character string "product"
-#' #' @importFrom ggplot2 scale_type
-#' #' @export
-#' scale_type.product <- function(x) {
-#'   #cat("checking for type product\n")
-#'   #browser()
-#'   "product"
-#' }
+
 
 #' Helper function for determining scales
 #'
@@ -50,7 +40,7 @@ is.waive <- getFromNamespace("is.waive", "ggplot2")
 #' @return character string "productlist"
 #' @export
 scale_type.productlist <- function(x) {
-  #cat("checking for type productlist\n")
+#  cat("checking for type productlist\n")
   #browser()
   "productlist"
 }
@@ -139,7 +129,7 @@ ScaleContinuousProduct <- ggproto(
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {
-        browser()
+ #       browser()
         # re-assign the scale values now that we have the information - but only if necessary
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels

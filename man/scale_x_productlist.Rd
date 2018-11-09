@@ -5,7 +5,20 @@
 \alias{scale_x_productlist}
 \alias{scale_y_productlist}
 \alias{ScaleContinuousProduct}
-\title{Determining scales for mosaics}
+\title{#' Helper function for determining scales
+#'
+#' Used internally, might not needed to be exported. HH: XXXX let's check
+#' @param x variable
+#' @return character string "productlist"
+#' @export
+scale_type.tbl_df <- function(x) {
+#cat("checking for type productlist\n")
+#browser()
+if ("productlist" %in% class(x[\link{1}]))
+return("productlist")
+"tbl_df"
+}
+Determining scales for mosaics}
 \format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
 scale_x_productlist(name = product_names(), breaks = product_breaks(),
@@ -63,7 +76,7 @@ expand the scale by 5\% on each side for continuous variables, and by
 0.6 units on each side for discrete variables.}
 
 \item{oob}{Function that handles limits outside of the scale limits
-(out of bounds). The default replaces out of bounds values with NA.}
+(out of bounds). The default replaces out of bounds values with \code{NA}.}
 
 \item{na.value}{Missing values will be replaced with this value.}
 
@@ -72,7 +85,7 @@ object itself. Built-in transformations include "asn", "atanh",
 "boxcox", "exp", "identity", "log", "log10", "log1p", "log2",
 "logit", "probability", "probit", "reciprocal", "reverse" and "sqrt".
 
-A transformation object bundles together a transform, it's inverse,
+A transformation object bundles together a transform, its inverse,
 and methods for generating breaks and labels. Transformation objects
 are defined in the scales package, and are called \code{name_trans}, e.g.
 \code{\link[scales:boxcox_trans]{scales::boxcox_trans()}}. You can create your own
@@ -84,6 +97,19 @@ scales, "top" or "bottom" for horizontal scales}
 \item{sec.axis}{specify a secondary axis}
 }
 \description{
+#' Helper function for determining scales
+#'
+#' Used internally, might not needed to be exported. HH: XXXX let's check
+#' @param x variable
+#' @return character string "productlist"
+#' @export
+scale_type.tbl_df <- function(x) {
+#cat("checking for type productlist\n")
+#browser()
+if ("productlist" %in% class(x[\link{1}]))
+return("productlist")
+"tbl_df"
+}
 Determining scales for mosaics
 }
 \keyword{datasets}
