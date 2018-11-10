@@ -38,6 +38,7 @@ is.waive <- getFromNamespace("is.waive", "ggplot2")
 #' Used internally to determine class of variable x
 #' @param x variable
 #' @return character string "productlist"
+#' @importFrom ggplot2 scale_type
 #' @export
 scale_type.productlist <- function(x) {
 #  cat("checking for type productlist\n")
@@ -45,19 +46,7 @@ scale_type.productlist <- function(x) {
   "productlist"
 }
 
-#' #' Helper function for determining scales
-#' #'
-#' #' Used internally, might not needed to be exported. HH: XXXX let's check
-#' #' @param x variable
-#' #' @return character string "productlist"
-#' #' @export
-#' scale_type.tbl_df <- function(x) {
-#'   #cat("checking for type productlist\n")
-#'   #browser()
-#'   if ("productlist" %in% class(x[[1]]))
-#'     return("productlist")
-#'   "tbl_df"
-#' }
+
 
 
 #' Determining scales for mosaics

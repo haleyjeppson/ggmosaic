@@ -5,20 +5,7 @@
 \alias{scale_x_productlist}
 \alias{scale_y_productlist}
 \alias{ScaleContinuousProduct}
-\title{#' Helper function for determining scales
-#'
-#' Used internally, might not needed to be exported. HH: XXXX let's check
-#' @param x variable
-#' @return character string "productlist"
-#' @export
-scale_type.tbl_df <- function(x) {
-#cat("checking for type productlist\n")
-#browser()
-if ("productlist" %in% class(x[\link{1}]))
-return("productlist")
-"tbl_df"
-}
-Determining scales for mosaics}
+\title{Determining scales for mosaics}
 \format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
 scale_x_productlist(name = product_names(), breaks = product_breaks(),
@@ -97,19 +84,6 @@ scales, "top" or "bottom" for horizontal scales}
 \item{sec.axis}{specify a secondary axis}
 }
 \description{
-#' Helper function for determining scales
-#'
-#' Used internally, might not needed to be exported. HH: XXXX let's check
-#' @param x variable
-#' @return character string "productlist"
-#' @export
-scale_type.tbl_df <- function(x) {
-#cat("checking for type productlist\n")
-#browser()
-if ("productlist" %in% class(x[\link{1}]))
-return("productlist")
-"tbl_df"
-}
 Determining scales for mosaics
 }
 \keyword{datasets}
