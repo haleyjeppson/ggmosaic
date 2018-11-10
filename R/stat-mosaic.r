@@ -41,12 +41,23 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
+  aes_x <- mapping$x
+  if (!is.null(aes_x)) {
+    aes_x <- rlang::eval_tidy(mapping$x)
+    var_x <- paste0("x__", as.character(aes_x))
+  }
+
   aes_fill <- mapping$fill
   var_fill <- ""
   if (!is.null(aes_fill)) {
     aes_fill <- rlang::quo_text(mapping$fill)
     var_fill <- paste0("x__fill__", aes_fill)
-    mapping[[var_fill]] <- mapping$fill
+    if (aes_fill %in% as.character(aes_x)) {
+      idx <- which(aes_x == aes_fill)
+      var_x[idx] <- var_fill
+    } else {
+      mapping[[var_fill]] <- mapping$fill
+    }
   }
 
   aes_alpha <- mapping$alpha
@@ -54,16 +65,18 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
   if (!is.null(aes_alpha)) {
     aes_alpha <- rlang::quo_text(mapping$alpha)
     var_alpha <- paste0("x__alpha__", aes_alpha)
-    mapping[[var_alpha]] <- mapping$alpha
+    if (aes_alpha %in% as.character(aes_x)) {
+      idx <- which(aes_x == aes_alpha)
+      var_x[idx] <- var_alpha
+    } else {
+      mapping[[var_alpha]] <- mapping$alpha
+    }
   }
 
-  aes_x <- mapping$x
+
+  #  aes_x <- mapping$x
   if (!is.null(aes_x)) {
-    aes_x <- rlang::eval_tidy(mapping$x)
     mapping$x <- structure(1L, class = "productlist")
-    var_x <- paste0("x__", as.character(aes_x))
-    var_x <- # remove variables, if they are already there
-      setdiff(var_x, c(gsub("__fill__", "__", var_fill), gsub("__alpha__", "__", var_alpha)))
 
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
@@ -71,7 +84,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
   }
 
 
-   aes_conds <- mapping$conds
+  aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
     aes_conds <- rlang::eval_tidy(mapping$conds)
     mapping$conds <- structure(1L, class = "productlist")
@@ -128,7 +141,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
-  #  browser()
+ #   browser()
 
 #    vars <- names(data)[grep("x[0-9]+__", names(data))]
     vars <- names(data)[grep("x__", names(data))]
