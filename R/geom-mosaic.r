@@ -97,7 +97,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
-#  browser()
+  #  browser()
 
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
@@ -132,7 +132,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
   }
 
 
-#  aes_x <- mapping$x
+  #  aes_x <- mapping$x
   if (!is.null(aes_x)) {
     mapping$x <- structure(1L, class = "productlist")
 
@@ -209,7 +209,7 @@ GeomMosaic <- ggplot2::ggproto(
     )
   },
 
-  draw_key = ggplot2::draw_key_rect
+  draw_key = ggplot2::draw_key_polygon
 )
 
 
