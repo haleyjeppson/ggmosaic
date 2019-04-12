@@ -69,6 +69,10 @@ titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
 
 
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived)) +
+  geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived), alpha = 0.3) +
   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), fill=Survived))
+
+ggplot(data=titanic) +
+ # geom_mosaic(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived)) +
+  geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived))
 }

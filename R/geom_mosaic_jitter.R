@@ -23,8 +23,12 @@
 #'
 #'
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived)) +
+#'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived), alpha = 0.3) +
 #'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), fill=Survived))
+#'
+#' ggplot(data=titanic) +
+#'  # geom_mosaic(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived)) +
+#'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
