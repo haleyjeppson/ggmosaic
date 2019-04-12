@@ -27,10 +27,12 @@ prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max =
   } else {
     data$.wt <- 1
   }
-
   margin <- getFromNamespace("margin", "productplots")
 
   wt <- margin(data, vars$marg, vars$cond)
+  wt2 <- margin(data, c(vars$marg, vars$cond)) # getting margins
+  wt$n <- wt2$.wt
+
   if (na.rm) {
     wt <- wt[stats::complete.cases(wt), ]
   }
