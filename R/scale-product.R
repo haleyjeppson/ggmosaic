@@ -22,7 +22,7 @@ product_breaks <- function() {
 
 product_labels <- function() {
   function(x) {
-    cat(" in product_labels\n")
+#    cat(" in product_labels\n")
  #   browser()
 
     unique(x)

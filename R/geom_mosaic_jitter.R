@@ -27,7 +27,7 @@
 #'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), fill=Survived))
 #'
 #' ggplot(data=titanic) +
-#'  # geom_mosaic(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived)) +
+#'   geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived)) +
 #'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
@@ -138,8 +138,8 @@ GeomMosaicJitter <- ggplot2::ggproto(
         points,
       coords = data %>% purrr::map(.f = function(d) {
         data.frame(
-          x = runif(d$n, min = d$xmin, max = d$xmax),
-          y = runif(d$n, min = d$ymin, max = d$ymax),
+          x = runif(d$.n, min = d$xmin, max = d$xmax),
+          y = runif(d$.n, min = d$ymin, max = d$ymax),
           dplyr::select(d, -x, -y)
         )
       })
