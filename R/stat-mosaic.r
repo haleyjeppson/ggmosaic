@@ -7,7 +7,7 @@ in_data <- function(data, variable) {
   length(intersect(names(data), variable)) > 0
 }
 
-
+parse_product_formula <- getFromNamespace("parse_product_formula", "productplots")
 
 #' Wrapper for a list
 #'
@@ -169,7 +169,7 @@ StatMosaic <- ggplot2::ggproto(
     #browser()
 
     # need to set x variable - I'd rather set the scales here.
-    prs <- productplots::parse_product_formula(as.formula(formula))
+    prs <- parse_product_formula(as.formula(formula))
     p <- length(c(prs$marg, prs$cond))
     if (is.function(divider)) divider <- divider(p)
 

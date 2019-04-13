@@ -21,7 +21,7 @@ save_vtest("titanic: class and survived conditioned on age")
 ggplot(data=titanic) + geom_mosaic(aes(weight=Freq, x=product(Class), conds=Age, fill=Survived))
 save_vtest("titanic: class conditioned on age and survived colored")
 
-data(happy, package="productplots")
+data(happy)
 ggplot(data = happy) + geom_mosaic(aes(x=product(happy), group=1))
 save_vtest("happy: happy with no weight provided")
 

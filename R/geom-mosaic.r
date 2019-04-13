@@ -40,7 +40,7 @@
 #'
 #' # Just excluded for timing. Examples are included in testing to make sure they work
 #' \dontrun{
-#' data(happy, package="productplots")
+#' data(happy)
 #'
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider="hbar")
 #' ggplot(data = happy) + geom_mosaic(aes(x=product(happy))) +

@@ -73,6 +73,13 @@ ggplot(data=titanic) +
   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), fill=Survived))
 
 ggplot(data=titanic) +
- # geom_mosaic(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived)) +
-  geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived))
+  geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class, Sex),  fill=Survived),
+              divider = c("vspine", "hspine", "hspine")) +
+  geom_mosaic_jitter(aes(weight=Freq, x=product(Class, Sex), fill=Survived),
+              divider = c("vspine", "hspine", "hspine"))
+ggplot(data=titanic) +
+  geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class), conds=product(Sex),  fill=Survived),
+              divider = c("vspine", "hspine", "hspine")) +
+  geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds=product(Sex), fill=Survived),
+              divider = c("vspine", "hspine", "hspine"))
 }

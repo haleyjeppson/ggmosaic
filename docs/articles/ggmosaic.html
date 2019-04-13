@@ -74,7 +74,7 @@
 </h1>
                         <h4 class="author">Haley Jeppson and Heike Hofmann</h4>
             
-            <h4 class="date">2018-11-10</h4>
+            <h4 class="date">2019-04-12</h4>
       
       <small class="dont-index">Source: <a href="http://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd"><code>vignettes/ggmosaic.Rmd</code></a></small>
       <div class="hidden name"><code>ggmosaic.Rmd</code></div>
@@ -83,33 +83,23 @@
 
     
     
-<div id="introduction" class="section level1">
+<div id="introduction-to-ggmosaic" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
-<div id="basics-of-ggmosaic" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basics-of-ggmosaic" class="anchor"></a>Basics of <code>ggmosaic</code>
-</h2>
+<a href="#introduction-to-ggmosaic" class="anchor"></a>Introduction to <code>ggmosaic</code>
+</h1>
 <ul>
 <li>designed to create visualizations of categorical data</li>
 <li>can produce bar charts, stacked bar charts, mosaic plots, and double decker plots</li>
 <li>plots are constructed hierarchically, so the ordering of the variables is very important.</li>
 <li>integrated in ggplot2 as a <code>geom</code> which allows for facetting and layering</li>
 </ul>
-</div>
-<div id="creation-of-ggmosaic" class="section level2">
-<h2 class="hasAnchor">
-<a href="#creation-of-ggmosaic" class="anchor"></a>Creation of <code>ggmosaic</code>
-</h2>
-<p><code>ggmosaic</code> was created primarily using <code>ggproto</code> and the <code>productplots</code> package</p>
-<p><code>ggproto</code> allows you to extend ggplot2 from within your own packages</p>
+<p><code>ggmosaic</code> was created primarily using <code>ggproto</code> and the <code>productplots</code> package. <code>ggproto</code> allows you to extend ggplot2 from within your own packages.</p>
 <ul>
 <li>
 <code>ggmosaic</code> began as a geom extension of the <code>rect</code> geom</li>
 <li>used the data handling provided in the <code>productplots</code> package</li>
 <li>calculates xmin, xmax, ymin, and ymax for the <code>rect</code> geom to plot</li>
 </ul>
-</div>
 <div id="ggplot2-limitations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#ggplot2-limitations" class="anchor"></a>ggplot2 limitations</h2>
@@ -121,7 +111,6 @@
 <li>a wrapper function for a list</li>
 <li><p>allows for it to pass <code>check_aesthetics</code></p></li>
 </ul>
-<p>These limitations also lead to issues with the labeling, but those can be fixed manually.</p>
 </div>
 <div id="geom_mosaic-setting-the-aesthetics" class="section level2">
 <h2 class="hasAnchor">
@@ -175,43 +164,48 @@
 <div id="x" class="section level2">
 <h2 class="hasAnchor">
 <a href="#x" class="anchor"></a>1 ~ X</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"> <span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(RudeToRecline), <span class="dt">fill=</span>RudeToRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="st">   </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(RudeToRecline)'</span>) </a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"> <span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>RudeToRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">'f(RudeToRecline)'</span>)</a></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-1b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="y-x" class="section level2">
 <h2 class="hasAnchor">
 <a href="#y-x" class="anchor"></a>1 ~ Y + X</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(DoYouRecline | RudeToRecline) f(RudeToRecline)'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">'f(DoYouRecline | RudeToRecline) f(RudeToRecline)'</span>)</a></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-2b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="x-y-z" class="section level2">
 <h2 class="hasAnchor">
 <a href="#x-y-z" class="anchor"></a>1 ~ X + Y / Z</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline, <span class="dt">conds=</span><span class="kw">product</span>(Gender)), <span class="dt">na.rm=</span><span class="ot">TRUE</span>, <span class="dt">divider=</span><span class="kw">mosaic</span>(<span class="st">"v"</span>)) <span class="op">+</span><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(DoYouRecline, RudeToRecline| Gender)'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline, <span class="dt">conds=</span><span class="kw"><a href="../reference/product.html">product</a></span>(Gender)), <span class="dt">na.rm=</span><span class="ot">TRUE</span>, <span class="dt">divider=</span><span class="kw"><a href="../reference/mosaic.html">mosaic</a></span>(<span class="st">"v"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">'f(DoYouRecline, RudeToRecline| Gender)'</span>)</a></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-4b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="alternative-to-conditioning-facetting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#alternative-to-conditioning-facetting" class="anchor"></a>Alternative to conditioning: facetting</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(DoYouRecline, RudeToRecline| Gender)'</span>) <span class="op">+</span><span class="st"> </span><span class="kw">facet_grid</span>(Gender<span class="op">~</span>.)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">'f(DoYouRecline, RudeToRecline| Gender)'</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="kw">facet_grid</span>(Gender<span class="op">~</span>.)</a></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-5b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="importance-of-ordering" class="section level2">
 <h2 class="hasAnchor">
 <a href="#importance-of-ordering" class="anchor"></a>Importance of ordering</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">order1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(DoYouRecline | RudeToRecline) f(RudeToRecline)'</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="dv">1</span>)))</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">order2&lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(RudeToRecline, DoYouRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">""</span> , <span class="dt">y =</span> <span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(DoYouRecline | RudeToRecline) f(RudeToRecline)'</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="kw">rel</span>(<span class="dv">1</span>)))</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">grid_arrange_shared_legend</span>(order1, order2, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="st">"right"</span>)</a></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/order-3-1.png" width="768" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">order1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4">order2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline, DoYouRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-6" title="6"><span class="st">  </span><span class="kw">coord_flip</span>()</a>
+<a class="sourceLine" id="cb5-7" title="7"></a>
+<a class="sourceLine" id="cb5-8" title="8"><span class="kw">grid_arrange_shared_legend</span>(order1, order2, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="st">"right"</span>)</a></code></pre></div>
+<p><img src="ggmosaic_files/figure-html/order-b-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="other-features-of-geom_mosaic" class="section level2">
 <h2 class="hasAnchor">
@@ -238,20 +232,24 @@
 <li>
 <strong>hbar:</strong> <!--  Horizontal bar partition: --> width constant, height varies.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">hbar &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq), <span class="dt">fill=</span>FlightFreq), <span class="dt">divider=</span><span class="st">"hbar"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider = "hbar"'</span>) </a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">hspine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq), <span class="dt">fill=</span>FlightFreq),  <span class="dt">divider=</span><span class="st">"hspine"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider = "hspine"'</span>) </a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">vbar &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq), <span class="dt">fill=</span>FlightFreq), <span class="dt">divider=</span><span class="st">"vbar"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">" "</span>, <span class="dt">x=</span><span class="st">""</span>, <span class="dt">title=</span><span class="st">'divider = "vbar"'</span>) </a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"> </a>
-<a class="sourceLine" id="cb7-12" data-line-number="12">vspine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq), <span class="dt">fill=</span>FlightFreq), <span class="dt">divider=</span><span class="st">"vspine"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">" "</span>, <span class="dt">x=</span><span class="st">""</span>, <span class="dt">title=</span><span class="st">'divider = "vspine"'</span>) </a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">grid_arrange_shared_legend</span>(hbar, hspine, vbar, vspine, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">position =</span> <span class="st">"right"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">hbar &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>RudeToRecline), <span class="dt">divider=</span><span class="st">"hbar"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title=</span><span class="st">'divider = "hbar"'</span>) </a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5">hspine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>RudeToRecline),  <span class="dt">divider=</span><span class="st">"hspine"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider = "hspine"'</span>) </a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9">vbar &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>RudeToRecline), <span class="dt">divider=</span><span class="st">"vbar"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">" "</span>, <span class="dt">x=</span><span class="st">""</span>, <span class="dt">title=</span><span class="st">'divider = "vbar"'</span>) </a>
+<a class="sourceLine" id="cb6-12" title="12"> </a>
+<a class="sourceLine" id="cb6-13" title="13">vspine &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-14" title="14"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>RudeToRecline), <span class="dt">divider=</span><span class="st">"vspine"</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-15" title="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">" "</span>, <span class="dt">x=</span><span class="st">""</span>, <span class="dt">title=</span><span class="st">'divider = "vspine"'</span>) </a>
+<a class="sourceLine" id="cb6-16" title="16"></a>
+<a class="sourceLine" id="cb6-17" title="17"><span class="kw">grid_arrange_shared_legend</span>(hbar, hspine, vbar, vspine, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">position =</span> <span class="st">"bottom"</span>)</a></code></pre></div>
+<p><img src="ggmosaic_files/figure-html/partitions-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="partitioning-with-one-or-more-variables" class="section level2">
 <h2 class="hasAnchor">
@@ -283,42 +281,45 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">h_mosaic &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">mosaic</span>(<span class="st">"h"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>(), <span class="dt">legend.position=</span><span class="st">"none"</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= mosaic()'</span>)</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">v_mosaic &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">mosaic</span>(<span class="st">"v"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= mosaic("v")'</span>)</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb9-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">doubledecker &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">ddecker</span>()) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
-<a class="sourceLine" id="cb9-15" data-line-number="15"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= ddecker()'</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">grid_arrange_shared_legend</span>(h_mosaic, v_mosaic, doubledecker, <span class="dt">ncol =</span> <span class="dv">3</span>, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">position =</span> <span class="st">"right"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">mosaic4 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("vspine", "vspine", "hbar")'</span>) </a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">mosaic5 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"hbar"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("hbar", "vspine", "hbar")'</span>)</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">mosaic6 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"hspine"</span>, <span class="st">"hspine"</span>, <span class="st">"hspine"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("hspine", "hspine", "hspine")'</span>)</a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">mosaic7 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Gender, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"vspine"</span>)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
-<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("vspine", "vspine", "vspine")'</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">grid_arrange_shared_legend</span>(mosaic4, mosaic5, mosaic6, mosaic7, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">position=</span><span class="st">"right"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">h_mosaic &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw"><a href="../reference/mosaic.html">mosaic</a></span>(<span class="st">"h"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>(), <span class="dt">legend.position=</span><span class="st">"none"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= mosaic()'</span>)</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6">v_mosaic &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw"><a href="../reference/mosaic.html">mosaic</a></span>(<span class="st">"v"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= mosaic("v")'</span>)</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11">doubledecker &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw"><a href="../reference/ddecker.html">ddecker</a></span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-14" title="14"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= ddecker()'</span>)</a>
+<a class="sourceLine" id="cb7-15" title="15"></a>
+<a class="sourceLine" id="cb7-16" title="16"><span class="kw">grid_arrange_shared_legend</span>(h_mosaic, v_mosaic, doubledecker, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">position =</span> <span class="st">"bottom"</span>)</a></code></pre></div>
+<p><img src="ggmosaic_files/figure-html/mosaic-a-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">mosaic4 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("vspine", "vspine", "hbar")'</span>) </a>
+<a class="sourceLine" id="cb8-5" title="5"></a>
+<a class="sourceLine" id="cb8-6" title="6">mosaic5 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"hbar"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("hbar", "vspine", "hbar")'</span>)</a>
+<a class="sourceLine" id="cb8-10" title="10"></a>
+<a class="sourceLine" id="cb8-11" title="11">mosaic6 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"hspine"</span>, <span class="st">"hspine"</span>, <span class="st">"hspine"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("hspine", "hspine", "hspine")'</span>)</a>
+<a class="sourceLine" id="cb8-15" title="15"></a>
+<a class="sourceLine" id="cb8-16" title="16">mosaic7 &lt;-<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(DoYouRecline, RudeToRecline, Gender), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span>T, <span class="dt">divider=</span><span class="kw">c</span>(<span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"vspine"</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_blank</span>()) <span class="op">+</span></a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">" "</span>, <span class="dt">title=</span><span class="st">'divider= c("vspine", "vspine", "vspine")'</span>)</a>
+<a class="sourceLine" id="cb8-20" title="20"></a>
+<a class="sourceLine" id="cb8-21" title="21"><span class="kw">grid_arrange_shared_legend</span>(mosaic4, mosaic5, mosaic6, mosaic7, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">position=</span><span class="st">"bottom"</span>)</a></code></pre></div>
+<p><img src="ggmosaic_files/figure-html/mosaic-d-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="geom_mosaic-offset" class="section level2">
 <h2 class="hasAnchor">
@@ -332,23 +333,49 @@
 <div id="adjusting-the-offset" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adjusting-the-offset" class="anchor"></a>Adjusting the offset</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">offset1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Region"</span>, <span class="dt">y=</span><span class="st">" "</span>,  <span class="dt">title=</span><span class="st">" offset = 0.01"</span>) </a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4">offset0 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span><span class="ot">TRUE</span>, <span class="dt">offset =</span> <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Region"</span>, <span class="dt">y=</span><span class="st">" "</span>,  <span class="dt">title=</span><span class="st">" offset = 0"</span>)</a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7">offset2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(FlightFreq, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span><span class="ot">TRUE</span>, <span class="dt">offset =</span> <span class="fl">0.02</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Region"</span>, <span class="dt">y=</span><span class="st">" "</span>,  <span class="dt">title=</span><span class="st">" offset = 0.02"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">grid_arrange_shared_legend</span>(offset0, offset1, offset2, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">ncol =</span><span class="dv">3</span>, <span class="dt">position=</span><span class="st">"right"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">offset1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(FlightFreq, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Region"</span>, <span class="dt">y=</span><span class="st">" "</span>,  <span class="dt">title=</span><span class="st">" offset = 0.01"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="st">  </span><span class="kw"><a href="../reference/scale_x_productlist.html">scale_y_productlist</a></span>(<span class="dt">name =</span> <span class="st">""</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb9-6" title="6">        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</a>
+<a class="sourceLine" id="cb9-7" title="7"></a>
+<a class="sourceLine" id="cb9-8" title="8">offset0 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(FlightFreq, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span><span class="ot">TRUE</span>, <span class="dt">offset =</span> <span class="dv">0</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Region"</span>, <span class="dt">y=</span><span class="st">" "</span>,  <span class="dt">title=</span><span class="st">" offset = 0"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="st">  </span><span class="kw"><a href="../reference/scale_x_productlist.html">scale_y_productlist</a></span>(<span class="dt">name =</span> <span class="st">""</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb9-13" title="13">        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</a>
+<a class="sourceLine" id="cb9-14" title="14"></a>
+<a class="sourceLine" id="cb9-15" title="15">offset2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(FlightFreq, Region), <span class="dt">fill=</span>FlightFreq), <span class="dt">na.rm=</span><span class="ot">TRUE</span>, <span class="dt">offset =</span> <span class="fl">0.02</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">"Region"</span>, <span class="dt">y=</span><span class="st">" "</span>,  <span class="dt">title=</span><span class="st">" offset = 0.02"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="st">  </span><span class="kw"><a href="../reference/scale_x_productlist.html">scale_y_productlist</a></span>(<span class="dt">name =</span> <span class="st">""</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y =</span> <span class="kw">element_blank</span>(),</a>
+<a class="sourceLine" id="cb9-20" title="20">        <span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</a>
+<a class="sourceLine" id="cb9-21" title="21"></a>
+<a class="sourceLine" id="cb9-22" title="22"><span class="kw">grid_arrange_shared_legend</span>(offset0, offset1, offset2, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">ncol =</span><span class="dv">3</span>, <span class="dt">position=</span><span class="st">"bottom"</span>)</a></code></pre></div>
+<p><img src="ggmosaic_files/figure-html/offset-b-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
-<div id="plotly" class="section level2">
+<div id="current-issues" class="section level2">
 <h2 class="hasAnchor">
-<a href="#plotly" class="anchor"></a>Plotly</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">gg &lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">   </span><span class="kw">geom_mosaic</span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">product</span>(DoYouRecline, RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Is it rude recline? "</span>, <span class="dt">title=</span><span class="st">'f(DoYouRecline | RudeToRecline) f(RudeToRecline)'</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># just for now commented out</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co"># ggplotly(gg)</span></a></code></pre></div>
+<a href="#current-issues" class="anchor"></a>Current Issues</h2>
+<ul>
+<li><p><code>ggplotly()</code> no longer works with <code>geom_mosaic</code></p></li>
+<li><p>There is an issue with labeling the axes. For example, to relabel the x-axis you will need to use <code><a href="../reference/scale_x_productlist.html">scale_x_productlist(name = "new label")</a></code> instead of <code>labs(x = "new label")</code>. See example below.</p></li>
+</ul>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">example1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-3" title="3"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">"Is it rude to recline?"</span>, <span class="dt">title =</span> <span class="st">"Relabeling does not work"</span>)</a>
+<a class="sourceLine" id="cb10-4" title="4"></a>
+<a class="sourceLine" id="cb10-5" title="5">example2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="st">  </span><span class="kw"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="../reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>DoYouRecline), <span class="dt">na.rm=</span><span class="ot">TRUE</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">"Relabeling works"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="st">  </span><span class="kw"><a href="../reference/scale_x_productlist.html">scale_x_productlist</a></span>(<span class="dt">name =</span> <span class="st">"Is it rude to recline?"</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="st">  </span><span class="kw"><a href="../reference/scale_x_productlist.html">scale_y_productlist</a></span>(<span class="dt">name =</span> <span class="st">"Do you recline?"</span>)</a>
+<a class="sourceLine" id="cb10-10" title="10"></a>
+<a class="sourceLine" id="cb10-11" title="11"><span class="kw">grid_arrange_shared_legend</span>(example1, example2, <span class="dt">nrow =</span> <span class="dv">1</span>, <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">position=</span><span class="st">"right"</span>)</a></code></pre></div>
+<p><img src="ggmosaic_files/figure-html/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </div>
@@ -359,10 +386,8 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
-<a href="#introduction">Introduction</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#basics-of-ggmosaic">Basics of <code>ggmosaic</code></a></li>
-      <li><a href="#creation-of-ggmosaic">Creation of <code>ggmosaic</code></a></li>
-      <li><a href="#ggplot2-limitations">ggplot2 limitations</a></li>
+<a href="#introduction-to-ggmosaic">Introduction to <code>ggmosaic</code></a><ul class="nav nav-pills nav-stacked">
+<li><a href="#ggplot2-limitations">ggplot2 limitations</a></li>
       <li><a href="#geom_mosaic-setting-the-aesthetics">geom_mosaic: setting the aesthetics</a></li>
       <li><a href="#x">1 ~ X</a></li>
       <li><a href="#y-x">1 ~ Y + X</a></li>
@@ -374,7 +399,7 @@
       <li><a href="#partitioning-with-one-or-more-variables">Partitioning with one or more variables</a></li>
       <li><a href="#geom_mosaic-offset">geom_mosaic: offset</a></li>
       <li><a href="#adjusting-the-offset">Adjusting the offset</a></li>
-      <li><a href="#plotly">Plotly</a></li>
+      <li><a href="#current-issues">Current Issues</a></li>
       </ul>
 </li>
       </ul>

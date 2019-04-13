@@ -30,7 +30,6 @@ Depends:
 Imports:
     dplyr,
     plotly (>= 4.5.5),
-    productplots (>= 0.1.1),
     purrr,
     rlang,
     tidyr

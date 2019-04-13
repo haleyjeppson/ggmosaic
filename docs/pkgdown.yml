@@ -1,5 +1,6 @@
-pandoc: '2.2'
+pandoc: '2.6'
 pkgdown: 1.1.0
 pkgdown_sha: ~
-articles: []
+articles:
+  ggmosaic: ggmosaic.html
 

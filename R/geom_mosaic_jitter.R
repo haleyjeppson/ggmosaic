@@ -27,8 +27,15 @@
 #'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), fill=Survived))
 #'
 #' ggplot(data=titanic) +
-#'   geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived)) +
-#'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds = product(Sex), fill=Survived))
+#'   geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class, Sex),  fill=Survived),
+#'               divider = c("vspine", "hspine", "hspine")) +
+#'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class, Sex), fill=Survived),
+#'               divider = c("vspine", "hspine", "hspine"))
+#' ggplot(data=titanic) +
+#'   geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class), conds=product(Sex),  fill=Survived),
+#'               divider = c("vspine", "hspine", "hspine")) +
+#'   geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds=product(Sex), fill=Survived),
+#'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                         show.legend = NA, inherit.aes = FALSE, ...)
@@ -110,6 +117,8 @@ geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
 }
 
 #' @importFrom grid grobTree
+#' @importFrom tidyr nest unnest
+#' @importFrom dplyr mutate select
 GeomMosaicJitter <- ggplot2::ggproto(
   "GeomMosaicJitter", ggplot2::Geom,
   setup_data = function(data, params) {
@@ -131,12 +140,12 @@ GeomMosaicJitter <- ggplot2::ggproto(
 
     sub <- subset(data, level==max(data$level))
     points <- sub
-    points <- nest(points, -label)
+    points <- tidyr::nest(points, -label)
 
     points <-
-      mutate(
+      dplyr::mutate(
         points,
-      coords = data %>% purrr::map(.f = function(d) {
+      coords = purrr::map(data, .f = function(d) {
         data.frame(
           x = runif(d$.n, min = d$xmin, max = d$xmax),
           y = runif(d$.n, min = d$ymin, max = d$ymax),
@@ -145,7 +154,7 @@ GeomMosaicJitter <- ggplot2::ggproto(
       })
     )
 
-    points <- unnest(points, coords)
+    points <- tidyr::unnest(points, coords)
 
     sub$fill <- NA
     sub$size <- sub$size/10

@@ -85,16 +85,16 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install ggmosaic from github with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"haleyjeppson/ggmosaic"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("devtools")</span></a>
+<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"haleyjeppson/ggmosaic"</span>)</a></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(ggmosaic)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Loading required package: ggplot2</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggmosaic/topics/geom_mosaic">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="http://www.rdocumentation.org/packages/ggmosaic/topics/product">product</a></span>(RudeToRecline), <span class="dt">fill=</span>DoYouRecline))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(ggmosaic)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; Loading required package: ggplot2</span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">ggplot</span>(<span class="dt">data =</span> fly) <span class="op">+</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span><span class="kw"><a href="reference/geom_mosaic.html">geom_mosaic</a></span>(<span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw"><a href="reference/product.html">product</a></span>(RudeToRecline), <span class="dt">fill=</span>DoYouRecline))</a></code></pre></div>
 <p><img src="reference/figures/README-example-1.png" width="700"></p>
 </div>
 <div id="geom_mosaic-setting-the-aesthetics" class="section level2">
