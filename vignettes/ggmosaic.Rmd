@@ -19,45 +19,11 @@ knitr::opts_chunk$set(fig.width = 6,
 
 ```
 
-```{r pkgs, echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE}
 library(ggmosaic)
 library(gridExtra)
 library(grid)
-```
-
-```{r data, echo=FALSE, message=FALSE}
 data(fly)
-my_pal <- c("#D43F3AFF","#EEA236FF", "#5CB85CFF", "#46B8DAFF", "#357EBDFF", "#9632B8FF", "#B8B8B8FF") #source: ggsci::pal_locuszoom("default")(7)
-
-scale_fill_discrete <- function(...) scale_fill_manual(..., values = my_pal)
-
-# create theme
-theme_mosaic <- function (base_size = 12, base_family = "Helvetica") { 
-  theme_gray() +
-    theme(
-      rect = element_rect(fill = NA, linetype = 0, colour = NA, size = base_size/22), 
-      text = element_text(family = base_family, face = "plain", color = "black", size = base_size, hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9, margin = margin(), debug = FALSE),
-      panel.grid.major.y = element_line(colour = "#D8D8D8"), 
-      panel.grid.minor.y = element_blank(), 
-      panel.grid.major.x = element_blank(), 
-      panel.grid.minor.x = element_blank(), 
-      panel.border = element_blank(), 
-      panel.background = element_blank(), 
-      legend.position = "right", 
-      legend.key = element_rect(fill = "#FFFFFF00"),
-      
-      axis.title = element_text(size = rel(.8)), 
-      axis.text = element_text(size = rel(.6)),
-      legend.text = element_text(size = rel(.7)),
-      legend.title = element_text(size = rel(.8)),
-      plot.title = element_text(size = rel(.8)),
-      plot.subtitle = element_text(size = rel(.8)),
-      legend.key.size =    unit(.8, "lines")
-    )
-}
-
-# set theme
-theme_set(theme_mosaic())
 
 grid_arrange_shared_legend <- function(..., ncol = length(list(...)), nrow = 1, position = c("bottom", "right")) {
   
@@ -85,16 +51,21 @@ grid_arrange_shared_legend <- function(..., ncol = length(list(...)), nrow = 1, 
 }
 ```
 
-# Introduction to `ggmosaic`  
+# Introduction
 
-
+## Basics of `ggmosaic`  
 
 - designed to create visualizations of categorical data
 - can produce bar charts, stacked bar charts, mosaic plots, and double decker plots
 - plots are constructed hierarchically, so the ordering of the variables is very important.
 - integrated in ggplot2 as a `geom` which allows for facetting and layering
 
-`ggmosaic` was created primarily using `ggproto` and the `productplots` package. `ggproto` allows you to extend ggplot2 from within your own packages.
+
+## Creation of `ggmosaic`
+
+`ggmosaic` was created primarily using `ggproto` and the `productplots` package
+
+`ggproto` allows you to extend ggplot2 from within your own packages 
 
 - `ggmosaic` began as a geom extension of the `rect` geom
 - used the data handling provided in the `productplots` package
@@ -107,9 +78,12 @@ ggplot2 is not capable of handling a variable number of variables
 
 - __current solution:__ read in the variables x1 and x2 as x = product(x1, x2)
 
+    
 - `product` function:
 - a wrapper function for a list
 - allows for it to pass `check_aesthetics` 
+
+These limitations also lead to issues with the labeling, but those can be fixed manually.
 
 ## geom_mosaic: setting the aesthetics
 
@@ -152,8 +126,8 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 
 ```{r formula-1b, message=FALSE, fig.align='center'}
  ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), na.rm=TRUE) + 
-  labs(title='f(RudeToRecline)')
+   geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), na.rm=TRUE) +
+   labs(x="Is it rude recline? ", title='f(RudeToRecline)') 
 ```
 
 
@@ -163,8 +137,8 @@ Because a mosaic plot is constructed hierarchically through alternating spines, 
 ```{r formula-2b, message=FALSE, fig.align='center'}
 
 ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
-  labs(title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
+  labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
 
 ```
 
@@ -173,8 +147,8 @@ ggplot(data = fly) +
 
 ```{r formula-4b, message=FALSE, fig.align='center'}
 ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +
-  labs(title='f(DoYouRecline, RudeToRecline| Gender)')
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline, conds=product(Gender)), na.rm=TRUE, divider=mosaic("v")) +  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)')
+
 ```
 
 ##  Alternative to conditioning: facetting
@@ -183,24 +157,30 @@ ggplot(data = fly) +
 
 ```{r formula-5b, message=FALSE, fig.align='center'}
 ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) +
-  labs(title='f(DoYouRecline, RudeToRecline| Gender)') + 
-  facet_grid(Gender~.)
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) +  labs(x = "Is it rude recline? ", title='f(DoYouRecline, RudeToRecline| Gender)') + facet_grid(Gender~.)
+
 ```
 
 
 ## Importance of ordering 
 
-```{r order-b, message=FALSE, fig.width = 7, fig.height = 2.4, fig.align='center'}
-order1 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE)
+```{r order-b, message=FALSE, fig.align='center'}
 
-order2 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline, DoYouRecline), fill=DoYouRecline), na.rm=TRUE) + 
-  coord_flip()
+order1 <- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) +  labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + theme(plot.title = element_text(size = rel(1)))
+
+order2<- ggplot(data = fly) +
+   geom_mosaic(aes(x = product(RudeToRecline, DoYouRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "" , y = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)') + coord_flip() + theme(plot.title = element_text(size = rel(1)))
+
+```
+
+```{r order-3, message=FALSE, fig.width = 8, fig.height = 4, fig.align='center'}
 
 grid_arrange_shared_legend(order1, order2, ncol = 2, nrow = 1, position = "right")
+
+
 ```
+
 
 
 ## Other features of geom_mosaic
@@ -222,24 +202,28 @@ Four options available for each partion:
     
 
 
-```{r partitions, message=FALSE, fig.width = 7, fig.height = 4.8, fig.align='center'}
+```{r partitions, message=FALSE, fig.width = 7, fig.height = 3.5}
+
 hbar <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), divider="hbar", na.rm=TRUE) + 
-  labs(title='divider = "hbar"') 
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq), divider="hbar", na.rm=TRUE) + labs(x=" ", title='divider = "hbar"') 
+
 
 hspine <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline),  divider="hspine", na.rm=TRUE) + 
-  labs(x=" ", title='divider = "hspine"') 
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq),  divider="hspine", na.rm=TRUE) + labs(x=" ", title='divider = "hspine"') 
+
 
 vbar <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), divider="vbar", na.rm=TRUE) + 
-  labs(y=" ", x="", title='divider = "vbar"') 
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq), divider="vbar", na.rm=TRUE) + labs(y=" ", x="", title='divider = "vbar"') 
  
 vspine <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=RudeToRecline), divider="vspine", na.rm=TRUE) + 
-  labs(y=" ", x="", title='divider = "vspine"') 
+   geom_mosaic(aes(x = product(FlightFreq), fill=FlightFreq), divider="vspine", na.rm=TRUE) + labs(y=" ", x="", title='divider = "vspine"') 
 
-grid_arrange_shared_legend(hbar, hspine, vbar, vspine, ncol = 2, nrow = 2, position = "bottom")
+```
+
+
+```{r plot, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center', eval = FALSE}
+
+grid_arrange_shared_legend(hbar, hspine, vbar, vspine, ncol = 2, nrow = 2, position = "right")
 
 ```
 
@@ -257,50 +241,68 @@ grid_arrange_shared_legend(hbar, hspine, vbar, vspine, ncol = 2, nrow = 2, posit
     -  c("hspine", "vspine", "hbar")
 
 
-```{r mosaic-a, message=FALSE, fig.width = 7, fig.height = 4.8, fig.align='center'}
+```{r mosaic-a, message=FALSE, fig.width = 7, fig.height = 3.5}
+
 h_mosaic <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=mosaic("h")) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=mosaic("h")) +
   theme(axis.text.x=element_blank(), legend.position="none") + 
   labs(x=" ", title='divider= mosaic()')
 
 v_mosaic <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=mosaic("v")) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=mosaic("v")) +
   theme(axis.text.x=element_blank()) + 
   labs(x=" ", title='divider= mosaic("v")')
 
+
 doubledecker <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=ddecker()) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=ddecker()) +
   theme(axis.text.x=element_blank()) +
   labs(x=" ", title='divider= ddecker()')
 
-grid_arrange_shared_legend(h_mosaic, v_mosaic, doubledecker, ncol = 2, nrow = 2, position = "bottom")
 ```
 
 
 
-```{r mosaic-d, message=FALSE, fig.width = 7, fig.height = 5.5, fig.align='center'}
+```{r mosaic-3, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center', eval = FALSE}
+
+grid_arrange_shared_legend(h_mosaic, v_mosaic, doubledecker, ncol = 3, nrow = 1, position = "right")
+
+```
+
+
+
+```{r mosaic-d, message=FALSE, fig.width = 7, fig.height = 3.5}
+
 mosaic4 <-  ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=c("vspine", "vspine", "hbar")) +
-  theme(axis.text.y=element_blank()) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("vspine", "vspine", "hbar")) +
+  theme(axis.text.x=element_blank()) +
   labs(x=" ", title='divider= c("vspine", "vspine", "hbar")') 
 
 mosaic5 <-  ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=c("hbar", "vspine", "hbar")) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("hbar", "vspine", "hbar")) +
   theme(axis.text.x=element_blank()) +
   labs(x=" ", title='divider= c("hbar", "vspine", "hbar")')
 
 mosaic6 <-  ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=c("hspine", "hspine", "hspine")) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("hspine", "hspine", "hspine")) +
   theme(axis.text.x=element_blank()) +
   labs(x=" ", title='divider= c("hspine", "hspine", "hspine")')
 
 mosaic7 <-  ggplot(data = fly) +
-  geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline, Gender), fill=DoYouRecline), na.rm=T, divider=c("vspine", "vspine", "vspine")) +
-  theme(axis.text.y=element_blank()) +
+   geom_mosaic(aes(x = product(FlightFreq, Gender, Region), fill=FlightFreq), na.rm=T, divider=c("vspine", "vspine", "vspine")) +
+  theme(axis.text.x=element_blank()) +
   labs(x=" ", title='divider= c("vspine", "vspine", "vspine")')
 
-grid_arrange_shared_legend(mosaic4, mosaic5, mosaic6, mosaic7, ncol = 2, nrow = 2, position="bottom")
 ```
+
+
+```{r mosaic-6, message=FALSE, fig.width = 8, fig.height = 4.5, fig.align='center', eval = FALSE}
+
+grid_arrange_shared_legend(mosaic4, mosaic5, mosaic6, mosaic7, ncol = 2, nrow = 2, position="right")
+
+```
+
+
 
   
 ## geom_mosaic: offset
@@ -314,52 +316,43 @@ grid_arrange_shared_legend(mosaic4, mosaic5, mosaic6, mosaic7, ncol = 2, nrow = 
 ## Adjusting the offset
 
 
-```{r offset-b, message=FALSE, fig.width = 7, fig.height = 4, fig.align='center'}
+```{r offset-b, message=FALSE}
 
 offset1 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE) + 
-  labs(x="Region", y=" ",  title=" offset = 0.01") +
-  scale_y_productlist(name = "") +
-  theme(axis.text.y=element_blank(),
-        axis.text.x = element_text(angle = 90))
+   geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE) + labs(x="Region", y=" ",  title=" offset = 0.01") 
 
 offset0 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0) + 
-  labs(x="Region", y=" ",  title=" offset = 0") +
-  scale_y_productlist(name = "") +
-  theme(axis.text.y=element_blank(),
-        axis.text.x = element_text(angle = 90))
+   geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0) + labs(x="Region", y=" ",  title=" offset = 0")
 
 offset2 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0.02) + 
-  labs(x="Region", y=" ",  title=" offset = 0.02") +
-  scale_y_productlist(name = "") +
-  theme(axis.text.y = element_blank(),
-        axis.text.x = element_text(angle = 90))
+   geom_mosaic(aes(x = product(FlightFreq, Region), fill=FlightFreq), na.rm=TRUE, offset = 0.02) + labs(x="Region", y=" ",  title=" offset = 0.02")
 
-grid_arrange_shared_legend(offset0, offset1, offset2, nrow = 1, ncol =3, position="bottom")
+```
+
+```{r offset-plot, message=FALSE, fig.width = 8, fig.height = 4, fig.align='center', eval = FALSE}
+
+grid_arrange_shared_legend(offset0, offset1, offset2, nrow = 1, ncol =3, position="right")
+
 ```
 
 
-## Current Issues
-
-- `ggplotly()` no longer works with `geom_mosaic`
+## Plotly
 
 
-- There is an issue with labeling the axes. For example, to relabel the x-axis you will need to use `scale_x_productlist(name = "new label")` instead of `labs(x = "new label")`. See example below.
+```{r plotly, message=FALSE, echo=TRUE, eval=FALSE}
 
-```{r, message=FALSE, fig.width = 7, fig.height = 2.4, fig.align='center'}
-example1 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
-  labs(x = "Is it rude to recline?", title = "Relabeling does not work")
 
-example2 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + 
-  labs(title = "Relabeling works") +
-  scale_x_productlist(name = "Is it rude to recline?") +
-  scale_y_productlist(name = "Do you recline?")
-
-grid_arrange_shared_legend(example1, example2, nrow = 1, ncol = 2, position="right")
+gg <-ggplot(data = fly) +
+   geom_mosaic(aes(x = product(DoYouRecline, RudeToRecline), fill=DoYouRecline), na.rm=TRUE) + labs(x = "Is it rude recline? ", title='f(DoYouRecline | RudeToRecline) f(RudeToRecline)')
 ```
+
+
+```{r plotly-3, message=FALSE, echo=TRUE, eval = FALSE}
+# just for now commented out
+# ggplotly(gg)
+
+```
+
+
 
 
