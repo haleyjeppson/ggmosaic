@@ -28,12 +28,12 @@ Depends:
     ggplot2 (>= 3.0.0),
     R (>= 3.2.0)
 Imports:
+    productplots,
     dplyr,
     plotly (>= 4.5.5),
     purrr,
     rlang,
-    tidyr,
-    productplots
+    tidyr
 Suggests:
     gridExtra,
     knitr,
