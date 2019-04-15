@@ -32,13 +32,13 @@ Imports:
     plotly (>= 4.5.5),
     purrr,
     rlang,
-    tidyr
+    tidyr,
+    productplots
 Suggests:
-    productplots,
     gridExtra,
     knitr,
     NHANES,
-    rmarkdown
+    rmarkdown,
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
