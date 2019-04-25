@@ -166,6 +166,7 @@ GeomMosaicLabel <- ggplot2::ggproto(
     text <- tidyr::unnest(text, coords)
 
     sub$fill <- NA
+    sub$colour <- NA
     sub$size <- sub$size/10
     ggplot2:::ggname("geom_mosaic_label", grobTree(
       GeomRect$draw_panel(sub, panel_scales, coord),
