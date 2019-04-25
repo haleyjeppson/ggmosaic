@@ -362,3 +362,4 @@ example2 <- ggplot(data = fly) +
 grid_arrange_shared_legend(example1, example2, nrow = 1, ncol = 2, position="right")
 ```
 
+
