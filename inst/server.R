@@ -3,6 +3,8 @@ library(ggmosaic)
 library(productplots)
 library(plotly)
 
+data(happy, package = "ggmosaic")
+
 shinyServer(function(input, output, session) {
 
   names<- names(happy)
