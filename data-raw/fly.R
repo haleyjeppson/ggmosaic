@@ -51,6 +51,12 @@ fly <- fly %>%
 
 fly %>% group_by(height) %>% tally() %>% arrange(n)
 
+fly <- fly %>%
+  mutate(height = tolower(height)) %>%
+  mutate(height = fct_relevel(height, c("under 5 ft.", "5'0\"", "5'1\"", "5'2\"", "5'3\"", "5'4\"", "5'5\"",
+                                            "5'6\"", "5'7\"", "5'8\"", "5'9\"", "5'10\"", "5'11\"",
+                                            "6'0\"", "6'1\"", "6'2\"", "6'3\"", "6'4\"", "6'5\"", "6'6\" and above")))
+
 # fly$height <- fct_collapse(fly$height,
 #                             `Under 5'` = "Under 5 ft.",
 #                             `5' - 5'5\"` = c("5'0\"", "5'1\"", "5'2\"","5'3\"","5'4\"", "5'5\""),
@@ -143,6 +149,7 @@ fly <- fly %>%
                                                      yes = "Yes, they should not recline their chair if the person behind them asks them not to")) %>%
   mutate(reclining_obligation_to_behind = fct_relevel(reclining_obligation_to_behind, c("no")))
 
+levels(fly$reclining_obligation_to_behind)
 
 # rude_to_recline -------------------------
 fly %>% group_by(rude_to_recline) %>% tally()
@@ -151,6 +158,8 @@ fly <- fly %>%
   mutate(rude_to_recline = fct_recode(rude_to_recline, no = "No, not rude at all", somewhat = "Yes, somewhat rude", yes = "Yes, very rude")) %>%
   mutate(rude_to_recline = fct_relevel(rude_to_recline, c("no", "somewhat")))
 
+levels(fly$rude_to_recline)
+
 # eliminate_reclining -------------------------
 fly %>% group_by(eliminate_reclining) %>% tally()
 
@@ -158,6 +167,7 @@ fly <- fly %>%
   mutate(eliminate_reclining = fct_recode(eliminate_reclining, no = "No", yes = "Yes")) %>%
   mutate(eliminate_reclining = fct_relevel(eliminate_reclining, "no"))
 
+levels(fly$eliminate_reclining)
 
 # rude_to_switch_seats_friends -------------------------
 fly %>% group_by(rude_to_switch_seats_friends) %>% tally()
@@ -166,12 +176,16 @@ fly <- fly %>%
   mutate(rude_to_switch_seats_friends = fct_recode(rude_to_switch_seats_friends, no = "No, not at all rude", somewhat = "Yes, somewhat rude", yes = "Yes, very rude")) %>%
   mutate(rude_to_switch_seats_friends = fct_relevel(rude_to_switch_seats_friends, c("no", "somewhat")))
 
+levels(fly$rude_to_switch_seats_friends)
+
 # rude_to_switch_seats_family -------------------------
 fly %>% group_by(rude_to_switch_seats_family) %>% tally()
 
 fly <- fly %>%
   mutate(rude_to_switch_seats_family = fct_recode(rude_to_switch_seats_family, no = "No, not at all rude", somewhat = "Yes, somewhat rude", yes = "Yes, very rude")) %>%
   mutate(rude_to_switch_seats_family = fct_relevel(rude_to_switch_seats_family, c("no", "somewhat")))
+
+levels(fly$rude_to_switch_seats_family)
 
 # rude_to_wake_neighbor_bathroom -------------------------
 fly %>% group_by(rude_to_wake_neighbor_bathroom) %>% tally()
@@ -235,12 +249,16 @@ fly <- fly %>%
   mutate(household_income = fct_recode(household_income, `$150,000+` = "150000")) %>%
   mutate(household_income = fct_relevel(household_income, c("$0 - $24,999", "$25,000 - $49,999", "$50,000 - $99,999", "$100,000 - $149,999")))
 
+levels(fly$household_income)
+
 # education -------------------------
 fly %>% group_by(education) %>% tally()
 
 fly <- fly %>%
   mutate(education = tolower(education)) %>%
   mutate(education = fct_relevel(education, c("less than high school degree", "high school degree", "some college or associate degree")))
+
+levels(fly$education)
 
 # region -------------------------
 fly %>% group_by(region) %>% tally()
@@ -251,6 +269,7 @@ fly <- fly %>%
                              south = c("west south central", "east south central", "south atlantic"))) %>%
   mutate(region = fct_relevel(region, c("pacific", "mountain", "midwest", "northeast", "south")))
 
+levels(fly$region)
 
 # -------------------------------------------------------------------------
 # save data
