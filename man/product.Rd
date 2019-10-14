@@ -13,9 +13,7 @@ product(...)
 Wrapper for a list
 }
 \examples{
-data(Titanic)
-titanic <- as.data.frame(Titanic)
-titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
+data(titanic)
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
+  geom_mosaic(aes(x=product(Survived, Class), fill=Survived))
 }

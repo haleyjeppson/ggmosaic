@@ -20,23 +20,20 @@
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
 #'
-#' data(Titanic)
-#' titanic <- as.data.frame(Titanic)
-#' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
-#'
+#' data(titanic)
 #'
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
+#'   geom_mosaic(aes(x=product(Class), fill=Survived))
 #' # good practice: use the 'dependent' variable (or most important variable)
 #' # as fill variable
 #'
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
+#'   geom_mosaic(aes(x=product(Class, Age), fill=Survived))
 #'
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
+#'   geom_mosaic(aes(x=product(Class), conds=product(Age), fill=Survived))
 #' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
+#'   geom_mosaic(aes(x=product(Survived, Class), fill=Age))
 #'
 #' # Just excluded for timing. Examples are included in testing to make sure they work
 #' \dontrun{

@@ -26,7 +26,8 @@ data. All objects will be fortified to produce a data frame. See
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data.}
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
@@ -63,23 +64,20 @@ the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
 Jittered dots in Mosaic plots.
 }
 \examples{
-data(Titanic)
-titanic <- as.data.frame(Titanic)
-titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
-
+data(titanic)
 
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived), alpha = 0.3) +
-  geom_mosaic_jitter(aes(weight=Freq, x=product(Class), fill=Survived))
+  geom_mosaic(aes(x=product(Class), fill=Survived), alpha = 0.3) +
+  geom_mosaic_jitter(aes(x=product(Class), fill=Survived))
 
 ggplot(data=titanic) +
-  geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class, Sex),  fill=Survived),
+  geom_mosaic(alpha = 0.3, aes(x=product(Class, Sex),  fill=Survived),
               divider = c("vspine", "hspine", "hspine")) +
-  geom_mosaic_jitter(aes(weight=Freq, x=product(Class, Sex), fill=Survived),
+  geom_mosaic_jitter(aes(x=product(Class, Sex), fill=Survived),
               divider = c("vspine", "hspine", "hspine"))
 ggplot(data=titanic) +
-  geom_mosaic(alpha = 0.3, aes(weight=Freq, x=product(Class), conds=product(Sex),  fill=Survived),
+  geom_mosaic(alpha = 0.3, aes(x=product(Class), conds=product(Sex),  fill=Survived),
               divider = c("vspine", "hspine", "hspine")) +
-  geom_mosaic_jitter(aes(weight=Freq, x=product(Class), conds=product(Sex), fill=Survived),
+  geom_mosaic_jitter(aes(x=product(Class), conds=product(Sex), fill=Survived),
               divider = c("vspine", "hspine", "hspine"))
 }

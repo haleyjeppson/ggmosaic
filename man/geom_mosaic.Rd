@@ -31,7 +31,8 @@ data. All objects will be fortified to produce a data frame. See
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data.}
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
@@ -82,23 +83,20 @@ in a contingency table and is composed of spines in alternating directions.
 
 \examples{
 
-data(Titanic)
-titanic <- as.data.frame(Titanic)
-titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
-
+data(titanic)
 
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
+  geom_mosaic(aes(x=product(Class), fill=Survived))
 # good practice: use the 'dependent' variable (or most important variable)
 # as fill variable
 
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
+  geom_mosaic(aes(x=product(Class, Age), fill=Survived))
 
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
+  geom_mosaic(aes(x=product(Class), conds=product(Age), fill=Survived))
 ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
+  geom_mosaic(aes(x=product(Survived, Class), fill=Age))
 
 # Just excluded for timing. Examples are included in testing to make sure they work
 \dontrun{
