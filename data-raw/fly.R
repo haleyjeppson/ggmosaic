@@ -39,7 +39,7 @@ fly %>% group_by(do_you_recline) %>% tally()
 fly <- fly %>%
   mutate(do_you_recline = tolower(do_you_recline)) %>%
   #mutate(do_you_recline = fct_collapse(do_you_recline, usually = c("Always", "Usually"), sometimes = c("About half the time", "Once in a while"), never = c("Never"))) %>%
-  mutate(do_you_recline = fct_relevel(do_you_recline, rev(c("always", "usually", "about half the time", "once in a while"))))
+  mutate(do_you_recline = fct_relevel(do_you_recline, rev(c("always", "usually", "about half the time", "once in a while", "never"))))
 
 # fly$do_you_recline3 <- fct_collapse(fly$do_you_recline,
 #                                     Yes = c("Always", "Usually", "About half the time", "Once in a while"),
