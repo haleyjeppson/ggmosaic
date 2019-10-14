@@ -3,7 +3,7 @@
 #' @export
 #'
 #' @description
-#'
+#' A mosaic plot with labels
 #'
 #' @inheritParams ggplot2::layer
 #' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partitioning:
