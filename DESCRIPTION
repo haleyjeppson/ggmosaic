@@ -39,6 +39,7 @@ Suggests:
     knitr,
     NHANES,
     rmarkdown,
+    patchwork
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
