@@ -4,8 +4,15 @@
 \alias{prodcalc}
 \title{Calculate frequencies.}
 \usage{
-prodcalc(data, formula, divider = mosaic(), cascade = 0,
-  scale_max = TRUE, na.rm = FALSE, offset = offset)
+prodcalc(
+  data,
+  formula,
+  divider = mosaic(),
+  cascade = 0,
+  scale_max = TRUE,
+  na.rm = FALSE,
+  offset = offset
+)
 }
 \arguments{
 \item{data}{input data frame}
