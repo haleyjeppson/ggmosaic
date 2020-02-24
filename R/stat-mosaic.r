@@ -15,8 +15,8 @@ parse_product_formula <- getFromNamespace("parse_product_formula", "productplots
 #' @export
 #' @examples
 #' data(titanic)
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(x=product(Survived, Class), fill=Survived))
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Survived, Class), fill = Survived))
 product <- function(...) {
   rlang::exprs(...)
 }

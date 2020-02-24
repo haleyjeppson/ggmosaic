@@ -11,253 +11,175 @@ vignette: >
 
 
 ```{r setup, echo=FALSE}
-
-knitr::opts_chunk$set(fig.width = 6,
-                      fig.height = 4,
-                      fig.align='center',
-                      dev = "png")
-
+knitr::opts_chunk$set(fig.width = 6, fig.height = 4, fig.align='center',
+                      dev = "png", message = FALSE)
 ```
 
-```{r pkgs, echo=FALSE, message=FALSE}
+```{r pkgs, echo=FALSE}
 library(ggmosaic)
 library(gridExtra)
 library(grid)
+library(patchwork)
 ```
 
-```{r data, echo=FALSE, message=FALSE}
+```{r data, echo=FALSE}
 data(fly)
 my_pal <- c("#D43F3AFF","#EEA236FF", "#5CB85CFF", "#46B8DAFF", "#357EBDFF", "#9632B8FF", "#B8B8B8FF") #source: ggsci::pal_locuszoom("default")(7)
-
 scale_fill_discrete <- function(...) scale_fill_manual(..., values = my_pal)
-
-# create theme
-theme_mosaic <- function (base_size = 12, base_family = "Helvetica") { 
-  theme_gray() +
-    theme(
-      rect = element_rect(fill = NA, linetype = 0, colour = NA, size = base_size/22), 
-      text = element_text(family = base_family, face = "plain", color = "black", size = base_size, hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9, margin = margin(), debug = FALSE),
-      panel.grid.major.y = element_line(colour = "#D8D8D8"), 
-      panel.grid.minor.y = element_blank(), 
-      panel.grid.major.x = element_blank(), 
-      panel.grid.minor.x = element_blank(), 
-      panel.border = element_blank(), 
-      panel.background = element_blank(), 
-      legend.position = "right", 
-      legend.key = element_rect(fill = "#FFFFFF00"),
-      
-      axis.title = element_text(size = rel(.8)), 
-      axis.text = element_text(size = rel(.6)),
-      legend.text = element_text(size = rel(.7)),
-      legend.title = element_text(size = rel(.8)),
-      plot.title = element_text(size = rel(.8)),
-      plot.subtitle = element_text(size = rel(.8)),
-      legend.key.size =    unit(.8, "lines")
-    )
-}
 
 # set theme
 theme_set(theme_mosaic())
-
-grid_arrange_shared_legend <- function(..., ncol = length(list(...)), nrow = 1, position = c("bottom", "right")) {
-  
-  plots <- list(...)
-  position <- match.arg(position)
-  g <- ggplotGrob(plots[[1]] + theme(legend.position = position))$grobs
-  legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
-  lheight <- sum(legend$height)
-  lwidth <- sum(legend$width)
-  gl <- lapply(plots, function(x) x + theme(legend.position="none"))
-  gl <- c(gl, ncol = ncol, nrow = nrow)
-  
-  combined <- switch(position,
-                     "bottom" = arrangeGrob(do.call(arrangeGrob, gl),
-                                            legend,
-                                            ncol = 1,
-                                            heights = unit.c(unit(1, "npc") - lheight, lheight)),
-                     "right" = arrangeGrob(do.call(arrangeGrob, gl),
-                                           legend,
-                                           ncol = 2,
-                                           widths = unit.c(unit(1, "npc") - lwidth, lwidth)))
-  grid.newpage()
-  grid.draw(combined)
-  
-}
 ```
 
-# Introduction to `ggmosaic`  
+
+Designed to create visualizations of categorical data, ggmosaic can produce bar charts, stacked bar charts, mosaic plots, and double decker plots. The plots are constructed hierarchically, so the ordering of the variables is very important. 
+
+## How to use ggmosaic
+
+### ggplot2 limitations to consider
+
+ggplot2 is not capable of handling a variable number of variables. The current solution is to read in the variables `x1` and `x2` as `x = product(x1, x2)`. The `product()` function is a wrapper function for a list which will allow for it to pass `check_aesthetics()`.
 
 
-
-- designed to create visualizations of categorical data
-- can produce bar charts, stacked bar charts, mosaic plots, and double decker plots
-- plots are constructed hierarchically, so the ordering of the variables is very important.
-- integrated in ggplot2 as a `geom` which allows for facetting and layering
-
-`ggmosaic` was created primarily using `ggproto` and the `productplots` package. `ggproto` allows you to extend ggplot2 from within your own packages.
-
-- `ggmosaic` began as a geom extension of the `rect` geom
-- used the data handling provided in the `productplots` package
-- calculates xmin, xmax, ymin, and ymax for the `rect` geom to plot
-
-
-## ggplot2 limitations
-
-ggplot2 is not capable of handling a variable number of variables
-
-- __current solution:__ read in the variables x1 and x2 as x = product(x1, x2)
-
-- `product` function:
-- a wrapper function for a list
-- allows for it to pass `check_aesthetics` 
-
-## geom_mosaic: setting the aesthetics
+### geom_mosaic: setting the aesthetics
 
 Aesthetics that can be set:
 
-- __weight__ : select a weighting variable
-- __x__ : select variables to add to formula
-    - declared as __x__ = product(x1, x2, ...)
-- __fill__ : select a variable to be filled 
-    - if the variable is not also called in __x__, it will be added to the formula in the first position
-- __conds__ : select a variable to condition on
-    - declared as __conds__ = product(cond1, cond2, ...)
+- `weight`: select a weighting variable
 
-These values are then sent through `productplots` functions to create the formula for the desired distribution
+- `x`: select variables to add to formula  
+    - declared as `x = product(x1, x2, ...)` 
+    
+- `fill`: select a variable to be filled  
+    - if the variable is not also called in `x`, it will be added to the formula in the first position  
+    
+- `conds` : select a variable to condition on  
+    - declared as  `conds = product(cond1, cond2, ...)`  
 
-  
- __Formula:__ **weight ~ fill + x | conds **
-  
-
-### From the aesthetics to the formula
-
-Example of how the formula is built
-
-- __weight__ = 1
-- __x__ = product(Y, X)
-- __fill__ = W
-- __conds__ = product(Z)
-  
-These aesthetics set up the formula for the distribution:
-
-  
-> __Formula:__ 1 ~ W + X + Y | Z 
+These values are then sent through `productplots` functions to create the formula for the desired distribution. The formula is constructed as:  `weight ~ fill + x | conds`
   
 
+#### From the aesthetics to the formula
 
-Because a mosaic plot is constructed hierarchically through alternating spines, the ordering of the variables is very important.
+Suppose we wish to define the following mappings:  `aes(weight = 1, x = product(Y, X), fill = W, conds = product(Z))`. These aesthetics set up the formula for the distribution as `1 ~ W + X + Y | Z`
 
-## 1 ~ X
+## Examples 
 
+### One variable
 
-```{r formula-1b, message=FALSE, fig.align='center'}
+```{r formula-1b}
  ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=rude_to_recline), na.rm=TRUE) + 
   labs(title='f(rude_to_recline)')
 ```
 
 
-##  1 ~ Y + X
+### Two variables
 
-
-```{r formula-2b, message=FALSE, fig.align='center'}
-
+```{r formula-2b}
 ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill=do_you_recline), na.rm=TRUE) + 
   labs(title='f(do_you_recline | rude_to_recline) f(rude_to_recline)')
-
 ```
 
-##  1 ~ X + Y / Z
+### Conditioning
 
 
-```{r formula-4b, message=FALSE, fig.align='center'}
+```{r formula-4b}
 ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill=do_you_recline, conds=product(gender)), na.rm=TRUE, divider=mosaic("v")) +
   labs(title='f(do_you_recline, rude_to_recline| gender)')
 ```
 
-##  Alternative to conditioning: facetting
+###  Alternative to conditioning: facetting
 
-
-
-```{r formula-5b, message=FALSE, fig.align='center'}
+```{r formula-5b, fig.width = 6, fig.height = 6}
 ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill=do_you_recline), na.rm=TRUE) +
   labs(title='f(do_you_recline, rude_to_recline| gender)') + 
-  facet_grid(gender~.)
+  facet_grid(gender~.) +
+  theme(aspect.ratio = 1/3)
 ```
 
 
-## Importance of ordering 
+### The importance of ordering 
 
-```{r order-b, message=FALSE, fig.width = 7, fig.height = 2.4, fig.align='center'}
+```{r order-b, fig.width = 7, fig.height = 2.4}
 order1 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill=do_you_recline), na.rm=TRUE)
+  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline), fill=do_you_recline), na.rm=TRUE) +
+  theme(legend.position = "none")
 
 order2 <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline, do_you_recline), fill=do_you_recline), na.rm=TRUE) + 
-  coord_flip()
+  coord_flip() +
+  theme(legend.position = "none")
 
-grid_arrange_shared_legend(order1, order2, ncol = 2, nrow = 1, position = "right")
+order1 + order2
 ```
 
 
-## Other features of geom_mosaic
+## Other features of `geom_mosaic()`
   
-Arguments unique to `geom_mosaic`:
+Arguments unique to `geom_mosaic()`:
 
-- **divider:** used to declare the type of partitions to be used
-- **offset:** sets the space between the first spine
+- `divider`: used to declare the type of partitions to be used  
+
+- `offset`: sets the space between the first spine
 
 
-## Divider function: Types of partitioning
+### Divider function: Types of partitioning
 
 Four options available for each partion:
 
-- **vspine:**  <!-- (Vertical spine partition) --> width constant, height varies.
-- **hspine:**  <!-- Horizontal spine partition: --> height constant, width varies.
-- **vbar:**  <!--  Vertical bar partition: --> height constant, width varies.
-- **hbar:**  <!--  Horizontal bar partition: --> width constant, height varies.
+- `vspine`:  <!-- (Vertical spine partition) --> width constant, height varies. 
+
+- `hspine`:  <!-- Horizontal spine partition: --> height constant, width varies.
+
+- `vbar`: <!--  Vertical bar partition: --> height constant, width varies.
+
+- `hbar`:  <!--  Horizontal bar partition: --> width constant, height varies.
     
 
-
-```{r partitions, message=FALSE, fig.width = 7, fig.height = 4.8, fig.align='center'}
+```{r partitions, fig.width = 7, fig.height = 4.8}
 hbar <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=rude_to_recline), divider="hbar", na.rm=TRUE) + 
-  labs(title='divider = "hbar"') 
+  labs(title='divider = "hbar"') + 
+  theme(legend.position = "none")
 
 hspine <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=rude_to_recline),  divider="hspine", na.rm=TRUE) + 
-  labs(x=" ", title='divider = "hspine"') 
+  labs(x=" ", title='divider = "hspine"') + 
+  theme(legend.position = "none")
 
 vbar <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=rude_to_recline), divider="vbar", na.rm=TRUE) + 
-  labs(y=" ", x="", title='divider = "vbar"') 
+  labs(y=" ", x="", title='divider = "vbar"') + 
+  theme(legend.position = "none")
  
 vspine <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=rude_to_recline), divider="vspine", na.rm=TRUE) + 
-  labs(y=" ", x="", title='divider = "vspine"') 
+  labs(y=" ", x="", title='divider = "vspine"') + 
+  theme(legend.position = "none")
 
-grid_arrange_shared_legend(hbar, hspine, vbar, vspine, ncol = 2, nrow = 2, position = "bottom")
-
+hbar + hspine + vbar + vspine + plot_layout(ncol = 2)
 ```
 
-## Partitioning with one or more variables
 
-- __mosaic()__
+### Partitioning with one or more variables
+
+- `mosaic()`
     - default
     - will use spines in alternating directions 
     - begins with a horizontal spine 
-- __mosaic("v")__
+- `mosaic("v")`
     - begins with a vertical spine and then alternates
-- __ddecker()__
+- `ddecker()`
     - selects n-1 horizontal spines and ends with a vertical spine
 - Define each type of partition 
-    -  c("hspine", "vspine", "hbar")
+    -  e.g. `c("hspine", "vspine", "hbar")`
 
 
-```{r mosaic-a, message=FALSE, fig.width = 7, fig.height = 4.8, fig.align='center'}
+```{r mosaic-a, fig.width = 7, fig.height = 4.8}
 h_mosaic <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=mosaic("h")) +
   theme(axis.text.x=element_blank(), legend.position="none") + 
@@ -265,101 +187,99 @@ h_mosaic <- ggplot(data = fly) +
 
 v_mosaic <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=mosaic("v")) +
-  theme(axis.text.x=element_blank()) + 
+  theme(axis.text.x=element_blank(), legend.position="none") + 
   labs(x=" ", title='divider= mosaic("v")')
 
 doubledecker <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=ddecker()) +
-  theme(axis.text.x=element_blank()) +
+  theme(axis.text.x=element_blank(), legend.position="none") +
   labs(x=" ", title='divider= ddecker()')
 
-grid_arrange_shared_legend(h_mosaic, v_mosaic, doubledecker, ncol = 2, nrow = 2, position = "bottom")
+h_mosaic + v_mosaic + doubledecker + plot_layout(ncol = 2)
 ```
 
 
 
-```{r mosaic-d, message=FALSE, fig.width = 7, fig.height = 5.5, fig.align='center'}
+```{r mosaic-d, fig.width = 7, fig.height = 5.5}
 mosaic4 <-  ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=c("vspine", "vspine", "hbar")) +
-  theme(axis.text.y=element_blank()) +
+  theme(axis.text.y=element_blank(), legend.position="none") +
   labs(x=" ", title='divider= c("vspine", "vspine", "hbar")') 
 
 mosaic5 <-  ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=c("hbar", "vspine", "hbar")) +
-  theme(axis.text.x=element_blank()) +
+  theme(axis.text.x=element_blank(), legend.position="none") +
   labs(x=" ", title='divider= c("hbar", "vspine", "hbar")')
 
 mosaic6 <-  ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=c("hspine", "hspine", "hspine")) +
-  theme(axis.text.x=element_blank()) +
+  theme(axis.text.x=element_blank(), legend.position="none") +
   labs(x=" ", title='divider= c("hspine", "hspine", "hspine")')
 
 mosaic7 <-  ggplot(data = fly) +
   geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, gender), fill=do_you_recline), na.rm=T, divider=c("vspine", "vspine", "vspine")) +
-  theme(axis.text.y=element_blank()) +
+  theme(axis.text.y=element_blank(), legend.position="none") +
   labs(x=" ", title='divider= c("vspine", "vspine", "vspine")')
 
-grid_arrange_shared_legend(mosaic4, mosaic5, mosaic6, mosaic7, ncol = 2, nrow = 2, position="bottom")
+mosaic4 + mosaic5 + mosaic6 + mosaic7 + plot_layout(ncol = 2)
 ```
 
   
-## geom_mosaic: offset
-
+### Adjusting the offset
   
-**offset:** Set the space between the first spine
+`offset`: Set the space between the first spine
 
-- default = 0.01
+- default is 0.01
+
 - space between partitions decreases as layers build
 
-## Adjusting the offset
 
-
-```{r offset-b, message=FALSE, fig.width = 7, fig.height = 4, fig.align='center'}
-
+```{r offset-b, fig.width = 10, fig.height = 4}
 offset1 <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(flight_freq, region), fill=flight_freq), na.rm=TRUE) + 
   labs(x="region", y=" ",  title=" offset = 0.01") +
   scale_y_productlist(name = "") +
-  theme(axis.text.y=element_blank(),
+  theme(axis.text.y=element_blank(), legend.position="none",
         axis.text.x = element_text(angle = 90))
 
 offset0 <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(flight_freq, region), fill=flight_freq), na.rm=TRUE, offset = 0) + 
   labs(x="region", y=" ",  title=" offset = 0") +
   scale_y_productlist(name = "") +
-  theme(axis.text.y=element_blank(),
+  theme(axis.text.y=element_blank(), legend.position="none",
         axis.text.x = element_text(angle = 90))
 
 offset2 <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(flight_freq, region), fill=flight_freq), na.rm=TRUE, offset = 0.02) + 
   labs(x="region", y=" ",  title=" offset = 0.02") +
   scale_y_productlist(name = "") +
-  theme(axis.text.y = element_blank(),
+  theme(axis.text.y = element_blank(), legend.position="none",
         axis.text.x = element_text(angle = 90))
 
-grid_arrange_shared_legend(offset0, offset1, offset2, nrow = 1, ncol =3, position="bottom")
+offset0 + offset1 + offset2 + plot_layout(ncol = 3)
 ```
 
 
 ## Current Issues
 
-- `ggplotly()` no longer works with `geom_mosaic`
-
+- `ggplotly()` is not currently working with `geom_mosaic()`
 
 - There is an issue with labeling the axes. For example, to relabel the x-axis you will need to use `scale_x_productlist(name = "new label")` instead of `labs(x = "new label")`. See example below.
 
-```{r, message=FALSE, fig.width = 7, fig.height = 2.4, fig.align='center'}
+```{r fig.width = 7, fig.height = 3}
 example1 <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline), na.rm=TRUE) + 
-  labs(x = "Is it rude to recline?", title = "Relabeling does not work")
+  labs(x = "Is it rude to recline?", title = "Relabeling does not work") +
+  theme(legend.position = "none")
 
 example2 <- ggplot(data = fly) +
   geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline), na.rm=TRUE) + 
   labs(title = "Relabeling works") +
   scale_x_productlist(name = "Is it rude to recline?") +
-  scale_y_productlist(name = "Do you recline?")
+  scale_y_productlist(name = "Do you recline?") +
+  theme(legend.position = "none")
 
-grid_arrange_shared_legend(example1, example2, nrow = 1, ncol = 2, position="right")
+example1 + example2 
 ```
 
 

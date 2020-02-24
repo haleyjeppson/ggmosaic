@@ -19,20 +19,20 @@
 #' @examples
 #' data(titanic)
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(x=product(Class), fill=Survived)) +
-#'   geom_mosaic_label(aes(x=product(Class), fill=Survived))
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), fill = Survived)) +
+#'   geom_mosaic_label(aes(x = product(Class), fill = Survived))
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(x=product(Class, Sex),  fill=Survived),
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex),  fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine")) +
-#'   geom_mosaic_label(aes(x=product(Class, Sex), fill=Survived),
+#'   geom_mosaic_label(aes(x = product(Class, Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"), size = 2)
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(x=product(Class), conds=product(Sex),  fill=Survived),
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), conds = product(Sex),  fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine")) +
-#'   geom_mosaic_label(aes(x=product(Class), conds=product(Sex), fill=Survived),
+#'   geom_mosaic_label(aes(x = product(Class), conds = product(Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
                                position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,

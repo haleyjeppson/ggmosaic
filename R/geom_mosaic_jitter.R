@@ -19,19 +19,20 @@
 #' @examples
 #' data(titanic)
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(x=product(Class), fill=Survived), alpha = 0.3) +
-#'   geom_mosaic_jitter(aes(x=product(Class), fill=Survived))
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), fill = Survived), alpha = 0.3) +
+#'   geom_mosaic_jitter(aes(x = product(Class), fill = Survived))
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(alpha = 0.3, aes(x=product(Class, Sex),  fill=Survived),
+#' ggplot(data = titanic) +
+#'   geom_mosaic(alpha = 0.3, aes(x = product(Class, Sex),  fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine")) +
-#'   geom_mosaic_jitter(aes(x=product(Class, Sex), fill=Survived),
+#'   geom_mosaic_jitter(aes(x = product(Class, Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"))
-#' ggplot(data=titanic) +
-#'   geom_mosaic(alpha = 0.3, aes(x=product(Class), conds=product(Sex),  fill=Survived),
+#'
+#'  ggplot(data = titanic) +
+#'   geom_mosaic(alpha = 0.3, aes(x = product(Class), conds = product(Sex),  fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine")) +
-#'   geom_mosaic_jitter(aes(x=product(Class), conds=product(Sex), fill=Survived),
+#'   geom_mosaic_jitter(aes(x = product(Class), conds = product(Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
