@@ -29,7 +29,7 @@ devtools::install_github("haleyjeppson/ggmosaic")
 library(ggmosaic)
 #> Loading required package: ggplot2
 ggplot(data = fly) +
-  geom_mosaic(aes(x = product(RudeToRecline), fill=DoYouRecline))
+  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline))
 ```
 
 ![](man/figures/README-example-1.png)<!-- -->
@@ -38,31 +38,21 @@ ggplot(data = fly) +
 
 Aesthetics that can be set:
 
-  - **weight** : select a weighting variable
-  - **x** : select variables to add to formula
-      - declared as **x** = product(x1, x2, …)
-  - **fill** : select a variable to be filled
-      - if the variable is not also called in **x**, it will be added to
+  - `weight`: select a weighting variable
+
+  - `x`: select variables to add to formula
+    
+      - declared as `x = product(x1, x2, ...)`
+
+  - `fill`: select a variable to be filled
+    
+      - if the variable is not also called in `x`, it will be added to
         the formula in the first position
-  - **conds** : select a variable to condition on
-      - declared as **conds** = product(cond1, cond2, …)
+
+  - `conds` : select a variable to condition on
+    
+      - declared as `conds = product(cond1, cond2, ...)`
 
 These values are then sent through `productplots` functions to create
-the formula for the desired distribution
-
-**Formula:** weight ~ fill + x | conds
-
-### From the aesthetics to the formula
-
-Example of how the formula is built
-
-  - **weight** = 1
-  - **x** = product(Y, X)
-  - **fill** = W
-  - **conds** = product(Z)
-
-These aesthetics set up the formula for the distribution: 1 ~ W + X + Y
-| Z
-
-Because a mosaic plot is constructed hierarchically through alternating
-spines, the ordering of the variables is very important.
+the formula for the desired distribution. The formula is constructed as:
+`weight ~ fill + x | conds`
