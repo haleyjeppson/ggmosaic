@@ -113,6 +113,11 @@ geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
   )
 }
 
+#' Geom proto
+#'
+#' @format NULL
+#' @usage NULL
+#' @export
 #' @importFrom grid grobTree
 #' @importFrom tidyr nest unnest
 #' @importFrom dplyr mutate select

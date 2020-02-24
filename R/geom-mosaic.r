@@ -170,8 +170,8 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
 #'
 #' @format NULL
 #' @usage NULL
-#' @importFrom grid grobTree
 #' @export
+#' @importFrom grid grobTree
 GeomMosaic <- ggplot2::ggproto(
   "GeomMosaic", ggplot2::Geom,
   setup_data = function(data, params) {
