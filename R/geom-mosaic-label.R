@@ -3,7 +3,7 @@
 #' @export
 #'
 #' @description
-#'
+#' A mosaic plot with labels
 #'
 #' @inheritParams ggplot2::layer
 #' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partitioning:
@@ -17,25 +17,22 @@
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
-#' data(Titanic)
-#' titanic <- as.data.frame(Titanic)
-#' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
+#' data(titanic)
 #'
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), fill = Survived)) +
+#'   geom_mosaic_label(aes(x = product(Class), fill = Survived))
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived)) +
-#'   geom_mosaic_label(aes(weight=Freq, x=product(Class), fill=Survived))
-#'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class, Sex),  fill=Survived),
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex),  fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine")) +
-#'   geom_mosaic_label(aes(weight=Freq, x=product(Class, Sex), fill=Survived),
+#'   geom_mosaic_label(aes(x = product(Class, Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"), size = 2)
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Sex),  fill=Survived),
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), conds = product(Sex),  fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine")) +
-#'   geom_mosaic_label(aes(weight=Freq, x=product(Class), conds=product(Sex), fill=Survived),
+#'   geom_mosaic_label(aes(x = product(Class), conds = product(Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
                                position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
@@ -117,6 +114,11 @@ geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
   )
 }
 
+#' Geom proto
+#'
+#' @format NULL
+#' @usage NULL
+#' @export
 #' @importFrom grid grobTree
 #' @importFrom tidyr nest unnest
 #' @importFrom dplyr mutate select

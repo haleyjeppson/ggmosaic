@@ -8,15 +8,33 @@
 \title{Determining scales for mosaics}
 \format{An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.}
 \usage{
-scale_x_productlist(name = product_names(), breaks = product_breaks(),
-  minor_breaks = NULL, labels = product_labels(), limits = NULL,
-  expand = waiver(), oob = scales:::censor, na.value = NA_real_,
-  trans = "identity", position = "bottom", sec.axis = waiver())
+scale_x_productlist(
+  name = product_names(),
+  breaks = product_breaks(),
+  minor_breaks = NULL,
+  labels = product_labels(),
+  limits = NULL,
+  expand = waiver(),
+  oob = scales:::censor,
+  na.value = NA_real_,
+  trans = "identity",
+  position = "bottom",
+  sec.axis = waiver()
+)
 
-scale_y_productlist(name = product_names(), breaks = product_breaks(),
-  minor_breaks = NULL, labels = product_labels(), limits = NULL,
-  expand = waiver(), oob = scales:::censor, na.value = NA_real_,
-  trans = "identity", position = "left", sec.axis = waiver())
+scale_y_productlist(
+  name = product_names(),
+  breaks = product_breaks(),
+  minor_breaks = NULL,
+  labels = product_labels(),
+  limits = NULL,
+  expand = waiver(),
+  oob = scales:::censor,
+  na.value = NA_real_,
+  trans = "identity",
+  position = "left",
+  sec.axis = waiver()
+)
 
 ScaleContinuousProduct
 }
@@ -52,12 +70,18 @@ transformation object
 as output
 }}
 
-\item{limits}{A numeric vector of length two providing limits of the scale.
-Use \code{NA} to refer to the existing minimum or maximum.}
+\item{limits}{One of:
+\itemize{
+\item \code{NULL} to use the default scale range
+\item A numeric vector of length two providing limits of the scale.
+Use \code{NA} to refer to the existing minimum or maximum
+\item A function that accepts the existing (automatic) limits and returns
+new limits
+}}
 
 \item{expand}{Vector of range expansion constants used to add some
 padding around the data, to ensure that they are placed some distance
-away from the axes. Use the convenience function \code{\link[=expand_scale]{expand_scale()}}
+away from the axes. Use the convenience function \code{\link[ggplot2:expand_scale]{expand_scale()}}
 to generate the values for the \code{expand} argument. The defaults are to
 expand the scale by 5\% on each side for continuous variables, and by
 0.6 units on each side for discrete variables.}
@@ -69,8 +93,9 @@ expand the scale by 5\% on each side for continuous variables, and by
 
 \item{trans}{Either the name of a transformation object, or the
 object itself. Built-in transformations include "asn", "atanh",
-"boxcox", "exp", "identity", "log", "log10", "log1p", "log2",
-"logit", "probability", "probit", "reciprocal", "reverse" and "sqrt".
+"boxcox", "date", "exp", "hms", "identity", "log", "log10", "log1p", "log2",
+"logit", "modulus", "probability", "probit", "pseudo_log", "reciprocal",
+"reverse", "sqrt" and "time".
 
 A transformation object bundles together a transform, its inverse,
 and methods for generating breaks and labels. Transformation objects

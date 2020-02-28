@@ -4,13 +4,22 @@
 \alias{geom_mosaic_label}
 \title{Labeling for Mosaic plots.}
 \usage{
-geom_mosaic_label(mapping = NULL, data = NULL, stat = "mosaic",
-  position = "identity", na.rm = FALSE, divider = mosaic(),
-  offset = 0.01, show.legend = NA, inherit.aes = FALSE, ...)
+geom_mosaic_label(
+  mapping = NULL,
+  data = NULL,
+  stat = "mosaic",
+  position = "identity",
+  na.rm = FALSE,
+  divider = mosaic(),
+  offset = 0.01,
+  show.legend = NA,
+  inherit.aes = FALSE,
+  ...
+)
 }
 \arguments{
-\item{mapping}{Set of aesthetic mappings created by \code{\link[=aes]{aes()}} or
-\code{\link[=aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
+\item{mapping}{Set of aesthetic mappings created by \code{\link[ggplot2:aes]{aes()}} or
+\code{\link[ggplot2:aes_]{aes_()}}. If specified and \code{inherit.aes = TRUE} (the
 default), it is combined with the default mapping at the top level of the
 plot. You must supply \code{mapping} if there is no plot mapping.}
 
@@ -18,15 +27,16 @@ plot. You must supply \code{mapping} if there is no plot mapping.}
 options:
 
 If \code{NULL}, the default, the data is inherited from the plot
-data as specified in the call to \code{\link[=ggplot]{ggplot()}}.
+data as specified in the call to \code{\link[ggplot2:ggplot]{ggplot()}}.
 
 A \code{data.frame}, or other object, will override the plot
 data. All objects will be fortified to produce a data frame. See
-\code{\link[=fortify]{fortify()}} for which variables will be created.
+\code{\link[ggplot2:fortify]{fortify()}} for which variables will be created.
 
 A \code{function} will be called with a single argument,
 the plot data. The return value must be a \code{data.frame}, and
-will be used as the layer data.}
+will be used as the layer data. A \code{function} can be created
+from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this
 layer, as a string.}
@@ -55,32 +65,29 @@ display.}
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[=borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
 \item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
 }
 \description{
-Labeling for Mosaic plots.
+A mosaic plot with labels
 }
 \examples{
-data(Titanic)
-titanic <- as.data.frame(Titanic)
-titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
+data(titanic)
 
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = product(Class), fill = Survived)) +
+  geom_mosaic_label(aes(x = product(Class), fill = Survived))
 
-ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived)) +
-  geom_mosaic_label(aes(weight=Freq, x=product(Class), fill=Survived))
-
-ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class, Sex),  fill=Survived),
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = product(Class, Sex),  fill = Survived),
               divider = c("vspine", "hspine", "hspine")) +
-  geom_mosaic_label(aes(weight=Freq, x=product(Class, Sex), fill=Survived),
+  geom_mosaic_label(aes(x = product(Class, Sex), fill = Survived),
               divider = c("vspine", "hspine", "hspine"), size = 2)
 
-ggplot(data=titanic) +
-  geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Sex),  fill=Survived),
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = product(Class), conds = product(Sex),  fill = Survived),
               divider = c("vspine", "hspine", "hspine")) +
-  geom_mosaic_label(aes(weight=Freq, x=product(Class), conds=product(Sex), fill=Survived),
+  geom_mosaic_label(aes(x = product(Class), conds = product(Sex), fill = Survived),
               divider = c("vspine", "hspine", "hspine"))
 }

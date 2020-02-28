@@ -20,38 +20,41 @@
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
 #'
-#' data(Titanic)
-#' titanic <- as.data.frame(Titanic)
-#' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
+#' data(titanic)
 #'
-#'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived))
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), fill = Survived))
 #' # good practice: use the 'dependent' variable (or most important variable)
 #' # as fill variable
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class, Age), fill=Survived))
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Age), fill = Survived))
 #'
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Class), conds=product(Age), fill=Survived))
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Age))
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class), conds = product(Age), fill = Survived))
+#'
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Survived, Class), fill = Age))
 #'
 #' # Just excluded for timing. Examples are included in testing to make sure they work
 #' \dontrun{
 #' data(happy)
 #'
-#' ggplot(data = happy) + geom_mosaic(aes(x=product(happy)), divider="hbar")
-#' ggplot(data = happy) + geom_mosaic(aes(x=product(happy))) +
+#' ggplot(data = happy) + geom_mosaic(aes(x = product(happy)), divider="hbar")
+#'
+#' ggplot(data = happy) + geom_mosaic(aes(x = product(happy))) +
 #'   coord_flip()
+#'
 #' # weighting is important
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(happy)))
+#'
 #' ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy)) +
 #'   theme(axis.text.x=element_text(angle=35))
+#'
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy), na.rm=TRUE)
+#'
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(health, sex, degree), fill=happy),
 #'   na.rm=TRUE)
@@ -61,17 +64,19 @@
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
 #'   scale_x_productlist("Age", labels=c(17+1:72))
+#'
 #' # thin out labels manually:
 #' labels <- c(17+1:72)
 #' labels[labels %% 5 != 0] <- ""
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset=0) +
 #'   scale_x_productlist("Age", labels=labels)
+#'
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy, conds = product(sex)),
 #'   divider=mosaic("v"), na.rm=TRUE, offset=0.001) +
 #'   scale_x_productlist("Age", labels=labels)
-#' # facetting works!!!!
+#'
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(age), fill=happy), na.rm=TRUE, offset = 0) +
 #'   facet_grid(sex~.) +
@@ -80,6 +85,7 @@
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)),
 #'   divider=mosaic("h"))
+#'
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight = wtssall, x = product(happy, finrela, health)), offset=.005)
 #'
@@ -169,6 +175,11 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
   )
 }
 
+#' Geom proto
+#'
+#' @format NULL
+#' @usage NULL
+#' @export
 #' @importFrom grid grobTree
 GeomMosaic <- ggplot2::ggproto(
   "GeomMosaic", ggplot2::Geom,

@@ -2,6 +2,9 @@
 
 S3method(scale_type,productlist)
 S3method(to_basic,GeomMosaic)
+export(GeomMosaic)
+export(GeomMosaicJitter)
+export(GeomMosaicLabel)
 export(ScaleContinuousProduct)
 export(StatMosaic)
 export(ddecker)

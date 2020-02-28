@@ -14,11 +14,9 @@ parse_product_formula <- getFromNamespace("parse_product_formula", "productplots
 #' @param ... Unquoted variables going into the product plot.
 #' @export
 #' @examples
-#' data(Titanic)
-#' titanic <- as.data.frame(Titanic)
-#' titanic$Survived <- factor(titanic$Survived, levels=c("Yes", "No"))
-#' ggplot(data=titanic) +
-#'   geom_mosaic(aes(weight=Freq, x=product(Survived, Class), fill=Survived))
+#' data(titanic)
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Survived, Class), fill = Survived))
 product <- function(...) {
   rlang::exprs(...)
 }
