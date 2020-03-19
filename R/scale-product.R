@@ -31,12 +31,15 @@ product_labels <- function() {
 
 is.waive <- getFromNamespace("is.waive", "ggplot2")
 
-## Fix for ggplot_3.3
-if (utils::packageVersion("ggplot2") >= "3.2.1.9000") {
-  default_guide <- ggplot2::waiver()
-} else {
-  default_guide <- "none"
+## Internal: Fix for change in ggplot_3.3
+.default_guide <- function() {
+    if (utils::packageVersion("ggplot2") <= "3.2.1") {
+        "none"
+    } else {
+        ggplot2::waiver()
+    }
 }
+    
 
 #' Helper function for determining scales
 #'
@@ -71,7 +74,7 @@ scale_x_productlist <- function(name = product_names(), breaks = product_breaks(
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
-    guide = default_guide, position = position, super = ScaleContinuousProduct
+    guide = .default_guide(), position = position, super = ScaleContinuousProduct
   )
 
   if (!is.waive(sec.axis)) {
@@ -98,7 +101,7 @@ scale_y_productlist <- function(name = product_names(), breaks = product_breaks(
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
-    guide = default_guide, position = position, super = ScaleContinuousProduct
+    guide = .default_guide(), position = position, super = ScaleContinuousProduct
   )
 
   if (!is.waive(sec.axis)) {
