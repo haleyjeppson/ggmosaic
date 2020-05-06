@@ -1,6 +1,6 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
-Version: 0.2.2
+Version: 0.3.0
 Authors@R: 
     c(person(given = "Haley",
              family = "Jeppson",
@@ -25,7 +25,7 @@ License: GPL (>= 2)
 URL: http://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 Depends:
-    ggplot2 (>= 3.0.0),
+    ggplot2 (>= 3.3.0),
     R (>= 3.5.0)
 Imports:
     productplots,

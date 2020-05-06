@@ -264,22 +264,5 @@ offset0 + offset1 + offset2 + plot_layout(ncol = 3)
 
 - `ggplotly()` is not currently working with `geom_mosaic()`
 
-- There is an issue with labeling the axes. For example, to relabel the x-axis you will need to use `scale_x_productlist(name = "new label")` instead of `labs(x = "new label")`. See example below.
-
-```{r fig.width = 7, fig.height = 3}
-example1 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline), na.rm=TRUE) + 
-  labs(x = "Is it rude to recline?", title = "Relabeling does not work") +
-  theme(legend.position = "none")
-
-example2 <- ggplot(data = fly) +
-  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline), na.rm=TRUE) + 
-  labs(title = "Relabeling works") +
-  scale_x_productlist(name = "Is it rude to recline?") +
-  scale_y_productlist(name = "Do you recline?") +
-  theme(legend.position = "none")
-
-example1 + example2 
-```
 
 

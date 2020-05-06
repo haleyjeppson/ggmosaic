@@ -1,5 +1,5 @@
-# ggmosaic 0.2.0
+# ggmosaic 0.3.0
 
-## Small Usage Changes
+## Breaking changes
 
-- fixed bugs in previous versions
+- ggmosaic 0.3.0 is now compatible with ggplot2 3.3.0 and tidyr 1.0.0

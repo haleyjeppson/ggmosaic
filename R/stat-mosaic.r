@@ -139,9 +139,9 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
- #   browser()
+    #   browser()
 
-#    vars <- names(data)[grep("x[0-9]+__", names(data))]
+    #    vars <- names(data)[grep("x[0-9]+__", names(data))]
     vars <- names(data)[grep("x__", names(data))]
     conds <- names(data)[grep("conds[0-9]+__", names(data))]
 
@@ -198,7 +198,7 @@ StatMosaic <- ggplot2::ggproto(
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])
- #   browser()
+    #   browser()
 
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {

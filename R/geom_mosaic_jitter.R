@@ -35,14 +35,14 @@
 #'   geom_mosaic_jitter(aes(x = product(Class), conds = product(Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic",
-                        position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                        show.legend = NA, inherit.aes = FALSE, ...)
+                               position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
+                               show.legend = NA, inherit.aes = FALSE, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
-  #  browser()
+  #browser()
 
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
@@ -143,19 +143,19 @@ GeomMosaicJitter <- ggplot2::ggproto(
 
     sub <- subset(data, level==max(data$level))
     points <- sub
-    points <- tidyr::nest(points, -label)
+    points <- tidyr::nest(points, data = -label)
 
     points <-
       dplyr::mutate(
         points,
-      coords = purrr::map(data, .f = function(d) {
-        data.frame(
-          x = runif(d$.n, min = d$xmin, max = d$xmax),
-          y = runif(d$.n, min = d$ymin, max = d$ymax),
-          dplyr::select(d, -x, -y)
-        )
-      })
-    )
+        coords = purrr::map(data, .f = function(d) {
+          data.frame(
+            x = runif(d$.n, min = d$xmin, max = d$xmax),
+            y = runif(d$.n, min = d$ymin, max = d$ymax),
+            dplyr::select(d, -x, -y)
+          )
+        })
+      )
 
     points <- tidyr::unnest(points, coords)
 
