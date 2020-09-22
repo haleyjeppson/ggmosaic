@@ -142,7 +142,7 @@ GeomMosaicJitter <- ggplot2::ggproto(
       data$colour <- scales::alpha(data$fill, data$alpha) # regard alpha in colour determination
 
     sub <- subset(data, level==max(data$level))
-    points <- sub
+    points <- subset(sub, .n >= 1) # obs with weight 0 will throw an error when generating the points
     points <- tidyr::nest(points, data = -label)
 
     points <-

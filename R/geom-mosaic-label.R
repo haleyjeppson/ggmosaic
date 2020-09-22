@@ -142,7 +142,7 @@ GeomMosaicLabel <- ggplot2::ggproto(
       data$colour <- scales::alpha(data$fill, data$alpha) # regard alpha in colour determination
 
     sub <- subset(data, level==max(data$level))
-    text <- sub
+    text <- subset(sub, .n > 0) # do not label the obs with weight 0
     text <- tidyr::nest(text, data = -label)
 
     text <-
