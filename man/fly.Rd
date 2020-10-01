@@ -4,7 +4,8 @@
 \name{fly}
 \alias{fly}
 \title{Flying Etiquette Survey Data}
-\format{A data frame with 1040 rows and 27 variables:
+\format{
+A data frame with 1040 rows and 27 variables:
 \describe{
 \item{id}{Respondent ID}
 \item{flight_freq}{How often do you travel by plane?}
@@ -33,7 +34,8 @@
 \item{household_income}{Household Income}
 \item{education}{Education}
 \item{region}{Region}
-}}
+}
+}
 \source{
 \url{https://github.com/fivethirtyeight/data/tree/master/flying-etiquette-survey}
 }

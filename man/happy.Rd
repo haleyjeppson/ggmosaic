@@ -4,7 +4,8 @@
 \name{happy}
 \alias{happy}
 \title{Data related to happiness from the general social survey.}
-\format{A data frame with 62466 rows and 11 variables
+\format{
+A data frame with 62466 rows and 11 variables
 \itemize{
 \item year. year of the response, 1972 to 2018.
 \item age. age in years: 18--89 (89 stands for all 89 year olds and older).
@@ -19,7 +20,8 @@ widowed, separated.
 \item polviews. from extremely conservative to extremely liberal.
 \item partyid. party identification: strong republican, not str republican, ind near rep, independent, ind near dem, not str democrat, strong democrat, other party.
 \item wtssall. probability weight. 0.39--8.74
-}}
+}
+}
 \usage{
 data(happy)
 }
