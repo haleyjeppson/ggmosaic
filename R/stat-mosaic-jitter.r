@@ -229,10 +229,11 @@ StatMosaicJitter <- ggplot2::ggproto(
 
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
+    #browser()
 
     # generate points
     sub <- subset(res, level==max(res$level))
-    points <- sub
+    points <- subset(sub, sub$.n>=1)
     points <- tidyr::nest(points, data = -label)
 
     points <-
