@@ -14,6 +14,7 @@
 #' \item \code{hbar}  Horizontal bar partition: width constant, height varies.
 #' }
 #' @param offset Set the space between the first spine
+#' @param drop_level Generate points for the max - 1 level
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
@@ -22,6 +23,10 @@
 #' ggplot(data = titanic) +
 #'   geom_mosaic(aes(x = product(Class), fill = Survived), alpha = 0.3) +
 #'   geom_mosaic_jitter(aes(x = product(Class), color = Survived))
+#'
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class)), alpha = 0.1) +
+#'   geom_mosaic_jitter(aes(x = product(Class), color = Survived), drop_level = TRUE)
 #'
 #' ggplot(data = titanic) +
 #'   geom_mosaic(alpha = 0.3, aes(x = product(Class, Sex),  fill = Survived),
@@ -35,14 +40,15 @@
 #'   geom_mosaic_jitter(aes(x = product(Class), conds = product(Sex), fill = Survived),
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic_jitter",
-                               position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
+                               position = "identity", na.rm = FALSE,  divider = mosaic(),
+                               offset = 0.01, drop_level = FALSE,
                                show.legend = NA, inherit.aes = FALSE, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
-  # browser()
+    #browser()
 
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
@@ -122,6 +128,7 @@ geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic_jitte
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      drop_level = drop_level,
       ...
     )
   )
