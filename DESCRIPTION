@@ -1,6 +1,6 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
     c(person(given = "Haley",
              family = "Jeppson",
@@ -46,4 +46,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate',
     'namespace'))
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0

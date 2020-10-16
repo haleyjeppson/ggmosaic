@@ -4,13 +4,15 @@
 \name{titanic}
 \alias{titanic}
 \title{Passengers and crew on board the Titanic}
-\format{A data frame with 2201 rows and 4 variables:
+\format{
+A data frame with 2201 rows and 4 variables:
 \describe{
 \item{Class}{factor variable containing the class of a passenger (1st, 2nd, 3rd) or crew.}
 \item{Sex}{Male/Female.}
 \item{Age}{Child/Adult. This information is not very reliable, because it was inferred from boarding documents that did not state actual age in years.}
 \item{Survived}{Yes/No.}
-}}
+}
+}
 \usage{
 titanic
 }
