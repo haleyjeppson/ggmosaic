@@ -37,7 +37,7 @@
 geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
                               position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                               show.legend = NA, inherit.aes = FALSE, as.label = FALSE, repel = FALSE,
-                              # repel_params = NULL,
+                              repel_params = NULL,
                               ...)
 {
   if (!is.null(mapping$y)) {
@@ -114,6 +114,7 @@ geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
       offset = offset,
       as.label = as.label,
       repel = repel,
+      repel_params = repel_params,
       # repel_params = repel_params,
       # point.padding = 0,
       ...
@@ -143,7 +144,7 @@ GeomMosaicLabel <- ggplot2::ggproto(
                              shape = 19, colour = "black",
                              fill = "grey30", alpha = 1, stroke = 0.1,
                              linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL),
-  draw_panel = function(data, panel_scales, coord, as.label, repel) {
+  draw_panel = function(data, panel_scales, coord, as.label, repel, repel_params) {
     #cat("draw_panel in GeomMosaic\n")
     #browser()
     if (all(is.na(data$colour)))
@@ -197,7 +198,8 @@ GeomMosaicLabel <- ggplot2::ggproto(
       }
       ggplot2:::ggname("geom_mosaic_label", grobTree(
         GeomRect$draw_panel(sub, panel_scales, coord),
-        GeomChosen$draw_panel(text, panel_scales, coord, point.padding = 0, direction = "y")
+        # GeomChosen$draw_panel(text, panel_scales, coord, !!!repel_params)
+        rlang::exec(GeomChosen$draw_panel, text, panel_scales, coord, !!!repel_params)
       ))
     }
 
