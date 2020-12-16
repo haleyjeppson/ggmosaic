@@ -160,7 +160,7 @@ GeomMosaicLabel <- ggplot2::ggproto(
             family = "",
             fontface = 1,
             lineheight = 1.2,
-            dplyr::select(d, -x, -y, size, -alpha)
+            dplyr::select(d, -any_of(c("x", "y", "alpha")))
           )
         })
       )
