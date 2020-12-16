@@ -146,7 +146,14 @@ GeomMosaicLabel <- ggplot2::ggproto(
   default_aes = ggplot2::aes(width = 0.1, linetype = "solid", size=2.7,
                              shape = 19, colour = "black",
                              fill = "grey30", alpha = 1, stroke = 0.1,
-                             linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL),
+                             linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL,
+                             point.size = NA,
+                             segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
+                             segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
+                             segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
+                             segment.inflect = FALSE, segment.debug = FALSE, bg.colour = NA, bg.r = 0.1
+
+                             ),
   draw_panel = function(data, panel_scales, coord, as.label, repel, repel_params) {
     #cat("draw_panel in GeomMosaic\n")
     #browser()
