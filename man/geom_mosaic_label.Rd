@@ -14,6 +14,8 @@ geom_mosaic_label(
   offset = 0.01,
   show.legend = NA,
   inherit.aes = FALSE,
+  as.label = FALSE,
+  repel = FALSE,
   ...
 )
 }
