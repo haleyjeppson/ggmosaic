@@ -16,6 +16,7 @@ geom_mosaic_label(
   inherit.aes = FALSE,
   as.label = FALSE,
   repel = FALSE,
+  repel_params = NULL,
   ...
 )
 }
@@ -68,6 +69,12 @@ display.}
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+
+\item{as.label}{Show as a ggplot label (box with roudn corners)}
+
+\item{repel}{Use ggrepel wo labels don't overlap}
+
+\item{repel_params}{List of ggrepel parameters (e.g. list(point.padding = 0))}
 
 \item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
 }
