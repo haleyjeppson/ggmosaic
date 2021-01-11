@@ -32,9 +32,9 @@ product <- function(...) {
 #' }
 #' @export
 stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitter",
-                        position = "identity", na.rm = FALSE,  divider = mosaic(),
-                        show.legend = NA, inherit.aes = TRUE, offset = 0.01,
-                        drop_level = FALSE, ...)
+                               position = "identity", na.rm = FALSE,  divider = mosaic(),
+                               show.legend = NA, inherit.aes = TRUE, offset = 0.01,
+                               drop_level = FALSE, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
@@ -141,7 +141,7 @@ StatMosaicJitter <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, drop_level=FALSE, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
-       #  browser()
+    #browser()
 
     #    vars <- names(data)[grep("x[0-9]+__", names(data))]
     vars <- names(data)[grep("x__", names(data))]
@@ -166,7 +166,17 @@ StatMosaicJitter <- ggplot2::ggproto(
     res <- prodcalc(df, formula=as.formula(formula),
                     divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm, offset = offset)
-    #browser()
+
+    # browser()
+
+    # consider 2nd weight for points
+    if (in_data(df, "weight2")) {
+      formula2 <- str_replace(formula, "weight", "weight2")
+      res2 <- prodcalc(df, formula = as.formula(formula2), divider = divider,
+                       cascade = 0, scale_max = TRUE, na.rm = na.rm, offset = offset)
+      res$.n2 <- res2$.n
+    }
+
 
     # need to set x variable - I'd rather set the scales here.
     prs <- parse_product_formula(as.formula(formula))
@@ -210,7 +220,7 @@ StatMosaicJitter <- ggplot2::ggproto(
     }
 
     # merge res with data:
-    # is there a fill variable?
+    # is there a fill/alpha/color variable?
     fill_idx <- grep("x__fill", names(data))
     if (length(fill_idx) > 0) {
       fill_res_idx <- grep("x__fill", names(res))
@@ -221,8 +231,6 @@ StatMosaicJitter <- ggplot2::ggproto(
       alpha_res_idx <- grep("x__alpha", names(res))
       res$alpha <- res[[alpha_res_idx]]
     }
-
-
     colour_idx <- grep("x__colour", names(data))
     if (length(colour_idx) > 0) {
       colour_res_idx <- grep("x__colour", names(res)) # find what comes after __colour
@@ -234,11 +242,18 @@ StatMosaicJitter <- ggplot2::ggproto(
     # browser()
 
     # generate points
+    # consider 2nd weight for point
+    if (in_data(res, ".n2")) {
+      res$.n <- res$.n2
+    }
+
     sub <- subset(res, level==max(res$level))
     if(drop_level) {
       ll <- subset(res, level==max(res$level)-1)
       sub <- dplyr::left_join(select(sub, -(xmin:ymax)), select(ll, contains("x__"), xmin:ymax, -contains("col")))
     }
+
+
 
     points <- subset(sub, sub$.n>=1)
     points <- tidyr::nest(points, data = -label)
