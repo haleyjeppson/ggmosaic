@@ -50,7 +50,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/haleyjeppson/ggmosaic/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -71,7 +71,7 @@
 </h1>
                         <h4 class="author">Haley Jeppson and Heike Hofmann</h4>
             
-            <h4 class="date">2020-10-16</h4>
+            <h4 class="date">2021-01-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd"><code>vignettes/ggmosaic.Rmd</code></a></small>
       <div class="hidden name"><code>ggmosaic.Rmd</code></div>
@@ -130,46 +130,46 @@
 <div id="one-variable" class="section level3">
 <h3 class="hasAnchor">
 <a href="#one-variable" class="anchor"></a>One variable</h3>
-<div class="sourceCode" id="cb1"><pre class="downlit">
- <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">rude_to_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(rude_to_recline)'</span><span class="op">)</span></pre></div>
+  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(rude_to_recline)'</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-1b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="two-variables" class="section level3">
 <h3 class="hasAnchor">
 <a href="#two-variables" class="anchor"></a>Two variables</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline | rude_to_recline) f(rude_to_recline)'</span><span class="op">)</span></pre></div>
+  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline | rude_to_recline) f(rude_to_recline)'</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-2b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="conditioning" class="section level3">
 <h3 class="hasAnchor">
 <a href="#conditioning" class="anchor"></a>Conditioning</h3>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span>, conds<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">gender</span><span class="op">)</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span>, divider<span class="op">=</span><span class="fu"><a href="../reference/mosaic.html">mosaic</a></span><span class="op">(</span><span class="st">"v"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline, rude_to_recline| gender)'</span><span class="op">)</span></pre></div>
+  <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline, rude_to_recline| gender)'</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-4b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="alternative-to-conditioning-facetting" class="section level3">
 <h3 class="hasAnchor">
 <a href="#alternative-to-conditioning-facetting" class="anchor"></a>Alternative to conditioning: facetting</h3>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline, rude_to_recline| gender)'</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">facet_grid</span><span class="op">(</span><span class="va">gender</span><span class="op">~</span><span class="va">.</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme</span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></pre></div>
+  <span class="fu">theme</span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">1</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-5b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div id="the-importance-of-ordering" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-importance-of-ordering" class="anchor"></a>The importance of ordering</h3>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">order1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">order1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 
@@ -178,7 +178,7 @@
   <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 
-<span class="va">order1</span> <span class="op">+</span> <span class="va">order2</span></pre></div>
+<span class="va">order1</span> <span class="op">+</span> <span class="va">order2</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/order-b-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 </div>
@@ -201,8 +201,8 @@
 <li><p><code>vbar</code>: <!--  Vertical bar partition: --> height constant, width varies.</p></li>
 <li><p><code>hbar</code>: <!--  Horizontal bar partition: --> width constant, height varies.</p></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">hbar</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">hbar</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">rude_to_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="st">"hbar"</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'divider = "hbar"'</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
@@ -222,7 +222,7 @@
   <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">" "</span>, x<span class="op">=</span><span class="st">""</span>, title<span class="op">=</span><span class="st">'divider = "vspine"'</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span>
 
-<span class="va">hbar</span> <span class="op">+</span> <span class="va">hspine</span> <span class="op">+</span> <span class="va">vbar</span> <span class="op">+</span> <span class="va">vspine</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+<span class="va">hbar</span> <span class="op">+</span> <span class="va">hspine</span> <span class="op">+</span> <span class="va">vbar</span> <span class="op">+</span> <span class="va">vspine</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/partitions-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="partitioning-with-one-or-more-variables" class="section level3">
@@ -256,8 +256,8 @@
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">h_mosaic</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">h_mosaic</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">gender</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">T</span>, divider<span class="op">=</span><span class="fu"><a href="../reference/mosaic.html">mosaic</a></span><span class="op">(</span><span class="st">"h"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text.x<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">" "</span>, title<span class="op">=</span><span class="st">'divider= mosaic()'</span><span class="op">)</span>
@@ -272,10 +272,10 @@
   <span class="fu">theme</span><span class="op">(</span>axis.text.x<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">" "</span>, title<span class="op">=</span><span class="st">'divider= ddecker()'</span><span class="op">)</span>
 
-<span class="va">h_mosaic</span> <span class="op">+</span> <span class="va">v_mosaic</span> <span class="op">+</span> <span class="va">doubledecker</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+<span class="va">h_mosaic</span> <span class="op">+</span> <span class="va">v_mosaic</span> <span class="op">+</span> <span class="va">doubledecker</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/mosaic-a-1.png" width="672" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">mosaic4</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mosaic4</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">gender</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">T</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text.y<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">" "</span>, title<span class="op">=</span><span class="st">'divider= c("vspine", "vspine", "hbar")'</span><span class="op">)</span> 
@@ -295,7 +295,7 @@
   <span class="fu">theme</span><span class="op">(</span>axis.text.y<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, legend.position<span class="op">=</span><span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">" "</span>, title<span class="op">=</span><span class="st">'divider= c("vspine", "vspine", "vspine")'</span><span class="op">)</span>
 
-<span class="va">mosaic4</span> <span class="op">+</span> <span class="va">mosaic5</span> <span class="op">+</span> <span class="va">mosaic6</span> <span class="op">+</span> <span class="va">mosaic7</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></pre></div>
+<span class="va">mosaic4</span> <span class="op">+</span> <span class="va">mosaic5</span> <span class="op">+</span> <span class="va">mosaic6</span> <span class="op">+</span> <span class="va">mosaic7</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/mosaic-d-1.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div id="adjusting-the-offset" class="section level3">
@@ -306,8 +306,8 @@
 <li><p>default is 0.01</p></li>
 <li><p>space between partitions decreases as layers build</p></li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">offset1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">offset1</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">flight_freq</span>, <span class="va">region</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">flight_freq</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"region"</span>, y<span class="op">=</span><span class="st">" "</span>,  title<span class="op">=</span><span class="st">" offset = 0.01"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/scale_x_productlist.html">scale_y_productlist</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span>
@@ -328,7 +328,7 @@
   <span class="fu">theme</span><span class="op">(</span>axis.text.y <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, legend.position<span class="op">=</span><span class="st">"none"</span>,
         axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">offset0</span> <span class="op">+</span> <span class="va">offset1</span> <span class="op">+</span> <span class="va">offset2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></pre></div>
+<span class="va">offset0</span> <span class="op">+</span> <span class="va">offset1</span> <span class="op">+</span> <span class="va">offset2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/offset-b-1.png" width="960" style="display: block; margin: auto;"></p>
 </div>
 </div>
