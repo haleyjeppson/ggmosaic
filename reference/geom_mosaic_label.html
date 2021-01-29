@@ -129,6 +129,9 @@
   offset <span class='op'>=</span> <span class='fl'>0.01</span>,
   show.legend <span class='op'>=</span> <span class='cn'>NA</span>,
   inherit.aes <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  as.label <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  repel <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  repel_params <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
@@ -197,6 +200,18 @@ display.</p></td>
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.org/reference/borders.html'>borders()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>as.label</th>
+      <td><p>Show as a ggplot label (box with roudn corners)</p></td>
+    </tr>
+    <tr>
+      <th>repel</th>
+      <td><p>Use ggrepel wo labels don't overlap</p></td>
+    </tr>
+    <tr>
+      <th>repel_params</th>
+      <td><p>List of ggrepel parameters (e.g. list(point.padding = 0))</p></td>
     </tr>
     <tr>
       <th>...</th>

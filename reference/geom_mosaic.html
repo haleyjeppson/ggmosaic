@@ -112,7 +112,7 @@ in a contingency table and is composed of spines in alternating directions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Mosaic plots.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/haleyjeppson/ggmosaic/blob/master/R/geom-mosaic.r'><code>R/geom-mosaic.r</code></a>, <a href='https://github.com/haleyjeppson/ggmosaic/blob/master/R/stat-mosaic.r'><code>R/stat-mosaic.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/haleyjeppson/ggmosaic/blob/master/R/geom-mosaic.r'><code>R/geom-mosaic.r</code></a>, <a href='https://github.com/haleyjeppson/ggmosaic/blob/master/R/stat-mosaic-text.R'><code>R/stat-mosaic-text.R</code></a>, <a href='https://github.com/haleyjeppson/ggmosaic/blob/master/R/stat-mosaic.r'><code>R/stat-mosaic.r</code></a></small>
     <div class="hidden name"><code>geom_mosaic.Rd</code></div>
     </div>
 
@@ -131,6 +131,19 @@ in a contingency table and is composed of spines in alternating directions.</p>
   offset <span class='op'>=</span> <span class='fl'>0.01</span>,
   show.legend <span class='op'>=</span> <span class='cn'>NA</span>,
   inherit.aes <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>stat_mosaic_text</span><span class='op'>(</span>
+  mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
+  data <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom <span class='op'>=</span> <span class='st'>"Text"</span>,
+  position <span class='op'>=</span> <span class='st'>"identity"</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  divider <span class='op'>=</span> <span class='fu'><a href='mosaic.html'>mosaic</a></span><span class='op'>(</span><span class='op'>)</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>NA</span>,
+  inherit.aes <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  offset <span class='op'>=</span> <span class='fl'>0.01</span>,
   <span class='va'>...</span>
 <span class='op'>)</span>
 
@@ -226,6 +239,13 @@ the default plot specification, e.g. <code><a href='https://ggplot2.tidyverse.or
     <h2 class="hasAnchor" id="computed-variables"><a class="anchor" href="#computed-variables"></a>Computed variables</h2>
 
     
+
+<dl>
+<dt>x</dt><dd><p>location of center of the rectangle</p></dd>
+<dt>y</dt><dd><p>location of center of the rectangle</p></dd>
+
+</dl>
+
 
 <dl>
 <dt>xmin</dt><dd><p>location of bottom left corner</p></dd>
