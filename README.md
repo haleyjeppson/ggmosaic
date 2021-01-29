@@ -65,15 +65,8 @@ And as ggplot2 continues to evolve, ggmosaic must continue to evolve
 alongside it. Although these changes affect the underlying code and not
 the general usage of ggmosaic, the general user may need to be aware of
 compatibility issues that can arise between versions. The table below
-summarizes the compatibility between versions.
-
-Version 3.3.0 of ggplot2 included substantial changes to the
-implementation of the positional-guide internals ([see
-here](https://www.tidyverse.org/blog/2020/03/ggplot2-3-3-0/)). Because
-ggmosaic is implemented with a coordinate system unique to ggmosaic,
-`scale_x_productlist()` and `scale_y_productlist()`, the scales needed
-to be modified; the changes were implemented in ggmosaic
-0.3.0.
+summarizes the compatibility between
+versions.
 
 | ggmosaic | ggplot2 | Axis labels                                                                   | Tick marks    |
 | -------- | ------- | ----------------------------------------------------------------------------- | ------------- |
