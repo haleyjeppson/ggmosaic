@@ -15,6 +15,9 @@
 #' }
 #' @param offset Set the space between the first spine
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
+#' @param as.label Show as a ggplot label (box with roudn corners)
+#' @param repel Use ggrepel wo labels don't overlap
+#' @param repel_params List of ggrepel parameters (e.g. list(point.padding = 0))
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
 #' data(titanic)
@@ -36,7 +39,9 @@
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
                               position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                              show.legend = NA, inherit.aes = FALSE, ...)
+                              show.legend = NA, inherit.aes = FALSE, as.label = FALSE, repel = FALSE,
+                              repel_params = NULL,
+                              ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
@@ -96,6 +101,7 @@ geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
       mapping[[var_conds[i]]] <- aes_conds[[i]]
     }
   }
+
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -109,6 +115,11 @@ geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      as.label = as.label,
+      repel = repel,
+      repel_params = repel_params,
+      # repel_params = repel_params,
+      # point.padding = 0,
       ...
     )
   )
@@ -122,6 +133,8 @@ geom_mosaic_label <- function(mapping = NULL, data = NULL, stat = "mosaic",
 #' @importFrom grid grobTree
 #' @importFrom tidyr nest unnest
 #' @importFrom dplyr mutate select
+#' @importFrom ggrepel GeomTextRepel
+#' @importFrom ggrepel GeomLabelRepel
 GeomMosaicLabel <- ggplot2::ggproto(
   "GeomMosaicLabel", ggplot2::Geom,
   setup_data = function(data, params) {
@@ -133,9 +146,15 @@ GeomMosaicLabel <- ggplot2::ggproto(
   default_aes = ggplot2::aes(width = 0.1, linetype = "solid", size=2.7,
                              shape = 19, colour = "black",
                              fill = "grey30", alpha = 1, stroke = 0.1,
-                             linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL),
+                             linewidth=.1, weight = 1, x = NULL, y = NULL, conds = NULL,
+                             point.size = NA,
+                             segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
+                             segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
+                             segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
+                             segment.inflect = FALSE, segment.debug = FALSE, bg.colour = NA, bg.r = 0.1
 
-  draw_panel = function(data, panel_scales, coord) {
+                             ),
+  draw_panel = function(data, panel_scales, coord, as.label, repel, repel_params) {
     #cat("draw_panel in GeomMosaic\n")
     #browser()
     if (all(is.na(data$colour)))
@@ -160,7 +179,7 @@ GeomMosaicLabel <- ggplot2::ggproto(
             family = "",
             fontface = 1,
             lineheight = 1.2,
-            dplyr::select(d, -x, -y, size, -alpha)
+            dplyr::select(d, -any_of(c("x", "y", "alpha")))
           )
         })
       )
@@ -170,10 +189,31 @@ GeomMosaicLabel <- ggplot2::ggproto(
     sub$fill <- NA
     sub$colour <- NA
     sub$size <- sub$size/10
-    ggplot2:::ggname("geom_mosaic_label", grobTree(
-      GeomRect$draw_panel(sub, panel_scales, coord),
-      GeomText$draw_panel(text, panel_scales, coord)
-    ))
+
+    if(!repel) {
+      if(!as.label) {
+        GeomChosen <- GeomText
+      } else if(as.label) {
+        GeomChosen <- GeomLabel
+      }
+      ggplot2:::ggname("geom_mosaic_label", grobTree(
+        GeomRect$draw_panel(sub, panel_scales, coord),
+        GeomChosen$draw_panel(text, panel_scales, coord)
+      ))
+    } else {
+      if(!as.label) {
+        GeomChosen <- GeomTextRepel
+      } else if(as.label) {
+        GeomChosen <- GeomLabelRepel
+      }
+      ggplot2:::ggname("geom_mosaic_label", grobTree(
+        GeomRect$draw_panel(sub, panel_scales, coord),
+        # GeomChosen$draw_panel(text, panel_scales, coord, !!!repel_params)
+        rlang::exec(GeomChosen$draw_panel, text, panel_scales, coord, !!!repel_params)
+      ))
+    }
+
+
   },
 
   check_aesthetics = function(x, n) {
