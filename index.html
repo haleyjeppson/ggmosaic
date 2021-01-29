@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ggmosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -89,7 +89,8 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/haleyjeppson/ggmosaic">ggmosaic</a></span><span class="op">)</span>
 <span class="co">#&gt; Loading required package: ggplot2</span>
 <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="reference/theme_mosaic.html">theme_mosaic</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png"><!-- --></p>
 </div>
 <div id="geom_mosaic-setting-the-aesthetics" class="section level2">
@@ -120,6 +121,58 @@
 </li>
 </ul>
 <p>These values are then sent through <code>productplots</code> functions to create the formula for the desired distribution. The formula is constructed as: <code>weight ~ fill + x | conds</code></p>
+</div>
+<div id="version-compatibility-issues-with-ggplot2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#version-compatibility-issues-with-ggplot2" class="anchor"></a>Version compatibility issues with ggplot2</h2>
+<p>Since the initial release of ggmosaic, ggplot2 has evolved considerably. And as ggplot2 continues to evolve, ggmosaic must continue to evolve alongside it. Although these changes affect the underlying code and not the general usage of ggmosaic, the general user may need to be aware of compatibility issues that can arise between versions. The table below summarizes the compatibility between versions.</p>
+<p>Version 3.3.0 of ggplot2 included substantial changes to the implementation of the positional-guide internals (<a href="https://www.tidyverse.org/blog/2020/03/ggplot2-3-3-0/">see here</a>). Because ggmosaic is implemented with a coordinate system unique to ggmosaic, <code><a href="reference/scale_x_productlist.html">scale_x_productlist()</a></code> and <code><a href="reference/scale_x_productlist.html">scale_y_productlist()</a></code>, the scales needed to be modified; the changes were implemented in ggmosaic 0.3.0.</p>
+<table class="table">
+<colgroup>
+<col width="7%">
+<col width="6%">
+<col width="73%">
+<col width="12%">
+</colgroup>
+<thead><tr class="header">
+<th>ggmosaic</th>
+<th>ggplot2</th>
+<th>Axis labels</th>
+<th>Tick marks</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>0.3.3</td>
+<td>3.3.3</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr class="even">
+<td>0.3.0</td>
+<td>3.3.0</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td>0.2.2</td>
+<td>3.3.0</td>
+<td>Default labels are okay, but must use <br><code>scale\_*\_productlist()</code> to modify</td>
+<td>No tick marks</td>
+</tr>
+<tr class="even">
+<td>0.2.2</td>
+<td>3.2.0</td>
+<td>Default labels okay, but must use <br><code>scale\_*\_productlist()</code> to modify</td>
+<td>x</td>
+</tr>
+<tr class="odd">
+<td>0.2.0</td>
+<td>3.2.0</td>
+<td>Default labels are wrong, but can use <br><code>labs()</code> to modify</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
