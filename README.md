@@ -68,10 +68,10 @@ compatibility issues that can arise between versions. The table below
 summarizes the compatibility between
 versions.
 
-| ggmosaic | ggplot2 | Axis labels                                                                   | Tick marks    |
-| -------- | ------- | ----------------------------------------------------------------------------- | ------------- |
-| 0.3.3    | 3.3.3   | x                                                                             | x             |
-| 0.3.0    | 3.3.0   | x                                                                             | x             |
-| 0.2.2    | 3.3.0   | Default labels are okay, but must use <br>`scale\_*\_productlist()` to modify | No tick marks |
-| 0.2.2    | 3.2.0   | Default labels okay, but must use <br>`scale\_*\_productlist()` to modify     | x             |
-| 0.2.0    | 3.2.0   | Default labels are wrong, but can use <br>`labs()` to modify                  | x             |
+| ggmosaic | ggplot2 | Axis labels                                                                 | Tick marks    |
+| -------- | ------- | --------------------------------------------------------------------------- | ------------- |
+| 0.3.3    | 3.3.3   | x                                                                           | x             |
+| 0.3.0    | 3.3.0   | x                                                                           | x             |
+| 0.2.2    | 3.3.0   | Default labels are okay, but must use <br>`scale_*_productlist()` to modify | No tick marks |
+| 0.2.2    | 3.2.0   | Default labels okay, but must use <br>`scale_*_productlist()` to modify     | x             |
+| 0.2.0    | 3.2.0   | Default labels are wrong, but can use <br>`labs()` to modify                | x             |
