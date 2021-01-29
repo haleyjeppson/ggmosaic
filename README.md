@@ -29,7 +29,8 @@ devtools::install_github("haleyjeppson/ggmosaic")
 library(ggmosaic)
 #> Loading required package: ggplot2
 ggplot(data = fly) +
-  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline))
+  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline)) +
+  theme_mosaic()
 ```
 
 ![](man/figures/README-example-1.png)<!-- -->
@@ -56,3 +57,28 @@ Aesthetics that can be set:
 These values are then sent through `productplots` functions to create
 the formula for the desired distribution. The formula is constructed as:
 `weight ~ fill + x | conds`
+
+## Version compatibility issues with ggplot2
+
+Since the initial release of ggmosaic, ggplot2 has evolved considerably.
+And as ggplot2 continues to evolve, ggmosaic must continue to evolve
+alongside it. Although these changes affect the underlying code and not
+the general usage of ggmosaic, the general user may need to be aware of
+compatibility issues that can arise between versions. The table below
+summarizes the compatibility between versions.
+
+Version 3.3.0 of ggplot2 included substantial changes to the
+implementation of the positional-guide internals ([see
+here](https://www.tidyverse.org/blog/2020/03/ggplot2-3-3-0/)). Because
+ggmosaic is implemented with a coordinate system unique to ggmosaic,
+`scale_x_productlist()` and `scale_y_productlist()`, the scales needed
+to be modified; the changes were implemented in ggmosaic
+0.3.0.
+
+| ggmosaic | ggplot2 | Axis labels                                                                   | Tick marks    |
+| -------- | ------- | ----------------------------------------------------------------------------- | ------------- |
+| 0.3.3    | 3.3.3   | x                                                                             | x             |
+| 0.3.0    | 3.3.0   | x                                                                             | x             |
+| 0.2.2    | 3.3.0   | Default labels are okay, but must use <br>`scale\_*\_productlist()` to modify | No tick marks |
+| 0.2.2    | 3.2.0   | Default labels okay, but must use <br>`scale\_*\_productlist()` to modify     | x             |
+| 0.2.0    | 3.2.0   | Default labels are wrong, but can use <br>`labs()` to modify                  | x             |

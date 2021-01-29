@@ -24,13 +24,8 @@ theme_mosaic <- function (base_size = 11, base_family = "")
 {
   theme_grey(base_size = base_size, base_family = base_family) %+replace%
     theme(
-      panel.grid.major.y = element_line(colour = "#D8D8D8"),
-      panel.grid.minor = element_blank(),
-      panel.grid.major.x = element_blank(),
-
-      panel.border = element_blank(),
+      panel.grid = element_blank(),
       panel.background = element_blank(),
-
       aspect.ratio = 1
     )
 }

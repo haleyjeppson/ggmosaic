@@ -120,7 +120,7 @@ StatMosaicText <- ggplot2::ggproto(
 
      # browser()
      sub <- subset(first_stage, level==max(first_stage$level))
-     text <- subset(sub, .n > 0) # do not label the obs with weight 0
+       text <- subset(sub, .n > 0) # do not label the obs with weight 0
      text <- tidyr::nest(text, data = -label)
 
      text <-
