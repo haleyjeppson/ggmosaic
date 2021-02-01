@@ -22,7 +22,7 @@ Description: Mosaic plots in the 'ggplot2' framework. Mosaic
     plot functionality is provided in a single 'ggplot2' layer by calling
     the geom 'mosaic'.
 License: GPL (>= 2)
-URL: http://github.com/haleyjeppson/ggmosaic
+URL: https://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 Depends:
     ggplot2 (>= 3.3.0),
