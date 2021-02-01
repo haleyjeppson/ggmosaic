@@ -71,7 +71,7 @@ rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
 the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
 
-\item{as.label}{Show as a ggplot label (box with roudn corners)}
+\item{as.label}{Show as a ggplot label (box with round corners)}
 
 \item{repel}{Use ggrepel wo labels don't overlap}
 

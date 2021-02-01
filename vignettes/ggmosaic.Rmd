@@ -91,7 +91,7 @@ ggplot(data = fly) +
   labs(title='f(do_you_recline, rude_to_recline| gender)')
 ```
 
-###  Alternative to conditioning: facetting
+###  Alternative to conditioning: faceting
 
 ```{r formula-5b, fig.width = 6, fig.height = 6}
 ggplot(data = fly) +
@@ -129,7 +129,7 @@ Arguments unique to `geom_mosaic()`:
 
 ### Divider function: Types of partitioning
 
-Four options available for each partion:
+Four options available for each partition:
 
 - `vspine`:  <!-- (Vertical spine partition) --> width constant, height varies. 
 

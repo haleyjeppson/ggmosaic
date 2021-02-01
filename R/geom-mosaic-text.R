@@ -15,7 +15,7 @@
 #' }
 #' @param offset Set the space between the first spine
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
-#' @param as.label Show as a ggplot label (box with roudn corners)
+#' @param as.label Show as a ggplot label (box with round corners)
 #' @param repel Use ggrepel wo labels don't overlap
 #' @param repel_params List of ggrepel parameters (e.g. list(point.padding = 0))
 #' @param check_overlap If `TRUE`, text that overlaps previous text in the
