@@ -71,7 +71,7 @@
 </h1>
                         <h4 class="author">Haley Jeppson and Heike Hofmann</h4>
             
-            <h4 class="date">2021-01-29</h4>
+            <h4 class="date">2021-02-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd"><code>vignettes/ggmosaic.Rmd</code></a></small>
       <div class="hidden name"><code>ggmosaic.Rmd</code></div>
@@ -154,9 +154,9 @@
   <span class="fu">labs</span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline, rude_to_recline| gender)'</span><span class="op">)</span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/formula-4b-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
-<div id="alternative-to-conditioning-facetting" class="section level3">
+<div id="alternative-to-conditioning-faceting" class="section level3">
 <h3 class="hasAnchor">
-<a href="#alternative-to-conditioning-facetting" class="anchor"></a>Alternative to conditioning: facetting</h3>
+<a href="#alternative-to-conditioning-faceting" class="anchor"></a>Alternative to conditioning: faceting</h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span>
@@ -194,7 +194,7 @@
 <div id="divider-function-types-of-partitioning" class="section level3">
 <h3 class="hasAnchor">
 <a href="#divider-function-types-of-partitioning" class="anchor"></a>Divider function: Types of partitioning</h3>
-<p>Four options available for each partion:</p>
+<p>Four options available for each partition:</p>
 <ul>
 <li><p><code>vspine</code>: <!-- (Vertical spine partition) --> width constant, height varies.</p></li>
 <li><p><code>hspine</code>: <!-- Horizontal spine partition: --> height constant, width varies.</p></li>
@@ -374,13 +374,13 @@
 <tr class="odd">
 <td>0.2.2</td>
 <td>3.3.0</td>
-<td>Default labels are okay, but must use <br><code>scale\_*\_productlist()</code> to modify</td>
+<td>Default labels are okay, but must use <br><code>scale_*_productlist()</code> to modify</td>
 <td>No tick marks</td>
 </tr>
 <tr class="even">
 <td>0.2.2</td>
 <td>3.2.0</td>
-<td>Default labels okay, but must use <br><code>scale\_*\_productlist()</code> to modify</td>
+<td>Default labels okay, but must use <br><code>scale_*_productlist()</code> to modify</td>
 <td>x</td>
 </tr>
 <tr class="odd">
