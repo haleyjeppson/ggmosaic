@@ -4,7 +4,7 @@
 [![CRAN
 Status](http://www.r-pkg.org/badges/version/ggmosaic)](https://cran.r-project.org/package=ggmosaic)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](http://www.r-pkg.org/pkg/ggmosaic)
+downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org:443/pkg/ggmosaic)
 [![Travis-CI Build
 Status](https://travis-ci.org/haleyjeppson/ggmosaic.svg?branch=master)](https://travis-ci.org/haleyjeppson/ggmosaic)
 
@@ -39,20 +39,20 @@ ggplot(data = fly) +
 
 Aesthetics that can be set:
 
-  - `weight`: select a weighting variable
+-   `weight`: select a weighting variable
 
-  - `x`: select variables to add to formula
-    
-      - declared as `x = product(x1, x2, ...)`
+-   `x`: select variables to add to formula
 
-  - `fill`: select a variable to be filled
-    
-      - if the variable is not also called in `x`, it will be added to
+    -   declared as `x = product(x1, x2, ...)`
+
+-   `fill`: select a variable to be filled
+
+    -   if the variable is not also called in `x`, it will be added to
         the formula in the first position
 
-  - `conds` : select a variable to condition on
-    
-      - declared as `conds = product(cond1, cond2, ...)`
+-   `conds` : select a variable to condition on
+
+    -   declared as `conds = product(cond1, cond2, ...)`
 
 These values are then sent through `productplots` functions to create
 the formula for the desired distribution. The formula is constructed as:
@@ -65,11 +65,10 @@ And as ggplot2 continues to evolve, ggmosaic must continue to evolve
 alongside it. Although these changes affect the underlying code and not
 the general usage of ggmosaic, the general user may need to be aware of
 compatibility issues that can arise between versions. The table below
-summarizes the compatibility between
-versions.
+summarizes the compatibility between versions.
 
 | ggmosaic | ggplot2 | Axis labels                                                                 | Tick marks    |
-| -------- | ------- | --------------------------------------------------------------------------- | ------------- |
+|----------|---------|-----------------------------------------------------------------------------|---------------|
 | 0.3.3    | 3.3.3   | x                                                                           | x             |
 | 0.3.0    | 3.3.0   | x                                                                           | x             |
 | 0.2.2    | 3.3.0   | Default labels are okay, but must use <br>`scale_*_productlist()` to modify | No tick marks |

@@ -12,3 +12,4 @@
 ^\.github$
 ^_pkgdown\.yml$
 ^pkgdown$
+^CRAN-RELEASE$
