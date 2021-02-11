@@ -4,7 +4,7 @@
 [![CRAN
 Status](http://www.r-pkg.org/badges/version/ggmosaic)](https://cran.r-project.org/package=ggmosaic)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org:443/pkg/ggmosaic)
+downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg/ggmosaic)
 [![Travis-CI Build
 Status](https://travis-ci.org/haleyjeppson/ggmosaic.svg?branch=master)](https://travis-ci.org/haleyjeppson/ggmosaic)
 
@@ -37,26 +37,31 @@ ggplot(data = fly) +
 
 ## geom\_mosaic: setting the aesthetics
 
-Aesthetics that can be set:
+In `geom_mosaic()`, the following aesthetics can be specified:
 
 -   `weight`: select a weighting variable
 
 -   `x`: select variables to add to formula
 
-    -   declared as `x = product(x1, x2, ...)`
+    -   declared as `x = product(var2, var1, ...)`
+
+-   `alpha`: add an alpha transparency to the selected variable
+
+    -   unless the variable is called in `x`, it will be added to the
+        formula in the first position
 
 -   `fill`: select a variable to be filled
 
-    -   if the variable is not also called in `x`, it will be added to
-        the formula in the first position
+    -   unless the variable is called in `x`, it will be added to the
+        formula in the first position after the optional `alpha`
+        variable.
 
 -   `conds` : select a variable to condition on
 
     -   declared as `conds = product(cond1, cond2, ...)`
 
-These values are then sent through `productplots` functions to create
-the formula for the desired distribution. The formula is constructed as:
-`weight ~ fill + x | conds`
+These values are then sent through repurposed `productplots` functions
+to create the desired formula: `weight ~ alpha + fill + x | conds`.
 
 ## Version compatibility issues with ggplot2
 
