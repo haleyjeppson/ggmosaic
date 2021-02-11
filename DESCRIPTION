@@ -34,7 +34,8 @@ Imports:
     purrr,
     rlang,
     tidyr,
-    ggrepel
+    ggrepel,
+    scales
 Suggests:
     gridExtra,
     knitr,
