@@ -1,6 +1,6 @@
 ## ggmosaic 0.3.3
 
-Fixed previous issue with URLs
+Fixed previous issue with URLs and added scales dependency.
 
 ## Test environments
 * local OS X install, R 3.6.3
