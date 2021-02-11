@@ -96,20 +96,26 @@
 <div id="geom_mosaic-setting-the-aesthetics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#geom_mosaic-setting-the-aesthetics" class="anchor"></a>geom_mosaic: setting the aesthetics</h2>
-<p>Aesthetics that can be set:</p>
+<p>In <code><a href="reference/geom_mosaic.html">geom_mosaic()</a></code>, the following aesthetics can be specified:</p>
 <ul>
 <li><p><code>weight</code>: select a weighting variable</p></li>
 <li>
 <p><code>x</code>: select variables to add to formula</p>
 <ul>
-<li>declared as <code>x = product(x1, x2, ...)</code>
+<li>declared as <code>x = product(var2, var1, ...)</code>
 </li>
+</ul>
+</li>
+<li>
+<p><code>alpha</code>: add an alpha transparency to the selected variable</p>
+<ul>
+<li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position</li>
 </ul>
 </li>
 <li>
 <p><code>fill</code>: select a variable to be filled</p>
 <ul>
-<li>if the variable is not also called in <code>x</code>, it will be added to the formula in the first position</li>
+<li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position after the optional <code>alpha</code> variable.</li>
 </ul>
 </li>
 <li>
@@ -120,7 +126,7 @@
 </ul>
 </li>
 </ul>
-<p>These values are then sent through <code>productplots</code> functions to create the formula for the desired distribution. The formula is constructed as: <code>weight ~ fill + x | conds</code></p>
+<p>These values are then sent through repurposed <code>productplots</code> functions to create the desired formula: <code>weight ~ alpha + fill + x | conds</code>.</p>
 </div>
 <div id="version-compatibility-issues-with-ggplot2" class="section level2">
 <h2 class="hasAnchor">
@@ -209,7 +215,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=ggmosaic"><img src="http://www.r-pkg.org/badges/version/ggmosaic" alt="CRAN Status"></a></li>
-<li><a href="https://www.r-pkg.org:443/pkg/ggmosaic"><img src="http://cranlogs.r-pkg.org/badges/ggmosaic" alt="CRAN RStudio mirror downloads"></a></li>
+<li><a href="https://www.r-pkg.org/pkg/ggmosaic"><img src="http://cranlogs.r-pkg.org/badges/ggmosaic" alt="CRAN RStudio mirror downloads"></a></li>
 <li><a href="https://travis-ci.org/haleyjeppson/ggmosaic"><img src="https://travis-ci.org/haleyjeppson/ggmosaic.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 </ul>
 </div>
