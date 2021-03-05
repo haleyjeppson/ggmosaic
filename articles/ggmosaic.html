@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggmosaic</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -49,7 +51,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/haleyjeppson/ggmosaic/">
+  <a href="https://github.com/haleyjeppson/ggmosaic/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -69,11 +71,11 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Mosaic plots with <code>ggplot2</code>
 </h1>
-                        <h4 class="author">Haley Jeppson and Heike Hofmann</h4>
+                        <h4 data-toc-skip class="author">Haley Jeppson and Heike Hofmann</h4>
             
-            <h4 class="date">2021-02-11</h4>
+            <h4 data-toc-skip class="date">2021-03-05</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd"><code>vignettes/ggmosaic.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd" class="external-link"><code>vignettes/ggmosaic.Rmd</code></a></small>
       <div class="hidden name"><code>ggmosaic.Rmd</code></div>
 
     </div>
@@ -84,7 +86,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># A few modifications to data</span>
 <span class="va">flights</span> <span class="op">&lt;-</span> <span class="va">fly</span>  <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">bar_examp</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="st">"vbar"</span><span class="op">)</span> <span class="op">+</span>
@@ -100,7 +102,7 @@
 
 <span class="va">stackbar_examp</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span><span class="op">)</span>,
-              divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   
+              divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>   
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">"Is it rude to recline?"</span>, y <span class="op">=</span> <span class="st">"Do you recline?"</span>, title <span class="op">=</span> <span class="st">"Stacked Bar Chart"</span><span class="op">)</span>
 
 <span class="va">mosaic_examp</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
@@ -109,14 +111,14 @@
 
 <span class="va">mosaic2_examp</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">eliminate_reclining</span>, <span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span>, alpha <span class="op">=</span> <span class="va">eliminate_reclining</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_alpha_manual</span><span class="op">(</span>values <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.7</span>,<span class="fl">.9</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_alpha_manual</span><span class="op">(</span>values <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.7</span>,<span class="fl">.9</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">"Do you recline?"</span>, x<span class="op">=</span><span class="st">"Eliminate reclining?:Is it rude to recline?"</span>, title <span class="op">=</span> <span class="st">"Mosaic Plot (3 variables)"</span><span class="op">)</span>
 
 
 <span class="va">ddecker_examp</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">eliminate_reclining</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span>, alpha <span class="op">=</span> <span class="va">eliminate_reclining</span><span class="op">)</span>, divider <span class="op">=</span> <span class="fu"><a href="../reference/ddecker.html">ddecker</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_alpha_manual</span><span class="op">(</span>values <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.7</span>,<span class="fl">.9</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_alpha_manual</span><span class="op">(</span>values <span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.7</span>,<span class="fl">.9</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>y<span class="op">=</span><span class="st">"Do you recline?"</span>, x<span class="op">=</span><span class="st">"Eliminate reclining?: Is it rude to recline?"</span>, title <span class="op">=</span> <span class="st">"Double Decker Plot"</span><span class="op">)</span>
 
@@ -304,7 +306,7 @@ An assortment of plots made with the ggmosaic package.
 </li>
 <li>Define each type of partition
 <ul>
-<li>e.g. <code><a href="https://rdrr.io/r/base/c.html">c("hspine", "vspine", "hbar")</a></code>
+<li>e.g. <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c("hspine", "vspine", "hbar")</a></code>
 </li>
 </ul>
 </li>
@@ -329,22 +331,22 @@ An assortment of plots made with the ggmosaic package.
 <p><img src="ggmosaic_files/figure-html/mosaic-a-1.png" width="576" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mosaic4</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, axis.ticks<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span>
 
 <span class="va">mosaic5</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"hbar"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hbar"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, axis.ticks<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span>
 
 <span class="va">mosaic6</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"hspine"</span>, <span class="st">"hspine"</span>, <span class="st">"hspine"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hspine"</span>, <span class="st">"hspine"</span>, <span class="st">"hspine"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, axis.ticks<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span>
 
 <span class="va">mosaic7</span> <span class="op">&lt;-</span>  <span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"vspine"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"vspine"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
   <span class="fu">theme</span><span class="op">(</span>axis.text<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, axis.ticks<span class="op">=</span><span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">labs</span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span>
 
@@ -460,11 +462,13 @@ An assortment of plots made with the ggmosaic package.
 
 
       <footer><div class="copyright">
-  <p>Developed by Haley Jeppson, Heike Hofmann, Di Cook.</p>
+  <p></p>
+<p>Developed by Haley Jeppson, Heike Hofmann, Di Cook.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -472,6 +476,8 @@ An assortment of plots made with the ggmosaic package.
 
   
 
+
+  
 
   </body>
 </html>
