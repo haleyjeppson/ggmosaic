@@ -103,13 +103,15 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
-  #browser()
+  # browser()
 
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     aes_x <- rlang::eval_tidy(mapping$x)
     var_x <- paste0("x__", as.character(aes_x))
   }
+#  var_x <- gsub("\\(","",var_x) # parentheses get mixed up in formula
+#  var_x <- gsub("\\)","",var_x)
 
   aes_fill <- mapping$fill
   var_fill <- ""

@@ -20,8 +20,9 @@
 #' }
 prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = offset) {
 
+  # browser()
   vars <- parse_product_formula(stats::as.formula(formula))
-#browser()
+
   if (length(vars$wt) == 1) {
     data$.wt <- data[[vars$wt]]
   } else {

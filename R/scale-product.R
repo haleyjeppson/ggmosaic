@@ -113,7 +113,7 @@ ScaleContinuousProduct <- ggproto(
     #cat("train in ScaleContinuousProduct\n")
     #cat("class of variable: ")
     #cat(class(x))
-    #browser()
+  #  browser()
     if (is.list(x)) {
       x <- x[[1]]
       if ("Scale" %in% class(x)) {

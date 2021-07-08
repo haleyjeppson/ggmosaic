@@ -1,14 +1,98 @@
-
-"%||%" <- function(a, b) {
-  if (!is.null(a)) a else b
+scale_y_product <- function (df) {
+  l <- b <- r <- NULL
+  data <- df$data
+  vars <- parse_product_formula(df$formula)
+  col <- c(vars$marg, vars$cond)[grep("v", df$divider)]
+  if (length(col) == 0) {
+    breaks <- seq(0, 1, length = 5)
+    scale_y_continuous("", breaks = breaks, labels = round(breaks,
+                                                           2))
+  }
+  else {
+    labels <- subset(data, (level = max(level)) & (l == 0))
+    labels$pos <- with(labels, (b + t)/2)
+ #   browser()
+    labels$label <- sapply(1:nrow(labels), function(x) paste(unlist(labels[x,
+                                                                          col]), collapse = ":"))
+    ylabel <- paste(col, collapse = ":")
+    scale_y_continuous(ylabel, breaks = labels$pos, labels = labels$label)
+  }
 }
 
-in_data <- function(data, variable) {
-  length(intersect(names(data), variable)) > 0
+scale_x_product <- function (df) {
+ # browser()
+  l <- b <- r <- NULL
+  data <- df$data
+  vars <- parse_product_formula(df$formula)
+  col <- c(vars$marg, vars$cond)[grep("h", df$divider)]
+  if (length(col) == 0) {
+    breaks <- seq(0, 1, length = 5)
+    scale_x_continuous("", breaks = breaks, labels = round(breaks,
+                                                           2))
+  }
+  else {
+    labels <- subset(data, (level = max(level)) & (b ==
+                                                     0))
+    labels$pos <- with(labels, (l + r)/2)
+#    browser()
+    labels$label <- sapply(1:nrow(labels), FUN = function(x) paste(unlist(labels[x,
+                                                                          col]), collapse = ":"))
+    xlabel <- paste(col, collapse = ":")
+    scale_x_continuous(xlabel, breaks = labels$pos, labels = labels$label)
+  }
 }
 
-#parse_product_formula <- getFromNamespace("parse_product_formula", "productplots")
+lhs <- function (x) {
+  stopifnot(is.call(x) || is.name(x))
+  if (length(x) == 3)
+    x[[2]]
+}
 
+rhs <- function (x) {
+  stopifnot(is.call(x) || is.name(x))
+  if (length(x) == 2) {
+    x[[2]]
+  }
+  else if (length(x) == 3) {
+    x[[3]]
+  }
+}
+
+op <- function (x) {
+  stopifnot(is.call(x) || is.name(x))
+  if (length(x) == 3 || length(x) == 2)
+    x[[1]]
+}
+
+variables <- function(string, operator) {
+  if(is.language(string)) string <- as.character(string)[-1]
+  if(is.symbol(string)) string <- as.character(string)
+  if(!is.character(string)) {
+    # browser()
+    cat("which type of string ended up here?")
+  }
+
+  res <- unlist(strsplit(split=operator, fixed=TRUE, string))
+  trimws(res)
+}
+
+parse_product_formula <- function(f) {
+  #  browser()
+  wt <- if ((is.call(f)) && length(f) == 3)
+    all.vars(lhs(f)) # unchanged - weight variable is not part of the product statement
+  else character()
+  mc <- rhs(f)
+  if (identical(op(mc), as.name("|"))) {
+    cond <- variables(rhs(mc), '+')
+    marg <- variables(lhs(mc), '+')
+  }
+  else {
+    cond <- character()
+    marg <- variables(mc, '+')
+  }
+  marg <- marg[marg != "."]
+  list(wt = wt, marg = marg, cond = cond)
+}
 #' Wrapper for a list
 #'
 #' @param ... Unquoted variables going into the product plot.
@@ -21,7 +105,7 @@ product <- function(...) {
   rlang::exprs(...)
 }
 
-#' @rdname geom_mosaic
+#' @rdname geom_mosaic_jitter
 #' @inheritParams ggplot2::stat_identity
 #' @section Computed variables:
 #' \describe{
@@ -31,9 +115,10 @@ product <- function(...) {
 #' \item{ymax}{location of top right corner}
 #' }
 #' @export
-stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
-                        position = "identity", na.rm = FALSE,  divider = mosaic(),
-                        show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
+stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitter",
+                               position = "identity", na.rm = FALSE,  divider = mosaic(),
+                               show.legend = NA, inherit.aes = TRUE, offset = 0.01,
+                               drop_level = FALSE, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
@@ -80,7 +165,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
-  # browser()
+
 
   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
@@ -94,7 +179,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
   ggplot2::layer(
     data = data,
     mapping = mapping,
-    stat = StatMosaic,
+    stat = StatMosaicJitter,
     geom = geom,
     position = position,
     show.legend = show.legend,
@@ -104,6 +189,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      drop_level = drop_level,
       ...
     )
   )
@@ -116,8 +202,8 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 #' @usage NULL
 #' @importFrom tidyr unite_
 #' @export
-StatMosaic <- ggplot2::ggproto(
-  "StatMosaic", ggplot2::Stat,
+StatMosaicJitter <- ggplot2::ggproto(
+  "StatMosaicJitter", ggplot2::Stat,
   #required_aes = c("x"),
   non_missing_aes = "weight",
 
@@ -137,9 +223,9 @@ StatMosaic <- ggplot2::ggproto(
     data
   },
 
-  compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
+  compute_panel = function(self, data, scales, na.rm=FALSE, drop_level=FALSE, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
-    #   browser()
+    #browser()
 
     #    vars <- names(data)[grep("x[0-9]+__", names(data))]
     vars <- names(data)[grep("x__", names(data))]
@@ -164,13 +250,18 @@ StatMosaic <- ggplot2::ggproto(
     res <- prodcalc(df, formula=as.formula(formula),
                     divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm, offset = offset)
-    # browser()
-    # match the variable names that include a __ back to the original
-    idx <- grep("__", names(res))
-    names(res)[idx] <- sapply(names(res)[idx], FUN = function(x) {
-      names(data)[agrep(x, names(data))]
-    })
 
+    # browser()
+
+    # consider 2nd weight for points
+    if (in_data(df, "weight2")) {
+      formula2 <- str_replace(formula, "weight", "weight2")
+      res2 <- prodcalc(df, formula = as.formula(formula2), divider = divider,
+                       cascade = 0, scale_max = TRUE, na.rm = na.rm, offset = offset)
+      res$.n2 <- res2$.n
+    }
+
+    # browser()
     # need to set x variable - I'd rather set the scales here.
     prs <- parse_product_formula(as.formula(formula))
     p <- length(c(prs$marg, prs$cond))
@@ -179,13 +270,13 @@ StatMosaic <- ggplot2::ggproto(
     # the level at which things are labelled could be made a parameter.
     # At the moment the deepest level is being labelled.
     dflist <- list(data=subset(res, level==max(res$level)), formula=as.formula(formula), divider=divider)
-    scx <- scale_x_product(dflist)
-    scy <- scale_y_product(dflist)
+    scx <- productplots::scale_x_product(dflist)
+    scy <- productplots::scale_y_product(dflist)
 
 
     # res is data frame that has xmin, xmax, ymin, ymax
     res <- dplyr::rename(res, xmin=l, xmax=r, ymin=b, ymax=t)
-    res <- subset(res, level==max(res$level))
+    # res <- subset(res, level==max(res$level))
 
     # export the variables with the data - terrible hack
     # res$x <- list(scale=scx)
@@ -203,8 +294,7 @@ StatMosaic <- ggplot2::ggproto(
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])
-    #
-    # browser()
+
 
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {
@@ -214,7 +304,7 @@ StatMosaic <- ggplot2::ggproto(
     }
 
     # merge res with data:
-    # is there a fill variable?
+    # is there a fill/alpha/color variable?
     fill_idx <- grep("x__fill", names(data))
     if (length(fill_idx) > 0) {
       fill_res_idx <- grep("x__fill", names(res))
@@ -225,11 +315,49 @@ StatMosaic <- ggplot2::ggproto(
       alpha_res_idx <- grep("x__alpha", names(res))
       res$alpha <- res[[alpha_res_idx]]
     }
-
+    colour_idx <- grep("x__colour", names(data))
+    if (length(colour_idx) > 0) {
+      colour_res_idx <- grep("x__colour", names(res)) # find what comes after __colour
+      res$colour <- res[[colour_res_idx]]
+    }
 
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)
-    res
+    # browser()
+
+    # generate points
+    # consider 2nd weight for point
+    if (in_data(res, ".n2")) {
+      res$.n <- res$.n2
+    }
+
+    sub <- subset(res, level==max(res$level))
+    if(drop_level) {
+      ll <- subset(res, level==max(res$level)-1)
+      sub <- dplyr::left_join(select(sub, -(xmin:ymax)), select(ll, contains("x__"), xmin:ymax, -contains("col")))
+    }
+
+
+
+    points <- subset(sub, sub$.n>=1)
+    points <- tidyr::nest(points, data = -label)
+
+    points <-
+      dplyr::mutate(
+        points,
+        coords = purrr::map(data, .f = function(d) {
+          data.frame(
+            x = runif(d$.n, min = d$xmin, max = d$xmax),
+            y = runif(d$.n, min = d$ymin, max = d$ymax),
+            dplyr::select(d, -x, -y)
+          )
+        })
+      )
+
+    points <- tidyr::unnest(points, coords)
+    # browser()
+
+    points
   }
 )
 
