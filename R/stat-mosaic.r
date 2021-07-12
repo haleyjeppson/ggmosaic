@@ -139,7 +139,7 @@ StatMosaic <- ggplot2::ggproto(
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
-    #   browser()
+    # browser()
 
     #    vars <- names(data)[grep("x[0-9]+__", names(data))]
     vars <- names(data)[grep("x__", names(data))]
