@@ -56,8 +56,8 @@ scale_type.productlist <- function(x) {
 #' @export
 scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
-                                limits = NULL, expand = ggplot2::waiver(), oob = scales:::censor,
-                                na.value = NA_real_, trans = "identity",
+                                limits = NULL, expand = ggplot2::waiver(), guide = ggplot2::waiver(),
+                                oob = scales:::censor, na.value = NA_real_, trans = "identity",
                                 position = "bottom", sec.axis = ggplot2::waiver()) {
   #browser()
   sc <- ggplot2::continuous_scale(
@@ -65,7 +65,7 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
-    guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
+    guide = guide, position = position, super = ScaleContinuousProduct
   )
 
 
@@ -83,8 +83,8 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
 #' @export
 scale_y_productlist <- function(name = ggplot2::waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
-                                limits = NULL, expand = ggplot2::waiver(), oob = scales:::censor,
-                                na.value = NA_real_, trans = "identity",
+                                limits = NULL, expand = ggplot2::waiver(), guide = ggplot2::waiver(),
+                                oob = scales:::censor, na.value = NA_real_, trans = "identity",
                                 position = "left", sec.axis = ggplot2::waiver()) {
   #browser()
   sc <- ggplot2::continuous_scale(
@@ -92,7 +92,7 @@ scale_y_productlist <- function(name = ggplot2::waiver(), breaks = product_break
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, trans = trans,
-    guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
+    guide = guide, position = position, super = ScaleContinuousProduct
   )
 
   if (!is.waive(sec.axis)) {
