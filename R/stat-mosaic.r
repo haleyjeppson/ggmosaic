@@ -168,7 +168,7 @@ StatMosaic <- ggplot2::ggproto(
     # match the variable names that include a __ back to the original
     idx <- grep("__", names(res))
     names(res)[idx] <- sapply(names(res)[idx], FUN = function(x) {
-      names(data)[agrep(x, names(data))]
+      names(data)[grep(x, names(data))]
     })
 
     # need to set x variable - I'd rather set the scales here.
