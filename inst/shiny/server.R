@@ -8,6 +8,7 @@ library(tidyverse)
 # library(gt)
 library(DT)
 library(broom)
+library(glue)
 
 ## LOAD DATA
 # install_github("haleyjeppson/ggmosaic", ref = "data")
@@ -222,17 +223,89 @@ shinyServer(function(input, output, session) {
 
   ## FIRST MOSAIC PLOT -----------------------------------------------------------------------------------------
   output$mosaicplot = renderPlot({
-    if(var_index$length == 0){
+    ind <- var_index$length
+    if(ind == 0){
       ggplot(data = data_vars()) + geom_mosaic(aes_string(weight = "weight", x = "product(1)", fill = "1")) +
         scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
         theme_mosaic()
     }
     else{
-      ggplot(data = data_vars()) + geom_mosaic(aes(weight = weight, x = product(!!!syms(var_selection())), fill = !!sym(fill_variable())),
-                                               divider = divs()) +
+      vars <- syms(var_selection())
+      fill_var <- sym(fill_variable())
+      ggplot(data = data_vars()) +
+        geom_mosaic(aes(weight = weight, x = product(!!!vars), fill = !!fill_var), divider = divs()) +
         scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
         theme_mosaic()
     }
+  })
+
+  # output$mosaicplot = metaRender(renderPlot, {
+  #   # browser()
+  #   ind <- ..(var_index$length)
+  #   if(ind == 0){
+  #     metaExpr({
+  #     ggplot(data = ..(data_vars())) + geom_mosaic(aes_string(weight = "weight", x = "product(1)", fill = "1")) +
+  #       scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
+  #       theme_mosaic()
+  #     })
+  #   }
+  #   else{
+  #     metaExpr({
+  #     vars <- syms(..(var_selection()))
+  #     fill_var <- sym(..(fill_variable()))
+  #     # metaExpr({
+  #       ggplot(data = ..(data_vars())) + geom_mosaic(aes(weight = weight, x = product(!!!vars), fill = !!fill_var),
+  #                                              divider = ..(divs())) +
+  #       scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
+  #       theme_mosaic()
+  #     })
+  #   }
+  # })
+
+  ## CODE FOR MOSAIC PLOT ------------------------------------------------------------------------------------
+
+
+  plotcode <- reactive({
+    # happy <- happy[complete.cases(happy),]
+    # fly <- fly[complete.cases(fly),]
+    # titanic <- titanic[complete.cases(titanic),]
+    #
+    # fly$do_you_recline <- forcats::fct_collapse(fly$do_you_recline,
+    #                                             usually = c("usually", "always"),
+    #                                             sometimes = c("about half the time", "once in a while"))
+    # data_vars <- data_selected() %>%
+    #   mutate_if(is.character, as.factor) %>%
+    #   select_if(is.factor) %>%
+    #   select_if(check_levels) %>%
+    #   mutate(weight = !!weight_var())
+    # browser()
+    weight <- switch(input$dataset,
+           "happy" = "wtsall",
+           "fly" = "1",
+           "titanic" = "1")
+    setup <- paste0('library(ggmosaic)', '\n',
+                    'mypal <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442","#0072B2", "#D55E00", "#CC79A7")', '\n\n')
+
+    if(var_index$length == 0){
+      plotcode <- paste0(setup,
+                         'ggplot(data = ', input$dataset, ') +
+  geom_mosaic(aes(weight = ', weight, ', x = product(1), fill = 1)) +
+  scale_fill_manual(NULL, values = mypal, guide = guide_legend(reverse = TRUE)) +
+  theme_mosaic()')
+    }
+    else{
+      plotcode <-  paste0(setup,
+                          'ggplot(data = ', input$dataset, ') +
+  geom_mosaic(aes(weight = ', weight, ', x = product(', paste(var_selection(), collapse=', '), '), fill = ', fill_variable(), '),
+    divider = c("', paste(divs(), collapse='", "'), '")) +
+  scale_fill_manual(values = mypal, guide = guide_legend(reverse = TRUE)) +
+  theme_mosaic()')
+    }
+    plotcode
+  })
+
+  output$code <- renderText({
+    plotcode()
   })
 
   ## FORMULA FOR MOSAIC PLOT ------------------------------------------------------------------------------------

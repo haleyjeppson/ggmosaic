@@ -30,6 +30,8 @@ shinyUI(
             Shiny.onInputChange("keyPressedDown", Math.random());
                 }});'),
 
+               fluidRow(
+
                column(8,
                       h4("Step 1: Dataset and variable selection"),
                       br(),
@@ -54,6 +56,8 @@ shinyUI(
 
                                  )
                       )
+                      # br(),
+
                ),
 
                column(3,
@@ -73,6 +77,14 @@ shinyUI(
                       br()
                       #hr()
 
+               )),
+               fluidRow(
+               h5("Code output:"),
+               verbatimTextOutput("code"),
+               br(),
+               br(),
+               br(),
+               br()
                )
 
 
