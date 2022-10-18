@@ -30,7 +30,7 @@ Depends:
 Imports:
     productplots,
     dplyr,
-    plotly (>= 4.5.5),
+    plotly (>= 4.9.3),
     purrr,
     rlang,
     tidyr,
@@ -41,6 +41,7 @@ Suggests:
     knitr,
     NHANES,
     rmarkdown,
+    shiny (>= 1.1.0),
     patchwork
 VignetteBuilder: 
     knitr
