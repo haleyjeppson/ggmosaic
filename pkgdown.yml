@@ -1,7 +1,7 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1.9000
-pkgdown_sha: 9c95f00d2505ddd83c4722e019202370715d3a3d
+pkgdown: 2.0.6.9000
+pkgdown_sha: 7fe9e802df2964d483d0267f1d5a59aa7b3c685d
 articles:
   ggmosaic: ggmosaic.html
-last_built: 2021-03-05T15:56Z
+last_built: 2022-10-18T13:55Z
 

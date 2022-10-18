@@ -53,7 +53,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/haleyjeppson/ggmosaic/">
+  <a href="https://github.com/haleyjeppson/ggmosaic/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -72,67 +72,59 @@
   <div class="contents col-md-9">
 
 
-<div id="ggmosaic" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#ggmosaic" class="anchor"></a>ggmosaic</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="ggmosaic">ggmosaic<a class="anchor" aria-label="anchor" href="#ggmosaic"></a>
+</h1></div>
 <p>ggmosaic was designed to create visualizations of categorical data and is capable of producing bar charts, stacked bar charts, mosaic plots, and double decker plots.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install ggmosaic from github with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"haleyjeppson/ggmosaic"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"haleyjeppson/ggmosaic"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/haleyjeppson/ggmosaic" class="external-link">ggmosaic</a></span><span class="op">)</span>
-<span class="co">#&gt; Loading required package: ggplot2</span>
-<span class="fu">ggplot</span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="reference/theme_mosaic.html">theme_mosaic</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/haleyjeppson/ggmosaic" class="external-link">ggmosaic</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fly</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="reference/theme_mosaic.html">theme_mosaic</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-example-1.png"><!-- --></p>
 </div>
-<div id="geom_mosaic-setting-the-aesthetics" class="section level2">
-<h2 class="hasAnchor">
-<a href="#geom_mosaic-setting-the-aesthetics" class="anchor"></a>geom_mosaic: setting the aesthetics</h2>
+<div class="section level2">
+<h2 id="geom_mosaic-setting-the-aesthetics">geom_mosaic: setting the aesthetics<a class="anchor" aria-label="anchor" href="#geom_mosaic-setting-the-aesthetics"></a>
+</h2>
 <p>In <code><a href="reference/geom_mosaic.html">geom_mosaic()</a></code>, the following aesthetics can be specified:</p>
 <ul>
 <li><p><code>weight</code>: select a weighting variable</p></li>
 <li>
 <p><code>x</code>: select variables to add to formula</p>
-<ul>
-<li>declared as <code>x = product(var2, var1, ...)</code>
-</li>
-</ul>
+<ul><li>declared as <code>x = product(var2, var1, ...)</code>
+</li></ul>
 </li>
 <li>
 <p><code>alpha</code>: add an alpha transparency to the selected variable</p>
-<ul>
-<li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position</li>
-</ul>
+<ul><li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position</li></ul>
 </li>
 <li>
 <p><code>fill</code>: select a variable to be filled</p>
-<ul>
-<li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position after the optional <code>alpha</code> variable.</li>
-</ul>
+<ul><li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position after the optional <code>alpha</code> variable.</li></ul>
 </li>
 <li>
 <p><code>conds</code> : select a variable to condition on</p>
-<ul>
-<li>declared as <code>conds = product(cond1, cond2, ...)</code>
-</li>
-</ul>
+<ul><li>declared as <code>conds = product(cond1, cond2, ...)</code>
+</li></ul>
 </li>
 </ul>
 <p>These values are then sent through repurposed <code>productplots</code> functions to create the desired formula: <code>weight ~ alpha + fill + x | conds</code>.</p>
 </div>
-<div id="version-compatibility-issues-with-ggplot2" class="section level2">
-<h2 class="hasAnchor">
-<a href="#version-compatibility-issues-with-ggplot2" class="anchor"></a>Version compatibility issues with ggplot2</h2>
+<div class="section level2">
+<h2 id="version-compatibility-issues-with-ggplot2">Version compatibility issues with ggplot2<a class="anchor" aria-label="anchor" href="#version-compatibility-issues-with-ggplot2"></a>
+</h2>
 <p>Since the initial release of ggmosaic, ggplot2 has evolved considerably. And as ggplot2 continues to evolve, ggmosaic must continue to evolve alongside it. Although these changes affect the underlying code and not the general usage of ggmosaic, the general user may need to be aware of compatibility issues that can arise between versions. The table below summarizes the compatibility between versions.</p>
 <table class="table">
 <colgroup>
@@ -175,7 +167,7 @@
 <tr class="odd">
 <td>0.2.0</td>
 <td>3.2.0</td>
-<td>Default labels are wrong, but can use <br><code>labs()</code> to modify</td>
+<td>Default labels are wrong, but can use <br><code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> to modify</td>
 <td>x</td>
 </tr>
 </tbody>
@@ -189,12 +181,9 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=ggmosaic">https://​cloud.r-project.org/​package=ggmosaic</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/haleyjeppson/ggmosaic/">https://​github.com/​haleyjeppson/​ggmosaic/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/haleyjeppson/ggmosaic">https://​github.com/​haleyjeppson/​ggmosaic</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=ggmosaic" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/haleyjeppson/ggmosaic/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/haleyjeppson/ggmosaic" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -206,24 +195,24 @@
 </div>
 
 
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing ggmosaic</a></li>
+</ul>
+</div>
+
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Haley Jeppson <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Heike Hofmann <br><small class="roles"> Author </small>  </li>
 <li>Di Cook <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">More on authors...</a></li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=ggmosaic" class="external-link"><img src="http://www.r-pkg.org/badges/version/ggmosaic" alt="CRAN Status"></a></li>
-<li><a href="https://www.r-pkg.org/pkg/ggmosaic" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/ggmosaic" alt="CRAN RStudio mirror downloads"></a></li>
-<li><a href="https://travis-ci.org/haleyjeppson/ggmosaic" class="external-link"><img src="https://travis-ci.org/haleyjeppson/ggmosaic.svg?branch=master" alt="Travis-CI Build Status"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>
@@ -236,7 +225,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>
