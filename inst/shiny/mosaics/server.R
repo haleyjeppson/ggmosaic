@@ -7,7 +7,6 @@ library(stringr)
 library(tidyverse)
 # library(gt)
 library(DT)
-library(broom)
 library(glue)
 
 ## LOAD DATA
@@ -17,16 +16,21 @@ data(fly, package = "ggmosaic")
 data(titanic, package = "ggmosaic")
 
 ##  remove NAs
-happy <- happy[complete.cases(happy),]
-fly <- fly[complete.cases(fly),]
-titanic <- titanic[complete.cases(titanic),]
+# happy <- happy[complete.cases(happy),]
+# fly <- fly[complete.cases(fly),]
+# titanic <- titanic[complete.cases(titanic),]
+#
+# fly$do_you_recline <- forcats::fct_collapse(fly$do_you_recline,
+#                                             usually = c("usually", "always"),
+#                                             sometimes = c("about half the time", "once in a while"))
 
-fly$do_you_recline <- forcats::fct_collapse(fly$do_you_recline,
-                                            usually = c("usually", "always"),
-                                            sometimes = c("about half the time", "once in a while"))
-
-## color pallette
+## color pallette & theme
+theme_set(theme_mosaic())
 mypal <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442","#0072B2", "#D55E00", "#CC79A7")#colorRampPalette(pal_locuszoom("default", .9)(7))(9)
+# options(ggplot2.discrete.fill = mypal)
+scale_fill_discrete <- function(...) {
+  scale_fill_manual(..., values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE))
+}
 
 ## TODO:
 ## need to figure out how to remove variables already used from the options for new variables
@@ -239,32 +243,8 @@ shinyServer(function(input, output, session) {
     }
   })
 
-  # output$mosaicplot = metaRender(renderPlot, {
-  #   # browser()
-  #   ind <- ..(var_index$length)
-  #   if(ind == 0){
-  #     metaExpr({
-  #     ggplot(data = ..(data_vars())) + geom_mosaic(aes_string(weight = "weight", x = "product(1)", fill = "1")) +
-  #       scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
-  #       theme_mosaic()
-  #     })
-  #   }
-  #   else{
-  #     metaExpr({
-  #     vars <- syms(..(var_selection()))
-  #     fill_var <- sym(..(fill_variable()))
-  #     # metaExpr({
-  #       ggplot(data = ..(data_vars())) + geom_mosaic(aes(weight = weight, x = product(!!!vars), fill = !!fill_var),
-  #                                              divider = ..(divs())) +
-  #       scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
-  #       theme_mosaic()
-  #     })
-  #   }
-  # })
 
   ## CODE FOR MOSAIC PLOT ------------------------------------------------------------------------------------
-
-
   plotcode <- reactive({
     # happy <- happy[complete.cases(happy),]
     # fly <- fly[complete.cases(fly),]
@@ -273,12 +253,8 @@ shinyServer(function(input, output, session) {
     # fly$do_you_recline <- forcats::fct_collapse(fly$do_you_recline,
     #                                             usually = c("usually", "always"),
     #                                             sometimes = c("about half the time", "once in a while"))
-    # data_vars <- data_selected() %>%
-    #   mutate_if(is.character, as.factor) %>%
-    #   select_if(is.factor) %>%
-    #   select_if(check_levels) %>%
-    #   mutate(weight = !!weight_var())
-    # browser()
+
+
     weight <- switch(input$dataset,
            "happy" = "wtsall",
            "fly" = "1",
@@ -287,18 +263,16 @@ shinyServer(function(input, output, session) {
                     'mypal <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442","#0072B2", "#D55E00", "#CC79A7")', '\n\n')
 
     if(var_index$length == 0){
-      plotcode <- paste0(setup,
+      plotcode <- paste0(#setup,
                          'ggplot(data = ', input$dataset, ') +
   geom_mosaic(aes(weight = ', weight, ', x = product(1), fill = 1)) +
-  scale_fill_manual(NULL, values = mypal, guide = guide_legend(reverse = TRUE)) +
   theme_mosaic()')
     }
     else{
-      plotcode <-  paste0(setup,
+      plotcode <-  paste0(#setup,
                           'ggplot(data = ', input$dataset, ') +
   geom_mosaic(aes(weight = ', weight, ', x = product(', paste(var_selection(), collapse=', '), '), fill = ', fill_variable(), '),
     divider = c("', paste(divs(), collapse='", "'), '")) +
-  scale_fill_manual(values = mypal, guide = guide_legend(reverse = TRUE)) +
   theme_mosaic()')
     }
     plotcode
@@ -334,27 +308,6 @@ shinyServer(function(input, output, session) {
     var_index$values
   })
 
-  # output$avail <- render_gt(
-  #   data_frame(Variables = names_vars()) %>%
-  #     #mutate(Selected = Variables %in% var_selection()) %>%
-  #     #mutate(Selected = factor(Selected)) %>%
-  #     gt()# rowname_col = "Variables")# %>%
-  #     # tab_row_group(
-  #     #   group = "selected",
-  #     #   rows = Variables %in% var_selection()
-  #     # ) %>%
-  #     # tab_row_group(
-  #     #   group = "Available",
-  #     #   rows = !(Variables %in% var_selection())
-  #     # )
-  #     # data_color(columns = vars(Variables, Selected),
-  #     #            colors = scales::col_factor(
-  #     #              palette = c(
-  #     #                "white", "grey80"),
-  #     #              domain = c(0, 1))) #%>%
-  #     #cols_hide(Selected) #data_color(columns = Variables)
-  # )
-
   output$datatable <- DT::renderDT(
     data_vars(),
     options = list(
@@ -378,145 +331,6 @@ shinyServer(function(input, output, session) {
      div_index$values
   })
 
-  #updateSelectizeInput(session, 'vars', choices = var_selection(), selected = NULL)
-
-  ## MODELING PROCESS ---------------------------------------------------------------------------------------------
-  output$model_formula <- renderText({
-    model_form()
-  })
-  output$interact <- renderText({
-    input$interaction_opts
-  })
-  ## formula for model
-  model_form <- reactive({
-    formula <- form()
-    if(is.null(input$interaction_opts)) {
-      formula <- formula
-    } else {
-      interacts <- paste0(input$interaction_opts, collapse = " + ")
-      formula <- paste0(formula, " + ", interacts)
-    }
-    formula
-  })
-
-  # save the model information
-  model_info <- eventReactive({input$run_model | input$update_model}, {
-    mod_dat <- data_vars() %>%
-      group_by(!!!syms(var_selection())) %>%
-      summarise(weight = sum(weight)) %>%
-      ungroup()
-
-    mod <- glm(model_form(), data = mod_dat, family = "poisson")
-    mod
-  })
-
-  # print table for model deviance info
-  output$model_info <- gt::render_gt(
-    anova(model_info()) %>%
-      as.data.frame() %>%
-      rownames_to_column(var = "Term") %>%
-      mutate_if(is_numeric, round, 2) %>%
-      mutate(pvalue = 1 - pchisq(`Resid. Dev`, `Resid. Df`),
-             pvalue = format.pval(pvalue, digits = 2)) %>%
-      rename(p.value = pvalue)
-  )
-
-  # print table for model coefficient info
-  output$model_coeffs <- gt::render_gt(
-    tidy(model_info()) %>%
-      mutate(p.value = format.pval(p.value, digits = 2)) %>%
-      mutate_if(is_numeric, round, 2)
-    )
-
-  # calculate all the modeled data
-  model_dat <- eventReactive({input$run_model | input$update_model}, {
-     mod_dat <- data_vars() %>%
-       group_by(!!!syms(var_selection())) %>%
-       summarise(weight = sum(weight)) %>%
-       ungroup()
-
-      mod <- glm(model_form(), data = mod_dat, family = "poisson")
-
-      mod_dat %>%
-        mutate(fit =  round(predict(mod, type = "response"),2),
-               resid_raw = round((weight - fit),2),
-               resid_pearson = round(resid_raw/sqrt(fit),2),
-               resid_sign = sign(resid_raw),
-               resid_sign = ifelse(resid_sign <0, "neg_resid", "pos_resid"))
-  })
-
-
-  output$modelplot = renderPlot({
-    if(!is.null(model_dat)){
-      ggplot(model_dat()) +
-        geom_mosaic(aes(weight = fit, x = product(!!!syms(var_selection())), fill = !!sym(fill_variable())),
-                                               divider = divs()) +
-        scale_fill_manual(values = mypal, na.value = "azure4", guide = guide_legend(reverse = TRUE)) +
-        theme_mosaic()
-    }
-
-  })
-
-  ## select type of residual
-  resid_var <- reactive({
-    switch(input$residual_type,
-           "Observed values" = model_dat()$weight,
-           "Raw residuals" = abs(model_dat()$resid_raw),
-           "Pearson residuals" = abs(model_dat()$resid_pearson))
-  })
-
-  # add jittered points for residual plot
-  output$residplot = renderPlot({
-    if(!is.null(model_info())){
-
-      model_plot <- ggplot(model_dat()) +
-        geom_mosaic(aes(weight = fit, x = product(!!!syms(var_selection()))),
-                    divider = divs(), alpha = .15) +
-        scale_color_manual(values = c("#D43F3A", "#398CC4"), na.value = "grey30")+
-        # scale_color_manual(values = c(mypal[c(1,6)]), na.value = "grey30") +
-        scale_fill_manual(values = mypal, na.value = "azure4") +
-        theme_mosaic()
-
-      if(input$residual_type == "Observed values"){
-        model_plot + geom_mosaic_jitter(aes(weight2 = resid_var(), weight = fit, x = product(!!!syms(var_selection()))), size = 2, alpha=.8)
-      } else {
-        model_plot + geom_mosaic_jitter(aes(weight2 = resid_var(), weight = fit, x = product(!!!syms(var_selection())),
-                                 colour = resid_sign), size = 2, alpha=.8)
-      }
-    }
-
-  })
-
-  ## INTERACTIONS ------------------------------------------------------------------------
-
-
-  ## CHECKBOX OPTIONS --------------------------------------------------------------------
-  inter_opts <- function(vars){
-    paste0(vars, collapse  = ":")
-  }
-
-  create_interactions <- function(vars){
-    if(length(vars) < 2){
-      return(NULL)
-    } else {
-    combos <- NULL
-    for(i in 2:length(vars)){
-      vars_combos <- t(combn(vars, i))
-      combos <- c(combos, apply(vars_combos, 1, inter_opts))
-    }
-    return(combos)
-  }}
-
-
-  observe({
-      var_interactions <- create_interactions(var_selection())
-
-      updateCheckboxGroupInput(session, "interaction_opts",
-                               label = "Select interactions:",
-                               choices = var_interactions,
-                               selected = NULL
-      )
-  })
 
 
 })
