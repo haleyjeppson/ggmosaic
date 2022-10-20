@@ -5,7 +5,7 @@ library(DT)
 shinyUI(
   fluidPage(
     theme = shinytheme("sandstone"),
-    titlePanel("Interactive mosaic plot constuction"),
+    titlePanel("Exploring mosaic plots"),
     br(),
     # javascript code for listening to the keypress
     tags$script('
