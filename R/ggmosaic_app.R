@@ -2,6 +2,7 @@
 #'
 #' Shiny app "EDA with Mosaic Plots" for interactive exploratory model building
 #'
+#' @param example Selected shiny app to launch.
 #' @param ... arguments passed on.
 #'
 #' @export

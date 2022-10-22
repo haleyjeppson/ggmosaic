@@ -1,14 +1,10 @@
 library(shiny)
 library(ggmosaic)
-library(ggsci)
 library(rlang)
-library(ggthemes)
 library(stringr)
 library(tidyverse)
-# library(gt)
 library(DT)
 library(broom)
-library(glue)
 
 ## LOAD DATA
 # install_github("haleyjeppson/ggmosaic", ref = "data")

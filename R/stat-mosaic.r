@@ -114,7 +114,6 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 #'
 #' @format NULL
 #' @usage NULL
-#' @importFrom tidyr unite_
 #' @export
 StatMosaic <- ggplot2::ggproto(
   "StatMosaic", ggplot2::Stat,
@@ -192,9 +191,10 @@ StatMosaic <- ggplot2::ggproto(
     # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
 
+
     if (length(cols) > 1) {
       df <- res[,cols]
-      df <- tidyr::unite_(df, "label", cols, sep="\n")
+      df <- tidyr::unite(df, "label", cols, sep="\n")
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])

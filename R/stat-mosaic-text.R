@@ -88,7 +88,6 @@ stat_mosaic_text <- function(mapping = NULL, data = NULL, geom = "Text",
 #'
 #' @format NULL
 #' @usage NULL
-#' @importFrom tidyr unite_
 #' @export
 StatMosaicText <- ggplot2::ggproto(
   "StatMosaicText", ggplot2::Stat,
