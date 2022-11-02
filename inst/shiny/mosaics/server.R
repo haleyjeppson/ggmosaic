@@ -88,7 +88,7 @@ shinyServer(function(input, output, session) {
   div_index <- reactiveValues(values = 1, length = 0, select = 1)
 
   ## add variable
-  observeEvent(input$keyPressedUp, {
+  observeEvent(input$keyPressedUp | input$key_up, {
     var_index$length <- var_index$length + 1
     new_index_length <- var_index$length
     ## check for duplicates
@@ -111,7 +111,7 @@ shinyServer(function(input, output, session) {
 
 
   ## remove variable
-  observeEvent(input$keyPressedDown, {
+  observeEvent(input$keyPressedDown | input$key_down, {
     if(var_index$length > 0){
       var_index$length <- var_index$length - 1
       if(var_index$length > 0){
@@ -124,7 +124,7 @@ shinyServer(function(input, output, session) {
   })
 
   ## switch variable right
-  observeEvent(input$keyPressedRight, {
+  observeEvent(input$keyPressedRight | input$key_right, {
     if(var_index$length > 0){
       var_index$select <- (var_index$select + 1) %% n_vars()
       counter_position <- as.numeric(var_index$select)
@@ -138,7 +138,7 @@ shinyServer(function(input, output, session) {
   })
 
   ## switch variable left
-  observeEvent(input$keyPressedLeft, {
+  observeEvent(input$keyPressedLeft | input$key_left, {
     if(var_index$length > 0){
         var_index$select <- (var_index$select - 1) %% n_vars()
       counter_position <- as.numeric(var_index$select)
@@ -152,7 +152,7 @@ shinyServer(function(input, output, session) {
   })
 
   ## switch hspine OR hbar
-  observeEvent(input$keyPressedH, {
+  observeEvent(input$keyPressedH | input$key_h, {
     if(var_index$length > 0){
       current_div <- div_index$values[var_index$length]
       new_div <- str_replace(current_div, "v", "h")
@@ -161,7 +161,7 @@ shinyServer(function(input, output, session) {
   })
 
   ## switch vspine OR vbar
-  observeEvent(input$keyPressedV, {
+  observeEvent(input$keyPressedV | input$key_v, {
     if(var_index$length > 0){
       current_div <- div_index$values[var_index$length]
       new_div <- str_replace(current_div, "h", "v")
@@ -170,7 +170,7 @@ shinyServer(function(input, output, session) {
   })
 
   # switch to spine
-  observeEvent(input$keyPressedS, {
+  observeEvent(input$keyPressedS | input$key_s, {
     if(var_index$length > 0){
       current_div <- div_index$values[var_index$length]
       new_div <- str_replace(current_div, "bar", "spine")
@@ -179,7 +179,7 @@ shinyServer(function(input, output, session) {
   })
 
   ## switch to bar
-  observeEvent(input$keyPressedB, {
+  observeEvent(input$keyPressedB | input$key_b, {
     if(var_index$length > 0){
       current_div <- div_index$values[var_index$length]
       new_div <- str_replace(current_div, "spine", "bar")

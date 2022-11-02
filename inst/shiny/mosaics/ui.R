@@ -5,6 +5,10 @@ library(DT)
 shinyUI(
   fluidPage(
     theme = shinytheme("sandstone"),
+    tags$head(
+      tags$style(HTML("
+      .btn {border: none; font-size: 24px; line-height: 22px; font-weight: 500; text-transform: uppercase;}"))
+    ),
     titlePanel("Exploring mosaic plots"),
     br(),
     # javascript code for listening to the keypress
@@ -32,13 +36,16 @@ shinyUI(
       sidebarPanel(selectInput(inputId = "dataset", label = "Select a dataset:", choices = c("happy", "fly", "titanic"), selected = "fly"),
                    br(),
                    h5(strong("Select variables:")),
-                   p("Use arrow keys to add, remove, or switch variables."),
-                   br(),
+                   p("Use arrow keys (or buttons below) to add, remove, or switch variables."),
+                   actionButton("key_up", label = "\u2B06"), actionButton("key_down", label = "\u2B07"), actionButton("key_left", label = "\u2B05"), actionButton("key_right", label = "\u27A1"),
+
+                   br(),br(),br(),
                    h5(strong("Select output:")),
-                   p("Use 'h', 'v', 's', and 'b' keys to switch type of divider."),
+                   p("Use 'h', 'v', 's', and 'b' keys (or buttons below) to switch type of divider."),
+                   actionButton("key_h", label = "H"), actionButton("key_v", label = "V"), actionButton("key_s", label = "S"), actionButton("key_b", label = "B"),
                    br(),
-                   br(),
-                   br(),
+                   # br(),
+                   # br(),
                    br(),
                    br(),
                    br()
