@@ -41,7 +41,9 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
-    aes_x <- rlang::eval_tidy(mapping$x)
+    if (grepl("product", rlang::quo_text(mapping$x))) {
+      aes_x <- rlang::eval_tidy(mapping$x)
+    } else aes_x <- list(rlang::quo_get_expr(mapping$x))
     var_x <- paste0("x__", as.character(aes_x))
   }
 
@@ -71,26 +73,26 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
     }
   }
 
-
-  #  aes_x <- mapping$x
   if (!is.null(aes_x)) {
     mapping$x <- structure(1L, class = "productlist")
-
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
 
-
   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
-    aes_conds <- rlang::eval_tidy(mapping$conds)
-    mapping$conds <- structure(1L, class = "productlist")
+    if (grepl("product", rlang::quo_text(mapping$conds))) {
+      aes_conds <- rlang::eval_tidy(mapping$conds)
+    } else aes_conds <- list(rlang::quo_get_expr(mapping$conds))
     var_conds <- paste0("conds", seq_along(aes_conds), "__", as.character(aes_conds))
+
+    mapping$conds <- structure(1L, class = "productlist")
     for (i in seq_along(var_conds)) {
       mapping[[var_conds[i]]] <- aes_conds[[i]]
     }
   }
+
   ggplot2::layer(
     data = data,
     mapping = mapping,
@@ -114,7 +116,6 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
 #'
 #' @format NULL
 #' @usage NULL
-#' @importFrom tidyr unite_
 #' @export
 StatMosaic <- ggplot2::ggproto(
   "StatMosaic", ggplot2::Stat,
@@ -192,9 +193,10 @@ StatMosaic <- ggplot2::ggproto(
     # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
 
+
     if (length(cols) > 1) {
       df <- res[,cols]
-      df <- tidyr::unite_(df, "label", cols, sep="\n")
+      df <- tidyr::unite(df, "label", cols, sep="\n")
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])

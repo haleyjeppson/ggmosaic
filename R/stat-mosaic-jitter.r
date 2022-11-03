@@ -116,7 +116,6 @@ stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitte
 #'
 #' @format NULL
 #' @usage NULL
-#' @importFrom tidyr unite_
 #' @export
 StatMosaicJitter <- ggplot2::ggproto(
   "StatMosaicJitter", ggplot2::Stat,
@@ -206,7 +205,7 @@ StatMosaicJitter <- ggplot2::ggproto(
 
     if (length(cols) > 1) {
       df <- res[,cols]
-      df <- tidyr::unite_(df, "label", cols, sep="\n")
+      df <- tidyr::unite(df, "label", cols, sep="\n")
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])

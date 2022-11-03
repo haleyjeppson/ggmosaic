@@ -4,9 +4,11 @@
 \alias{ggmosaic_app}
 \title{Launch shiny app}
 \usage{
-ggmosaic_app(...)
+ggmosaic_app(example = c("mosaics", "models"), ...)
 }
 \arguments{
+\item{example}{Selected shiny app to launch.}
+
 \item{...}{arguments passed on.}
 }
 \description{

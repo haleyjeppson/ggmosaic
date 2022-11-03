@@ -27,11 +27,21 @@
 #' # good practice: use the 'dependent' variable (or most important variable)
 #' # as fill variable
 #'
+#' # if there is only one variable inside `product()`,
+#' # `product()` can be omitted
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = Class, fill = Survived))
+#'
 #' ggplot(data = titanic) +
 #'   geom_mosaic(aes(x = product(Class, Age), fill = Survived))
 #'
 #' ggplot(data = titanic) +
 #'   geom_mosaic(aes(x = product(Class), conds = product(Age), fill = Survived))
+#'
+#' # if there is only one variable inside `product()`,
+#' # `product()` can be omitted
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = Class, conds = Age, fill = Survived))
 #'
 #' ggplot(data = titanic) +
 #'   geom_mosaic(aes(x = product(Survived, Class), fill = Age))
@@ -103,11 +113,13 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
 
-  #browser()
+  # browser()
 
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
-    aes_x <- rlang::eval_tidy(mapping$x)
+    if (grepl("product", rlang::quo_text(mapping$x))) {
+      aes_x <- rlang::eval_tidy(mapping$x)
+    } else aes_x <- list(rlang::quo_get_expr(mapping$x))
     var_x <- paste0("x__", as.character(aes_x))
   }
 
@@ -137,26 +149,26 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
     }
   }
 
-
-  #  aes_x <- mapping$x
   if (!is.null(aes_x)) {
     mapping$x <- structure(1L, class = "productlist")
-
     for (i in seq_along(var_x)) {
       mapping[[var_x[i]]] <- aes_x[[i]]
     }
   }
 
-
   aes_conds <- mapping$conds
   if (!is.null(aes_conds)) {
-    aes_conds <- rlang::eval_tidy(mapping$conds)
-    mapping$conds <- structure(1L, class = "productlist")
+    if (grepl("product", rlang::quo_text(mapping$conds))) {
+      aes_conds <- rlang::eval_tidy(mapping$conds)
+    } else aes_conds <- list(rlang::quo_get_expr(mapping$conds))
     var_conds <- paste0("conds", seq_along(aes_conds), "__", as.character(aes_conds))
+
+    mapping$conds <- structure(1L, class = "productlist")
     for (i in seq_along(var_conds)) {
       mapping[[var_conds[i]]] <- aes_conds[[i]]
     }
   }
+
   ggplot2::layer(
     data = data,
     mapping = mapping,
