@@ -9,7 +9,7 @@ shinyUI(
       tags$style(HTML("
       .btn {border: none; font-size: 24px; line-height: 22px; font-weight: 500; text-transform: uppercase;}"))
     ),
-    titlePanel("Exploring mosaic plots"),
+    titlePanel("Hello ggmosaic!"),
     br(),
     # javascript code for listening to the keypress
     tags$script('
@@ -37,19 +37,27 @@ shinyUI(
                    br(),
                    h5(strong("Select variables:")),
                    p("Use arrow keys (or buttons below) to add, remove, or switch variables."),
-                   actionButton("key_up", label = "\u2B06"), actionButton("key_down", label = "\u2B07"), actionButton("key_left", label = "\u2B05"), actionButton("key_right", label = "\u27A1"),
-
-                   br(),br(),br(),
-                   h5(strong("Select output:")),
-                   p("Use 'h', 'v', 's', and 'b' keys (or buttons below) to switch type of divider."),
-                   actionButton("key_h", label = "H"), actionButton("key_v", label = "V"), actionButton("key_s", label = "S"), actionButton("key_b", label = "B"),
+                   HTML("&nbsp;&nbsp;&nbsp"), actionButton("key_up", label = "\u2B06"), actionButton("key_down", label = "\u2B07"), actionButton("key_left", label = "\u2B05"), actionButton("key_right", label = "\u27A1"),
                    br(),
-                   # br(),
-                   # br(),
+                   br(),
+                   br(),
+                   h5(strong("Select output:")),
+                   p("Use 'h', 'v', 's', and 'b' keys (or buttons below) to switch type of divider:"),
+
+                   column(width = 6,
+                          p("horizontal vs. vertical"),
+                          actionButton("key_h", label = "H"), HTML("&nbsp"), actionButton("key_v", label = "V")
+                          ),
+                   column(width = 6,
+                          p("spine vs. bar"),
+                          actionButton("key_s", label = "S"), HTML("&nbsp"), actionButton("key_b", label = "B")
+                          ),
+
+                    #HTML("&nbsp"),
+                   br(),
                    br(),
                    br(),
                    br()
-
       ),
       mainPanel(tabsetPanel(
                   tabPanel("Mosaic Plot",
@@ -62,9 +70,6 @@ shinyUI(
                            br(),
                            DTOutput("datatable", width = "400px"),
                            br()
-
-
-
                   )
                 ),
                 h5("Code to recreate mosaic plot:"),

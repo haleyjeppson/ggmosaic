@@ -12,13 +12,13 @@ data(fly, package = "ggmosaic")
 data(titanic, package = "ggmosaic")
 
 ##  remove NAs
-# happy <- happy[complete.cases(happy),]
-# fly <- fly[complete.cases(fly),]
-# titanic <- titanic[complete.cases(titanic),]
-#
-# fly$do_you_recline <- forcats::fct_collapse(fly$do_you_recline,
-#                                             usually = c("usually", "always"),
-#                                             sometimes = c("about half the time", "once in a while"))
+happy <- happy[complete.cases(happy),]
+fly <- fly[complete.cases(fly),]
+titanic <- titanic[complete.cases(titanic),]
+
+fly$do_you_recline <- forcats::fct_collapse(fly$do_you_recline,
+                                            usually = c("usually", "always"),
+                                            sometimes = c("about half the time", "once in a while"))
 
 ## color pallette & theme
 theme_set(theme_mosaic())
