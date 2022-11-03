@@ -129,11 +129,21 @@ ggplot(data = titanic) +
 # good practice: use the 'dependent' variable (or most important variable)
 # as fill variable
 
+# if there is only one variable inside `product()`,
+# `product()` can be omitted
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = Class, fill = Survived))
+
 ggplot(data = titanic) +
   geom_mosaic(aes(x = product(Class, Age), fill = Survived))
 
 ggplot(data = titanic) +
   geom_mosaic(aes(x = product(Class), conds = product(Age), fill = Survived))
+
+# if there is only one variable inside `product()`,
+# `product()` can be omitted
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = Class, conds = Age, fill = Survived))
 
 ggplot(data = titanic) +
   geom_mosaic(aes(x = product(Survived, Class), fill = Age))
