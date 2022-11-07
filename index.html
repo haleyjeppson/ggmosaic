@@ -103,21 +103,29 @@
 <li><p><code>weight</code>: select a weighting variable</p></li>
 <li>
 <p><code>x</code>: select variables to add to formula</p>
-<ul><li>declared as <code>x = product(var2, var1, ...)</code>
-</li></ul>
+<ul>
+<li>declared as <code>x = product(var2, var1, ...)</code>
+</li>
+</ul>
 </li>
 <li>
 <p><code>alpha</code>: add an alpha transparency to the selected variable</p>
-<ul><li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position</li></ul>
+<ul>
+<li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position</li>
+</ul>
 </li>
 <li>
 <p><code>fill</code>: select a variable to be filled</p>
-<ul><li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position after the optional <code>alpha</code> variable.</li></ul>
+<ul>
+<li>unless the variable is called in <code>x</code>, it will be added to the formula in the first position after the optional <code>alpha</code> variable.</li>
+</ul>
 </li>
 <li>
 <p><code>conds</code> : select a variable to condition on</p>
-<ul><li>declared as <code>conds = product(cond1, cond2, ...)</code>
-</li></ul>
+<ul>
+<li>declared as <code>conds = product(cond1, cond2, ...)</code>
+</li>
+</ul>
 </li>
 </ul>
 <p>These values are then sent through repurposed <code>productplots</code> functions to create the desired formula: <code>weight ~ alpha + fill + x | conds</code>.</p>
@@ -225,7 +233,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

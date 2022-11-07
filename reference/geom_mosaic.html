@@ -203,25 +203,33 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">titanic</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`unite_()` was deprecated in tidyr 1.2.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `unite()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ggmosaic</span> package.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/haleyjeppson/ggmosaic&gt;</span>.</span>
 <span class="r-plt img"><img src="geom_mosaic-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># good practice: use the 'dependent' variable (or most important variable)</span></span></span>
 <span class="r-in"><span><span class="co"># as fill variable</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># if there is only one variable inside `product()`,</span></span></span>
+<span class="r-in"><span><span class="co"># `product()` can be omitted</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">titanic</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Class</span>, <span class="va">Age</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Class</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="geom_mosaic-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">titanic</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span>, conds <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Class</span>, <span class="va">Age</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="geom_mosaic-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">titanic</span><span class="op">)</span> <span class="op">+</span></span></span>
-<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Survived</span>, <span class="va">Class</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Age</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span>, conds <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Age</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="geom_mosaic-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># if there is only one variable inside `product()`,</span></span></span>
+<span class="r-in"><span><span class="co"># `product()` can be omitted</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">titanic</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Class</span>, conds <span class="op">=</span> <span class="va">Age</span>, fill <span class="op">=</span> <span class="va">Survived</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="geom_mosaic-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">titanic</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">geom_mosaic</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="product.html">product</a></span><span class="op">(</span><span class="va">Survived</span>, <span class="va">Class</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">Age</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="geom_mosaic-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Just excluded for timing. Examples are included in testing to make sure they work</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -295,7 +303,7 @@ the default plot specification, e.g. <code><a href="https://ggplot2.tidyverse.or
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
