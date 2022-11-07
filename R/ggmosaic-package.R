@@ -2,7 +2,8 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @import productplots
+#' @importFrom productplots scale_x_product
+#' @importFrom productplots scale_y_product
 #' @importFrom scales alpha
 #' @importFrom utils getFromNamespace
 ## usethis namespace: end
