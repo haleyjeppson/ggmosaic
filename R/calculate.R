@@ -10,7 +10,6 @@
 #' @param na.rm Logical vector of length 1 - should missing levels be
 #'   silently removed?
 #' @keywords internal
-#' @importFrom utils getFromNamespace
 #' @export
 #' @examples
 #' \dontrun{

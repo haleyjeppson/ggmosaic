@@ -3,7 +3,6 @@ partd <- function(x) {
   if (!is.null(d)) d else 1
 }
 
-#' @importFrom utils getFromNamespace
 divide <- function(data, bounds = productplots:::bound(), divider = list(productplots::hbar), level = 1, cascade = 0, max_wt = NULL, offset = offset) {
   d <- partd(divider[[1]])
   if (ncol(data) == d + 1) {
