@@ -1,12 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
 
 [![CRAN
 Status](http://www.r-pkg.org/badges/version/ggmosaic)](https://cran.r-project.org/package=ggmosaic)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg/ggmosaic)
-[![Travis-CI Build
-Status](https://travis-ci.org/haleyjeppson/ggmosaic.svg?branch=master)](https://travis-ci.org/haleyjeppson/ggmosaic)
+[![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 # ggmosaic
 
@@ -35,7 +36,7 @@ ggplot(data = fly) +
 
 ![](man/figures/README-example-1.png)<!-- -->
 
-## geom\_mosaic: setting the aesthetics
+## geom_mosaic: setting the aesthetics
 
 In `geom_mosaic()`, the following aesthetics can be specified:
 
