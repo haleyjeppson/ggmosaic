@@ -22,12 +22,13 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
   
 
+## Overview
 
-ggmosaic was designed to create visualizations of categorical data and is capable of producing bar charts, stacked bar charts, mosaic plots, and double decker plots.
+**ggmosaic** was designed to create visualizations of categorical data and is capable of producing bar charts, stacked bar charts, mosaic plots, and double decker plots.
 
 ## Installation
 
-You can install ggmosaic from github with:
+You can install **ggmosaic** from github with:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")

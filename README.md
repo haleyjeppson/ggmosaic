@@ -12,13 +12,15 @@ downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg
 [![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-ggmosaic was designed to create visualizations of categorical data and
-is capable of producing bar charts, stacked bar charts, mosaic plots,
-and double decker plots.
+## Overview
+
+**ggmosaic** was designed to create visualizations of categorical data
+and is capable of producing bar charts, stacked bar charts, mosaic
+plots, and double decker plots.
 
 ## Installation
 
-You can install ggmosaic from github with:
+You can install **ggmosaic** from github with:
 
 ``` r
 # install.packages("devtools")
