@@ -9,7 +9,7 @@ downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg
 [![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-# ggmosaic
+# ggmosaic <img src="man/figures/logo.png" align="right" width="120" />
 
 ggmosaic was designed to create visualizations of categorical data and
 is capable of producing bar charts, stacked bar charts, mosaic plots,
@@ -28,10 +28,18 @@ devtools::install_github("haleyjeppson/ggmosaic")
 
 ``` r
 library(ggmosaic)
-#> Loading required package: ggplot2
-ggplot(data = fly) +
-  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline)) +
-  theme_mosaic()
+library(dplyr)
+happy %>% 
+  mutate(finrela = forcats::fct_recode(finrela,
+    "far below     " = "far below average",
+    "    below" = "below average",
+    "average" = "average",
+    "above    " = "above average", 
+    "l\n   far above" = "far above average")) %>% 
+  ggplot() +
+  geom_mosaic(aes(x = product(finrela), fill=health), show.legend = FALSE) +
+  theme_mosaic() +
+  scale_fill_manual(values = c("#4575B4", "#ABD9E9", "#FEE090", "#F46D43"))
 ```
 
 ![](man/figures/README-example-1.png)<!-- -->
@@ -40,26 +48,25 @@ ggplot(data = fly) +
 
 In `geom_mosaic()`, the following aesthetics can be specified:
 
--   `weight`: select a weighting variable
+- `weight`: select a weighting variable
 
--   `x`: select variables to add to formula
+- `x`: select variables to add to formula
 
-    -   declared as `x = product(var2, var1, ...)`
+  - declared as `x = product(var2, var1, ...)`
 
--   `alpha`: add an alpha transparency to the selected variable
+- `alpha`: add an alpha transparency to the selected variable
 
-    -   unless the variable is called in `x`, it will be added to the
-        formula in the first position
+  - unless the variable is called in `x`, it will be added to the
+    formula in the first position
 
--   `fill`: select a variable to be filled
+- `fill`: select a variable to be filled
 
-    -   unless the variable is called in `x`, it will be added to the
-        formula in the first position after the optional `alpha`
-        variable.
+  - unless the variable is called in `x`, it will be added to the
+    formula in the first position after the optional `alpha` variable.
 
--   `conds` : select a variable to condition on
+- `conds` : select a variable to condition on
 
-    -   declared as `conds = product(cond1, cond2, ...)`
+  - declared as `conds = product(cond1, cond2, ...)`
 
 These values are then sent through repurposed `productplots` functions
 to create the desired formula: `weight ~ alpha + fill + x | conds`.

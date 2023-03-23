@@ -10,7 +10,8 @@ editor_options:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-"
+  fig.path = "man/figures/README-",
+  message=FALSE, warning=FALSE
 )
 ```
 
@@ -19,7 +20,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
   
-# ggmosaic
+# ggmosaic <img src="man/figures/logo.png" align="right" width="120" />
 
 ggmosaic was designed to create visualizations of categorical data and is capable of producing bar charts, stacked bar charts, mosaic plots, and double decker plots.
 
@@ -36,9 +37,18 @@ devtools::install_github("haleyjeppson/ggmosaic")
 
 ```{r example}
 library(ggmosaic)
-ggplot(data = fly) +
-  geom_mosaic(aes(x = product(rude_to_recline), fill=do_you_recline)) +
-  theme_mosaic()
+library(dplyr)
+happy %>% 
+  mutate(finrela = forcats::fct_recode(finrela,
+    "far below     " = "far below average",
+    "    below" = "below average",
+    "average" = "average",
+    "above    " = "above average", 
+    "l\n   far above" = "far above average")) %>% 
+  ggplot() +
+  geom_mosaic(aes(x = product(finrela), fill=health), show.legend = FALSE) +
+  theme_mosaic() +
+  scale_fill_manual(values = c("#4575B4", "#ABD9E9", "#FEE090", "#F46D43"))
 ```
 
 ## geom_mosaic: setting the aesthetics
