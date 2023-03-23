@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggmosaic <img src="man/figures/logo.png" align="right" width="200">
+# ggmosaic <img src="man/figures/logo.png" align="right" width="190"  style="vertical-align:top;margin:0px">
 
 <!-- badges: start -->
 
@@ -10,7 +10,7 @@ Status](http://www.r-pkg.org/badges/version/ggmosaic)](https://cran.r-project.or
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg/ggmosaic)
 [![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
+<!-- badges: end --> <br/>
 
 ## Overview
 
