@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ggmosaic <img src="man/figures/logo.png" align="right" width="140">
+# ggmosaic <img src="man/figures/logo.png" align="right" width="200">
 <!-- badges: start -->
 [![CRAN Status](http://www.r-pkg.org/badges/version/ggmosaic)](https://cran.r-project.org/package=ggmosaic) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg/ggmosaic) 
 [![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
