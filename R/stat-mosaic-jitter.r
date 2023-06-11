@@ -206,7 +206,7 @@ StatMosaicJitter <- ggplot2::ggproto(
 
     if (length(cols) > 1) {
       df <- res[,cols]
-      df <- tidyr::unite_(df, "label", cols, sep="\n")
+      df <- tidyr::unite(df, "label", cols, sep="\n")
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])
