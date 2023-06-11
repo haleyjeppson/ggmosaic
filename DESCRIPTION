@@ -9,15 +9,18 @@ Authors@R:
       person(given = "Heike",
              family = "Hofmann",
              role = "aut",
-             email = "hofmann@iastate.edu"),
+             email = "hofmann@iastate.edu",
+             comment = c(ORCID = "0000-0001-6216-5183")),
       person(given = "Di",
              family = "Cook",
              role = "aut",
-             email = "dicook@monash.edu"),
+             email = "dicook@monash.edu",
+             comment= c(ORCID = "0000-0002-3813-7155")),
       person(given = "Hadley",
              family = "Wickham",
              role = "ctb",
-             email = "hadley@rstudio.com"))
+             email = "hadley@posit.co",
+             comment = c(ORCID="0000-0003-4757-117X")))
 Description: Mosaic plots in the 'ggplot2' framework. Mosaic
     plot functionality is provided in a single 'ggplot2' layer by calling
     the geom 'mosaic'.
@@ -49,4 +52,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate',
     'namespace'))
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
