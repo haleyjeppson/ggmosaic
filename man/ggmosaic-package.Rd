@@ -6,6 +6,8 @@
 \alias{ggmosaic-package}
 \title{ggmosaic: Mosaic Plots in the 'ggplot2' Framework}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality is provided in a single 'ggplot2' layer by calling the geom 'mosaic'.
 }
 \seealso{
@@ -21,13 +23,13 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Heike Hofmann \email{hofmann@iastate.edu}
-  \item Di Cook \email{dicook@monash.edu}
+  \item Heike Hofmann \email{hofmann@iastate.edu} (\href{https://orcid.org/0000-0001-6216-5183}{ORCID})
+  \item Di Cook \email{dicook@monash.edu} (\href{https://orcid.org/0000-0002-3813-7155}{ORCID})
 }
 
 Other contributors:
 \itemize{
-  \item Hadley Wickham \email{hadley@rstudio.com} [contributor]
+  \item Hadley Wickham \email{hadley@posit.co} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID}) [contributor]
 }
 
 }
