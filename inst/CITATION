@@ -1,0 +1,29 @@
+year = sub('.*(2[[:digit:]]{3})-.*', '\\1', meta$Date, perl = TRUE)
+vers = paste('R package version', meta$Version)
+if (length(year) == 0) year = format(Sys.Date(), '%Y')
+
+
+bibentry(
+  bibtype="manual",
+  title = "ggmosaic: Mosaic Plots in the 'ggplot2' Framework",
+  author = "Haley Jeppson and Heike Hofmann and Dianne H. Cook",
+  year = 2023,
+  note = vers,
+  url = meta$URL
+)
+
+
+bibentry(
+  bibtype = "Article",
+  title = "The R Journal: Generalized Mosaic Plots in the ggplot2 Framework",
+  author = "Haley Jeppson and Heike Hofmann",
+  journal = "The R Journal",
+  year = "2023",
+  url = "https://doi.org/10.32614/RJ-2023-013",
+  doi = "10.32614/RJ-2023-013",
+  volume = "14",
+  number = "4",
+  issn = "2073-4859",
+  pages = "50-78",
+  textVersion = 'Jeppson & Hofmann, "The R Journal: Generalized Mosaic Plots in the ggplot2 Framework", The R Journal, 2023'
+)
