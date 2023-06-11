@@ -117,6 +117,7 @@ stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitte
 #' @format NULL
 #' @usage NULL
 #' @importFrom tidyr unite_
+#' @importFrom productplots scale_x_product scale_y_product
 #' @export
 StatMosaicJitter <- ggplot2::ggproto(
   "StatMosaicJitter", ggplot2::Stat,

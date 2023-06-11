@@ -154,6 +154,7 @@ geom_mosaic_text <- function(mapping = NULL, data = NULL, stat = "mosaic",
 #' @importFrom dplyr mutate select
 #' @importFrom ggrepel GeomTextRepel
 #' @importFrom ggrepel GeomLabelRepel
+#' @importFrom scales alpha
 GeomMosaicText <- ggplot2::ggproto(
   "GeomMosaicText", ggplot2::Geom,
   setup_data = function(data, params) {
