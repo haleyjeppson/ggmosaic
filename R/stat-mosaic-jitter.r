@@ -257,21 +257,17 @@ StatMosaicJitter <- ggplot2::ggproto(
     }
 
 
-
+# create a set of uniformly spread points between 0 and 1 once, when the plot is created.
+# the transformation to the correct scale happens in compute panel.
     points <- subset(sub, sub$.n>=1)
     points <- tidyr::nest(points, data = -label)
-
-    # what is the size of a dot in pixels?
-    dx <- 1.5*grid::convertX(unit(1, "points"), "npc", valueOnly = TRUE)
-    dy <- 1.5*grid::convertY(unit(1, "points"), "npc", valueOnly = TRUE)
-#browser()
     points <-
       dplyr::mutate(
         points,
         coords = purrr::map(data, .f = function(d) {
           data.frame(
-            x = runif(d$.n, min = d$xmin + dx, max = d$xmax-dx),
-            y = runif(d$.n, min = d$ymin + dy, max = d$ymax-dy),
+            x = runif(d$.n, min = 0, max = 1),
+            y = runif(d$.n, min = 0, max = 1),
             dplyr::select(d, -x, -y)
           )
         })
