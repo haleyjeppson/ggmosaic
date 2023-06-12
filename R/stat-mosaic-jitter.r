@@ -120,7 +120,11 @@ stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitte
 StatMosaicJitter <- ggplot2::ggproto(
   "StatMosaicJitter", ggplot2::Stat,
   #required_aes = c("x"),
-  non_missing_aes = "weight",
+  non_missing_aes = c("weight", "size", "shape", "colour"),
+  default_aes = aes(
+    shape = 19, colour = "black", size = 1.5, fill = NA,
+    alpha = NA, stroke = 0.5
+  ),
 
   setup_params = function(data, params) {
     #cat("setup_params from StatMosaic\n")
@@ -257,13 +261,17 @@ StatMosaicJitter <- ggplot2::ggproto(
     points <- subset(sub, sub$.n>=1)
     points <- tidyr::nest(points, data = -label)
 
+    # what is the size of a dot in pixels?
+    dx <- 1.5*grid::convertX(unit(1, "points"), "npc", valueOnly = TRUE)
+    dy <- 1.5*grid::convertY(unit(1, "points"), "npc", valueOnly = TRUE)
+#browser()
     points <-
       dplyr::mutate(
         points,
         coords = purrr::map(data, .f = function(d) {
           data.frame(
-            x = runif(d$.n, min = d$xmin, max = d$xmax),
-            y = runif(d$.n, min = d$ymin, max = d$ymax),
+            x = runif(d$.n, min = d$xmin + dx, max = d$xmax-dx),
+            y = runif(d$.n, min = d$ymin + dy, max = d$ymax-dy),
             dplyr::select(d, -x, -y)
           )
         })
