@@ -167,23 +167,6 @@ GeomMosaicJitter <- ggplot2::ggproto(
     # if (all(is.na(data$colour)))
     #   data$colour <- scales::alpha(data$fill, data$alpha) # regard alpha in colour determination
 
-    # sub <- data #subset(data, level==max(data$level))
-    # points <- sub
-    # points <- tidyr::nnest(points, data = -label)
-    #
-    # points <-
-    #   dplyr::mutate(
-    #     points,
-    #     coords = purrr::map(data, .f = function(d) {
-    #       data.frame(
-    #         x = runif(d$.n, min = d$xmin, max = d$xmax),
-    #         y = runif(d$.n, min = d$ymin, max = d$ymax),
-    #         dplyr::select(d, -x, -y)
-    #       )
-    #     })
-    #   )
-#browser()
-
     # adjust the point placement for the size of the points.
     # .pt is defined in ggplot2 as 72.27 / 25.4
     dx <- grid::convertX(unit(.pt, "points"), "npc", valueOnly = TRUE)
@@ -193,14 +176,13 @@ GeomMosaicJitter <- ggplot2::ggproto(
     # (ymin+dy, ymax-dy)
     scale_01_to_xy <- function(value, min_val, max_val) {
       # assumes that value is between 0 and 1
-      #if (min_val > max_val) return(mean(c(min_val, max_val)))
       value*(max_val-min_val) + min_val
     }
     data <- data %>% mutate(
-      # .1 gives a bit of space between any outline of a point and the
+      # could give some bit of space between any outline of a point and the
       # end of the interval
-      x = scale_01_to_xy(x, xmin+(size+.1)*dx, xmax-(size+.1)*dx),
-      y = scale_01_to_xy(y, ymin+(size+.1)*dy, ymax-(size+.1)*dy)
+      x = scale_01_to_xy(x, xmin+(size)*dx, xmax-(size)*dx),
+      y = scale_01_to_xy(y, ymin+(size)*dy, ymax-(size)*dy)
     )
 
     # points <- tidyr::unnest(points, coords)
