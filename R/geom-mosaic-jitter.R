@@ -158,7 +158,7 @@ GeomMosaicJitter <- ggplot2::ggproto(
   non_missing_aes = c("size", "shape", "colour"),
   default_aes = aes(
     shape = 19, colour = "grey30", size = 1, fill = NA,
-    alpha = NA, stroke = 0.5, linewidth=.1, weight = 1
+    alpha = NA, stroke = 1, linewidth=.1, weight = 1
   ),
 
   draw_panel = function(data, panel_scales, coord) {
@@ -171,6 +171,8 @@ GeomMosaicJitter <- ggplot2::ggproto(
     # .pt is defined in ggplot2 as 72.27 / 25.4
     dx <- grid::convertX(unit(.pt, "points"), "npc", valueOnly = TRUE)
     dy <- grid::convertY(unit(.pt, "points"), "npc", valueOnly = TRUE)
+    # check out stroke and .stroke
+    # mapping shape?
     #browser()
     # scale x and y coordinates to the correct place between (xmin+dx, xmax-dx) and
     # (ymin+dy, ymax-dy)
@@ -178,11 +180,11 @@ GeomMosaicJitter <- ggplot2::ggproto(
       # assumes that value is between 0 and 1
       value*(max_val-min_val) + min_val
     }
-    data <- data %>% mutate(
+    data <- mutate(data,
       # could give some bit of space between any outline of a point and the
       # end of the interval
-      x = scale_01_to_xy(x, xmin+(size)*dx, xmax-(size)*dx),
-      y = scale_01_to_xy(y, ymin+(size)*dy, ymax-(size)*dy)
+      x = scale_01_to_xy(x, xmin+1*(size)*dx, xmax-1*(size)*dx),
+      y = scale_01_to_xy(y, ymin+1*(size)*dy, ymax-1*(size)*dy)
     )
 
     # points <- tidyr::unnest(points, coords)
