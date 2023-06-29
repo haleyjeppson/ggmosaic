@@ -65,6 +65,7 @@
 <span>  divider <span class="op">=</span> <span class="fu"><a href="mosaic.html">mosaic</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  offset <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  drop_level <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  show.legend <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  inherit.aes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -81,6 +82,7 @@
 <span>  inherit.aes <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  offset <span class="op">=</span> <span class="fl">0.01</span>,</span>
 <span>  drop_level <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  seed <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -140,6 +142,11 @@ settings of the adjustment.</p></dd>
 
 <dt>drop_level</dt>
 <dd><p>Generate points for the max - 1 level</p></dd>
+
+
+<dt>seed</dt>
+<dd><p>Random seed passed to <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></code>. Defaults to
+<code>NA</code>, which means that <code>set.seed</code> will not be called.</p></dd>
 
 
 <dt>show.legend</dt>
