@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Haley Jeppson \email{hjeppson@iastate.edu}
+\strong{Maintainer}: Haley Jeppson \email{hjeppson@iastate.edu} (\href{https://orcid.org/0000-0003-2524-4063}{ORCID})
 
 Authors:
 \itemize{

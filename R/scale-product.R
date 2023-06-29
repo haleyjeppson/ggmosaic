@@ -1,38 +1,3 @@
-is.formula <- function (x) inherits(x, "formula")
-
-is.discrete <- function(x) {
-  is.factor(x) || is.character(x) || is.logical(x)
-}
-
-product_names <- function() {
-  function(x) {
-    #cat(" in product_breaks\n")
-    #browser()
-    unique(x)
-  }
-}
-
-product_breaks <- function() {
-  function(x) {
-    #cat(" in product_breaks\n")
-    #browser()
-    unique(x)
-  }
-}
-
-product_labels <- function() {
-  function(x) {
-    #cat(" in product_labels\n")
-    #browser()
-
-    unique(x)
-  }
-}
-
-is.waive <- getFromNamespace("is.waive", "ggplot2")
-
-
-
 #' Helper function for determining scales
 #'
 #' Used internally to determine class of variable x
@@ -56,7 +21,7 @@ scale_type.productlist <- function(x) {
 #' @export
 scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
-                                limits = NULL, expand = ggplot2::waiver(), oob = scales:::censor,
+                                limits = NULL, expand = ggplot2::waiver(), oob = scales::censor,
                                 na.value = NA_real_, trans = "identity",
                                 position = "bottom", sec.axis = ggplot2::waiver()) {
   #browser()
@@ -83,7 +48,7 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
 #' @export
 scale_y_productlist <- function(name = ggplot2::waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
-                                limits = NULL, expand = ggplot2::waiver(), oob = scales:::censor,
+                                limits = NULL, expand = ggplot2::waiver(), oob = scales::censor,
                                 na.value = NA_real_, trans = "identity",
                                 position = "left", sec.axis = ggplot2::waiver()) {
   #browser()

@@ -1,26 +1,3 @@
-
-"%||%" <- function(a, b) {
-  if (!is.null(a)) a else b
-}
-
-in_data <- function(data, variable) {
-  length(intersect(names(data), variable)) > 0
-}
-
-parse_product_formula <- getFromNamespace("parse_product_formula", "productplots")
-
-#' Wrapper for a list
-#'
-#' @param ... Unquoted variables going into the product plot.
-#' @export
-#' @examples
-#' data(titanic)
-#' ggplot(data = titanic) +
-#'   geom_mosaic(aes(x = product(Survived, Class), fill = Survived))
-product <- function(...) {
-  rlang::exprs(...)
-}
-
 #' @rdname geom_mosaic_jitter
 #' @inheritParams ggplot2::stat_identity
 #' @section Computed variables:
@@ -34,7 +11,7 @@ product <- function(...) {
 stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitter",
                                position = "identity", na.rm = FALSE,  divider = mosaic(),
                                show.legend = NA, inherit.aes = TRUE, offset = 0.01,
-                               drop_level = FALSE, ...)
+                               drop_level = FALSE, seed = NA, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
@@ -106,6 +83,7 @@ stat_mosaic_jitter <- function(mapping = NULL, data = NULL, geom = "mosaic_jitte
       divider = divider,
       offset = offset,
       drop_level = drop_level,
+      seed = seed,
       ...
     )
   )
@@ -142,7 +120,7 @@ StatMosaicJitter <- ggplot2::ggproto(
     data
   },
 
-  compute_panel = function(self, data, scales, na.rm=FALSE, drop_level=FALSE, divider, offset) {
+  compute_panel = function(self, data, scales, na.rm=FALSE, drop_level=FALSE, seed = NA, divider, offset) {
     #cat("compute_panel from StatMosaic\n")
     #browser()
 
@@ -204,6 +182,7 @@ StatMosaicJitter <- ggplot2::ggproto(
     #   if ("ScaleContinuousProduct" %in% class(scales$y))
     #     res$y <- list(scale=scy)
     # }
+
     # XXXX add label for res
     cols <- c(prs$marg, prs$cond)
 
@@ -259,9 +238,16 @@ StatMosaicJitter <- ggplot2::ggproto(
 
 # create a set of uniformly spread points between 0 and 1 once, when the plot is created.
 # the transformation to the correct scale happens in compute panel.
+
+    # altered from ggrepel:
+    # Make reproducible if desired.
+    if (!is.null(seed) && is.na(seed)) {
+      seed <- sample.int(.Machine$integer.max, 1L)
+    }
+
     points <- subset(sub, sub$.n>=1)
     points <- tidyr::nest(points, data = -label)
-    points <-
+    points <- with_seed_null(seed,
       dplyr::mutate(
         points,
         coords = purrr::map(data, .f = function(d) {
@@ -271,7 +257,7 @@ StatMosaicJitter <- ggplot2::ggproto(
             dplyr::select(d, -x, -y)
           )
         })
-      )
+      ))
 
     points <- tidyr::unnest(points, coords)
     # browser()

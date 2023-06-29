@@ -6,7 +6,7 @@ library(tidyverse)
 library(DT)
 
 ## LOAD DATA
-# install_github("haleyjeppson/ggmosaic", ref = "data")
+# install_github("haleyjeppson/ggmosaic")
 data(happy, package = "ggmosaic")
 data(fly, package = "ggmosaic")
 data(titanic, package = "ggmosaic")

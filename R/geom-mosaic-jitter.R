@@ -15,6 +15,8 @@
 #' }
 #' @param offset Set the space between the first spine
 #' @param drop_level Generate points for the max - 1 level
+#' @param seed Random seed passed to \code{\link[base]{set.seed}}. Defaults to
+#'   \code{NA}, which means that \code{set.seed} will not be called.
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
@@ -41,7 +43,7 @@
 #'               divider = c("vspine", "hspine", "hspine"))
 geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic_jitter",
                                position = "identity", na.rm = FALSE,  divider = mosaic(),
-                               offset = 0.01, drop_level = FALSE,
+                               offset = 0.01, drop_level = FALSE, seed = NA,
                                show.legend = NA, inherit.aes = FALSE, ...)
 {
   if (!is.null(mapping$y)) {
@@ -129,6 +131,7 @@ geom_mosaic_jitter <- function(mapping = NULL, data = NULL, stat = "mosaic_jitte
       divider = divider,
       offset = offset,
       drop_level = drop_level,
+      seed = seed,
       ...
     )
   )

@@ -79,8 +79,8 @@ shinyUI(
 
                )),
                fluidRow(
-               h5("Code output:"),
-               verbatimTextOutput("code"),
+               # h5("Code output:"),
+               # verbatimTextOutput("code"),
                br(),
                br(),
                br(),

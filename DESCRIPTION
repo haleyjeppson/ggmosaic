@@ -39,7 +39,8 @@ Imports:
     rlang,
     tidyr,
     ggrepel,
-    scales
+    scales,
+    withr (>= 2.5.0)
 Suggests:
     gridExtra,
     knitr,

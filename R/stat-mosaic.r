@@ -1,26 +1,3 @@
-
-"%||%" <- function(a, b) {
-  if (!is.null(a)) a else b
-}
-
-in_data <- function(data, variable) {
-  length(intersect(names(data), variable)) > 0
-}
-
-parse_product_formula <- getFromNamespace("parse_product_formula", "productplots")
-
-#' Wrapper for a list
-#'
-#' @param ... Unquoted variables going into the product plot.
-#' @export
-#' @examples
-#' data(titanic)
-#' ggplot(data = titanic) +
-#'   geom_mosaic(aes(x = product(Survived, Class), fill = Survived))
-product <- function(...) {
-  rlang::exprs(...)
-}
-
 #' @rdname geom_mosaic
 #' @inheritParams ggplot2::stat_identity
 #' @section Computed variables:

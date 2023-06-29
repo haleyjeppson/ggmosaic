@@ -14,6 +14,7 @@ geom_mosaic_jitter(
   divider = mosaic(),
   offset = 0.01,
   drop_level = FALSE,
+  seed = NA,
   show.legend = NA,
   inherit.aes = FALSE,
   ...
@@ -30,6 +31,7 @@ stat_mosaic_jitter(
   inherit.aes = TRUE,
   offset = 0.01,
   drop_level = FALSE,
+  seed = NA,
   ...
 )
 }
@@ -77,6 +79,9 @@ settings of the adjustment.}
 \item{offset}{Set the space between the first spine}
 
 \item{drop_level}{Generate points for the max - 1 level}
+
+\item{seed}{Random seed passed to \code{\link[base]{set.seed}}. Defaults to
+\code{NA}, which means that \code{set.seed} will not be called.}
 
 \item{show.legend}{logical. Should this layer be included in the legends?
 \code{NA}, the default, includes if any aesthetics are mapped.
