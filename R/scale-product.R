@@ -37,7 +37,7 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
   if (!is.waive(sec.axis)) {
     if (is.formula(sec.axis)) sec.axis <- ggplot2::sec_axis(sec.axis)
     is.sec_axis = getFromNamespace("is.sec_axis", "ggplot2")
-    if (is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
+    if (!is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
     sc$secondary.axis <- sec.axis
   }
   sc
