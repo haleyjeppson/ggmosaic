@@ -29,7 +29,7 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
     c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
     "position_c", identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
-    expand = expand, oob = oob, na.value = na.value, trans = trans,
+    expand = expand, oob = oob, na.value = na.value, transform = trans,
     guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
   )
 
