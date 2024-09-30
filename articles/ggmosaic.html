@@ -126,6 +126,7 @@ package’s versatility.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, hjust <span class="op">=</span> <span class="fl">1</span>, vjust <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y<span class="op">=</span><span class="st">"Do you recline?"</span>, x<span class="op">=</span><span class="st">"Eliminate reclining?: Is it rude to recline?"</span>, title <span class="op">=</span> <span class="st">"Double Decker Plot"</span><span class="op">)</span></span>
 <span></span>
+<span></span>
 <span><span class="va">spine_examp</span> <span class="op">+</span> <span class="va">bar_examp</span> <span class="op">+</span> <span class="va">mosaic_examp</span> <span class="op">+</span> <span class="va">stackbar_examp</span> <span class="op">+</span> <span class="va">mosaic2_examp</span> <span class="op">+</span> <span class="va">ddecker_examp</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <img src="ggmosaic_files/figure-html/variety-1.png" alt="An assortment of plots made with the ggmosaic package." width="576"><p class="caption">
@@ -428,17 +429,9 @@ which are empty, create an empty space.</p>
 <span></span>
 <span><span class="va">offset0</span> <span class="op">+</span> <span class="va">offset1</span> <span class="op">+</span> <span class="va">offset2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/offset-b-1.png" width="960" style="display: block; margin: auto;"></p>
+<!-- ## Current Issues -->
+<!-- - `geom_mosaic()` is no longer compatible with `ggplotly()` -->
 </div>
-</div>
-<div class="section level2">
-<h2 id="current-issues">Current Issues<a class="anchor" aria-label="anchor" href="#current-issues"></a>
-</h2>
-<ul>
-<li>
-<code><a href="../reference/geom_mosaic.html">geom_mosaic()</a></code> is no longer compatible with
-<code>ggplotly()</code>
-</li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="version-compatibility-issues-with-ggplot2">Version compatibility issues with ggplot2<a class="anchor" aria-label="anchor" href="#version-compatibility-issues-with-ggplot2"></a>
