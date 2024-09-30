@@ -13,6 +13,7 @@ Mosaic plots in the 'ggplot2' framework. Mosaic plot functionality is provided i
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://haleyjeppson.github.io/ggmosaic/}
   \item \url{https://github.com/haleyjeppson/ggmosaic}
   \item Report bugs at \url{https://github.com/haleyjeppson/ggmosaic}
 }

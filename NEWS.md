@@ -1,5 +1,7 @@
 # ggmosaic 0.3.3
 
+# ggmosaic 0.3.3
+
 - A geom, `geom_mosaic_jitter()`, and an associated stat, `stat_mosaic_jitter()`, has been added.
 
 - A geom, `geom_mosaic_text()`, and an associated stat, `stat_mosaic_text()`, has been added.

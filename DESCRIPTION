@@ -29,7 +29,7 @@ License: GPL (>= 2)
 URL: https://haleyjeppson.github.io/ggmosaic/, https://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 Depends:
-    ggplot2 (>= 3.3.0),
+    ggplot2 (>= 3.5.0),
     R (>= 3.5.0)
 Imports:
     productplots,
@@ -54,4 +54,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate',
     'namespace'))
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

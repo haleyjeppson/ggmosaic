@@ -116,8 +116,8 @@ StatMosaic <- ggplot2::ggproto(
   },
 
   compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
-    #cat("compute_panel from StatMosaic\n")
-    #   browser()
+#    cat("compute_panel from StatMosaic\n")
+#       browser()
 
     #    vars <- names(data)[grep("x[0-9]+__", names(data))]
     vars <- names(data)[grep("x__", names(data))]
@@ -142,7 +142,7 @@ StatMosaic <- ggplot2::ggproto(
     res <- prodcalc(df, formula=as.formula(formula),
                     divider = divider, cascade=0, scale_max = TRUE,
                     na.rm = na.rm, offset = offset)
-    #browser()
+
 
     # need to set x variable - I'd rather set the scales here.
     prs <- parse_product_formula(as.formula(formula))
@@ -152,7 +152,8 @@ StatMosaic <- ggplot2::ggproto(
     # the level at which things are labelled could be made a parameter.
     # At the moment the deepest level is being labelled.
     dflist <- list(data=subset(res, level==max(res$level)), formula=as.formula(formula), divider=divider)
-    scx <- productplots::scale_x_product(dflist)
+    browser()
+     scx <- productplots::scale_x_product(dflist)
     scy <- productplots::scale_y_product(dflist)
 
 

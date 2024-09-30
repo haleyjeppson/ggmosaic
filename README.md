@@ -1,8 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ggmosaic <img src="man/figures/logo.png" align="right" width="190"  style="vertical-align:top;margin:0px">
-
 <!-- badges: start -->
 
 [![CRAN
@@ -10,17 +8,17 @@ Status](http://www.r-pkg.org/badges/version/ggmosaic)](https://cran.r-project.or
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg/ggmosaic)
 [![R-CMD-check](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/haleyjeppson/ggmosaic/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end --> <br/>
+<!-- badges: end -->
 
-## Overview
+# ggmosaic <img src="man/figures/logo.png" align="right" width="120" />
 
-**ggmosaic** was designed to create visualizations of categorical data
-and is capable of producing bar charts, stacked bar charts, mosaic
-plots, and double decker plots.
+ggmosaic was designed to create visualizations of categorical data and
+is capable of producing bar charts, stacked bar charts, mosaic plots,
+and double decker plots.
 
 ## Installation
 
-You can install **ggmosaic** from github with:
+You can install ggmosaic from github with:
 
 ``` r
 # install.packages("devtools")
@@ -83,10 +81,10 @@ the general usage of ggmosaic, the general user may need to be aware of
 compatibility issues that can arise between versions. The table below
 summarizes the compatibility between versions.
 
-| ggmosaic | ggplot2 | Axis labels                                                                 | Tick marks    |
-|----------|---------|-----------------------------------------------------------------------------|---------------|
-| 0.3.3    | 3.3.3   | x                                                                           | x             |
-| 0.3.0    | 3.3.0   | x                                                                           | x             |
-| 0.2.2    | 3.3.0   | Default labels are okay, but must use <br>`scale_*_productlist()` to modify | No tick marks |
-| 0.2.2    | 3.2.0   | Default labels okay, but must use <br>`scale_*_productlist()` to modify     | x             |
-| 0.2.0    | 3.2.0   | Default labels are wrong, but can use <br>`labs()` to modify                | x             |
+| ggmosaic | ggplot2 | Axis labels | Tick marks |
+|----|----|----|----|
+| 0.3.3 | 3.3.3 | x | x |
+| 0.3.0 | 3.3.0 | x | x |
+| 0.2.2 | 3.3.0 | Default labels are okay, but must use <br>`scale_*_productlist()` to modify | No tick marks |
+| 0.2.2 | 3.2.0 | Default labels okay, but must use <br>`scale_*_productlist()` to modify | x |
+| 0.2.0 | 3.2.0 | Default labels are wrong, but can use <br>`labs()` to modify | x |
