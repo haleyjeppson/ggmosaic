@@ -27,7 +27,7 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
   #browser()
   sc <- ggplot2::continuous_scale(
     c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
-    "position_c", identity, name = name, breaks = breaks,
+    palette = identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, transform = transform,
     guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
@@ -54,7 +54,7 @@ scale_y_productlist <- function(name = ggplot2::waiver(), breaks = product_break
   #browser()
   sc <- ggplot2::continuous_scale(
     c("y", "ymin", "ymax", "yend", "yintercept", "ymin_final", "ymax_final", "ylower", "ymiddle", "yupper"),
-    "position_c", identity, name = name, breaks = breaks,
+    palette = identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
     expand = expand, oob = oob, na.value = na.value, transform = transform,
     guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
