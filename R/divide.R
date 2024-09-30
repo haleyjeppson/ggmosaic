@@ -3,7 +3,13 @@ partd <- function(x) {
   if (!is.null(d)) d else 1
 }
 
-divide <- function(data, bounds = productplots:::bound(), divider = list(productplots::hbar), level = 1, cascade = 0, max_wt = NULL, offset = offset) {
+# Convenience function to create bounds
+bound <- function(t = 1, r = 1, b = 0, l = 0) {
+  data.frame(t = t, r = r, b = b, l = l)
+}
+
+
+divide <- function(data, bounds = bound(), divider = list(productplots::hbar), level = 1, cascade = 0, max_wt = NULL, offset = offset) {
   d <- partd(divider[[1]])
   if (ncol(data) == d + 1) {
     return(divide_once(data, bounds, divider[[1]], level, max_wt, offset))

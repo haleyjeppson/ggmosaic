@@ -80,6 +80,7 @@ ddecker_examp <- ggplot(data = flights) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5)) + 
   labs(y="Do you recline?", x="Eliminate reclining?: Is it rude to recline?", title = "Double Decker Plot")
 
+
 spine_examp + bar_examp + mosaic_examp + stackbar_examp + mosaic2_examp + ddecker_examp + plot_layout(ncol = 2)
 ```
 
@@ -331,9 +332,9 @@ offset0 + offset1 + offset2 + plot_layout(ncol = 3)
 ```
 
 
-## Current Issues
+<!-- ## Current Issues -->
 
-- `geom_mosaic()` is no longer compatible with `ggplotly()`
+<!-- - `geom_mosaic()` is no longer compatible with `ggplotly()` -->
 
 
 ## Version compatibility issues with ggplot2
