@@ -73,7 +73,7 @@
                         <h4 data-toc-skip class="author">Haley Jeppson
 and Heike Hofmann</h4>
             
-            <h4 data-toc-skip class="date">2024-09-23</h4>
+            <h4 data-toc-skip class="date">2024-09-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd" class="external-link"><code>vignettes/ggmosaic.Rmd</code></a></small>
       <div class="hidden name"><code>ggmosaic.Rmd</code></div>
@@ -129,11 +129,6 @@ package’s versatility.</p>
 <span><span class="va">spine_examp</span> <span class="op">+</span> <span class="va">bar_examp</span> <span class="op">+</span> <span class="va">mosaic_examp</span> <span class="op">+</span> <span class="va">stackbar_examp</span> <span class="op">+</span> <span class="va">mosaic2_examp</span> <span class="op">+</span> <span class="va">ddecker_examp</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: The `scale_name` argument of `continuous_scale()` is deprecated as of ggplot2</span></span>
 <span><span class="co">## 3.5.0.</span></span>
-<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
-<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
-<pre><code><span><span class="co">## Warning: The `trans` argument of `continuous_scale()` is deprecated as of ggplot2 3.5.0.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use the `transform` argument instead.</span></span>
 <span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
 <span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
 <span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
@@ -218,7 +213,7 @@ is vital.</p>
 <div class="section level3">
 <h3 id="one-variable">One variable<a class="anchor" aria-label="anchor" href="#one-variable"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">rude_to_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(rude_to_recline)'</span><span class="op">)</span></span></code></pre></div>
@@ -227,7 +222,7 @@ is vital.</p>
 <div class="section level3">
 <h3 id="two-variables">Two variables<a class="anchor" aria-label="anchor" href="#two-variables"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline | rude_to_recline) f(rude_to_recline)'</span><span class="op">)</span></span></code></pre></div>
@@ -236,7 +231,7 @@ is vital.</p>
 <div class="section level3">
 <h3 id="conditioning">Conditioning<a class="anchor" aria-label="anchor" href="#conditioning"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span>, </span>
 <span>                  conds <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -246,7 +241,7 @@ is vital.</p>
 <div class="section level3">
 <h3 id="alternative-to-conditioning-faceting">Alternative to conditioning: faceting<a class="anchor" aria-label="anchor" href="#alternative-to-conditioning-faceting"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider <span class="op">=</span> <span class="st">"vspine"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline | rude_to_recline)'</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -259,7 +254,7 @@ is vital.</p>
 <div class="section level3">
 <h3 id="the-importance-of-ordering">The importance of ordering<a class="anchor" aria-label="anchor" href="#the-importance-of-ordering"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">order1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> </span>
 <span></span>
@@ -294,7 +289,7 @@ constant, width varies.</p></li>
 <li><p><code>hbar</code>: <!--  Horizontal bar partition: --> width
 constant, height varies.</p></li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">part1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -356,7 +351,7 @@ constant, height varies.</p></li>
 </ul>
 </li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">h_mosaic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="../reference/mosaic.html">mosaic</a></span><span class="op">(</span><span class="st">"h"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, axis.ticks<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -374,7 +369,7 @@ constant, height varies.</p></li>
 <span></span>
 <span><span class="va">h_mosaic</span> <span class="op">+</span> <span class="va">v_mosaic</span> <span class="op">+</span> <span class="va">doubledecker</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="ggmosaic_files/figure-html/mosaic-a-1.png" width="576" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mosaic4</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, axis.ticks<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
@@ -413,7 +408,7 @@ which are empty, create an empty space.</p>
 <li><p>default is 0.01</p></li>
 <li><p>space between partitions decreases as layers build</p></li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">offset1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">region</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">""</span>, title<span class="op">=</span><span class="st">" offset = 0.01"</span><span class="op">)</span> <span class="op">+</span></span>
