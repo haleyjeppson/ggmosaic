@@ -152,8 +152,8 @@ StatMosaic <- ggplot2::ggproto(
     # the level at which things are labelled could be made a parameter.
     # At the moment the deepest level is being labelled.
     dflist <- list(data=subset(res, level==max(res$level)), formula=as.formula(formula), divider=divider)
-    browser()
-     scx <- productplots::scale_x_product(dflist)
+    #browser()
+    scx <- productplots::scale_x_product(dflist)
     scy <- productplots::scale_y_product(dflist)
 
 
