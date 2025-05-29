@@ -32,22 +32,7 @@ divide <- function(data, bounds = bound(), divider = list(productplots::hbar), l
     max_wt <- max(margin(data, d + 1, seq_len(d))$.wt, na.rm = TRUE)
   }
 
-  # Rather awkward to deal with the case that some columns have potentially
-  #   missing values as split() will just drop those levels:
-  #   https://bugs.r-project.org/show_bug.cgi?id=18899
-  for (jj in seq_len(d)) {
-    if (!anyNA(data[[jj]])) next
-    y <- factor(data[[jj]])
-    old_levels <- levels(y)
-    # this level is assured to be sorted past the last level, just like NA
-    new_level <- paste0(tail(old_levels, 1L), "___")
-    levels(y) <- c(old_levels, new_level)
-    y[is.na(y)] <- new_level
-    data[[jj]] <- y
-  }
-  pieces <- split(data, data[seq_len(d)])
-  pieces <- pieces[order(names(pieces))]
-  for (jj in seq_along(pieces)) rownames(pieces[[jj]]) <- NULL
+  pieces <- split_ala_plyr(data, d)
 
   children <- purrr::map_df(seq_along(pieces), function(i) {
     piece <- pieces[[i]]
@@ -88,4 +73,38 @@ divide_once <- function(data, bounds, divider, level = 1, max_wt = NULL, offset)
 
   partition <- divider(wt, bounds, offset, max = max_wt)
   cbind(data, partition, level = level)
+}
+
+split_ala_plyr <- function(x, d) {
+  # Rather awkward to deal with the case that some columns have potentially
+  #   missing values as split() will just drop those levels:
+  #   https://bugs.r-project.org/show_bug.cgi?id=18899
+  for (jj in seq_len(d)) {
+    if (!anyNA(x[[jj]])) next
+    y <- factor(x[[jj]])
+    old_levels <- levels(y)
+    # this level is assured to be sorted past the last level, just like NA
+    new_level <- paste0(old_levels[length(old_levels)], "___")
+    levels(y) <- c(old_levels, new_level)
+    y[is.na(y)] <- new_level
+    x[[jj]] <- y
+  }
+  # respect the output ordering of dlply(), which orders the column in mirror
+  #   image of that done by split(). Once split() is done, we have to reverse
+  #   engineer the naming from the levels collapsed with 'sep', therefore,
+  #   as a precaution we first ensure 'sep' won't split on the actual data.
+  split_cols <- x[rev(seq_len(d))]
+  all_levels <- as.character(sort(unique(unlist(
+    lapply(split_cols, function(x) if (is.factor(x)) levels(x) else unique(x))
+  ))))
+  sep <- "____"
+  while (any(grepl(sep, all_levels, fixed = TRUE))) sep <- paste0(sep, "___")
+  split_x <- split(x, split_cols, sep = sep)
+  names(split_x) <- vapply(
+    strsplit(names(split_x), sep, fixed = TRUE),
+    function(x) paste(rev(x), collapse = "."),
+    character(1L)
+  )
+  for (jj in seq_along(split_x)) rownames(split_x[[jj]]) <- NULL
+  split_x
 }
