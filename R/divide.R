@@ -35,21 +35,17 @@ divide <- function(data, bounds = bound(), divider = list(productplots::hbar), l
   # Rather awkward to deal with the case that some columns have potentially
   #   missing values as split() will just drop those levels:
   #   https://bugs.r-project.org/show_bug.cgi?id=18899
-  # Therefore, for each column, if there are missing values, find the first
-  #   string like NA, <NA>, <<NA>> that is not found in the data, and replace
-  #   NA with that string before splitting. The names of the output will be
-  #   all messed up, but they are ignored, so we don't need to restore them.
-  na_sentinels <- rep("NA", d)
   for (jj in seq_len(d)) {
     if (!anyNA(data[[jj]])) next
-    while (any(data[[jj]] == na_sentinels[jj])) {
-      na_sentinels[jj] <- paste0("<", na_sentinels[jj], ">")
-    }
-    data[[jj]][is.na(data[[jj]])] <- na_sentinels[jj]
+    y <- factor(data[[jj]])
+    old_levels <- levels(y)
+    # this level is assured to be sorted past the last level, just like NA
+    new_level <- paste0(tail(old_levels, 1L), "___")
+    levels(y) <- c(old_levels, new_level)
+    y[is.na(y)] <- new_level
+    data[[jj]] <- y
   }
   pieces <- split(data, data[seq_len(d)])
-
-
 
   children <- purrr::map_df(seq_along(pieces), function(i) {
     piece <- pieces[[i]]
