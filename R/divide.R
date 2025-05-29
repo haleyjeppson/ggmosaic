@@ -46,6 +46,8 @@ divide <- function(data, bounds = bound(), divider = list(productplots::hbar), l
     data[[jj]] <- y
   }
   pieces <- split(data, data[seq_len(d)])
+  pieces <- pieces[order(names(pieces))]
+  for (jj in seq_along(pieces)) rownames(pieces[[jj]]) <- NULL
 
   children <- purrr::map_df(seq_along(pieces), function(i) {
     piece <- pieces[[i]]
