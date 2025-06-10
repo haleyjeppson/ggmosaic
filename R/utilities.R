@@ -52,7 +52,7 @@ product_labels <- function() {
   }
 }
 
-is.waive <- getFromNamespace("is.waive", "ggplot2")
+is.waive <- function(x) inherits(x, "waiver")
 
 
 
