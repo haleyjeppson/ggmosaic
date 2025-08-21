@@ -1,6 +1,10 @@
+# ggmosaic 0.4.0
+
+- updating for compatibility with ggplot2 4.0.0 
+
 # ggmosaic 0.3.4
 
-- updated for compatible with ggplot2 3.5.0 
+- updated for compatibility with ggplot2 3.5.0 
 
 # ggmosaic 0.3.3
 
