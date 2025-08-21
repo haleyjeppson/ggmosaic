@@ -22,14 +22,15 @@ scale_type.productlist <- function(x) {
 scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
                                 limits = NULL, expand = ggplot2::waiver(), oob = scales::censor,
-                                na.value = NA_real_, transform = "identity",
+                                na.value = NA_real_,
                                 position = "bottom", sec.axis = ggplot2::waiver()) {
+
   #browser()
   sc <- ggplot2::continuous_scale(
     c("x", "xmin", "xmax", "xend", "xintercept", "xmin_final", "xmax_final", "xlower", "xmiddle", "xupper"),
     palette = identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
-    expand = expand, oob = oob, na.value = na.value, transform = transform,
+    expand = expand, oob = oob, na.value = na.value,
     guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
   )
 
@@ -49,23 +50,23 @@ scale_x_productlist <- function(name = ggplot2::waiver(), breaks = product_break
 scale_y_productlist <- function(name = ggplot2::waiver(), breaks = product_breaks(),
                                 minor_breaks = NULL, labels = product_labels(),
                                 limits = NULL, expand = ggplot2::waiver(), oob = scales::censor,
-                                na.value = NA_real_, transform = "identity",
+                                na.value = NA_real_,
                                 position = "left", sec.axis = ggplot2::waiver()) {
   #browser()
   sc <- ggplot2::continuous_scale(
     c("y", "ymin", "ymax", "yend", "yintercept", "ymin_final", "ymax_final", "ylower", "ymiddle", "yupper"),
     palette = identity, name = name, breaks = breaks,
     minor_breaks = minor_breaks, labels = labels, limits = limits,
-    expand = expand, oob = oob, na.value = na.value, transform = transform,
+    expand = expand, oob = oob, na.value = na.value,
     guide = ggplot2::waiver(), position = position, super = ScaleContinuousProduct
   )
 
-  if (!is.waive(sec.axis)) {
-    if (is.formula(sec.axis)) sec.axis <- ggplot2::sec_axis(sec.axis)
-    is.sec_axis = getFromNamespace("is.sec_axis", "ggplot2")
-    if (is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
-    sc$secondary.axis <- sec.axis
-  }
+  # if (!is.waive(sec.axis)) {
+  #   if (is.formula(sec.axis)) sec.axis <- ggplot2::sec_axis(sec.axis)
+  #   is.sec_axis = getFromNamespace("is.sec_axis", "ggplot2")
+  #   if (is.sec_axis(sec.axis)) stop("Secondary axes must be specified using 'sec_axis()'")
+  #   sc$secondary.axis <- sec.axis
+  # }
   sc
 }
 
@@ -86,12 +87,12 @@ ScaleContinuousProduct <- ggproto(
         # re-assign the scale values now that we have the information - but only if necessary
         if (is.function(self$breaks)) self$breaks <- x$breaks
         if (is.function(self$labels)) self$labels <- x$labels
-        if (is.waive(self$name)) {
-          self$product_name <- gsub("x__alpha__", "", x$name)
-          self$product_name <- gsub("x__fill__", "", self$product_name)
-          self$product_name <- gsub("x__", "", self$product_name)
-          self$product_name <- gsub("conds\\d__", "", self$product_name)
-        }
+        if (is_waiver(self$name)) {
+           self$name <- gsub("x__alpha__", "", x$name)
+           self$name <- gsub("x__fill__", "", self$name)
+           self$name <- gsub("x__", "", self$name)
+           self$name <- gsub("conds\\d__", "", self$name)
+         }
         #cat("\n")
         return()
       }
