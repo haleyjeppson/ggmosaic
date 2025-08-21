@@ -42,7 +42,7 @@ devtools::install_github("haleyjeppson/ggmosaic")
 #|   financial situation.
 library(ggmosaic)
 library(dplyr)
-happy %>% 
+gg <- happy %>% 
   mutate(finrela = forcats::fct_recode(finrela,
     "far below     " = "far below average",
     "    below" = "below average",
@@ -52,7 +52,8 @@ happy %>%
   ggplot() +
   geom_mosaic(aes(x = product(finrela), fill=health), show.legend = FALSE) +
   theme_mosaic() +
-  scale_fill_manual(values = c("#4575B4", "#ABD9E9", "#FEE090", "#F46D43"))
+  scale_fill_manual(values = c("#4575B4", "#ABD9E9", "#FEE090", "#F46D43")) +
+  ggtitle("Health and Finances")
 ```
 
 ## geom_mosaic: setting the aesthetics

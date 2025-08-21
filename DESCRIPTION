@@ -29,11 +29,11 @@ License: GPL (>= 2)
 URL: https://haleyjeppson.github.io/ggmosaic/, https://github.com/haleyjeppson/ggmosaic
 BugReports: https://github.com/haleyjeppson/ggmosaic
 Depends:
-    ggplot2 (>= 3.5.0),
+    ggplot2 (>= 3.5.9000),
     R (>= 3.5.0)
 Imports:
     productplots,
-    dplyr,
+    dplyr (>= 1.1.4),
     plotly (>= 4.9.3),
     purrr,
     rlang,
@@ -48,6 +48,8 @@ Suggests:
     rmarkdown,
     shiny (>= 1.1.0),
     patchwork
+Remotes:
+    tidyverse/ggplot2
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
