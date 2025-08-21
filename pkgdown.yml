@@ -3,4 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   ggmosaic: ggmosaic.html
-last_built: 2025-08-21T16:04Z
+last_built: 2025-08-21T16:28Z
+urls:
+  reference: https://haleyjeppson.github.io/ggmosaic/reference
+  article: https://haleyjeppson.github.io/ggmosaic/articles
