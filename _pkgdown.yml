@@ -1,3 +1,9 @@
-
-development:
-  mode: auto
+url: https://haleyjeppson.github.io/ggmosaic/
+template:
+  bootstrap: 5
+  bslib:
+    danger: "#A6081A"
+cran:
+  icon: fab fa-r-project
+  href: https://cloud.r-project.org/package=pkgdown
+  aria-label: View on CRAN

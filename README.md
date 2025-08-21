@@ -43,7 +43,7 @@ happy %>%
   scale_fill_manual(values = c("#4575B4", "#ABD9E9", "#FEE090", "#F46D43"))
 ```
 
-![](man/figures/README-example-1.png)<!-- -->
+<img src="man/figures/README-example-1.png" alt="Mosaicplot of survey participant's perceived health (from poor to excellent) given their financial situation relative to their peers. Perceived health generally increases with better financial situation."  />
 
 ## geom_mosaic: setting the aesthetics
 
@@ -83,6 +83,7 @@ summarizes the compatibility between versions.
 
 | ggmosaic | ggplot2 | Axis labels | Tick marks |
 |----|----|----|----|
+| [@93e5840](https://github.com/haleyjeppson/ggmosaic/commit/93e5840cc9586524428d36aeb8b33630341d20d7) | 3.3.4 | x | x |
 | 0.3.3 | 3.3.3 | x | x |
 | 0.3.0 | 3.3.0 | x | x |
 | 0.2.2 | 3.3.0 | Default labels are okay, but must use <br>`scale_*_productlist()` to modify | No tick marks |

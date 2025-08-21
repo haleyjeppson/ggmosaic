@@ -344,6 +344,7 @@ Since the initial release of ggmosaic, ggplot2 has evolved considerably. And as 
 
 | ggmosaic | ggplot2 | Axis labels                                                                   | Tick marks    |
 |----------|---------|-------------------------------------------------------------------------------|---------------|
+| [@93e5840](https://github.com/haleyjeppson/ggmosaic/commit/93e5840cc9586524428d36aeb8b33630341d20d7)    | 3.3.4   | x                                                                             | x     |
 | 0.3.3    | 3.3.3   | x                                                                             | x             |
 | 0.3.0    | 3.3.0   | x                                                                             | x             |
 | 0.2.2    | 3.3.0   | Default labels are okay, but must use <br>`scale_*_productlist()` to modify | No tick marks |
