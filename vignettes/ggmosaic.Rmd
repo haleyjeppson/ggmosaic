@@ -75,7 +75,7 @@ mosaic2_examp <- ggplot(data = flights) +
 
 
 ddecker_examp <- ggplot(data = flights) +
-  geom_mosaic(aes(x=product(do_you_recline, eliminate_reclining, rude_to_recline), fill = do_you_recline, alpha = eliminate_reclining), divider = ddecker()) + 
+  geom_mosaic(aes(x=product(do_you_recline, eliminate_reclining, rude_to_recline), fill = do_you_recline, alpha = eliminate_reclining), divider = ggmosaic::ddecker()) + 
   scale_alpha_manual(values =c(.7,.9)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5)) + 
   labs(y="Do you recline?", x="Eliminate reclining?: Is it rude to recline?", title = "Double Decker Plot")
@@ -249,18 +249,18 @@ part1 + part2 + part3 + part4 + plot_layout(nrow = 1)
 
 ```{r mosaic-a, fig.height = 2}
 h_mosaic <- ggplot(data = flights) +
-  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, eliminate_reclining), fill=do_you_recline), divider=mosaic("h")) +
-  theme(axis.text=element_blank(), axis.ticks=element_blank()) + 
+  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, eliminate_reclining), fill=do_you_recline), divider=ggmosaic::mosaic("h")) +
+  theme(axis.text=element_blank(), axis.ticks=element_blank()) +
   labs(x="", y="")
 
 v_mosaic <- ggplot(data = flights) +
-  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, eliminate_reclining), fill=do_you_recline), divider=mosaic("v"))  +
-  theme(axis.text=element_blank(), axis.ticks=element_blank()) + 
+  geom_mosaic(aes(x = product(do_you_recline, rude_to_recline, eliminate_reclining), fill=do_you_recline), divider=ggmosaic::mosaic("v"))  +
+  theme(axis.text=element_blank(), axis.ticks=element_blank()) +
   labs(x="", y="")
 
 doubledecker <- ggplot(data = flights) +
-  geom_mosaic(aes(x = product(rude_to_recline, eliminate_reclining), fill=do_you_recline), divider=ddecker()) +
-  theme(axis.text=element_blank(), axis.ticks=element_blank()) + 
+  geom_mosaic(aes(x = product(rude_to_recline, eliminate_reclining), fill=do_you_recline), divider=ggmosaic::ddecker()) +
+  theme(axis.text=element_blank(), axis.ticks=element_blank()) +
   labs(x="", y="")
 
 h_mosaic + v_mosaic + doubledecker + plot_layout(nrow = 1)

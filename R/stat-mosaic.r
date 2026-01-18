@@ -1,5 +1,7 @@
 #' @rdname geom_mosaic
 #' @inheritParams ggplot2::stat_identity
+#' @param expected Optional loglinear model specification for residual shading.
+#'   See details in \code{\link{prodcalc}}.
 #' @section Computed variables:
 #' \describe{
 #' \item{xmin}{location of bottom left corner}
@@ -10,7 +12,8 @@
 #' @export
 stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(),
-                        show.legend = NA, inherit.aes = TRUE, offset = 0.01, ...)
+                        show.legend = NA, inherit.aes = TRUE, offset = 0.01,
+                        expected = NULL, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
@@ -83,6 +86,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      expected = expected,
       ...
     )
   )
@@ -115,7 +119,7 @@ StatMosaic <- ggplot2::ggproto(
     data
   },
 
-  compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset) {
+  compute_panel = function(self, data, scales, na.rm=FALSE, divider, offset, expected = NULL) {
 #    cat("compute_panel from StatMosaic\n")
 #       browser()
 
@@ -141,7 +145,7 @@ StatMosaic <- ggplot2::ggproto(
 
     res <- prodcalc(df, formula=as.formula(formula),
                     divider = divider, cascade=0, scale_max = TRUE,
-                    na.rm = na.rm, offset = offset)
+                    na.rm = na.rm, offset = offset, expected = expected)
 
 
     # need to set x variable - I'd rather set the scales here.
@@ -200,6 +204,15 @@ StatMosaic <- ggplot2::ggproto(
       res$alpha <- res[[alpha_res_idx]]
     }
 
+    # Handle residual-based coloring when expected is specified
+    if (!is.null(expected) && ".residual" %in% names(res)) {
+      # Auto-map residuals to fill only if user hasn't specified fill
+      fill_idx <- grep("x__fill", names(data))
+      if (length(fill_idx) == 0) {
+        res$fill <- res$.residual
+      }
+      # Always pass residual column through for manual mapping
+    }
 
     res$group <- 1 # unique(data$group) # ignore group variable
     res$PANEL <- unique(data$PANEL)

@@ -1,0 +1,373 @@
+---
+title: "Three Forms of Frequency Tables for Mosaic Displays"
+author: "Michael Friendly"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Three Forms of Frequency Tables for Mosaic Displays}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7,
+  fig.height = 5,
+  fig.align = 'center',
+  dev = "png",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r libraries}
+library(ggmosaic)
+library(vcdExtra)
+library(dplyr)
+```
+
+```{r theme-setup, include = FALSE}
+# Set theme globally to avoid repetition
+theme_set(theme_mosaic())
+```
+
+## Introduction
+
+Categorical data can be represented in three fundamentally different forms, each with advantages for different purposes. Understanding these forms and how to convert between them is essential for effective visualization and analysis with mosaic plots. This vignette illustrates:
+
+1. **The three forms** of frequency tables (table form, frequency form, and case form)
+2. **Conversions** between these forms
+3. **Using `geom_mosaic()`** with each form
+4. **Comparing** default shading vs. residual-based shading from loglinear models
+
+We'll use the classic `HairEyeColor` dataset throughout to demonstrate these concepts with both two-way and three-way tables.
+
+For a comprehensive treatment of these forms and conversions, see the [vcdExtra vignette](https://friendly.github.io/vcdExtra/articles/a1-creating.html) by Friendly & Meyer (2016).
+
+## The Three Forms
+
+### Table Form
+
+**Table form** represents categorical data as an array or table object where:
+- Dimensions correspond to categorical variables
+- Elements contain cell frequencies
+- Dimension names provide variable and level information
+
+This is the most compact representation and the natural output from `table()` and `xtabs()`.
+
+```{r table-form}
+# HairEyeColor is already in table form
+str(HairEyeColor)
+class(HairEyeColor)
+
+# Examine the 3-way table structure
+HairEyeColor
+
+# Total observations
+sum(HairEyeColor)
+```
+
+The `HairEyeColor` dataset is a 4 × 4 × 2 contingency table with `r sum(HairEyeColor)` observations classified by hair color, eye color, and sex.
+
+### Frequency Form
+
+**Frequency form** is a data frame where:
+- Each row represents one cell of the contingency table
+- Factor columns specify the cell's coordinates
+- A frequency column (typically `Freq`) contains the count for that cell
+- Total observations = `sum(df$Freq)`
+
+This form is convenient for modeling and is the output from `as.data.frame()` applied to tables.
+
+```{r frequency-form}
+# Convert table to frequency form
+hair_freq <- as.data.frame(HairEyeColor)
+head(hair_freq, 10)
+nrow(hair_freq)  # 32 cells in the 4 × 4 × 2 table
+
+# Verify totals match
+sum(hair_freq$Freq)
+```
+
+Frequency form is ideal for:
+- Input to modeling functions (`glm()`, `loglm()`, etc.)
+- Filtering specific cells or combinations
+- Adding derived variables
+- Use with `ggplot2` via the `weight` aesthetic
+
+### Case Form
+
+**Case form** represents data as:
+- Each row is one individual observation
+- Factor columns contain the variable values for that individual
+- No frequency column needed
+- Total observations = `nrow(df)`
+
+This is the "raw data" format and most intuitive for those familiar with data collection.
+
+```{r case-form}
+# Convert frequency form to case form using vcdExtra::expand.dft()
+hair_case <- expand.dft(hair_freq, freq = "Freq")
+head(hair_case, 10)
+nrow(hair_case)  # 592 individual observations
+
+# Structure
+str(hair_case)
+```
+
+Case form is most natural when:
+- Working with individual-level data
+- Each observation represents one subject
+- No need to aggregate
+
+## Converting Between Forms
+
+The table below summarizes conversion functions:
+
+| From → To | Table | Frequency | Case |
+|-----------|-------|-----------|------|
+| **Table** | — | `as.data.frame()` | `expand.dft()` |
+| **Frequency** | `xtabs(Freq ~ ...)` | — | `expand.dft()` |
+| **Case** | `table()`, `xtabs()` | `count()`, `xtabs()` | — |
+
+### Examples
+
+```{r conversions}
+# Case → Frequency (count occurrences)
+hair_case |>
+  count(Hair, Eye, Sex, name = "Freq") |>
+  head()
+
+# Frequency → Table
+hair_table <- xtabs(Freq ~ Hair + Eye + Sex, data = hair_freq)
+identical(hair_table, HairEyeColor)
+
+# Table → Frequency (already shown)
+# Frequency → Case (already shown)
+```
+
+## Using Each Form with `geom_mosaic()`
+
+### Working with the Three-Way Table: Hair × Eye × Sex
+
+Let's demonstrate how to use each of the three forms with `geom_mosaic()` using the full `HairEyeColor` dataset.
+
+```{r mosaic-3way-frequency, fig.height=5}
+# From frequency form (most common)
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye, Sex), fill = Eye)) +
+  labs(title = "Three-Way Mosaic: Hair × Eye × Sex",
+       subtitle = "Frequency form with weight aesthetic")
+```
+
+```{r mosaic-3way-case, fig.height=5}
+# From case form
+ggplot(data = hair_case) +
+  geom_mosaic(aes(x = product(Hair, Eye, Sex), fill = Eye)) +
+  labs(title = "Three-Way Mosaic: Hair × Eye × Sex",
+       subtitle = "Case form without weight")
+```
+
+Both forms produce identical plots. The key difference:
+- **Frequency form**: Use `weight = Freq` in the aesthetic
+- **Case form**: No weight needed (each row counts as 1)
+
+Note: Table form data must first be converted to frequency form using `as.data.frame()` before use with `geom_mosaic()`.
+
+#### Using Conditioning Variables
+
+The `conds` aesthetic allows you to condition on one or more variables:
+
+```{r mosaic-conds, fig.height=5}
+# Condition on Sex
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq,
+                  x = product(Hair, Eye),
+                  conds = product(Sex),
+                  fill = Eye)) +
+  labs(title = "Hair × Eye | Sex",
+       subtitle = "Conditioned on Sex")
+```
+
+## Default Shading vs. Residual-Based Shading
+
+One of the most powerful features of mosaic plots is **residual-based shading**, which highlights deviations from a statistical model. This allows us to see not just the data, but whether patterns are statistically meaningful.
+
+### Default Shading
+
+By default, `geom_mosaic()` uses the `fill` aesthetic to color tiles, typically showing one of the categorical variables:
+
+```{r default-shading}
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye), fill = Eye)) +
+  labs(title = "Hair × Eye Color: Default Shading",
+       subtitle = "Fill shows Eye color levels")
+```
+
+This clearly shows the marginal and conditional distributions, but doesn't tell us whether associations are statistically significant.
+
+### Residual-Based Shading
+
+**Residual-based shading** fits a loglinear model to the data and colors tiles according to Pearson residuals:
+
+$$
+r_{ij} = \frac{\text{observed}_{ij} - \text{expected}_{ij}}{\sqrt{\text{expected}_{ij}}}
+$$
+
+where "expected" frequencies come from the fitted model.
+
+- **Blue tiles**: Observed > Expected (positive association)
+- **Red tiles**: Observed < Expected (negative association)
+- **Intensity**: Magnitude of the residual
+- **|r| > 2**: Statistically significant at approximately α = 0.05
+
+#### Independence Model for Two-Way Table
+
+For a two-way table, we can visualize just Hair and Eye color. The most common model is **independence** (main effects only):
+
+```{r residual-2way}
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye)),
+              expected = "independence") +
+  scale_fill_residual() +
+  labs(title = "Hair × Eye Color: Independence Model",
+       subtitle = "Blue = more than expected, Red = fewer than expected")
+```
+
+The residual shading reveals:
+- **Blue tiles** (positive residuals): Black hair with brown eyes, blond hair with blue eyes occur more frequently than independence would predict
+- **Red tiles** (negative residuals): Black hair with blue eyes, blond hair with brown eyes occur less frequently
+- This indicates a significant association between hair and eye color
+
+#### Adding Cell Values
+
+We can display the actual residual values in each cell using `geom_mosaic_text()`:
+
+```{r residual-labels}
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye)),
+              expected = "independence") +
+  scale_fill_residual() +
+  geom_mosaic_text(aes(weight = Freq, x = product(Hair, Eye)),
+                   expected = "independence",  # Must match!
+                   display_values = "residual",
+                   format_digits = 1,
+                   size = 3.5,
+                   colour = "black") +
+  labs(title = "Hair × Eye Independence Model with Residual Values",
+       subtitle = "Numbers show Pearson residuals")
+```
+
+Values greater than 2 in absolute value indicate significant departures from independence.
+
+#### Independence Model for Three-Way Table
+
+For the three-way table, the independence model tests whether all three variables are mutually independent:
+
+```{r residual-3way}
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye, Sex)),
+              expected = "independence") +
+  scale_fill_residual() +
+  labs(title = "Hair × Eye × Sex: Complete Independence",
+       subtitle = "Model: ~ Hair + Eye + Sex (no interactions)")
+```
+
+#### Custom Models
+
+You can specify custom loglinear models using formula syntax. For example, testing whether the Hair-Eye association differs by Sex:
+
+```{r custom-model}
+# Model: Hair and Eye are associated, but independent of Sex
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye, Sex)),
+              expected = ~ Hair * Eye + Sex) +
+  scale_fill_residual() +
+  labs(title = "Model: (Hair × Eye) Independent of Sex",
+       subtitle = "~ Hair * Eye + Sex")
+```
+
+Residuals close to zero suggest this model fits reasonably well—the Hair-Eye association is similar for males and females.
+
+### Comparing Observed and Expected
+
+We can also display the expected counts under a model:
+
+```{r expected-values}
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye)),
+              expected = "independence") +
+  scale_fill_residual() +
+  geom_mosaic_text(aes(weight = Freq, x = product(Hair, Eye)),
+                   expected = "independence",
+                   display_values = "expected",
+                   format_digits = 1,
+                   size = 3.5,
+                   colour = "black") +
+  labs(title = "Expected Frequencies Under Independence",
+       subtitle = "Compare with observed to see associations")
+```
+
+And the observed counts:
+
+```{r observed-values}
+ggplot(data = hair_freq) +
+  geom_mosaic(aes(weight = Freq, x = product(Hair, Eye), fill = Eye)) +
+  geom_mosaic_text(aes(weight = Freq, x = product(Hair, Eye)),
+                   display_values = "observed",
+                   format_digits = 0,
+                   size = 3.5,
+                   colour = "white") +
+  labs(title = "Observed Frequencies",
+       subtitle = "Actual counts in each cell")
+```
+
+## Summary
+
+### Key Takeaways
+
+1. **Three forms** of frequency data serve different purposes:
+   - **Table form**: Compact, ideal for arrays and mathematical operations
+   - **Frequency form**: Versatile, works well with modeling and `ggplot2`
+   - **Case form**: Intuitive, represents raw individual-level data
+
+2. **Converting between forms** is straightforward:
+   - Use `as.data.frame()` for table → frequency
+   - Use `expand.dft()` for frequency → case
+   - Use `xtabs()` or `table()` for case/frequency → table
+
+3. **Using with `geom_mosaic()`**:
+   - Table/frequency forms require `weight = Freq`
+   - Case form works directly (no weight)
+   - All forms produce identical visualizations
+
+4. **Two types of shading**:
+   - **Default**: Uses `fill` aesthetic to show variable levels
+   - **Residual-based**: Uses `expected` parameter to fit models and shade by Pearson residuals
+
+5. **Residual shading** is powerful for:
+   - Identifying statistically significant associations
+   - Testing specific hypotheses about independence
+   - Comparing observed patterns to theoretical models
+
+### Recommendations
+
+- **For visualization**: Frequency form with `weight` aesthetic is most flexible
+- **For modeling**: Frequency form works with `glm()`, `loglm()`, etc.
+- **For raw data**: Case form is most intuitive
+- **For residual plots**: Always use `scale_fill_residual()` and consider adding `geom_mosaic_text()` with `display_values = "residual"`
+
+## References
+
+- Friendly, M. (1994). "Mosaic Displays for Multi-Way Contingency Tables." *Journal of the American Statistical Association*, 89(425), 190-200.
+- Friendly, M., & Meyer, D. (2016). *Discrete Data Analysis with R*. Chapman and Hall/CRC.
+- Meyer, D., Zeileis, A., & Hornik, K. (2006). "The Strucplot Framework: Visualizing Multi-way Contingency Tables with vcd." *Journal of Statistical Software*, 17(3), 1-48.
+- Zeileis, A., Meyer, D., & Hornik, K. (2007). "Residual-based Shadings for Visualizing (Conditional) Independence." *Journal of Computational and Graphical Statistics*, 16(3), 507-525.
+
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```

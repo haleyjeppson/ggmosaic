@@ -12,17 +12,22 @@ downloads](http://cranlogs.r-pkg.org/badges/ggmosaic)](https://www.r-pkg.org/pkg
 
 # ggmosaic <img src="man/figures/logo.png" align="right" width="120" />
 
-ggmosaic was designed to create visualizations of categorical data and
-is capable of producing bar charts, stacked bar charts, mosaic plots,
-and double decker plots.
+This repo is a fork of the `ggmosaic` package, no longer on CRAN and not
+maintained. `ggmosaic` was designed to create visualizations of
+categorical data and is capable of producing bar charts, stacked bar
+charts, mosaic plots, and double decker plots.
+
+The current goal is to make this useful again and extend it by allowing
+fitted loglinear models which can be used to show patterns of
+association among variables in frequency tables.
 
 ## Installation
 
-You can install ggmosaic from github with:
+You can install this version of `ggmosaic` from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("haleyjeppson/ggmosaic")
+devtools::install_github("friendly/ggmosaic")
 ```
 
 ## Example
@@ -30,13 +35,13 @@ devtools::install_github("haleyjeppson/ggmosaic")
 ``` r
 library(ggmosaic)
 library(dplyr)
-happy %>% 
+happy |> 
   mutate(finrela = forcats::fct_recode(finrela,
     "far below     " = "far below average",
     "    below" = "below average",
     "average" = "average",
     "above    " = "above average", 
-    "l\n   far above" = "far above average")) %>% 
+    "l\n   far above" = "far above average")) |>
   ggplot() +
   geom_mosaic(aes(x = product(finrela), fill=health), show.legend = FALSE) +
   theme_mosaic() +
@@ -49,7 +54,10 @@ happy %>%
 
 In `geom_mosaic()`, the following aesthetics can be specified:
 
-- `weight`: select a weighting variable
+- `weight`: select a weighting variable. This is useful when your data
+  is in frequency form, consisting of a dataset of factor variables and
+  a variable (`count` or `Freq`) giving the frequency in each cell of an
+  n-way table.
 
 - `x`: select variables to add to formula
 

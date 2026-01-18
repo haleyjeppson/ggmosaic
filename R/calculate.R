@@ -9,6 +9,15 @@
 #'   If \code{FALSE}, areas will be comparable between nested layers.
 #' @param na.rm Logical vector of length 1 - should missing levels be
 #'   silently removed?
+#' @param offset Numeric value specifying the space between mosaic tiles (default: 0.01)
+#' @param expected Optional. Specification for loglinear model to calculate
+#'   residuals. Can be:
+#'   \itemize{
+#'     \item NULL (default): No model fitting
+#'     \item Formula: Custom model specification (e.g., \code{~ A + B} for independence)
+#'     \item Character: Shortcut - "independence", "saturated", or "conditional"
+#'   }
+#'   When specified, adds \code{.expected} and \code{.residual} columns to output.
 #' @keywords internal
 #' @export
 #' @examples
@@ -17,7 +26,7 @@
 #' prodcalc(happy, ~ happy, "hbar", offset = 0.005)
 #' prodcalc(happy, ~ happy, "hspine", offset = 0.01)
 #' }
-prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = offset) {
+prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = 0.01, expected = NULL) {
 
   vars <- parse_product_formula(stats::as.formula(formula))
 #browser()
@@ -46,5 +55,18 @@ prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max =
   df <- divide(wt, divider = rev(divider), cascade = cascade, max_wt = max_wt, offset = offset)
 #  browser()
   wt2 <- dplyr::rename(wt2, .n=".wt")
-  dplyr::left_join(df, wt2, by = setdiff(names(wt2), ".n"))
+  result <- dplyr::left_join(df, wt2, by = setdiff(names(wt2), ".n"))
+
+  # Fit loglinear model if expected is specified
+  if (!is.null(expected)) {
+    all_vars <- c(vars$marg, vars$cond)
+
+    # Build model formula from user specification
+    model_formula <- build_model_formula(expected, vars$marg, vars$cond)
+
+    # Fit model and calculate residuals
+    result <- fit_loglinear_model(result, all_vars, model_formula)
+  }
+
+  result
 }

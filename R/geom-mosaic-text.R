@@ -22,7 +22,19 @@
 #'   same layer will not be plotted. `check_overlap` happens at draw time and in
 #'   the order of the data. Therefore data should be arranged by the label
 #'   column before calling `geom_label()` or `geom_text()`.
-#' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
+#' @param display_values Character string specifying what values to display in cells.
+#'   Options: "label" (default, factor labels), "observed" (observed counts),
+#'   "expected" (expected values from model), "residual" (Pearson residuals).
+#'   Use "expected" or "residual" with the \code{expected} parameter.
+#' @param format_digits Number of decimal places for formatting numeric values (default: 1).
+#'   Only used when display_values is not "label".
+#' @param expected Optional loglinear model specification (same as in \code{geom_mosaic}).
+#'   Required when using display_values = "expected" or "residual".
+#'   Can be a formula, character shortcut, or NULL.
+#' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}.
+#'   Text aesthetics that can be controlled include: \code{size} (default: 2.7), \code{colour}/\code{color}, \code{fontface} ('plain', 'bold', 'italic', 'bold.italic'),
+#'   \code{family} (font family), \code{angle} (rotation in degrees), \code{hjust}/\code{vjust} (justification), and \code{lineheight}.
+#'   They may also be parameters to the paired geom/stat.
 #' @examples
 #' data(titanic)
 #'
@@ -55,10 +67,36 @@
 #'   geom_mosaic(aes(x = product(health), fill = happy), na.rm = TRUE, show.legend = FALSE) +
 #'   geom_mosaic_text(aes(x = product(happy, health)), na.rm = TRUE, repel = TRUE, as.label=TRUE)
 #'
+#' # Display observed counts in cells
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex), fill = Survived)) +
+#'   geom_mosaic_text(aes(x = product(Class, Sex)), display_values = "observed")
+#'
+#' # Display residuals with residual shading
+#' # Note: expected parameter must be specified in BOTH layers
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex)), expected = "independence") +
+#'   scale_fill_residual() +
+#'   geom_mosaic_text(aes(x = product(Class, Sex)),
+#'                    expected = "independence",
+#'                    display_values = "residual",
+#'                    format_digits = 2)
+#'
+#' # Display expected values
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex)), expected = "independence") +
+#'   scale_fill_residual() +
+#'   geom_mosaic_text(aes(x = product(Class, Sex)),
+#'                    expected = "independence",
+#'                    display_values = "expected",
+#'                    format_digits = 1)
+#'
 geom_mosaic_text <- function(mapping = NULL, data = NULL, stat = "mosaic",
                              position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
                              show.legend = NA, inherit.aes = FALSE, as.label = FALSE, repel = FALSE,
                              repel_params = NULL, check_overlap = FALSE,
+                             display_values = "label", format_digits = 1,
+                             expected = NULL,
                              ...)
 {
   if (!is.null(mapping$y)) {
@@ -137,8 +175,9 @@ geom_mosaic_text <- function(mapping = NULL, data = NULL, stat = "mosaic",
       repel = repel,
       repel_params = repel_params,
       check_overlap = check_overlap,
-      # repel_params = repel_params,
-      # point.padding = 0,
+      display_values = display_values,
+      format_digits = format_digits,
+      expected = expected,
       ...
     )
   )
@@ -170,17 +209,49 @@ GeomMosaicText <- ggplot2::ggproto(
                              segment.linetype = 1, segment.colour = NULL, segment.size = 0.5, segment.alpha = NULL,
                              segment.curvature = 0, segment.angle = 90, segment.ncp = 1,
                              segment.shape = 0.5, segment.square = TRUE, segment.squareShape = 1,
-                             segment.inflect = FALSE, segment.debug = FALSE, bg.colour = NA, bg.r = 0.1
+                             segment.inflect = FALSE, segment.debug = FALSE, bg.colour = NA, bg.r = 0.1,
+                             angle = 0, hjust = 0.5, vjust = 0.5, family = "", fontface = 1, lineheight = 1.2
 
   ),
-  draw_panel = function(data, panel_scales, coord, as.label, repel, repel_params, check_overlap = FALSE) {
+  draw_panel = function(data, panel_scales, coord, as.label, repel, repel_params,
+                        check_overlap = FALSE, display_values = "label", format_digits = 1) {
     #cat("draw_panel in GeomMosaic\n")
     if (all(is.na(data$colour)))
       data$colour <- scales::alpha(data$fill, data$alpha) # regard alpha in colour determination
 
     sub <- subset(data, level==max(data$level))
     text <- subset(sub, .n > 0) # do not label the obs with weight 0
-    text <- tidyr::nest(text, data = -label)
+
+    # Create display text based on display_values parameter
+    display_values <- match.arg(display_values, c("label", "observed", "expected", "residual"))
+
+    if (display_values == "label") {
+      # Default behavior: use factor labels
+      text$display_text <- text$label
+    } else if (display_values == "observed") {
+      # Display observed counts
+      text$display_text <- format(round(text$.n, format_digits), nsmall = format_digits)
+    } else if (display_values == "expected") {
+      # Display expected values (from model)
+      if (!".expected" %in% names(text)) {
+        warning("Expected values not available. Use 'expected' parameter in geom_mosaic().",
+                call. = FALSE)
+        text$display_text <- ""
+      } else {
+        text$display_text <- format(round(text$.expected, format_digits), nsmall = format_digits)
+      }
+    } else if (display_values == "residual") {
+      # Display Pearson residuals
+      if (!".residual" %in% names(text)) {
+        warning("Residuals not available. Use 'expected' parameter in geom_mosaic().",
+                call. = FALSE)
+        text$display_text <- ""
+      } else {
+        text$display_text <- format(round(text$.residual, format_digits), nsmall = format_digits)
+      }
+    }
+
+    text <- tidyr::nest(text, data = -display_text)
 
     text <-
       dplyr::mutate(
@@ -189,20 +260,22 @@ GeomMosaicText <- ggplot2::ggproto(
           data.frame(
             x = (d$xmin + d$xmax)/2,
             y = (d$ymin + d$ymax)/2,
-            #size = 2.88,
-            angle = 0,
-            hjust = 0.5,
-            vjust = 0.5,
+            angle = d$angle[1],
+            hjust = d$hjust[1],
+            vjust = d$vjust[1],
             alpha = NA,
-            family = "",
-            fontface = 1,
-            lineheight = 1.2,
-            dplyr::select(d, -any_of(c("x", "y", "alpha")))
+            family = d$family[1],
+            fontface = d$fontface[1],
+            lineheight = d$lineheight[1],
+            dplyr::select(d, -any_of(c("x", "y", "alpha", "angle", "hjust", "vjust", "family", "fontface", "lineheight")))
           )
         })
       )
 
     text <- tidyr::unnest(text, coords)
+
+    # Rename display_text to label for GeomText/GeomLabel
+    text$label <- text$display_text
 
     sub$fill <- NA
     sub$colour <- NA

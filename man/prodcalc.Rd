@@ -11,7 +11,8 @@ prodcalc(
   cascade = 0,
   scale_max = TRUE,
   na.rm = FALSE,
-  offset = offset
+  offset = 0.01,
+  expected = NULL
 )
 }
 \arguments{
@@ -29,6 +30,17 @@ If \code{FALSE}, areas will be comparable between nested layers.}
 
 \item{na.rm}{Logical vector of length 1 - should missing levels be
 silently removed?}
+
+\item{offset}{Numeric value specifying the space between mosaic tiles (default: 0.01)}
+
+\item{expected}{Optional. Specification for loglinear model to calculate
+residuals. Can be:
+\itemize{
+\item NULL (default): No model fitting
+\item Formula: Custom model specification (e.g., \code{~ A + B} for independence)
+\item Character: Shortcut - "independence", "saturated", or "conditional"
+}
+When specified, adds \code{.expected} and \code{.residual} columns to output.}
 }
 \description{
 Calculate frequencies.

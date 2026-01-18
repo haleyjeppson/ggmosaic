@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:friendly.github.io)",
+      "Bash(Rscript:*)"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 Package: ggmosaic
 Title: Mosaic Plots in the 'ggplot2' Framework
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     c(person(given = "Haley",
              family = "Jeppson",
@@ -30,7 +30,7 @@ URL: https://haleyjeppson.github.io/ggmosaic/, https://github.com/haleyjeppson/g
 BugReports: https://github.com/haleyjeppson/ggmosaic
 Depends:
     ggplot2 (>= 3.5.0),
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports:
     productplots,
     dplyr,
@@ -47,11 +47,12 @@ Suggests:
     NHANES,
     rmarkdown,
     shiny (>= 1.1.0),
-    patchwork
+    patchwork,
+    vcdExtra
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate',
     'namespace'))
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

@@ -18,6 +18,9 @@ geom_mosaic_text(
   repel = FALSE,
   repel_params = NULL,
   check_overlap = FALSE,
+  display_values = "label",
+  format_digits = 1,
+  expected = NULL,
   ...
 )
 }
@@ -44,7 +47,7 @@ from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this layer.
 When using a \verb{geom_*()} function to construct a layer, the \code{stat}
-argument can be used the override the default coupling between geoms and
+argument can be used to override the default coupling between geoms and
 stats. The \code{stat} argument accepts the following:
 \itemize{
 \item A \code{Stat} ggproto subclass, for example \code{StatCount}.
@@ -84,12 +87,14 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
 It can also be a named logical vector to finely select the aesthetics to
-display.}
+display. To include legend keys for all levels, even
+when no data exists, use \code{TRUE}.  If \code{NA}, all levels are shown in legend,
+but unobserved levels are omitted.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
 \item{as.label}{Show as a ggplot label (box with round corners)}
 
@@ -102,7 +107,22 @@ same layer will not be plotted. \code{check_overlap} happens at draw time and in
 the order of the data. Therefore data should be arranged by the label
 column before calling \code{geom_label()} or \code{geom_text()}.}
 
-\item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
+\item{display_values}{Character string specifying what values to display in cells.
+Options: "label" (default, factor labels), "observed" (observed counts),
+"expected" (expected values from model), "residual" (Pearson residuals).
+Use "expected" or "residual" with the \code{expected} parameter.}
+
+\item{format_digits}{Number of decimal places for formatting numeric values (default: 1).
+Only used when display_values is not "label".}
+
+\item{expected}{Optional loglinear model specification (same as in \code{geom_mosaic}).
+Required when using display_values = "expected" or "residual".
+Can be a formula, character shortcut, or NULL.}
+
+\item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}.
+Text aesthetics that can be controlled include: \code{size} (default: 2.7), \code{colour}/\code{color}, \code{fontface} ('plain', 'bold', 'italic', 'bold.italic'),
+\code{family} (font family), \code{angle} (rotation in degrees), \code{hjust}/\code{vjust} (justification), and \code{lineheight}.
+They may also be parameters to the paired geom/stat.}
 }
 \description{
 A mosaic plot with text or labels
@@ -138,5 +158,29 @@ ggplot(data = happy) +
 ggplot(data = happy) +
   geom_mosaic(aes(x = product(health), fill = happy), na.rm = TRUE, show.legend = FALSE) +
   geom_mosaic_text(aes(x = product(happy, health)), na.rm = TRUE, repel = TRUE, as.label=TRUE)
+
+# Display observed counts in cells
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = product(Class, Sex), fill = Survived)) +
+  geom_mosaic_text(aes(x = product(Class, Sex)), display_values = "observed")
+
+# Display residuals with residual shading
+# Note: expected parameter must be specified in BOTH layers
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = product(Class, Sex)), expected = "independence") +
+  scale_fill_residual() +
+  geom_mosaic_text(aes(x = product(Class, Sex)),
+                   expected = "independence",
+                   display_values = "residual",
+                   format_digits = 2)
+
+# Display expected values
+ggplot(data = titanic) +
+  geom_mosaic(aes(x = product(Class, Sex)), expected = "independence") +
+  scale_fill_residual() +
+  geom_mosaic_text(aes(x = product(Class, Sex)),
+                   expected = "independence",
+                   display_values = "expected",
+                   format_digits = 1)
 
 }

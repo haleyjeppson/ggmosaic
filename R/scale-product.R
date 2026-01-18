@@ -116,8 +116,9 @@ ScaleContinuousProduct <- ggproto(
     #cat("dimension in ScaleContinuousProduct\n")
     c(-0.05,1.05)
   },
-  make_title = function(..., self) {
-    title <- ggproto_parent(ScaleContinuousPosition, self)$make_title(...)
+  make_title = function(guide, scale, label, self) {
+    # In ggplot2 4.0+, make_title has three arguments: guide, scale, label
+    title <- ggproto_parent(ScaleContinuousPosition, self)$make_title(guide, scale, label)
     if (isTRUE(title %in% self$aesthetics)) {
       title <- self$product_name
     }

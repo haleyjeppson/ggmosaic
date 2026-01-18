@@ -1,3 +1,12 @@
+# ggmosaic 0.4.1
+
+Extensive changes to intoduce fitting loglinear models and residual-based shading, described in https://github.com/haleyjeppson/ggmosaic/pull/86
+
+* added labeling for cells (obs/exp/res)
+* added loglinear-models vignette to explain this
+* added vignette on forms of frequency data
+* fix error from ggmosaic vignette related to `tapply()` in `R/divide.R`
+
 # ggmosaic 0.3.4
 
 - updated for compatible with ggplot2 3.5.0 

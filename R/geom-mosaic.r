@@ -17,6 +17,12 @@
 #' }
 #' @param offset Set the space between the first spine
 #' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
+#' @param expected Optional specification for loglinear model residual shading.
+#'   Can be a formula (e.g., \code{~ Var1 + Var2}), a character shortcut
+#'   ("independence", "saturated", "conditional"), or NULL (default, no model).
+#'   When specified, Pearson residuals are calculated and automatically mapped to fill
+#'   (unless fill aesthetic is explicitly set). Use with \code{\link{scale_fill_residual}}
+#'   for a diverging color scale.
 #' @param ... other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.
 #' @examples
 #'
@@ -103,11 +109,22 @@
 #' ggplot(data = happy) +
 #'  geom_mosaic(aes(weight = wtssall, x = product(health), fill = health)) +
 #'  facet_grid(happy~.)
+#'
+#' # Residual shading with independence model
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex)), expected = "independence") +
+#'   scale_fill_residual()
+#'
+#' # Custom model formula
+#' ggplot(data = titanic) +
+#'   geom_mosaic(aes(x = product(Class, Sex, Survived)),
+#'               expected = ~ Class + Sex) +
+#'   scale_fill_residual()
 #' } # end of don't run
 
 geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
                         position = "identity", na.rm = FALSE,  divider = mosaic(), offset = 0.01,
-                        show.legend = NA, inherit.aes = FALSE, ...)
+                        show.legend = NA, inherit.aes = FALSE, expected = NULL, ...)
 {
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
@@ -182,6 +199,7 @@ geom_mosaic <- function(mapping = NULL, data = NULL, stat = "mosaic",
       na.rm = na.rm,
       divider = divider,
       offset = offset,
+      expected = expected,
       ...
     )
   )

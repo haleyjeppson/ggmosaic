@@ -13,3 +13,5 @@
 ^_pkgdown\.yml$
 ^pkgdown$
 ^CRAN-RELEASE$
+^issues$
+^.claude$

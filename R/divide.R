@@ -66,6 +66,14 @@ divide_once <- function(data, bounds, divider, level = 1, max_wt = NULL, offset)
   if (d > 1) {
     data[-ncol(data)] <- lapply(data[-ncol(data)], addNA, ifany = TRUE)
     wt <- tapply(data$.wt, data[-ncol(data)], identity)
+    # Ensure wt has proper array structure with dimnames
+    # tapply may return a vector if grouping produces a 1-d result
+    if (is.null(dim(wt))) {
+      # Get the levels from the grouping variables to set proper dimnames
+      dims <- lapply(data[-ncol(data)], function(x) levels(factor(x)))
+      dim(wt) <- sapply(dims, length)
+      dimnames(wt) <- dims
+    }
     # This ensures that the order of the data matches the order tapply uses
     data <- as.data.frame.table(wt, responseName = ".wt")
   } else {
