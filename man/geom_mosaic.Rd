@@ -69,7 +69,7 @@ from a \code{formula} (e.g. \code{~ head(.x, 10)}).}
 
 \item{stat}{The statistical transformation to use on the data for this layer.
 When using a \verb{geom_*()} function to construct a layer, the \code{stat}
-argument can be used the override the default coupling between geoms and
+argument can be used to override the default coupling between geoms and
 stats. The \code{stat} argument accepts the following:
 \itemize{
 \item A \code{Stat} ggproto subclass, for example \code{StatCount}.
@@ -109,12 +109,14 @@ to use \code{position_jitter()}, give the position as \code{"jitter"}.
 \code{NA}, the default, includes if any aesthetics are mapped.
 \code{FALSE} never includes, and \code{TRUE} always includes.
 It can also be a named logical vector to finely select the aesthetics to
-display.}
+display. To include legend keys for all levels, even
+when no data exists, use \code{TRUE}.  If \code{NA}, all levels are shown in legend,
+but unobserved levels are omitted.}
 
 \item{inherit.aes}{If \code{FALSE}, overrides the default aesthetics,
 rather than combining with them. This is most useful for helper functions
 that define both data and aesthetics and shouldn't inherit behaviour from
-the default plot specification, e.g. \code{\link[ggplot2:borders]{borders()}}.}
+the default plot specification, e.g. \code{\link[ggplot2:annotation_borders]{annotation_borders()}}.}
 
 \item{...}{other arguments passed on to \code{layer}. These are often aesthetics, used to set an aesthetic to a fixed value, like \code{color = 'red'} or \code{size = 3}. They may also be parameters to the paired geom/stat.}
 
@@ -198,9 +200,15 @@ ggplot(data = happy) + geom_mosaic(aes(weight=wtssall, x=product(health), fill=h
 ggplot(data = happy) +
   geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy), na.rm=TRUE)
 
+# conditioning is a more space conserving form of facetting:
 ggplot(data = happy) +
-  geom_mosaic(aes(weight=wtssall, x=product(health, sex, degree), fill=happy),
+  geom_mosaic(aes(weight=wtssall, x=product(health), conds=product(sex, degree), fill=happy),
   na.rm=TRUE)
+
+# but facets have the better labels
+ggplot(data = happy) +
+  geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy),
+  na.rm=TRUE) + facet_grid(sex~degree)
 
 # here is where a bit more control over the spacing of the bars is helpful:
 # set labels manually:

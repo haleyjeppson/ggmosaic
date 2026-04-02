@@ -65,9 +65,15 @@
 #' ggplot(data = happy) +
 #'   geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy), na.rm=TRUE)
 #'
+#' # conditioning is a more space conserving form of facetting:
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(weight=wtssall, x=product(health, sex, degree), fill=happy),
+#'   geom_mosaic(aes(weight=wtssall, x=product(health), conds=product(sex, degree), fill=happy),
 #'   na.rm=TRUE)
+#'
+#' # but facets have the better labels
+#' ggplot(data = happy) +
+#'   geom_mosaic(aes(weight=wtssall, x=product(health), fill=happy),
+#'   na.rm=TRUE) + facet_grid(sex~degree)
 #'
 #' # here is where a bit more control over the spacing of the bars is helpful:
 #' # set labels manually:

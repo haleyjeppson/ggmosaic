@@ -7,7 +7,7 @@
 \alias{ScaleContinuousProduct}
 \title{Determining scales for mosaics}
 \format{
-An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 5.
+An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.
 }
 \usage{
 scale_x_productlist(
@@ -19,7 +19,6 @@ scale_x_productlist(
   expand = ggplot2::waiver(),
   oob = scales::censor,
   na.value = NA_real_,
-  transform = "identity",
   position = "bottom",
   sec.axis = ggplot2::waiver()
 )
@@ -33,7 +32,6 @@ scale_y_productlist(
   expand = ggplot2::waiver(),
   oob = scales::censor,
   na.value = NA_real_,
-  transform = "identity",
   position = "left",
   sec.axis = ggplot2::waiver()
 )
@@ -58,16 +56,18 @@ Also accepts rlang \link[rlang:as_function]{lambda} function notation.
 \item{minor_breaks}{One of:
 \itemize{
 \item \code{NULL} for no minor breaks
-\item \code{waiver()} for the default breaks (one minor break between
-each major break)
+\item \code{waiver()} for the default breaks (none for discrete, one minor break
+between each major break for continuous)
 \item A numeric vector of positions
 \item A function that given the limits returns a vector of minor breaks. Also
 accepts rlang \link[rlang:as_function]{lambda} function notation. When
 the function has two arguments, it will be given the limits and major
-breaks.
+break positions.
 }}
 
-\item{labels}{One of:
+\item{labels}{One of the options below. Please note that when \code{labels} is a
+vector, it is highly recommended to also set the \code{breaks} argument as a
+vector to protect against unintended mismatches.
 \itemize{
 \item \code{NULL} for no labels
 \item \code{waiver()} for the default labels computed by the
@@ -111,19 +111,6 @@ bounds values with \code{NA}.
 }}
 
 \item{na.value}{Missing values will be replaced with this value.}
-
-\item{transform}{For continuous scales, the name of a transformation object
-or the object itself. Built-in transformations include "asn", "atanh",
-"boxcox", "date", "exp", "hms", "identity", "log", "log10", "log1p", "log2",
-"logit", "modulus", "probability", "probit", "pseudo_log", "reciprocal",
-"reverse", "sqrt" and "time".
-
-A transformation object bundles together a transform, its inverse,
-and methods for generating breaks and labels. Transformation objects
-are defined in the scales package, and are called \verb{transform_<name>}. If
-transformations require arguments, you can call them from the scales
-package, e.g. \code{\link[scales:transform_boxcox]{scales::transform_boxcox(p = 2)}}.
-You can create your own transformation with \code{\link[scales:new_transform]{scales::new_transform()}}.}
 
 \item{position}{For position scales, The position of the axis.
 \code{left} or \code{right} for y axes, \code{top} or \code{bottom} for x axes.}

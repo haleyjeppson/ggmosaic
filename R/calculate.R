@@ -17,7 +17,8 @@
 #' prodcalc(happy, ~ happy, "hbar", offset = 0.005)
 #' prodcalc(happy, ~ happy, "hspine", offset = 0.01)
 #' }
-prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max = TRUE, na.rm = FALSE, offset = offset) {
+prodcalc <- function(data, formula, divider = mosaic(), cascade = 0,
+                     scale_max = TRUE, na.rm = FALSE, offset = offset) {
 
   vars <- parse_product_formula(stats::as.formula(formula))
 #browser()
@@ -43,8 +44,9 @@ prodcalc <- function(data, formula, divider = mosaic(), cascade = 0, scale_max =
 
   max_wt <- if (scale_max) NULL else 1
 
-  df <- divide(wt, divider = rev(divider), cascade = cascade, max_wt = max_wt, offset = offset)
+  df <- divide(wt, divider = rev(divider), cascade = cascade, max_wt = max_wt,
+               offset = offset)
 #  browser()
-  wt2 <- dplyr::rename(wt2, .n=".wt")
+  wt2 <- dplyr::rename(wt2, .n = ".wt")
   dplyr::left_join(df, wt2, by = setdiff(names(wt2), ".n"))
 }

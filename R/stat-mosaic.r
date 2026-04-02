@@ -15,7 +15,7 @@ stat_mosaic <- function(mapping = NULL, data = NULL, geom = "mosaic",
   if (!is.null(mapping$y)) {
     stop("stat_mosaic() must not be used with a y aesthetic.", call. = FALSE)
   } else mapping$y <- structure(1L, class = "productlist")
-
+browser()
   aes_x <- mapping$x
   if (!is.null(aes_x)) {
     if (grepl("product", rlang::quo_text(mapping$x))) {
@@ -178,7 +178,7 @@ StatMosaic <- ggplot2::ggproto(
 
       res$label <- df$label
     } else res$label <- as.character(res[,cols])
-    #   browser()
+       #browser()
 
     res$x <- list(scale=scx)
     if (!is.null(scales$y)) {

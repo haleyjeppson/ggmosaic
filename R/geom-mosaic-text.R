@@ -9,12 +9,13 @@
 #' @param divider Divider function. The default divider function is mosaic() which will use spines in alternating directions. The four options for partitioning:
 #' \itemize{
 #' \item \code{vspine} Vertical spine partition: width constant, height varies.
-#' \item \code{hspine}  Horizontal spine partition: height constant, width varies.
+#' \item \code{hspine}Horizontal spine partition: height constant, width varies.
 #' \item \code{vbar} Vertical bar partition: height constant, width varies.
 #' \item \code{hbar}  Horizontal bar partition: width constant, height varies.
 #' }
 #' @param offset Set the space between the first spine
-#' @param na.rm If \code{FALSE} (the default), removes missing values with a warning. If \code{TRUE} silently removes missing values.
+#' @param na.rm If \code{FALSE} (the default), removes missing values with a
+#' warning. If \code{TRUE} silently removes missing values.
 #' @param as.label Show as a ggplot label (box with round corners)
 #' @param repel Use ggrepel wo labels don't overlap
 #' @param repel_params List of ggrepel parameters (e.g. list(point.padding = 0))
@@ -37,13 +38,17 @@
 #'               divider = c("vspine", "hspine", "hspine"), size = 2)
 #'
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(x = product(health), fill = happy), na.rm = TRUE, show.legend = FALSE) +
+#'   geom_mosaic(aes(x = product(health), fill = happy),
+#'               na.rm = TRUE,
+#'               show.legend = FALSE) +
 #'   geom_mosaic_text(aes(x = product(happy, health)), na.rm = TRUE)
 #'
 #' # avoid overlapping text
 #' ggplot(data = happy) +
-#'   geom_mosaic(aes(x = product(health), fill = happy), na.rm = TRUE, show.legend = FALSE) +
-#'   geom_mosaic_text(aes(x = product(happy, health)), na.rm = TRUE, check_overlap = TRUE)
+#'   geom_mosaic(aes(x = product(health), fill = happy),
+#'               na.rm = TRUE, show.legend = FALSE) +
+#'   geom_mosaic_text(aes(x = product(happy, health)),
+#'                    na.rm = TRUE, check_overlap = TRUE)
 #'
 #' # or use ggrepel
 #' ggplot(data = happy) +
