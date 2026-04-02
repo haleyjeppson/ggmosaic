@@ -54,7 +54,7 @@
                         <h4 data-toc-skip class="author">Haley Jeppson
 and Heike Hofmann</h4>
             
-            <h4 data-toc-skip class="date">2025-09-02</h4>
+            <h4 data-toc-skip class="date">2026-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/haleyjeppson/ggmosaic/blob/master/vignettes/ggmosaic.Rmd" class="external-link"><code>vignettes/ggmosaic.Rmd</code></a></small>
       <div class="d-none name"><code>ggmosaic.Rmd</code></div>
@@ -109,7 +109,7 @@ package’s versatility.</p>
 <span></span>
 <span><span class="va">spine_examp</span> <span class="op">+</span> <span class="va">bar_examp</span> <span class="op">+</span> <span class="va">mosaic_examp</span> <span class="op">+</span> <span class="va">stackbar_examp</span> <span class="op">+</span> <span class="va">mosaic2_examp</span> <span class="op">+</span> <span class="va">ddecker_examp</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="ggmosaic_files/figure-html/variety-1.png" alt="An assortment of plots made with the ggmosaic package." width="576"><p class="caption">
+<img src="ggmosaic_files/figure-html/variety-1.png" class="r-plt" alt="An assortment of plots made with the ggmosaic package." width="576"><p class="caption">
 An assortment of plots made with the ggmosaic package.
 </p>
 </div>
@@ -193,7 +193,7 @@ is vital.</p>
 <code class="sourceCode R"><span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">rude_to_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(rude_to_recline)'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/formula-1b-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/formula-1b-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="two-variables">Two variables<a class="anchor" aria-label="anchor" href="#two-variables"></a>
@@ -202,7 +202,7 @@ is vital.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline | rude_to_recline) f(rude_to_recline)'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/formula-2b-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/formula-2b-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="conditioning">Conditioning<a class="anchor" aria-label="anchor" href="#conditioning"></a>
@@ -212,7 +212,7 @@ is vital.</p>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span>, </span>
 <span>                  conds <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title<span class="op">=</span><span class="st">'f(do_you_recline | rude_to_recline)'</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/formula-4b-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/formula-4b-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="alternative-to-conditioning-faceting">Alternative to conditioning: faceting<a class="anchor" aria-label="anchor" href="#alternative-to-conditioning-faceting"></a>
@@ -225,7 +225,7 @@ is vital.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>aspect.ratio <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        axis.ticks.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/formula-5b-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/formula-5b-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="the-importance-of-ordering">The importance of ordering<a class="anchor" aria-label="anchor" href="#the-importance-of-ordering"></a>
@@ -238,7 +238,7 @@ is vital.</p>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">rude_to_recline</span>, <span class="va">do_you_recline</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">do_you_recline</span><span class="op">)</span><span class="op">)</span> </span>
 <span>  </span>
 <span><span class="va">order1</span> <span class="op">+</span> <span class="va">order2</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/order-b-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/order-b-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -294,7 +294,7 @@ constant, height varies.</p></li>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y <span class="op">=</span> <span class="st">""</span>, title <span class="op">=</span> <span class="st">"vbar"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">part1</span> <span class="op">+</span> <span class="va">part2</span> <span class="op">+</span> <span class="va">part3</span> <span class="op">+</span> <span class="va">part4</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/partitions-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/partitions-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="partitioning-with-one-or-more-variables">Partitioning with one or more variables<a class="anchor" aria-label="anchor" href="#partitioning-with-one-or-more-variables"></a>
@@ -344,7 +344,7 @@ constant, height varies.</p></li>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">h_mosaic</span> <span class="op">+</span> <span class="va">v_mosaic</span> <span class="op">+</span> <span class="va">doubledecker</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/mosaic-a-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/mosaic-a-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mosaic4</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">flights</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="../reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="../reference/product.html">product</a></span><span class="op">(</span><span class="va">do_you_recline</span>, <span class="va">rude_to_recline</span>, <span class="va">eliminate_reclining</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">do_you_recline</span><span class="op">)</span>, divider<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"vspine"</span>, <span class="st">"vspine"</span>, <span class="st">"hbar"</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span></span>
@@ -367,7 +367,7 @@ constant, height varies.</p></li>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">""</span>, y<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mosaic4</span> <span class="op">+</span> <span class="va">mosaic5</span> <span class="op">+</span> <span class="va">mosaic6</span> <span class="op">+</span> <span class="va">mosaic7</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/mosaic-d-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/mosaic-d-1.png" class="r-plt" alt="" width="576" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="adjusting-the-offset">Adjusting the offset<a class="anchor" aria-label="anchor" href="#adjusting-the-offset"></a>
@@ -408,9 +408,9 @@ which are empty, create an empty space.</p>
 <span>        legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">offset0</span> <span class="op">+</span> <span class="va">offset1</span> <span class="op">+</span> <span class="va">offset2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="ggmosaic_files/figure-html/offset-b-1.png" width="960" style="display: block; margin: auto;"></p>
+<p><img src="ggmosaic_files/figure-html/offset-b-1.png" class="r-plt" alt="" width="960" style="display: block; margin: auto;"></p>
 <!-- ## Current Issues -->
-<!-- - `geom_mosaic()` is no longer compatible with `ggplotly()` -->
+<!-- - `geom_mosaic()` is no longer compatible with `ggplotly()` HH: resolved -->
 </div>
 </div>
 <div class="section level2">
@@ -489,7 +489,7 @@ modify</td>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

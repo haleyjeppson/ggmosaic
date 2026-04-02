@@ -69,7 +69,7 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haleyjeppson.github.io/ggmosaic/">ggmosaic</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="va">happy</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span><span class="va">gg</span> <span class="op">&lt;-</span> <span class="va">happy</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>finrela <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu">fct_recode</span><span class="op">(</span><span class="va">finrela</span>,</span>
 <span>    <span class="st">"far below     "</span> <span class="op">=</span> <span class="st">"far below average"</span>,</span>
 <span>    <span class="st">"    below"</span> <span class="op">=</span> <span class="st">"below average"</span>,</span>
@@ -79,8 +79,8 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="reference/geom_mosaic.html">geom_mosaic</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="reference/product.html">product</a></span><span class="op">(</span><span class="va">finrela</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">health</span><span class="op">)</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="reference/theme_mosaic.html">theme_mosaic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4575B4"</span>, <span class="st">"#ABD9E9"</span>, <span class="st">"#FEE090"</span>, <span class="st">"#F46D43"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-example-1.png" alt="Mosaicplot of survey participant's perceived health (from poor to excellent) given their financial situation relative to their peers. Perceived health generally increases with better financial situation."></p>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#4575B4"</span>, <span class="st">"#ABD9E9"</span>, <span class="st">"#FEE090"</span>, <span class="st">"#F46D43"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Health and Finances"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="geom_mosaic-setting-the-aesthetics">geom_mosaic: setting the aesthetics<a class="anchor" aria-label="anchor" href="#geom_mosaic-setting-the-aesthetics"></a>
@@ -136,36 +136,42 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://github.com/haleyjeppson/ggmosaic/commit/93e5840cc9586524428d36aeb8b33630341d20d7" class="external-link">@93e5840</a></td>
-<td>3.3.4</td>
+<td>0.4.0</td>
+<td>4.0.0</td>
 <td>x</td>
 <td>x</td>
 </tr>
 <tr class="even">
+<td><a href="https://github.com/haleyjeppson/ggmosaic/commit/93e5840cc9586524428d36aeb8b33630341d20d7" class="external-link">0.3.3</a></td>
+<td>3.3.4</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr class="odd">
 <td>0.3.3</td>
 <td>3.3.3</td>
 <td>x</td>
 <td>x</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>0.3.0</td>
 <td>3.3.0</td>
 <td>x</td>
 <td>x</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>0.2.2</td>
 <td>3.3.0</td>
 <td>Default labels are okay, but must use <br><code>scale_*_productlist()</code> to modify</td>
 <td>No tick marks</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>0.2.2</td>
 <td>3.2.0</td>
 <td>Default labels okay, but must use <br><code>scale_*_productlist()</code> to modify</td>
 <td>x</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>0.2.0</td>
 <td>3.2.0</td>
 <td>Default labels are wrong, but can use <br><code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> to modify</td>
@@ -228,7 +234,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

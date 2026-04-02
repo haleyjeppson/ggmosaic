@@ -1,0 +1,143 @@
+# ggmosaic
+
+ggmosaic was designed to create visualizations of categorical data and
+is capable of producing bar charts, stacked bar charts, mosaic plots,
+and double decker plots.
+
+## Installation
+
+You can install ggmosaic from github with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("haleyjeppson/ggmosaic")
+```
+
+## Example
+
+``` r
+library(ggmosaic)
+library(dplyr)
+gg <- happy %>% 
+  mutate(finrela = forcats::fct_recode(finrela,
+    "far below     " = "far below average",
+    "    below" = "below average",
+    "average" = "average",
+    "above    " = "above average", 
+    "l\n   far above" = "far above average")) %>% 
+  ggplot() +
+  geom_mosaic(aes(x = product(finrela), fill=health), show.legend = FALSE) +
+  theme_mosaic() +
+  scale_fill_manual(values = c("#4575B4", "#ABD9E9", "#FEE090", "#F46D43")) +
+  ggtitle("Health and Finances")
+```
+
+## geom_mosaic: setting the aesthetics
+
+In
+[`geom_mosaic()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic.md),
+the following aesthetics can be specified:
+
+- `weight`: select a weighting variable
+
+- `x`: select variables to add to formula
+
+  - declared as `x = product(var2, var1, ...)`
+
+- `alpha`: add an alpha transparency to the selected variable
+
+  - unless the variable is called in `x`, it will be added to the
+    formula in the first position
+
+- `fill`: select a variable to be filled
+
+  - unless the variable is called in `x`, it will be added to the
+    formula in the first position after the optional `alpha` variable.
+
+- `conds` : select a variable to condition on
+
+  - declared as `conds = product(cond1, cond2, ...)`
+
+These values are then sent through repurposed `productplots` functions
+to create the desired formula: `weight ~ alpha + fill + x | conds`.
+
+## Version compatibility issues with ggplot2
+
+Since the initial release of ggmosaic, ggplot2 has evolved considerably.
+And as ggplot2 continues to evolve, ggmosaic must continue to evolve
+alongside it. Although these changes affect the underlying code and not
+the general usage of ggmosaic, the general user may need to be aware of
+compatibility issues that can arise between versions. The table below
+summarizes the compatibility between versions.
+
+[TABLE]
+
+# Package index
+
+## All functions
+
+- [`GeomMosaic`](https://haleyjeppson.github.io/ggmosaic/reference/GeomMosaic.md)
+  : Geom proto
+- [`GeomMosaicJitter`](https://haleyjeppson.github.io/ggmosaic/reference/GeomMosaicJitter.md)
+  : Geom proto
+- [`GeomMosaicText`](https://haleyjeppson.github.io/ggmosaic/reference/GeomMosaicText.md)
+  : Geom proto
+- [`StatMosaic`](https://haleyjeppson.github.io/ggmosaic/reference/StatMosaic.md)
+  : Geom proto
+- [`StatMosaicJitter`](https://haleyjeppson.github.io/ggmosaic/reference/StatMosaicJitter.md)
+  : Geom proto
+- [`StatMosaicText`](https://haleyjeppson.github.io/ggmosaic/reference/StatMosaicText.md)
+  : Geom proto
+- [`ddecker()`](https://haleyjeppson.github.io/ggmosaic/reference/ddecker.md)
+  : Template for a double decker plot. A double decker plot is composed
+  of a sequence of spines in the same direction, with the final spine in
+  the opposite direction.
+- [`fly`](https://haleyjeppson.github.io/ggmosaic/reference/fly.md) :
+  Flying Etiquette Survey Data
+- [`geom_mosaic()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic.md)
+  [`stat_mosaic_text()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic.md)
+  [`stat_mosaic()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic.md)
+  : Mosaic plots.
+- [`geom_mosaic_jitter()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic_jitter.md)
+  [`stat_mosaic_jitter()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic_jitter.md)
+  : Jittered dots in Mosaic plots.
+- [`geom_mosaic_text()`](https://haleyjeppson.github.io/ggmosaic/reference/geom_mosaic_text.md)
+  : Labeling for Mosaic plots.
+- [`ggmosaic_app()`](https://haleyjeppson.github.io/ggmosaic/reference/ggmosaic_app.md)
+  : Launch shiny app
+- [`happy`](https://haleyjeppson.github.io/ggmosaic/reference/happy.md)
+  : Data related to happiness from the general social survey.
+- [`hbar()`](https://haleyjeppson.github.io/ggmosaic/reference/hbar.md)
+  : Horizontal bar partition: width constant, height varies.
+- [`hspine()`](https://haleyjeppson.github.io/ggmosaic/reference/hspine.md)
+  : Horizontal spine partition: height constant, width varies.
+- [`mosaic()`](https://haleyjeppson.github.io/ggmosaic/reference/mosaic.md)
+  : Template for a mosaic plot. A mosaic plot is composed of spines in
+  alternating directions.
+- [`product()`](https://haleyjeppson.github.io/ggmosaic/reference/product.md)
+  : Wrapper for a list
+- [`scale_type(`*`<productlist>`*`)`](https://haleyjeppson.github.io/ggmosaic/reference/scale_type.productlist.md)
+  : Helper function for determining scales
+- [`scale_x_productlist()`](https://haleyjeppson.github.io/ggmosaic/reference/scale_x_productlist.md)
+  [`scale_y_productlist()`](https://haleyjeppson.github.io/ggmosaic/reference/scale_x_productlist.md)
+  [`ScaleContinuousProduct`](https://haleyjeppson.github.io/ggmosaic/reference/scale_x_productlist.md)
+  : Determining scales for mosaics
+- [`spine()`](https://haleyjeppson.github.io/ggmosaic/reference/spine.md)
+  : Spine partition: divide longest dimension.
+- [`squeeze()`](https://haleyjeppson.github.io/ggmosaic/reference/squeeze.md)
+  : Internal helper function
+- [`theme_mosaic`](https://haleyjeppson.github.io/ggmosaic/reference/theme_mosaic.md)
+  : Theme for mosaic plots
+- [`titanic`](https://haleyjeppson.github.io/ggmosaic/reference/titanic.md)
+  : Passengers and crew on board the Titanic
+- [`vbar()`](https://haleyjeppson.github.io/ggmosaic/reference/vbar.md)
+  : Vertical bar partition: height constant, width varies.
+- [`vspine()`](https://haleyjeppson.github.io/ggmosaic/reference/vspine.md)
+  : Vertical spine partition: width constant, height varies.
+
+# Articles
+
+### All vignettes
+
+- [Mosaic plots with
+  \`ggplot2\`](https://haleyjeppson.github.io/ggmosaic/articles/ggmosaic.md):
