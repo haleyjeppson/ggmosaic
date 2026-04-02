@@ -116,6 +116,13 @@ ScaleContinuousProduct <- ggproto(
   dimension = function(self, expand = c(0, 0)) {
     #cat("dimension in ScaleContinuousProduct\n")
     c(-0.05,1.05)
+  },
+  make_title = function(..., self) {
+    title <- ggproto_parent(ScaleContinuousPosition, self)$make_title(...)
+    if (isTRUE(title %in% self$aesthetics)) {
+      title <- self$product_name
+    }
+    else title
   }
 )
 

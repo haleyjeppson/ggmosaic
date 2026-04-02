@@ -334,7 +334,7 @@ offset0 + offset1 + offset2 + plot_layout(ncol = 3)
 
 <!-- ## Current Issues -->
 
-<!-- - `geom_mosaic()` is no longer compatible with `ggplotly()` -->
+<!-- - `geom_mosaic()` is no longer compatible with `ggplotly()` HH: resolved -->
 
 
 ## Version compatibility issues with ggplot2

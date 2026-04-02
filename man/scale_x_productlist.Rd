@@ -7,7 +7,7 @@
 \alias{ScaleContinuousProduct}
 \title{Determining scales for mosaics}
 \format{
-An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 4.
+An object of class \code{ScaleContinuousProduct} (inherits from \code{ScaleContinuousPosition}, \code{ScaleContinuous}, \code{Scale}, \code{ggproto}, \code{gg}) of length 5.
 }
 \usage{
 scale_x_productlist(
